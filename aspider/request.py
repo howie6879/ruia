@@ -56,16 +56,18 @@ class Request():
         self.extra_value = extra_value if extra_value is not None else {}
         self.res_type = res_type
         self.close_request_session = False
+        self.retry_times = self.request_config.get('RETRIES', 3)
         self.kwargs = kwargs
         self.logger = get_logger(name=self.name)
 
     @property
     def current_request_func(self):
         self.logger.info(f"<{self.method}: {self.url}>")
+        timeout = self.request_config.get('TIMEOUT', 10)
         if self.method == 'GET':
-            request_func = self.current_request_session.get(self.url, **self.kwargs)
+            request_func = self.current_request_session.get(self.url, timeout=timeout, **self.kwargs)
         else:
-            request_func = self.current_request_session.post(self.url, **self.kwargs)
+            request_func = self.current_request_session.post(self.url, timeout=timeout, **self.kwargs)
         return request_func
 
     @property
@@ -78,9 +80,9 @@ class Request():
     async def fetch(self):
         if self.request_config.get('DELAY', 0) > 0:
             await asyncio.sleep(self.request_config['DELAY'])
-
-        async with self.current_request_func as resp:
-            if resp.status in [200, 201]:
+        try:
+            async with self.current_request_func as resp:
+                assert resp.status in [200, 201]
                 if self.res_type == 'bytes':
                     data = await resp.read()
                 elif self.res_type == 'json':
@@ -89,9 +91,15 @@ class Request():
                     content = await resp.read()
                     charset = cchardet.detect(content)
                     data = content.decode(charset['encoding'])
-            else:
-                self.logger.error(f"<Error: {self.url} {resp.status}>")
-                data = None
+        except Exception:
+            self.logger.error(f"<Error: {self.url} {resp.status}>")
+            data = None
+
+        if self.retry_times > 0 and data is None:
+            retry_times = self.request_config.get('RETRIES', 3) - self.retry_times + 1
+            self.logger.info(f'<Retry url: {self.url}>, Retry times: {retry_times}')
+            self.retry_times -= 1
+            return await self.fetch()
 
         if self.close_request_session:
             await self.request_session.close()
