@@ -17,7 +17,7 @@ async def get_random_user_agent() -> str:
     return random.choice(await _get_data('./user_agents.txt', USER_AGENT))
 
 
-async def _get_data(filename: str, default: str = "hello") -> list:
+async def _get_data(filename: str, default: str) -> list:
     """
     Get data from all user_agents
     :param filename: filename

@@ -75,7 +75,7 @@ class DoubanItem(Item):
         return 'Title: ' + title
 
 
-def test_item():
+def test_item_from():
     item_data = asyncio.get_event_loop().run_until_complete(DoubanItem.get_item(html=HTML))
     assert item_data['title'] == 'Title: 豆瓣电影TOP250'
 

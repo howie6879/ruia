@@ -4,6 +4,7 @@ verify_ssl = true
 url = "https://pypi.douban.com/simple/"
 
 [dev-packages]
+pytest = "*"
 
 [packages]
 aiofiles = "*"
@@ -11,7 +12,7 @@ aiohttp = "*"
 cchardet = "*"
 cssselect = "*"
 lxml = "*"
-pytest = "*"
+
 
 [requires]
 python_version = "3.6"
