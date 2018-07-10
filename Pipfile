@@ -1,0 +1,17 @@
+[[source]]
+name = "pypi"
+verify_ssl = true
+url = "https://pypi.douban.com/simple/"
+
+[dev-packages]
+
+[packages]
+aiofiles = "*"
+aiohttp = "*"
+cchardet = "*"
+cssselect = "*"
+lxml = "*"
+pytest = "*"
+
+[requires]
+python_version = "3.6"
