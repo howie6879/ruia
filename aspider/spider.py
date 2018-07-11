@@ -25,8 +25,9 @@ except ImportError:
 class Spider:
     name = 'aspider'
     request_config = None
-    start_urls = []
     request_queue = asyncio.Queue()
+    start_urls = []
+    all_counts, success_counts = 0, 0
 
     def __init__(self, loop=None):
         if not self.start_urls or not isinstance(self.start_urls, list):
@@ -73,6 +74,7 @@ class Spider:
             tasks.append(asyncio.ensure_future(request_item))
             if self.request_queue.empty():
                 done, pending = await asyncio.wait(tasks)
+                self.all_counts, self.success_counts = len(tasks), len(done)
                 for task in done:
                     if isinstance(task.result(), AsyncGeneratorType):
                         async for each in task.result():
@@ -88,7 +90,7 @@ class Spider:
         spider_ins.logger.info('Spider started!')
         start_time = datetime.now()
         try:
-            spider_ins.loop.run_until_complete(asyncio.ensure_future(spider_ins.start_master()))
+            spider_ins.loop.run_until_complete(spider_ins.start_master())
         except KeyboardInterrupt:
             for task in asyncio.Task.all_tasks():
                 task.cancel()
@@ -96,6 +98,9 @@ class Spider:
             spider_ins.loop.run_forever()
         finally:
             end_time = datetime.now()
+            spider_ins.logger.info(f'Total requests: {spider_ins.success_counts}')
+            if spider_ins.all_counts - spider_ins.success_counts:
+                spider_ins.logger.info(f'Failed requests: {spider_ins.all_counts - spider_ins.success_counts}')
             spider_ins.logger.info(f'Time usage: {end_time - start_time}')
             spider_ins.logger.info('Spider finished!')
             spider_ins.loop.close()
