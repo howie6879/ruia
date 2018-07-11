@@ -1,0 +1,15 @@
+language: python
+
+notifications:
+  email: false
+
+python:
+  - "3.6"
+  - "3.7"
+
+install:
+    - pip install pipenv
+    - pipenv install
+    - pip install ./
+
+script: pytest
