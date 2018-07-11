@@ -75,7 +75,7 @@ class HackerNewsItem(Item):
 
 
 class HackerNewsSpider(Spider):
-    start_urls = ['https://news.ycombinator.com/']
+    start_urls = ['https://news.ycombinator.com/', 'https://news.ycombinator.com/news?p=2']
 
     async def parse(self, res):
         items = await HackerNewsItem.get_items(html=res.html)
@@ -98,7 +98,7 @@ Run `hacker_news_spider.py`:
 [2018-07-11 17:50:14,785]-aspider-INFO  Spider finished!
 ```
 
-#### Distributed scraping
+#### Distributed scraping - TODO
 
 ### Contribution
 
