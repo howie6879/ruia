@@ -15,10 +15,10 @@ class HackerNewsItem(Item):
     title = TextField(css_select='a.storylink')
     url = AttrField(css_select='a.storylink', attr='href')
 
+    async def clean_title(self,value):
+        return value
 
-target_url = "https://news.ycombinator.com/"
-loop = asyncio.get_event_loop()
-items = loop.run_until_complete(HackerNewsItem.get_items(url=target_url))
+items = asyncio.get_event_loop().run_until_complete(HackerNewsItem.get_items(url="https://news.ycombinator.com/"))
 pprint(items)
 
 # Output

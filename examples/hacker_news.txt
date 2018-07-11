@@ -1,0 +1,60 @@
+A California mall operator is sharing license plate tracking data with ICE
+ANU scientists discover the world’s oldest colours
+Causal Inference Book
+If Videogames and Apps Are Addictive, Should Designers Worry about Liability?
+Thai cave rescue used open source hardware, the Heyphone
+Breastfeeding: it's bad for business
+How I Fully Quit Google (And You Can, Too)
+‘No Poach’ Deals for Fast-Food Workers Face Scrutiny
+Arch Linux AUR Repository Found to Contain Malware
+RISC-V Community: "ARM Architecture: Understand the Facts"
+The Benefits of Thinking Small (2010)
+How a star explosion may have shaped life on Earth (2015)
+Comparing Serverless Performance for CPU Bound Tasks
+Bruno Latour Tracks Down Gaia
+Translation Leak-Aside Buffer: Defeating Cache Side-Channel Protections [pdf]
+Show HN: Five Thousand Novels, Ranked by Vividness
+PCB Placement Stencils
+Starters, Finishers, and Large Teams
+Fathom – Simple, trustworthy website analytics
+Gaming the search for autism treatments
+Introducing Jib — Build Java Docker images better
+The Case Against Patents (2013)
+ICO Investigation into the use of data analytics in political campaigns [pdf]
+Nissan Admits Internal Emissions-Test Results were Falsified
+The function that gives AI value is the ability to make predictions
+The Bhopal Industrial Disaster Is Still Unfolding
+Curl 7.61.0
+The seeming irrationality of a well-tuned emotional system
+Vaporwave’s Mini-Boom of Floppy Disk Releases
+Speculative buffer overflows: attacks and defenses. (Spectre BCBS) [pdf]
+djbsort
+Show HN: Open Source API access control firewall/proxy written in Go
+Why Envy Might Be Good for Us
+The only cheat sheet you need
+Firefox switching to clang-cl for Windows builds
+Impossible color
+Former Apple Employee Charged with Theft of Autonomous Car Project Trade Secrets
+Sending and Receiving SMS on Linux (2015)
+What’s up with the mysterious inc bp in function prologues of 16-bit code?
+Interrobang
+Napoleon as Organizational Designer (2009) [pdf]
+Willing (YC S15) Is Hiring an Engineering Manager
+Goodbye Microservices: From 100s of problem children to 1 superstar
+Troubling Trends in Machine Learning Scholarship
+Bitwarden – Open Source Password Manager
+Why Isn't Debugging Treated as a First-Class Activity?
+Arm kills off its anti-RISC-V site after own staff revolt
+Designing a Quantum Computing Board Game
+Random Points on a Sphere
+How Postcards Solved the Problem of Disappearing Rice
+Gravwell Community Edition: A Splunk Alternative Built with Go
+Brief History of JIT in MoarVM for Perl 6
+Shutting Down the BGP Hijack Factory
+Trial wipes out over 80% of Australian disease-spreading mosquito
+Bizarre Glasses Promise to Cure Motion Sickness
+Uber executive resigns following probe into racial discrimination
+Lunar mystery solved by recovery of lost Apollo mission tapes
+Loefflers Discrete Cosine Transform Algorithm in Futhark
+Runq – Runc-based runtime to run regular Docker images in KVM/Qemu
+Nearly 1,000 Paintings and Drawings by Vincent van Gogh Digitized and Put Online

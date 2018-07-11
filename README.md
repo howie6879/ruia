@@ -1,8 +1,15 @@
 ## aspider
 
-A simple,lightweight,asynchronous scraping micro-framework, written with `asyncio` and `aiohttp`.
+A lightweight,asynchronous,distributed scraping micro-framework, written with `asyncio` and `aiohttp`.
+
+- Python versions: 3.6+
+- Free software: MIT license
 
 ### Installation
+
+``` shell
+pip install git+https://github.com/howie6879/aspider
+```
 
 ### Usage
 
@@ -24,9 +31,7 @@ class HackerNewsItem(Item):
     url = AttrField(css_select='a.storylink', attr='href')
 
 
-target_url = "https://news.ycombinator.com/"
-loop = asyncio.get_event_loop()
-items = loop.run_until_complete(HackerNewsItem.get_items(url=target_url))
+items = asyncio.get_event_loop().run_until_complete(HackerNewsItem.get_items(url="https://news.ycombinator.com/"))
 pprint(items)
 
 ```
@@ -50,8 +55,50 @@ Run: `python demo.py`
 
 #### Spider
 
-### License
-aspider is offered under the MIT license.
+For multiple pages, you can solve this with `Spider`
+
+Create `hacker_news_spider.py`:
+
+``` python
+import aiofiles
+
+from aspider import AttrField, TextField, Item, Spider
+
+
+class HackerNewsItem(Item):
+    target_item = TextField(css_select='tr.athing')
+    title = TextField(css_select='a.storylink')
+    url = AttrField(css_select='a.storylink', attr='href')
+
+    async def clean_title(self, value):
+        return value
+
+
+class HackerNewsSpider(Spider):
+    start_urls = ['https://news.ycombinator.com/']
+
+    async def parse(self, res):
+        items = await HackerNewsItem.get_items(html=res.html)
+        for item in items:
+            async with aiofiles.open('./hacker_news.txt', 'a') as f:
+                await f.write(item['title'] + '\n')
+
+
+if __name__ == '__main__':
+    HackerNewsSpider.start()
+```
+
+Run `hacker_news_spider.py`:
+
+``` shell
+[2018-07-11 17:50:12,430]-aspider-INFO  Spider started!
+[2018-07-11 17:50:12,430]-Request-INFO  <GET: https://news.ycombinator.com/>
+[2018-07-11 17:50:12,456]-Request-INFO  <GET: https://news.ycombinator.com/news?p=2>
+[2018-07-11 17:50:14,785]-aspider-INFO  Time usage: 0:00:02.355062
+[2018-07-11 17:50:14,785]-aspider-INFO  Spider finished!
+```
+
+#### Distributed scraping
 
 ### Contribution
 

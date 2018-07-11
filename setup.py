@@ -5,7 +5,7 @@ setup(
     name='aspider',
     version='0.0.1',
     author='Howie Hu',
-    description="A simple,lightweight,asynchronous scraping micro-framework",
+    description="A lightweight,asynchronous,distributed scraping micro-framework",
     author_email='xiaozizayang@gmail.com',
     install_requires=['aiofiles', 'aiohttp', 'cchardet', 'cssselect', 'lxml'],
     url="https://github.com/howie6879/aspider/blob/master/README.md",

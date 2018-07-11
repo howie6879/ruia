@@ -4,6 +4,8 @@
 """
 import asyncio
 
+from inspect import iscoroutinefunction
+
 import aiohttp
 import cchardet
 
@@ -32,12 +34,11 @@ class Request():
 
     METHOD = ['GET', 'POST']
 
-    def __init__(self, url, *,
-                 method: str = 'GET',
-                 request_config: dict = None,
-                 request_session=None,
+    def __init__(self, url: str, method: str = 'GET', *,
                  callback=None,
                  extra_value: dict = None,
+                 request_config: dict = None,
+                 request_session=None,
                  res_type: str = 'text',
                  **kwargs):
         """
@@ -47,18 +48,20 @@ class Request():
         self.method = method.upper()
         if self.method not in self.METHOD:
             raise ValueError('%s method is not supported' % self.method)
+
+        self.callback = callback
+        self.extra_value = extra_value if extra_value is not None else {}
+        self.request_session = request_session
         if request_config is None:
             self.request_config = self.REQUEST_CONFIG
         else:
             self.request_config = request_config
-        self.request_session = request_session
-        self.callback = callback
-        self.extra_value = extra_value if extra_value is not None else {}
         self.res_type = res_type
-        self.close_request_session = False
-        self.retry_times = self.request_config.get('RETRIES', 3)
         self.kwargs = kwargs
+
+        self.close_request_session = False
         self.logger = get_logger(name=self.name)
+        self.retry_times = self.request_config.get('RETRIES', 3)
 
     @property
     def current_request_func(self):
@@ -103,9 +106,18 @@ class Request():
 
         if self.close_request_session:
             await self.request_session.close()
-
         return type('Response', (),
                     {'html': data, 'url': self.url, 'extra_value': self.extra_value})
+
+    async def fetch_callback(self):
+        res = await self.fetch()
+        if self.callback is not None:
+            if iscoroutinefunction(self.callback):
+                res = await self.callback(res)
+            else:
+                res = self.callback(res)
+
+        return res
 
     def __str__(self):
         return "<%s %s>" % (self.method, self.url)
