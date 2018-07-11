@@ -1,5 +1,7 @@
 ## aspider
 
+![travis](https://travis-ci.org/howie6879/aspider.svg?branch=master)
+
 A lightweight,asynchronous,distributed scraping micro-framework, written with `asyncio` and `aiohttp`.
 
 - Python versions: 3.6+

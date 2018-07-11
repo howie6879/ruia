@@ -5,7 +5,6 @@ notifications:
 
 python:
   - "3.6"
-  - "3.7.0"
 
 install:
     - pip install ./
