@@ -1,60 +1,60 @@
-Notorious ‘Hijack Factory’ Shunned from Web
+MacBook Pro with faster performance and new features for pros
+The open-plan office is a terrible, horrible, no good, very bad idea
+Netdev Day 1: IPSec
+Facebook ruling: German court grants parents rights to dead daughter's account
+The Design and Implementation of Hyperupcalls [pdf]
+Annotated notes: Using Fast.ai to build a world-class image classifier
+Delivering WordPress in 7kb
 Unix system programming in OCaml (2014)
-Red Flags Signaling That a Rebuild Will Fail
 A biologist who believes that trees speak a language we can learn to listen to
-Bulletproofs – Short zero-knowledge arguments of knowledge
-Neatly bypassing CSP
-A Clone of the Classic Mac OS Finder in Modern Cocoa and Objective-C
-Show HN: Solving Rush Hour, the 6x6 Sliding Block Puzzle
 Ask HN: As a team lead how to handle project going off the rails?
-Using Apple’s New Controls to Limit a Teenager’s iPhone Time
+ESLint compromised, may have stolen your credentials
+From Filesystems to CRUD and Beyond
+The Dancing Plague of 1518
+Bulletproofs – Short zero-knowledge arguments of knowledge
+Have the Tech Giants Grown Too Powerful?
+Going to Graceland
+Logic programming courses
+Notorious ‘Hijack Factory’ Shunned from Web
+Neatly bypassing CSP
+Inside the Paper: Build Systems a La Carte
 To Explain or to Predict? (2010) [pdf]
+The San Franciso Fire Department makes its own wooden ladders by hand
+Domain tasting
+Show HN: Online challenge: Build a CPU from scratch
+The rescue of the crew of the yacht Django (2016)
+SQLite with a Fine-Toothed Comb (2016)
+Red Flags Signaling That a Rebuild Will Fail
+At Play: A Personal Odyssey in Chess
+How Inlined Code Makes for Confusing Profiles
+At Initialized Capital, Odd Couple Looks to Do VC Differently
 Hospitalism: On 'The Butchering Art'
+The Battle Agaist Any Raid Five initiative (2016)
+Are Flat-Earthers Being Serious?
+A browser extension to make Medium more readable
+Tardigrade protein helps human DNA withstand radiation (2016)
+I created a Font Memory Game, how fast can you complete it?
+A Clone of the Classic Mac OS Finder in Modern Cocoa and Objective-C
+Demystifying React's Virtual DOM
+Show HN: Solving Rush Hour, the 6x6 Sliding Block Puzzle
+Using Apple’s New Controls to Limit a Teenager’s iPhone Time
 Internally, NASA believes Boeing ahead of SpaceX in commercial crew
+Reverse-Engineering WebAssembly [pdf]
 Battling Fake Accounts, Twitter to Slash Millions of Followers
 Loon and Wing graduate from Google/Alphabet X
-At Initialized Capital, Odd Couple Looks to Do VC Differently
-Logic programming courses
+Alan Smithee
 How ProPublica Illinois Uses GNU Make to Load Data
-The San Franciso Fire Department makes its own wooden ladders by hand
-Inside the Paper: Build Systems a La Carte
-FCC Proposes Changing Comment System After WSJ Found Thousands of Fakes
-At Play: A Personal Odyssey in Chess
+Love Logistics?  iCracked (YC W12) Is Looking for a Director of Service Delivery
+Show HN: Markdown New Tab – A new tab replacement to jot down notes in Markdown
 Why local US newspapers are sounding the alarm
-How Inlined Code Makes for Confusing Profiles
-A browser extension to make Medium more readable
-The rescue of the crew of the yacht Django (2016)
+Worker Surveillance and Class Power
 Comparing City Street Orientations
+FCC Proposes Changing Comment System After WSJ Found Thousands of Fakes
 The libkern C++ Runtime
 Solar Just Hit a Record Low Price in the U.S
-The Entire History of Steel
-Launch HN: Synthetic  Minds (YC S18) – Program Synthesis to Protect Dapps
-The Agave Plant's Asparagus Death Fetish (2017)
-Have the Tech Giants Grown Too Powerful?
-The Last Hope for Scala's Infinity War [video]
-The History of Steel
-Bringing Blogging to the Fediverse
-Love Logistics?  iCracked (YC W12) Is Looking for a Director of Service Delivery
-Show HN: Online challenge: Build a CPU from scratch
-DIRT Protocol raises $3M to build a Wikipedia for structured data
-Tardigrade protein helps human DNA withstand radiation (2016)
-Building the Google Photos Web UI
-Reverse-Engineering WebAssembly [pdf]
-Alan Smithee
-Show HN: Markdown New Tab – A new tab replacement to jot down notes in Markdown
 Who Owns Kafka? (2011)
-Worker Surveillance and Class Power
+The Agave Plant's Asparagus Death Fetish (2017)
+Broadcom acquires CA Technologies for $18.9B in cash
 Djbsort: A new software library for sorting arrays of integers
-India approved net neutrality rules that ban ‘any form’ of data discrimination
+Launch HN: Synthetic  Minds (YC S18) – Program Synthesis to Protect Dapps
 DeepLog: Anomaly Detection and Diagnosis from System Logs (2017) [pdf]
-Chicago Is America's Last Remaining Affordable Skyscraper City
-Efficient Logistic Regression on Large Encrypted Data
-What is the meaning of life in the digital world? [audio]
-Why Isn't Debugging Treated as a First-Class Activity?
-Chrome will mark all HTTP sites as ‘not secure’ starting in July
-Trial wipes out over 80% of Australian disease-spreading mosquito
-Fallacies of Distributed Computing Explained (2006) [pdf]
-Certified Translator, stuck in Venezuela, looking for remote freelance work
-Using Sunlight to Make Spaceship Fuel and Breathable Air
-Writing a Game Boy emulator
-Ask HN: Anyone rather just be alone during work day?

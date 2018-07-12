@@ -6,7 +6,6 @@ import asyncio
 import aiohttp
 
 from datetime import datetime
-from threading import Thread
 from types import AsyncGeneratorType
 
 from lxml import etree
@@ -26,21 +25,15 @@ class Spider:
     name = 'aspider'
     request_config = None
     request_queue = asyncio.Queue()
-    start_urls = []
-    all_counts, success_counts = 0, 0
+
+    failed_counts, success_counts = 0, 0
+    start_urls, worker_tasks = [], []
 
     def __init__(self, loop=None):
         if not self.start_urls or not isinstance(self.start_urls, list):
             raise ValueError("Spider must have a param named start_urls, eg: start_urls = ['https://www.github.com']")
         self.logger = get_logger(name=self.name)
         self.loop = loop or asyncio.get_event_loop()
-
-    @property
-    def is_running(self):
-        is_running = True
-        if self.request_queue.empty():
-            is_running = False
-        return is_running
 
     def e_html(self, html):
         return etree.HTML(html)
@@ -59,22 +52,28 @@ class Spider:
                                   res_type=getattr(self, 'res_type', 'text'),
                                   **getattr(self, 'kwargs', {}))
             self.request_queue.put_nowait(request_ins.fetch_callback())
-        tasks = []
-        while self.is_running:
-            request_item = await self.request_queue.get()
-            if request_item is None:
-                self.request_queue.task_done()
-            tasks.append(asyncio.ensure_future(request_item))
-            if self.request_queue.empty():
-                await self.start_worker(tasks)
+        workers = [asyncio.ensure_future(self.start_worker()) for i in range(2)]
+        await self.request_queue.join()
+        for work in workers:
+            work.cancel()
 
-    async def start_worker(self, tasks):
-        done, pending = await asyncio.wait(tasks)
-        self.all_counts, self.success_counts = len(tasks), len(done)
-        for task in done:
-            if isinstance(task.result(), AsyncGeneratorType):
-                async for each in task.result():
-                    self.request_queue.put_nowait(each.fetch_callback())
+    async def start_worker(self):
+        while True:
+            request_item = await self.request_queue.get()
+            self.worker_tasks.append(asyncio.ensure_future(request_item))
+            if self.request_queue.empty():
+                done, pending = await asyncio.wait(self.worker_tasks)
+                for task in done:
+                    callback_res, res = task.result()
+                    if isinstance(callback_res, AsyncGeneratorType):
+                        async for each in callback_res:
+                            self.request_queue.put_nowait(each.fetch_callback())
+                    if res.html is None:
+                        self.failed_counts += 1
+                    else:
+                        self.success_counts += 1
+                self.worker_tasks = []
+            self.request_queue.task_done()
 
     @classmethod
     def start(cls):
@@ -90,9 +89,9 @@ class Spider:
             spider_ins.loop.run_forever()
         finally:
             end_time = datetime.now()
-            spider_ins.logger.info(f'Total requests: {spider_ins.success_counts}')
-            if spider_ins.all_counts - spider_ins.success_counts:
-                spider_ins.logger.info(f'Failed requests: {spider_ins.all_counts - spider_ins.success_counts}')
+            spider_ins.logger.info(f'Total requests: {spider_ins.failed_counts + spider_ins.success_counts}')
+            if spider_ins.failed_counts:
+                spider_ins.logger.info(f'Failed requests: {spider_ins.failed_counts}')
             spider_ins.logger.info(f'Time usage: {end_time - start_time}')
             spider_ins.logger.info('Spider finished!')
             spider_ins.loop.close()
