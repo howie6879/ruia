@@ -35,11 +35,6 @@ class Spider:
         self.logger = get_logger(name=self.name)
         self.loop = loop or asyncio.get_event_loop()
 
-        # self.new_loop = asyncio.new_event_loop()
-        # t = Thread(target=self.start_loop, args=(self.new_loop,))
-        # t.setDaemon(True)
-        # t.start()
-
     @property
     def is_running(self):
         is_running = True
@@ -52,10 +47,6 @@ class Spider:
 
     async def parse(self, res):
         raise NotImplementedError
-
-    # def start_loop(self, loop):
-    #     asyncio.set_event_loop(loop)
-    #     loop.run_forever()
 
     async def start_master(self):
         for url in self.start_urls:
@@ -70,19 +61,20 @@ class Spider:
             self.request_queue.put_nowait(request_ins.fetch_callback())
         tasks = []
         while self.is_running:
-            request_item = self.request_queue.get_nowait()
+            request_item = await self.request_queue.get()
+            if request_item is None:
+                self.request_queue.task_done()
             tasks.append(asyncio.ensure_future(request_item))
             if self.request_queue.empty():
-                done, pending = await asyncio.wait(tasks)
-                self.all_counts, self.success_counts = len(tasks), len(done)
-                for task in done:
-                    if isinstance(task.result(), AsyncGeneratorType):
-                        async for each in task.result():
-                            self.request_queue.put_nowait(each.fetch_callback())
+                await self.start_worker(tasks)
 
-    async def start_worker(self):
-        # TODO
-        pass
+    async def start_worker(self, tasks):
+        done, pending = await asyncio.wait(tasks)
+        self.all_counts, self.success_counts = len(tasks), len(done)
+        for task in done:
+            if isinstance(task.result(), AsyncGeneratorType):
+                async for each in task.result():
+                    self.request_queue.put_nowait(each.fetch_callback())
 
     @classmethod
     def start(cls):

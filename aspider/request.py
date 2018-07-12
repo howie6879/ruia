@@ -116,7 +116,6 @@ class Request():
                 res = await self.callback(res)
             else:
                 res = self.callback(res)
-
         return res
 
     def __str__(self):
