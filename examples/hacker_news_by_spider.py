@@ -24,7 +24,7 @@ class HackerNewsSpider(Spider):
         items = await HackerNewsItem.get_items(html=res.html)
         for item in items:
             async with aiofiles.open('./hacker_news.txt', 'a') as f:
-                await f.write(item['title'] + '\n')
+                await f.write(item.title + '\n')
 
 
 if __name__ == '__main__':

@@ -29,7 +29,7 @@ class Item(metaclass=ItemMeta):
     """
 
     def __init__(self):
-        pass
+        self.results = {}
 
     @classmethod
     async def _get_html(cls, html, url, **kwargs):
@@ -43,7 +43,7 @@ class Item(metaclass=ItemMeta):
         return etree.HTML(html)
 
     @classmethod
-    async def get_item(cls, html='', url='', html_etree=None, **kwargs) -> dict:
+    async def get_item(cls, html='', url='', html_etree=None, **kwargs) -> object:
         if html_etree is None:
             etree_result = await cls._get_html(html, url, **kwargs)
         else:
@@ -71,18 +71,22 @@ class Item(metaclass=ItemMeta):
             raise ValueError("target_item is expected")
 
     @classmethod
-    async def _parse_html(cls, etree_result: etree._Element) -> dict:
+    async def _parse_html(cls, etree_result: etree._Element) -> object:
         if etree_result is None or not isinstance(etree_result, etree._Element):
             raise ValueError("etree._Element is expected")
-        item = {}
-        for field_name, field_value in getattr(cls, '__fields', {}).items():
+        item_ins = cls()
+        for field_name, field_value in getattr(item_ins, '__fields', {}).items():
             if not field_name.startswith('target_'):
-                clean_method = getattr(cls(), 'clean_%s' % field_name, None)
+                clean_method = getattr(item_ins, 'clean_%s' % field_name, None)
                 value = field_value.extract_value(etree_result) if isinstance(field_value, BaseField) else field_value
                 if clean_method is not None:
                     if iscoroutinefunction(clean_method):
                         value = await clean_method(value)
                     else:
                         value = clean_method(value)
-                item[field_name] = value
-        return item
+                setattr(item_ins, field_name, value)
+                item_ins.results[field_name] = value
+        return item_ins
+
+    def __str__(self):
+        return f"<Item {self.results}>"

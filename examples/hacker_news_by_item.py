@@ -5,8 +5,6 @@
 """
 import asyncio
 
-from pprint import pprint
-
 from aspider import AttrField, TextField, Item
 
 
@@ -15,75 +13,42 @@ class HackerNewsItem(Item):
     title = TextField(css_select='a.storylink')
     url = AttrField(css_select='a.storylink', attr='href')
 
-    async def clean_title(self,value):
+    async def clean_title(self, value):
         return value
 
+
 items = asyncio.get_event_loop().run_until_complete(HackerNewsItem.get_items(url="https://news.ycombinator.com/"))
-pprint(items)
+for item in items:
+    print(item.title, item.url)
 
 # Output
-# [{'title': 'Show HN: Browsh – A modern, text-based browser',
-#   'url': 'https://www.brow.sh'},
-#  {'title': 'The Effects of CPU Turbo: 768X Stddev',
-#   'url': 'https://www.alexgallego.org/perf/compiler/explorer/flatbuffers/smf/2018/06/30/effects-cpu-turbo.html'},
-#  {'title': 'What industry has the highest revenue per employee?',
-#   'url': 'https://craft.co/reports/where-do-the-most-productive-employees-work'},
-#  {'title': 'The 111M Record Pemiblanc Credential Stuffing List',
-#   'url': 'https://www.troyhunt.com/the-111-million-pemiblanc-credential-stuffing-list/'},
-#  {'title': 'How to Analyze Billions of Records per Second on a Single Desktop '
-#            'PC',
-#   'url': 'https://clemenswinter.com/2018/07/09/how-to-analyze-billions-of-records-per-second-on-a-single-desktop-pc/'},
-#  {'title': 'One in three fish caught never makes it to the plate – UN report',
-#   'url': 'https://www.theguardian.com/environment/2018/jul/09/one-in-three-fish-caught-never-makes-it-to-the-plate-un-report'},
-#  {'title': 'Historic Tale Construction Kit – Bayeux',
-#   'url': 'http://htck.github.io/bayeux'},
-#  {'title': 'The staggering rise of India’s super-rich',
-#   'url': 'https://www.theguardian.com/news/2018/jul/10/the-staggering-rise-of-indias-super-rich'},
-#  {'title': 'What do Stanford CS PhD students think of their PhD program? [pdf]',
-#   'url': 'https://archive.org/download/phd_student_survey_summary_report_0a5c/phd_student_survey_summary_report_0a5c.pdf'},
-#  {'title': 'A Short History of Prediction-Serving Systems',
-#   'url': 'https://rise.cs.berkeley.edu/blog/a-short-history-of-prediction-serving-systems/'},
-#  {'title': 'Heatwave unveils ancient settlements in Wales',
-#   'url': 'https://www.bbc.co.uk/news/uk-wales-44746447'},
-#  {'title': 'Half of ICOs Die Within Four Months After Token Sales Finalized',
-#   'url': 'https://www.bloomberg.com/news/articles/2018-07-09/half-of-icos-die-within-four-months-after-token-sales-finalized'},
-#  {'title': 'Tab (YC W15) is hiring full-stack software developers in London',
-#   'url': 'https://jobs.tab.travel'},
-#  {'title': 'Azure Storage: How fast are disks?',
-#   'url': 'https://www.grsplus.com/blog/2018/07/azure-storage-how-fast-are-disks/'},
-#  {'title': 'From shallow to deep learning in fraud',
-#   'url': 'https://eng.lyft.com/from-shallow-to-deep-learning-in-fraud-9dafcbcef743'},
-#  {'title': 'Research-backed strategies for better learning',
-#   'url': 'https://stories.sagefy.org/eight-big-ideas-of-learning-tl-dr-edition-95302c848d87'},
-#  {'title': 'CeramicSpeed’s Driven Concept Might Become the Most Efficient '
-#            'Bicycle Drivetrain',
-#   'url': 'https://www.bicycling.com/bikes-gear/a22092182/ceramicspeeds-driven-concept-might-become-the-worlds-most-efficient-drivetrain/'},
-#  {'title': 'An Old Conjecture on Stream Transducers',
-#   'url': 'https://www.pvk.ca/Blog/2018/06/24/an-old-conjecture-on-stream-transducers/'},
-#  {'title': 'German court issues first GDPR ruling',
-#   'url': 'https://www.natlawreview.com/article/german-court-issues-first-gdpr-ruling'},
-#  {'title': 'The Children of Anaxagoras: Did hands make us human?',
-#   'url': 'https://www.laphamsquarterly.org/roundtable/children-anaxagoras'},
-#  {'title': 'Declassified videos of atmospheric nuclear tests (2017)',
-#   'url': 'https://www.llnl.gov/news/llnl-releases-newly-declassified-test-videos'},
-#  {'title': 'An app that reads Wikipedia to teach you about cities you’re '
-#            'driving through',
-#   'url': 'https://www.theverge.com/2018/7/9/17549668/app-wikipedia-location-facts'},
-#  {'title': 'Why Does Your Company Deserve More Money?',
-#   'url': 'https://blog.ycombinator.com/why-does-your-company-deserve-more-money/'},
-#  {'title': 'Nissan Admits Internal Emissions-Test Results were Falsified',
-#   'url': 'https://www.wsj.com/articles/nissan-admits-emission-test-data-was-falsified-1531139749'},
-#  {'title': 'Reinforcement learning’s foundational flaw',
-#   'url': 'https://thegradient.pub/why-rl-is-flawed/'},
-#  {'title': 'Undershoot: Parsing theory in 1965',
-#   'url': 'http://jeffreykegler.github.io/Ocean-of-Awareness-blog/individual/2018/07/knuth_1965_2.html'},
-#  {'title': "Lay Out Your Code Like You'd Lay Out Your House",
-#   'url': 'https://www.frederikcreemers.be/posts/code-layout/'},
-#  {'title': "Monsanto 'bullied scientists' and hid weedkiller cancer risk, "
-#            'lawyer tells court',
-#   'url': 'https://www.theguardian.com/business/2018/jul/09/monsanto-trial-roundup-weedkiller-cancer-dewayne-johnson'},
-#  {'title': 'Meet Your Mappers: A tool to find OpenStreetMap contributors near '
-#            'you',
-#   'url': 'https://ma.rtijn.org/2018/07/08/meet-your-mappers.html'},
-#  {'title': 'CO2 shortage: Lessons learned from a storm in a pint glass?',
-#   'url': 'https://www.gasworld.com/co2-shortage-lessons-learned/2015003.article'}]
+# Notorious ‘Hijack Factory’ Shunned from Web https://krebsonsecurity.com/2018/07/notorious-hijack-factory-shunned-from-web/
+# Unix system programming in OCaml (2014) https://ocaml.github.io/ocamlunix/index.html
+# Red Flags Signaling That a Rebuild Will Fail http://www.pkc.io/blog/five-red-flags-signaling-your-rebuild-will-fail/
+# A biologist who believes that trees speak a language we can learn to listen to https://qz.com/1116991/a-biologist-believes-that-trees-speak-a-language-we-can-learn/
+# Ask HN: As a team lead how to handle project going off the rails? item?id=17511850
+# Bulletproofs – Short zero-knowledge arguments of knowledge https://github.com/adjoint-io/bulletproofs
+# Neatly bypassing CSP https://lab.wallarm.com/how-to-trick-csp-in-letting-you-run-whatever-you-want-73cb5ff428aa
+# A Clone of the Classic Mac OS Finder in Modern Cocoa and Objective-C https://bszyman.com/blog/classic-finder
+# Show HN: Solving Rush Hour, the 6x6 Sliding Block Puzzle https://www.michaelfogleman.com/rush/
+# To Explain or to Predict? (2010) [pdf] http://www.galitshmueli.com/system/files/Stat%20Science%20published.pdf
+# Using Apple’s New Controls to Limit a Teenager’s iPhone Time https://www.nytimes.com/2018/07/11/technology/personaltech/apple-iphone-screen-time.html
+# Hospitalism: On 'The Butchering Art' https://www.lrb.co.uk/v40/n13/sarah-perry/hospitalism
+# Internally, NASA believes Boeing ahead of SpaceX in commercial crew https://arstechnica.com/science/2018/07/nasa-commercial-crew-analysis-finds-boeing-slightly-ahead-of-spacex/
+# Battling Fake Accounts, Twitter to Slash Millions of Followers https://www.nytimes.com/2018/07/11/technology/twitter-fake-followers.html
+# Loon and Wing graduate from Google/Alphabet X https://www.wired.com/story/alphabet-google-x-innovation-loon-wing-graduation/
+# Logic programming courses https://edu.swi-prolog.org/
+# At Initialized Capital, Odd Couple Looks to Do VC Differently https://www.forbes.com/sites/alexkonrad/2018/07/09/at-initialized-capital-odd-couple-alexis-ohanian-and-garry-tan-look-to-do-vc-differently/#456e13c43efe
+# How ProPublica Illinois Uses GNU Make to Load Data https://www.propublica.org/nerds/gnu-make-illinois-campaign-finance-data-david-eads-propublica-illinois#146596
+# The San Franciso Fire Department makes its own wooden ladders by hand https://gizmodo.com/inside-san-francisos-fire-department-where-ladders-are-1552279252
+# Inside the Paper: Build Systems a La Carte https://neilmitchell.blogspot.com/2018/07/inside-paper-build-systems-la-carte.html
+# FCC Proposes Changing Comment System After WSJ Found Thousands of Fakes https://www.wsj.com/articles/fcc-proposes-rebuilding-comment-system-after-thousands-revealed-as-fake-1531315654
+# How Inlined Code Makes for Confusing Profiles http://psy-lob-saw.blogspot.com/2018/07/how-inlined-code-confusing-profiles.html
+# At Play: A Personal Odyssey in Chess https://www.metapsychosis.com/at-play-personal-odyssey-chess/
+# Why local US newspapers are sounding the alarm https://www.bbc.com/news/world-us-canada-44688274
+# The rescue of the crew of the yacht Django (2016) https://boatingnz.co.nz/articles/deep-impact/
+# A browser extension to make Medium more readable https://makemediumreadable.com/
+# Comparing City Street Orientations http://geoffboeing.com/2018/07/comparing-city-street-orientations/
+# The Entire History of Steel https://www.popularmechanics.com/technology/infrastructure/a20722505/history-of-steel/
+# The libkern C++ Runtime https://developer.apple.com/library/archive/documentation/DeviceDrivers/Conceptual/WritingDeviceDriver/CPluPlusRuntime/CPlusPlusRuntime.html
+# Solar Just Hit a Record Low Price in the U.S https://earther.com/solar-just-hit-a-record-low-price-in-the-u-s-1826830592

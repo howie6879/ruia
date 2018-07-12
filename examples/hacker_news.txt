@@ -1,60 +1,60 @@
-A California mall operator is sharing license plate tracking data with ICE
-ANU scientists discover the world’s oldest colours
-Causal Inference Book
-If Videogames and Apps Are Addictive, Should Designers Worry about Liability?
-Thai cave rescue used open source hardware, the Heyphone
-Breastfeeding: it's bad for business
-How I Fully Quit Google (And You Can, Too)
-‘No Poach’ Deals for Fast-Food Workers Face Scrutiny
-Arch Linux AUR Repository Found to Contain Malware
-RISC-V Community: "ARM Architecture: Understand the Facts"
-The Benefits of Thinking Small (2010)
-How a star explosion may have shaped life on Earth (2015)
-Comparing Serverless Performance for CPU Bound Tasks
-Bruno Latour Tracks Down Gaia
-Translation Leak-Aside Buffer: Defeating Cache Side-Channel Protections [pdf]
-Show HN: Five Thousand Novels, Ranked by Vividness
-PCB Placement Stencils
-Starters, Finishers, and Large Teams
-Fathom – Simple, trustworthy website analytics
-Gaming the search for autism treatments
-Introducing Jib — Build Java Docker images better
-The Case Against Patents (2013)
-ICO Investigation into the use of data analytics in political campaigns [pdf]
-Nissan Admits Internal Emissions-Test Results were Falsified
-The function that gives AI value is the ability to make predictions
-The Bhopal Industrial Disaster Is Still Unfolding
-Curl 7.61.0
-The seeming irrationality of a well-tuned emotional system
-Vaporwave’s Mini-Boom of Floppy Disk Releases
-Speculative buffer overflows: attacks and defenses. (Spectre BCBS) [pdf]
-djbsort
-Show HN: Open Source API access control firewall/proxy written in Go
-Why Envy Might Be Good for Us
-The only cheat sheet you need
-Firefox switching to clang-cl for Windows builds
-Impossible color
-Former Apple Employee Charged with Theft of Autonomous Car Project Trade Secrets
-Sending and Receiving SMS on Linux (2015)
-What’s up with the mysterious inc bp in function prologues of 16-bit code?
-Interrobang
-Napoleon as Organizational Designer (2009) [pdf]
-Willing (YC S15) Is Hiring an Engineering Manager
-Goodbye Microservices: From 100s of problem children to 1 superstar
-Troubling Trends in Machine Learning Scholarship
-Bitwarden – Open Source Password Manager
+Notorious ‘Hijack Factory’ Shunned from Web
+Unix system programming in OCaml (2014)
+Red Flags Signaling That a Rebuild Will Fail
+A biologist who believes that trees speak a language we can learn to listen to
+Bulletproofs – Short zero-knowledge arguments of knowledge
+Neatly bypassing CSP
+A Clone of the Classic Mac OS Finder in Modern Cocoa and Objective-C
+Show HN: Solving Rush Hour, the 6x6 Sliding Block Puzzle
+Ask HN: As a team lead how to handle project going off the rails?
+Using Apple’s New Controls to Limit a Teenager’s iPhone Time
+To Explain or to Predict? (2010) [pdf]
+Hospitalism: On 'The Butchering Art'
+Internally, NASA believes Boeing ahead of SpaceX in commercial crew
+Battling Fake Accounts, Twitter to Slash Millions of Followers
+Loon and Wing graduate from Google/Alphabet X
+At Initialized Capital, Odd Couple Looks to Do VC Differently
+Logic programming courses
+How ProPublica Illinois Uses GNU Make to Load Data
+The San Franciso Fire Department makes its own wooden ladders by hand
+Inside the Paper: Build Systems a La Carte
+FCC Proposes Changing Comment System After WSJ Found Thousands of Fakes
+At Play: A Personal Odyssey in Chess
+Why local US newspapers are sounding the alarm
+How Inlined Code Makes for Confusing Profiles
+A browser extension to make Medium more readable
+The rescue of the crew of the yacht Django (2016)
+Comparing City Street Orientations
+The libkern C++ Runtime
+Solar Just Hit a Record Low Price in the U.S
+The Entire History of Steel
+Launch HN: Synthetic  Minds (YC S18) – Program Synthesis to Protect Dapps
+The Agave Plant's Asparagus Death Fetish (2017)
+Have the Tech Giants Grown Too Powerful?
+The Last Hope for Scala's Infinity War [video]
+The History of Steel
+Bringing Blogging to the Fediverse
+Love Logistics?  iCracked (YC W12) Is Looking for a Director of Service Delivery
+Show HN: Online challenge: Build a CPU from scratch
+DIRT Protocol raises $3M to build a Wikipedia for structured data
+Tardigrade protein helps human DNA withstand radiation (2016)
+Building the Google Photos Web UI
+Reverse-Engineering WebAssembly [pdf]
+Alan Smithee
+Show HN: Markdown New Tab – A new tab replacement to jot down notes in Markdown
+Who Owns Kafka? (2011)
+Worker Surveillance and Class Power
+Djbsort: A new software library for sorting arrays of integers
+India approved net neutrality rules that ban ‘any form’ of data discrimination
+DeepLog: Anomaly Detection and Diagnosis from System Logs (2017) [pdf]
+Chicago Is America's Last Remaining Affordable Skyscraper City
+Efficient Logistic Regression on Large Encrypted Data
+What is the meaning of life in the digital world? [audio]
 Why Isn't Debugging Treated as a First-Class Activity?
-Arm kills off its anti-RISC-V site after own staff revolt
-Designing a Quantum Computing Board Game
-Random Points on a Sphere
-How Postcards Solved the Problem of Disappearing Rice
-Gravwell Community Edition: A Splunk Alternative Built with Go
-Brief History of JIT in MoarVM for Perl 6
-Shutting Down the BGP Hijack Factory
+Chrome will mark all HTTP sites as ‘not secure’ starting in July
 Trial wipes out over 80% of Australian disease-spreading mosquito
-Bizarre Glasses Promise to Cure Motion Sickness
-Uber executive resigns following probe into racial discrimination
-Lunar mystery solved by recovery of lost Apollo mission tapes
-Loefflers Discrete Cosine Transform Algorithm in Futhark
-Runq – Runc-based runtime to run regular Docker images in KVM/Qemu
-Nearly 1,000 Paintings and Drawings by Vincent van Gogh Digitized and Put Online
+Fallacies of Distributed Computing Explained (2006) [pdf]
+Certified Translator, stuck in Venezuela, looking for remote freelance work
+Using Sunlight to Make Spaceship Fuel and Breathable Air
+Writing a Game Boy emulator
+Ask HN: Anyone rather just be alone during work day?

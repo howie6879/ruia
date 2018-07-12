@@ -76,16 +76,10 @@ class DoubanItem(Item):
 
 
 def test_item_from():
-    item_data = asyncio.get_event_loop().run_until_complete(DoubanItem.get_item(html=HTML))
-    assert item_data['title'] == 'Title: 豆瓣电影TOP250'
+    item = asyncio.get_event_loop().run_until_complete(DoubanItem.get_item(html=HTML))
+    assert item.title == 'Title: 豆瓣电影TOP250'
 
 
 def test_target_item():
-    value = {
-        'abstract': '希望让人自由。',
-        'cover': 'https://img3.doubanio.com/view/movie_poster_cover/ipst/public/p480747492.webp',
-        'title': '肖申克的救赎/The Shawshank Redemption'
-    }
     items = asyncio.get_event_loop().run_until_complete(DoubanTargetItem.get_items(html=HTML))
-
-    assert items[0] == value
+    assert items[0].abstract == '希望让人自由。'

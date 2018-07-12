@@ -3,7 +3,7 @@ from setuptools import find_packages, setup
 
 setup(
     name='aspider',
-    version='0.0.1',
+    version='0.0.2',
     author='Howie Hu',
     description="A lightweight,asynchronous,distributed scraping micro-framework",
     author_email='xiaozizayang@gmail.com',
@@ -12,7 +12,7 @@ setup(
     packages=find_packages(),
     classifiers=[
         'Intended Audience :: Developers',
-        'License :: OSI Approved :: MIT Software License',
+        "License :: OSI Approved :: MIT License",
         'Programming Language :: Python :: 3.6',
         'Programming Language :: Python :: 3.7',
     ],
