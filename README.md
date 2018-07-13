@@ -1,11 +1,8 @@
 ## aspider
 
-![travis](https://travis-ci.org/howie6879/aspider.svg?branch=master)
+[![travis](https://travis-ci.org/howie6879/aspider.svg?branch=master)](https://travis-ci.org/howie6879/aspider) [![PyPI - Python Version](https://img.shields.io/pypi/pyversions/aspider.svg)](https://pypi.org/project/aspider/) [![license](https://img.shields.io/github/license/howie6879/aspider.svg)](https://github.com/howie6879/aspider)
 
 A lightweight,asynchronous,distributed scraping micro-framework, written with `asyncio` and `aiohttp`, aims to make crawling url as convenient as possible.
-
-- Python versions: 3.6+
-- Free software: MIT license
 
 ### Installation
 
