@@ -93,7 +93,11 @@ Run `hacker_news_spider.py`:
 [2018-07-11 17:50:14,785]-aspider-INFO  Spider finished!
 ```
 
-#### Distributed scraping - TODO
+### TODO
+
+- Custom middleware
+- Distributed scraping
+- Friendly response
 
 ### Contribution
 

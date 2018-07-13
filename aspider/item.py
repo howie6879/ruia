@@ -43,7 +43,7 @@ class Item(metaclass=ItemMeta):
         return etree.HTML(html)
 
     @classmethod
-    async def get_item(cls, html='', url='', html_etree=None, **kwargs) -> object:
+    async def get_item(cls, *, html: str = '', url: str = '', html_etree: etree._Element = None, **kwargs) -> object:
         if html_etree is None:
             etree_result = await cls._get_html(html, url, **kwargs)
         else:
@@ -51,7 +51,7 @@ class Item(metaclass=ItemMeta):
         return await cls._parse_html(etree_result)
 
     @classmethod
-    async def get_items(cls, html='', url='', html_etree=None, **kwargs) -> list:
+    async def get_items(cls, *, html: str = '', url: str = '', html_etree: etree._Element = None, **kwargs) -> list:
         if html_etree is None:
             etree_result = await cls._get_html(html, url, **kwargs)
         else:
