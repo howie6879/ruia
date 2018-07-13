@@ -8,8 +8,6 @@ import aiohttp
 from datetime import datetime
 from types import AsyncGeneratorType
 
-from lxml import etree
-
 from aspider.request import Request
 from aspider.utils import get_logger
 
@@ -34,9 +32,6 @@ class Spider:
             raise ValueError("Spider must have a param named start_urls, eg: start_urls = ['https://www.github.com']")
         self.logger = get_logger(name=self.name)
         self.loop = loop or asyncio.get_event_loop()
-
-    def e_html(self, html):
-        return etree.HTML(html)
 
     async def parse(self, res):
         raise NotImplementedError

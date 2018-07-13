@@ -28,7 +28,7 @@ class DoubanSpider(Spider):
     }
 
     async def parse(self, res):
-        etree = self.e_html(res.html)
+        etree = res.e_html
         pages = [i.get('href') for i in etree.cssselect('.paginator>a')]
         pages.insert(0, '?start=0&filter=')
         headers = {

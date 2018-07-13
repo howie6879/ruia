@@ -17,6 +17,7 @@ try:
 except ImportError:
     pass
 
+from aspider.response import Response
 from aspider.utils import get_logger
 
 
@@ -107,8 +108,9 @@ class Request():
 
         if self.close_request_session:
             await self.request_session.close()
-        return type('Response', (),
-                    {'html': data, 'url': self.url, 'extra_value': self.extra_value})
+
+        response = Response(html=data, url=self.url, extra_value=self.extra_value, res_type=self.res_type)
+        return response
 
     async def fetch_callback(self):
         res = await self.fetch()
