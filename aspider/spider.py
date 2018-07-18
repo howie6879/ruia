@@ -70,6 +70,9 @@ class Spider:
                 self.worker_tasks = []
             self.request_queue.task_done()
 
+    def make_request_from_url(self, url):
+        yield Request(url=url)
+
     @classmethod
     def start(cls):
         spider_ins = cls()
