@@ -21,11 +21,16 @@ class Response(object):
         self._content_type = content_type
         self._charset = charset
 
+
+
+    @property
+    def body(self):
+        return self._body
     @property
     def e_html(self):
         e_html = None
-        if self._body:
-            e_html = etree.HTML(self._body)
+        if self.body:
+            e_html = etree.HTML(self.body)
         return e_html
 
     def __str__(self):
