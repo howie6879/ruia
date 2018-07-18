@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 """
- Created by howie.hu at 2018/7/11.
  Target: https://news.ycombinator.com/
 """
 import aiofiles

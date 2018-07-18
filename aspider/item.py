@@ -1,7 +1,5 @@
 #!/usr/bin/env python
-"""
- Created by howie.hu at 2018/7/9.
-"""
+
 from inspect import iscoroutinefunction
 
 from lxml import etree
@@ -38,7 +36,7 @@ class Item(metaclass=ItemMeta):
         if not html:
             request = Request(url, **kwargs)
             response = await request.fetch()
-            html = response.html
+            html = response.body
         html = html
         return etree.HTML(html)
 

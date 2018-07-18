@@ -1,7 +1,5 @@
 #!/usr/bin/env python
-"""
- Created by howie.hu at 2018/7/12.
-"""
+
 from aspider import AttrField, TextField, Item, Request, Spider
 from aspider.utils import get_random_user_agent
 

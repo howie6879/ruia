@@ -1,7 +1,5 @@
 #!/usr/bin/env python
-"""
- Created by howie.hu at 2018/7/10.
-"""
+
 import asyncio
 
 from inspect import iscoroutinefunction
@@ -39,12 +37,12 @@ class Request(object):
 
     def __init__(self, url: str, method: str = 'GET', *,
                  callback=None,
-                 extra_value: dict = None,
+                 metadata: dict = None,
                  request_config: dict = None,
                  request_session=None,
                  res_type: str = 'text',
                  **kwargs):
-        # TODO: add metadata and cookie
+        # TODO: cookie
         """
         Initialization parameters
         """
@@ -54,7 +52,7 @@ class Request(object):
             raise ValueError('%s method is not supported' % self.method)
 
         self.callback = callback
-        self.extra_value = extra_value if extra_value is not None else {}
+        self.metadata = metadata if metadata is not None else {}
         self.request_session = request_session
         if request_config is None:
             self.request_config = self.REQUEST_CONFIG
@@ -66,7 +64,7 @@ class Request(object):
         self.close_request_session = False
         self.logger = get_logger(name=self.name)
         self.retry_times = self.request_config.get('RETRIES', 3)
-        self.setting = SettingsWrapper()
+        # self.setting = SettingsWrapper()
 
     @property
     def current_request_func(self):
@@ -114,7 +112,7 @@ class Request(object):
             await self.request_session.close()
 
         # TODO : add status and other's info
-        response = Response(url=self.url, body=data, extra_value=self.extra_value)
+        response = Response(url=self.url, body=data, metadata=self.metadata, res_type=self.res_type)
         return response
 
     async def fetch_callback(self):

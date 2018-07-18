@@ -1,7 +1,5 @@
 #!/usr/bin/env python
-"""
- Created by howie.hu at 2018/7/10.
-"""
+
 import asyncio
 import aiohttp
 
@@ -40,7 +38,7 @@ class Spider:
         for url in self.start_urls:
             request_ins = Request(url=url,
                                   callback=self.parse,
-                                  extra_value=getattr(self, 'extra_value', None),
+                                  metadata=getattr(self, 'metadata', None),
                                   headers=getattr(self, 'headers', None),
                                   request_config=getattr(self, 'request_config'),
                                   request_session=getattr(self, 'request_session', None),
