@@ -20,7 +20,7 @@ class HackerNewsSpider(Spider):
     start_urls = ['https://news.ycombinator.com/', 'https://news.ycombinator.com/news?p=2']
 
     async def parse(self, res):
-        items = await HackerNewsItem.get_items(html=res.html)
+        items = await HackerNewsItem.get_items(html=res.body)
         for item in items:
             async with aiofiles.open('./hacker_news.txt', 'a') as f:
                 await f.write(item.title + '\n')

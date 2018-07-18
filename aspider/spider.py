@@ -61,7 +61,7 @@ class Spider:
                     if isinstance(callback_res, AsyncGeneratorType):
                         async for each in callback_res:
                             self.request_queue.put_nowait(each.fetch_callback())
-                    if res.html is None:
+                    if res.body is None:
                         self.failed_counts += 1
                     else:
                         self.success_counts += 1

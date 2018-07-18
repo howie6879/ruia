@@ -37,7 +37,7 @@ class DoubanSpider(Spider):
             yield Request(url, request_config=self.request_config, headers=headers, callback=self.parse_item)
 
     async def parse_item(self, res):
-        items_data = await DoubanItem.get_items(html=res.html)
+        items_data = await DoubanItem.get_items(html=res.body)
         for item in items_data:
             print(item.title)
 
