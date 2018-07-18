@@ -6,23 +6,32 @@
 from lxml import etree
 
 
-class Response:
+class Response(object):
     """
     Return a friendly response
     """
 
-    def __init__(self, html: str, url: str, extra_value: dict, res_type: str) -> None:
-        self.html = html
-        self.url = url
-        self.extra_value = extra_value
-        self.res_type = res_type
+    def __init__(self, url: str, extra_value: dict, status=200, headers=None, body=b'', content_type='text/plain',
+                 charset='utf-8'):
+        self._url = url
+        self._extra_value = extra_value
+        self._status = int(status)
+        self._headers = headers
+        self._body = body
+        self._content_type = content_type
+        self._charset = charset
 
+
+
+    @property
+    def body(self):
+        return self._body
     @property
     def e_html(self):
         e_html = None
-        if self.html:
-            e_html = etree.HTML(self.html)
+        if self.body:
+            e_html = etree.HTML(self.body)
         return e_html
 
     def __str__(self):
-        return f'<Response url[{self.res_type}]: {self.url}, extra_value:{self.extra_value}>'
+        return f'<Response url[{self._content_type}]: {self._url}, extra_value:{self._extra_value}>'

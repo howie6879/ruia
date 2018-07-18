@@ -19,9 +19,10 @@ except ImportError:
 
 from aspider.response import Response
 from aspider.utils import get_logger
+from aspider.wrappers import SettingsWrapper
 
 
-class Request():
+class Request(object):
     """
     Request class for each request
     """
@@ -43,6 +44,7 @@ class Request():
                  request_session=None,
                  res_type: str = 'text',
                  **kwargs):
+        # TODO: add metadata and cookie
         """
         Initialization parameters
         """
@@ -64,14 +66,15 @@ class Request():
         self.close_request_session = False
         self.logger = get_logger(name=self.name)
         self.retry_times = self.request_config.get('RETRIES', 3)
+        self.setting = SettingsWrapper()
 
     @property
     def current_request_func(self):
         self.logger.info(f"<{self.method}: {self.url}>")
         if self.method == 'GET':
-            request_func = self.current_request_session.get(self.url, **self.kwargs)
+            request_func = self.current_request_session.get(self.url, verify_ssl=False, **self.kwargs)
         else:
-            request_func = self.current_request_session.post(self.url, **self.kwargs)
+            request_func = self.current_request_session.post(self.url, verify_ssl=False, **self.kwargs)
         return request_func
 
     @property
@@ -88,7 +91,8 @@ class Request():
             timeout = self.request_config.get('TIMEOUT', 10)
             async with async_timeout.timeout(timeout):
                 async with self.current_request_func as resp:
-                    assert resp.status in [200, 201]
+                    res_status = resp.status
+                    assert res_status in [200, 201]
                     if self.res_type == 'bytes':
                         data = await resp.read()
                     elif self.res_type == 'json':
@@ -109,7 +113,8 @@ class Request():
         if self.close_request_session:
             await self.request_session.close()
 
-        response = Response(html=data, url=self.url, extra_value=self.extra_value, res_type=self.res_type)
+        # TODO : add status and other's info
+        response = Response(url=self.url, body=data, extra_value=self.extra_value)
         return response
 
     async def fetch_callback(self):
