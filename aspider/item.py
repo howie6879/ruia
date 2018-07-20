@@ -37,7 +37,6 @@ class Item(metaclass=ItemMeta):
             request = Request(url, **kwargs)
             response = await request.fetch()
             html = response.body
-        html = html
         return etree.HTML(html)
 
     @classmethod

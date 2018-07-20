@@ -1,60 +1,60 @@
-Shakespeare’s Worlds of Science
-Unsafe Haskell (2015)
-Backblaze Durability Is Eleven 9s – And Why It Doesn’t Matter
-Assembly Language for Beginners [pdf]
-The LDC D language compiler can now generate WebAssembly
-Chinese Researchers Achieve Quantum Entanglement Record
-Darpa Plans a Major Remake of U.S. Electronics
-Rehabilitating the image of the two-stroke engine (1990)
-Using Match (2010)
-Getting to Go: Garbage collection and runtime issues
-Should We Loosen the Restrictions on Psychedelics?
-Making Games Better for the Deaf and Hard of Hearing [video]
-Credit card thieves using free-to-play apps to launder their ill-gotten gains
-MacOS VPN architecture from System Preferences down to nesessionmanager
-Interview with Sam Altman from the High Growth Handbook
-Partnerships with people on the spectrum yield rich research insights (2017)
-Why diagnosing Alzheimer’s today is so difficult, and how we can do better
-A Short Guide to Hard Problems
-Zoox and Its $800M Robo Taxi Dream [video]
-The nerves and vasculature of the clitoris are absent from OB/GYN literature
-Are “jets” a good idea? (2017)
-My adventures getting Disney’s Moana island scene to render well with Pbrt
-Reproducible machine learning with PyTorch and Quilt
-Riot Games Approach to Anti-Cheat
-Amazon EC2 Instance Update – Faster Processors and More Memory
-Librem 5 progress report #15
-Prose: a Golang library for text processing
-Health Insurers Are Vacuuming Up Details About Customers
-Google Cloud Global Loadbalancer Outage
-Learning advanced math by drawing, playing with beach balls and knitting
-European Commission fines Google €4.34B in Android antitrust case
-Penti Chorded Keyboard
-Supersharp Images from New VLT Adaptive Optics
-Researchers produce images of people’s faces from their genomes
-‘Star Citizen’ Court Case Reveals the Messy Reality of Crowdfunding a $200M Game
-Tesla Autopilot has driven over 1.2B estimated miles
-Qt for Python available at PyPi
-The intolerable rise of perfectionism
-Oo7: Low-Overhead Defense Against Spectre Attacks
-Remains of the murdered Romanovs 'authentic'
-An entomologist rates ant emojis
-Show HN: Pinpointer, a Firefox extension to share links to page elements
-Georges Lemaître, the Belgian priest who discovered the universe is expanding
-Circle Medical seeking Care Coordinators to transform primary care
-Fast.com now measures latency and upload speed
-What Makes a Hit
-Steps Toward Super Intelligence Part I: How We Got Here
-Smart bandages designed to monitor and tailor treatment for chronic wounds
-IBM seeks $167M from Groupon in dispute over early internet patents
-The New Era of Multimessenger Astronomy
-Playtesting Tabletop Games
-A peek into China’s top ‘bodyguard factories’
-Interview with Eric Lundgren about the questions surrounding electronic waste
-Recounting the rationals (2008)
-The street art collective taking back Dublin’s walls
-WordTsar – A Wordstar clone
-Interview with Jim Keller
-MacBook Pro with i9 chip is throttled due to thermal issues, claims YouTuber
-The SIGABA/ECM II Cipher Machine: “A Beautiful Idea” (2015) [pdf]
-Texas Instruments CEO Brian Crutcher resigns for violating code of conduct
+Farewell, Google Maps
+Inside the Windows Console
+Google Cloud Downtime Postmortem
+Why We’re Building Flux, a New Data Scripting and Query Language
+Geosharded Recommendations with Hilbert Curve at Tinder
+1500 Archers on a 28.8: Network Programming in Age of Empires and Beyond
+Show HN: Learn how to work remotely from people doing it every day
+Darpa Shows Off Some Things You Can Do with Distributed Electric Propulsion
+Emacs and TLS
+SRE Fundamentals: SLIs, SLAs and SLOs
+Microsoft: Join Developer Design
+Building Protocols with HTTP
+Case Studies Where Phase 2 and Phase 3 Trials had Divergent Results [pdf]
+Vladimir Nabokov, Butterfly Illustrator (2016)
+Investigating Causal Effects of Mental Events in Cognitive Neuroscience
+Fukushima’s nuclear signature found in California wine
+A record-breaking microscope
+JavaScript fundamentals before learning React
+The tasting of surströmming
+Hiring engineers to help change education at  Clever (YC S12)
+Traveling to the Sun: Why Won't Parker Solar Probe Melt?
+Lily: An interpreted language with a focus on expressiveness and type safety
+How Channa Horwitz Permeated LA's 1960s Art Scene (2016)
+Self-Driving Car Startup Voyage Brings on Ex-Tesla, Cruise and Uber Exec as CTO
+Work less, get more: New Zealand firm's four-day week an 'unmitigated success'
+Launch HN: Anima  App (YC S18) – Sketch to Code Toolkit
+How the Car Keeps Americans Apart
+Review: A Counterfeit, $100 iPhone X
+Artemis – Neutralizing BGP hijacking within a minute
+The uncertainty of measuring the DNS
+Introducing the Python Language Server
+Ventilated Prose (2009)
+GraphQL Didn't Kill REST
+The men and women who brought curry to Birmingham
+A Blockchain Analysis of the July 13th Mueller Indictment
+History of Listserv
+Python has brought computer programming to a vast new audience
+Blue Origin successfully lands both booster and crew capsule after test launch
+YC Startup School 2018: a free, 10-week, online course
+Jupiter has 10 more moons we didn't know about
+Best Buy Is Thriving in the Age of Amazon
+Event-Triggered Customer Segmentation
+Timeline of the far future
+Unveil(2) – Unveil parts of a restricted filesystem view
+Location-Aware Distribution: Configuring servers at scale
+REST was never about CRUD
+What We Learned from Analyzing 100M Bugs
+Simone Giertz – Back from brain surgery [video]
+Art technicians: The industry’s dirty secret, or all part of the process?
+The Effect of Sleep on Happiness
+British Airways shows how not to GDPR
+Avelon: Turing complete, functional language with concatenative combinators
+The Java type system is broken
+LGBTQ game history is fleeting – that’s why curation is necessary
+Project Fuchsia: Google Is Quietly Working on a Successor to Android
+Do I need to pay for Java now?
+Python post-Guido
+Resume Examples from people who got hired by Google, Apple, NASA and others
+How luxury housing becomes affordable
+The Mythos of Model Interpretability in Machine Learning

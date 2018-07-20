@@ -99,9 +99,14 @@ class Request(object):
                         content = await resp.read()
                         charset = cchardet.detect(content)
                         data = content.decode(charset['encoding'])
-        except Exception:
-            self.logger.error(f"<Error: {self.url} {resp.status}>")
-            data = None
+                    res_cookies, res_headers, res_history = resp.cookies, resp.headers, resp.history
+        except Exception as e:
+            self.logger.error(f"<Error: {self.url} {resp.status} {str(e)}>")
+
+            res_headers = {}
+            res_history = ()
+            res_status = 0
+            data, res_cookies = None, None
         if self.retry_times > 0 and data is None:
             retry_times = self.request_config.get('RETRIES', 3) - self.retry_times + 1
             self.logger.info(f'<Retry url: {self.url}>, Retry times: {retry_times}')
@@ -111,8 +116,14 @@ class Request(object):
         if self.close_request_session:
             await self.request_session.close()
 
-        # TODO : add status and other's info
-        response = Response(url=self.url, body=data, metadata=self.metadata, res_type=self.res_type)
+        response = Response(url=self.url,
+                            body=data,
+                            metadata=self.metadata,
+                            res_type=self.res_type,
+                            cookies=res_cookies,
+                            headers=res_headers,
+                            history=res_history,
+                            status=res_status)
         return response
 
     async def fetch_callback(self):

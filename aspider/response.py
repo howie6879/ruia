@@ -12,16 +12,18 @@ class Response(object):
                  metadata: dict,
                  res_type: str,
                  body=b'',
-                 content_type='text/plain',
-                 headers=None,
-                 status=200):
+                 cookies,
+                 history,
+                 headers: dict = None,
+                 status: int):
         self._url = url
         self._metadata = metadata
         self._res_type = res_type
         self._body = body
-        self._content_type = content_type
+        self._cookies = cookies
+        self._history = history
         self._headers = headers
-        self._status = int(status)
+        self._status = status
 
     @property
     def url(self):
@@ -40,8 +42,12 @@ class Response(object):
         return self._body
 
     @property
-    def content_type(self):
-        return self._content_type
+    def cookies(self):
+        return self._cookies
+
+    @property
+    def history(self):
+        return self._history
 
     @property
     def headers(self):
