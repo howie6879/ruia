@@ -8,7 +8,7 @@ pytest = "*"
 
 [packages]
 aiofiles = "*"
-aiohttp = "*"
+aiohttp =  ">=3.3.2"
 cchardet = "*"
 cssselect = "*"
 lxml = "*"

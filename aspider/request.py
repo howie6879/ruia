@@ -101,12 +101,12 @@ class Request(object):
                         data = content.decode(charset['encoding'])
                     res_cookies, res_headers, res_history = resp.cookies, resp.headers, resp.history
         except Exception as e:
-            self.logger.error(f"<Error: {self.url} {resp.status} {str(e)}>")
-
             res_headers = {}
             res_history = ()
             res_status = 0
             data, res_cookies = None, None
+            self.logger.error(f"<Error: {self.url} {res_status} {str(e)}>")
+
         if self.retry_times > 0 and data is None:
             retry_times = self.request_config.get('RETRIES', 3) - self.retry_times + 1
             self.logger.info(f'<Retry url: {self.url}>, Retry times: {retry_times}')
