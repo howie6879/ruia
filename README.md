@@ -2,7 +2,7 @@
 
 [![travis](https://travis-ci.org/howie6879/aspider.svg?branch=master)](https://travis-ci.org/howie6879/aspider) [![PyPI - Python Version](https://img.shields.io/pypi/pyversions/aspider.svg)](https://pypi.org/project/aspider/) [![license](https://img.shields.io/github/license/howie6879/aspider.svg)](https://github.com/howie6879/aspider)
 
-A lightweight,asynchronous,distributed scraping micro-framework, written with `asyncio` and `aiohttp`, aims to make crawling url as convenient as possible.
+A lightweight,asynchronous micro-framework, written with `asyncio` and `aiohttp`, aims to make crawling url as convenient as possible.
 
 ### Installation
 
@@ -108,7 +108,6 @@ Run `hacker_news_spider.py`:
 ### TODO
 
 - [ ] Custom middleware
-- [ ] Distributed scraping
 - [x] Friendly response
 
 ### Contribution
