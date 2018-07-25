@@ -14,9 +14,24 @@ pip install git+https://github.com/howie6879/aspider
 
 ### Usage
 
+#### Request & Response
+
+We provide an easy way to `request` a url and return a friendly `response`:
+
+``` python
+from aspider import Request
+
+request = Request("https://news.ycombinator.com/")
+response = asyncio.get_event_loop().run_until_complete(request.fetch())
+
+# Output
+# [2018-07-25 11:23:42,620]-Request-INFO  <GET: https://news.ycombinator.com/>
+# <Response url[text]: https://news.ycombinator.com/ status:200 metadata:{}>
+```
+
 #### Item
 
-Let's take a look at a quick example of using `Item`. Start off by adding the following to your demo.py:
+Let's take a look at a quick example of using `Item` to extract target data. Start off by adding the following to your demo.py:
 
 ``` python
 import asyncio
@@ -92,9 +107,9 @@ Run `hacker_news_spider.py`:
 
 ### TODO
 
-- Custom middleware
-- Distributed scraping
-- Friendly response
+- [ ] Custom middleware
+- [ ] Distributed scraping
+- [x] Friendly response
 
 ### Contribution
 

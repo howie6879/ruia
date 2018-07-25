@@ -65,4 +65,4 @@ class Response(object):
         return e_html
 
     def __str__(self):
-        return f'<Response url[{self._res_type}]: {self._url}, metadata:{self._metadata}>'
+        return f'<Response url[{self._res_type}]: {self._url} status:{self._status} metadata:{self._metadata}>'
