@@ -18,6 +18,7 @@ class HackerNewsItem(Item):
 
 class HackerNewsSpider(Spider):
     start_urls = ['https://news.ycombinator.com/', 'https://news.ycombinator.com/news?p=2']
+    concurrency = 10
 
     async def parse(self, res):
         items = await HackerNewsItem.get_items(html=res.body)

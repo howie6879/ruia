@@ -24,22 +24,27 @@ class DoubanSpider(Spider):
         'DELAY': 0,
         'TIMEOUT': 20
     }
+    concurrency = 10
 
     async def parse(self, res):
         etree = res.e_html
-        pages = [i.get('href') for i in etree.cssselect('.paginator>a')]
-        pages.insert(0, '?start=0&filter=')
+        pages = ['?start=0&filter='] + [i.get('href') for i in etree.cssselect('.paginator>a')]
         headers = {
             "User-Agent": await get_random_user_agent()
         }
-        for page in pages:
+        for index, page in enumerate(pages):
             url = self.start_urls[0] + page
-            yield Request(url, request_config=self.request_config, headers=headers, callback=self.parse_item)
+            yield Request(url,
+                          request_config=self.request_config,
+                          headers=headers,
+                          callback=self.parse_item,
+                          metadata={'index': index})
 
     async def parse_item(self, res):
         items_data = await DoubanItem.get_items(html=res.body)
         for item in items_data:
             print(item.title)
+        print(res)
 
 
 if __name__ == '__main__':

@@ -30,6 +30,7 @@ class Spider:
             raise ValueError("Spider must have a param named start_urls, eg: start_urls = ['https://www.github.com']")
         self.logger = get_logger(name=self.name)
         self.loop = loop or asyncio.get_event_loop()
+        self.sem = asyncio.Semaphore(getattr(self, 'concurrency', 3))
 
     async def parse(self, res):
         raise NotImplementedError
@@ -44,7 +45,7 @@ class Spider:
                                   request_session=getattr(self, 'request_session', None),
                                   res_type=getattr(self, 'res_type', 'text'),
                                   **getattr(self, 'kwargs', {}))
-            self.request_queue.put_nowait(request_ins.fetch_callback())
+            self.request_queue.put_nowait(request_ins.fetch_callback(self.sem))
         workers = [asyncio.ensure_future(self.start_worker()) for i in range(2)]
         await self.request_queue.join()
         for work in workers:
@@ -60,7 +61,7 @@ class Spider:
                     callback_res, res = task.result()
                     if isinstance(callback_res, AsyncGeneratorType):
                         async for each in callback_res:
-                            self.request_queue.put_nowait(each.fetch_callback())
+                            self.request_queue.put_nowait(each.fetch_callback(self.sem))
                     if res.body is None:
                         self.failed_counts += 1
                     else:

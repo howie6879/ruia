@@ -1,60 +1,60 @@
-Farewell, Google Maps
-Inside the Windows Console
-Google Cloud Downtime Postmortem
-Why We’re Building Flux, a New Data Scripting and Query Language
-Geosharded Recommendations with Hilbert Curve at Tinder
-1500 Archers on a 28.8: Network Programming in Age of Empires and Beyond
-Show HN: Learn how to work remotely from people doing it every day
-Darpa Shows Off Some Things You Can Do with Distributed Electric Propulsion
-Emacs and TLS
-SRE Fundamentals: SLIs, SLAs and SLOs
-Microsoft: Join Developer Design
-Building Protocols with HTTP
-Case Studies Where Phase 2 and Phase 3 Trials had Divergent Results [pdf]
-Vladimir Nabokov, Butterfly Illustrator (2016)
-Investigating Causal Effects of Mental Events in Cognitive Neuroscience
-Fukushima’s nuclear signature found in California wine
-A record-breaking microscope
-JavaScript fundamentals before learning React
-The tasting of surströmming
-Hiring engineers to help change education at  Clever (YC S12)
-Traveling to the Sun: Why Won't Parker Solar Probe Melt?
-Lily: An interpreted language with a focus on expressiveness and type safety
-How Channa Horwitz Permeated LA's 1960s Art Scene (2016)
-Self-Driving Car Startup Voyage Brings on Ex-Tesla, Cruise and Uber Exec as CTO
-Work less, get more: New Zealand firm's four-day week an 'unmitigated success'
-Launch HN: Anima  App (YC S18) – Sketch to Code Toolkit
-How the Car Keeps Americans Apart
-Review: A Counterfeit, $100 iPhone X
-Artemis – Neutralizing BGP hijacking within a minute
-The uncertainty of measuring the DNS
-Introducing the Python Language Server
-Ventilated Prose (2009)
-GraphQL Didn't Kill REST
-The men and women who brought curry to Birmingham
-A Blockchain Analysis of the July 13th Mueller Indictment
-History of Listserv
-Python has brought computer programming to a vast new audience
-Blue Origin successfully lands both booster and crew capsule after test launch
-YC Startup School 2018: a free, 10-week, online course
-Jupiter has 10 more moons we didn't know about
-Best Buy Is Thriving in the Age of Amazon
-Event-Triggered Customer Segmentation
-Timeline of the far future
-Unveil(2) – Unveil parts of a restricted filesystem view
-Location-Aware Distribution: Configuring servers at scale
-REST was never about CRUD
-What We Learned from Analyzing 100M Bugs
-Simone Giertz – Back from brain surgery [video]
-Art technicians: The industry’s dirty secret, or all part of the process?
-The Effect of Sleep on Happiness
-British Airways shows how not to GDPR
-Avelon: Turing complete, functional language with concatenative combinators
-The Java type system is broken
-LGBTQ game history is fleeting – that’s why curation is necessary
-Project Fuchsia: Google Is Quietly Working on a Successor to Android
-Do I need to pay for Java now?
-Python post-Guido
-Resume Examples from people who got hired by Google, Apple, NASA and others
-How luxury housing becomes affordable
-The Mythos of Model Interpretability in Machine Learning
+Show HN: Trends – A GitHub trending PWA
+Recipes for Honey-Drinks in the First Published English Beekeeping Manual
+When We Eat, or Don’t Eat, May Be Critical for Health
+Show HN: Mandalagaba – Create mandalas and tessellations online
+The Different Fate of Apple’s Lisa and Macintosh
+Departing Facebook security officer advocated for shifts in company’s culture
+Live tracking of Amtrak trains
+GKE On-Prem Alpha
+New developer requirements to protect our platform
+Pointers Are Complicated, Or: What's in a Byte? Towards a Memory Model for Rust
+Apple's iPhones Trail Samsung, Google Devices in Internet Speeds
+A Spitting Image
+How work kills us
+YouTube page load is 5x slower in Firefox and Edge than in Chrome
+Wave After Wave of Garbage Hits the Dominican Republic
+The 'Over-Parenting Crisis' in School and at Home (2015)
+The Internet of Snails (2015)
+Young galaxy's halo offers clues to its growth and evolution
+Farewell for Now
+China is making electric buses cheap, just like it did for solar panels
+Ask HN: How do you backup your files without depending on a third party service?
+Eben Norton Horsford, baking-powder revolutionary and passionate medievalist
+Ask HN: How do you earn a living from scraping in 2018?
+More and More of What We Do Depends on Government Permission
+Our Use of Haskell and Elm
+How the Fleece Vest Became the New Corporate Uniform
+Rescale (YC W12) raises $32M to bring high performance computing to cloud
+Optimizing Linux for Slow Computers
+Altair 8800 Simulator
+Google: Security Keys Neutralized Employee Phishing
+Duck boat in fatal sinking designed by entrepreneur with no engineering training
+Why Google Stores Billions of Lines of Code in a Single Repository
+To Remember, the Brain Must Actively Forget
+Knative – Kubernetes-based platform to manage modern serverless workloads
+EU fines Asus, Denon-Marantz, Philips and Pioneer $130M for online price fixing
+STILT (YC W16) Is Hiring Senior Engineer – Full Stack Development in India
+Portable Cloud Programming with Go Cloud
+Intel Begins EOL Plan for Xeon Phi 7200-Series ‘Knights Landing’ Host Processors
+Hackers Breached Virginia Bank Twice in Eight Months, Stole $2.4M
+“POSIX advisory locks are broken by design”
+Apple releases software fix for MacBook Pro slowdown
+The Free Stack – Running Your Application for Free on AWS
+YC’s 2018 Summer Reading List
+Looking Glass – A new type of holographic interface
+Who owns a scientist’s mind?
+Show HN: Codemason – Deploy and host your apps without the hassle
+SEC Charges Failed Fyre Festival Founder and Others with $27.4M Offering Fraud
+Economics: The User's Guide by Ha-Joon Chang
+An XMPP/Jabber echo bot written in sed
+Annoyed by Restaurant Playlists, a Master Musician Made His Own
+Fero – A secure signing server built around the YubiHSM2
+Google announces Cloud Build, its new continuous integration platform
+SEC detects insider trading by executive at Alliance Fiber Optic Products
+The Cosmetic Class
+Big Bang telescope finale marks end of an era in cosmology
+A persistent, relational store inspired by Datomic and DataScript
+Launch HN: OneGraph (YC S18) – Build API Integrations with GraphQL
+What could you write down about a juggling pattern? (1993)
+The Source of Dr Seuss’ Lorax?
+Richard Milner on a new U.S. particle accelerator

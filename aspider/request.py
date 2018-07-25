@@ -126,8 +126,9 @@ class Request(object):
                             status=res_status)
         return response
 
-    async def fetch_callback(self):
-        res = await self.fetch()
+    async def fetch_callback(self, sem):
+        async with sem:
+            res = await self.fetch()
         if self.callback is not None:
             if iscoroutinefunction(self.callback):
                 callback_res = await self.callback(res)
