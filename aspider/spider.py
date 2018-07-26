@@ -4,6 +4,7 @@ import asyncio
 import aiohttp
 
 from datetime import datetime
+from signal import SIGINT, SIGTERM
 from types import AsyncGeneratorType
 
 from aspider.request import Request
@@ -20,7 +21,6 @@ except ImportError:
 class Spider:
     name = 'aspider'
     request_config = None
-    request_queue = asyncio.Queue()
 
     failed_counts, success_counts = 0, 0
     start_urls, worker_tasks = [], []
@@ -29,7 +29,9 @@ class Spider:
         if not self.start_urls or not isinstance(self.start_urls, list):
             raise ValueError("Spider must have a param named start_urls, eg: start_urls = ['https://www.github.com']")
         self.logger = get_logger(name=self.name)
-        self.loop = loop or asyncio.get_event_loop()
+        self.loop = loop or asyncio.new_event_loop()
+        asyncio.set_event_loop(self.loop)
+        self.request_queue = asyncio.Queue()
         self.sem = asyncio.Semaphore(getattr(self, 'concurrency', 3))
 
     async def parse(self, res):
@@ -48,8 +50,7 @@ class Spider:
             self.request_queue.put_nowait(request_ins.fetch_callback(self.sem))
         workers = [asyncio.ensure_future(self.start_worker()) for i in range(2)]
         await self.request_queue.join()
-        for work in workers:
-            work.cancel()
+        await self.stop(SIGINT)
 
     async def start_worker(self):
         while True:
@@ -77,12 +78,11 @@ class Spider:
         spider_ins = cls()
         spider_ins.logger.info('Spider started!')
         start_time = datetime.now()
+
+        for _signal in (SIGINT, SIGTERM):
+            spider_ins.loop.add_signal_handler(_signal, lambda: asyncio.ensure_future(spider_ins.stop(_signal)))
+        asyncio.ensure_future(spider_ins.start_master())
         try:
-            spider_ins.loop.run_until_complete(spider_ins.start_master())
-        except KeyboardInterrupt:
-            for task in asyncio.Task.all_tasks():
-                task.cancel()
-            spider_ins.loop.stop()
             spider_ins.loop.run_forever()
         finally:
             end_time = datetime.now()
@@ -92,3 +92,11 @@ class Spider:
             spider_ins.logger.info(f'Time usage: {end_time - start_time}')
             spider_ins.logger.info('Spider finished!')
             spider_ins.loop.close()
+
+    async def stop(self, _signal):
+        self.logger.info(f'Stopping spider: {self.name}')
+        tasks = [task for task in asyncio.Task.all_tasks() if task is not
+                 asyncio.tasks.Task.current_task()]
+        list(map(lambda task: task.cancel(), tasks))
+        results = await asyncio.gather(*tasks, return_exceptions=True)
+        self.loop.stop()
