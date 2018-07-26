@@ -29,7 +29,7 @@ class Spider:
         if not self.start_urls or not isinstance(self.start_urls, list):
             raise ValueError("Spider must have a param named start_urls, eg: start_urls = ['https://www.github.com']")
         self.logger = get_logger(name=self.name)
-        self.loop = loop or asyncio.new_event_loop()
+        self.loop = loop or asyncio.get_event_loop()
         asyncio.set_event_loop(self.loop)
         self.request_queue = asyncio.Queue()
         self.sem = asyncio.Semaphore(getattr(self, 'concurrency', 3))
@@ -74,8 +74,8 @@ class Spider:
         yield Request(url=url)
 
     @classmethod
-    def start(cls):
-        spider_ins = cls()
+    def start(cls, loop=None):
+        spider_ins = cls(loop=loop)
         spider_ins.logger.info('Spider started!')
         start_time = datetime.now()
 
