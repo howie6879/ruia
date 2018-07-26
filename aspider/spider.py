@@ -91,7 +91,7 @@ class Spider:
                 spider_ins.logger.info(f'Failed requests: {spider_ins.failed_counts}')
             spider_ins.logger.info(f'Time usage: {end_time - start_time}')
             spider_ins.logger.info('Spider finished!')
-            spider_ins.loop.close()
+            # spider_ins.loop.close()
 
     async def stop(self, _signal):
         self.logger.info(f'Stopping spider: {self.name}')
