@@ -37,6 +37,9 @@ class Spider:
     async def parse(self, res):
         raise NotImplementedError
 
+    async def make_request_from_url(self, url):
+        yield Request(url=url)
+
     async def start_master(self):
         for url in self.start_urls:
             request_ins = Request(url=url,
@@ -57,7 +60,7 @@ class Spider:
             request_item = await self.request_queue.get()
             self.worker_tasks.append(asyncio.ensure_future(request_item))
             if self.request_queue.empty():
-                done, pending = await asyncio.wait(self.worker_tasks)
+                done, pending = await asyncio.wait(self.worker_tasks, loop=self.loop)
                 for task in done:
                     callback_res, res = task.result()
                     if isinstance(callback_res, AsyncGeneratorType):
@@ -70,8 +73,13 @@ class Spider:
                 self.worker_tasks = []
             self.request_queue.task_done()
 
-    def make_request_from_url(self, url):
-        yield Request(url=url)
+    async def stop(self, _signal):
+        self.logger.info(f'Stopping spider: {self.name}')
+        tasks = [task for task in asyncio.Task.all_tasks() if task is not
+                 asyncio.tasks.Task.current_task()]
+        list(map(lambda task: task.cancel(), tasks))
+        results = await asyncio.gather(*tasks, return_exceptions=True)
+        self.loop.stop()
 
     @classmethod
     def start(cls, loop=None):
@@ -92,11 +100,3 @@ class Spider:
             spider_ins.logger.info(f'Time usage: {end_time - start_time}')
             spider_ins.logger.info('Spider finished!')
             # spider_ins.loop.close()
-
-    async def stop(self, _signal):
-        self.logger.info(f'Stopping spider: {self.name}')
-        tasks = [task for task in asyncio.Task.all_tasks() if task is not
-                 asyncio.tasks.Task.current_task()]
-        list(map(lambda task: task.cancel(), tasks))
-        results = await asyncio.gather(*tasks, return_exceptions=True)
-        self.loop.stop()
