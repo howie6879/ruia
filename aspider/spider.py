@@ -100,3 +100,4 @@ class Spider:
             spider_ins.logger.info(f'Time usage: {end_time - start_time}')
             spider_ins.logger.info('Spider finished!')
             # spider_ins.loop.close()
+            

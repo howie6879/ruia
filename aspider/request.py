@@ -130,10 +130,14 @@ class Request(object):
         async with sem:
             res = await self.fetch()
         if self.callback is not None:
-            if iscoroutinefunction(self.callback):
-                callback_res = await self.callback(res)
-            else:
-                callback_res = self.callback(res)
+            try:
+                if iscoroutinefunction(self.callback):
+                    callback_res = await self.callback(res)
+                else:
+                    callback_res = self.callback(res)
+            except Exception as e:
+                self.logger.error(e)
+                callback_res = None
         else:
             callback_res = None
         return callback_res, res
