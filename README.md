@@ -19,6 +19,8 @@ pip install git+https://github.com/howie6879/aspider
 We provide an easy way to `request` a url and return a friendly `response`:
 
 ``` python
+import asyncio
+
 from aspider import Request
 
 request = Request("https://news.ycombinator.com/")
@@ -28,6 +30,16 @@ response = asyncio.get_event_loop().run_until_complete(request.fetch())
 # [2018-07-25 11:23:42,620]-Request-INFO  <GET: https://news.ycombinator.com/>
 # <Response url[text]: https://news.ycombinator.com/ status:200 metadata:{}>
 ```
+
+**JavaScript Support**:
+
+``` python
+request = Request("https://www.jianshu.com/", load_js=True)
+response = asyncio.get_event_loop().run_until_complete(request.fetch())
+print(response.body)
+```
+
+Note, when you ever run the `fetch()` method first time,, it will download a recent version of Chromium (~100MB). This only happens once.
 
 #### Item
 
@@ -108,6 +120,7 @@ Run `hacker_news_spider.py`:
 ### TODO
 
 - [ ] Custom middleware
+- [x] JavaScript support
 - [x] Friendly response
 
 ### Contribution

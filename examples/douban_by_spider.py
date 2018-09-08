@@ -26,6 +26,10 @@ class DoubanSpider(Spider):
     }
     concurrency = 10
 
+    # kwargs = {
+    #     "proxy": "http://0.0.0.0:8118"
+    # }
+
     async def parse(self, res):
         etree = res.e_html
         pages = ['?start=0&filter='] + [i.get('href') for i in etree.cssselect('.paginator>a')]

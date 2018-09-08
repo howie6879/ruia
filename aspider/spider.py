@@ -44,8 +44,9 @@ class Spider:
         for url in self.start_urls:
             request_ins = Request(url=url,
                                   callback=self.parse,
-                                  metadata=getattr(self, 'metadata', None),
                                   headers=getattr(self, 'headers', None),
+                                  load_js=getattr(self, 'load_js', False),
+                                  metadata=getattr(self, 'metadata', None),
                                   request_config=getattr(self, 'request_config'),
                                   request_session=getattr(self, 'request_session', None),
                                   res_type=getattr(self, 'res_type', 'text'),
@@ -100,4 +101,3 @@ class Spider:
             spider_ins.logger.info(f'Time usage: {end_time - start_time}')
             spider_ins.logger.info('Spider finished!')
             # spider_ins.loop.close()
-            

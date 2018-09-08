@@ -11,7 +11,7 @@ def read(fname):
 
 setup(
     name='aspider',
-    version='0.0.4',
+    version='0.0.5',
     author='Howie Hu',
     description="A lightweight,asynchronous,distributed scraping micro-framework",
     long_description=read('README.md'),
