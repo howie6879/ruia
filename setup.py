@@ -29,7 +29,7 @@ setup(
     description="A lightweight,asynchronous,distributed scraping micro-framework",
     long_description=read('README.md'),
     author_email='xiaozizayang@gmail.com',
-    install_requires=['aiofiles', 'aiohttp', 'cchardet', 'cssselect', 'lxml'],
+    install_requires=['aiofiles', 'aiohttp', 'cchardet', 'cssselect', 'lxml', 'pyppeteer'],
     url="https://github.com/howie6879/aspider/blob/master/README.md",
     packages=find_packages(),
     license='MIT',
