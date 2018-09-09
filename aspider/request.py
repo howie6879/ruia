@@ -85,6 +85,12 @@ class Request(object):
             self.close_request_session = True
         return self.request_session
 
+    async def close(self):
+        if hasattr(self, "browser"):
+            await self.browser.close()
+        if self.close_request_session:
+            await self.request_session.close()
+
     async def fetch(self) -> Response:
         if self.request_config.get('DELAY', 0) > 0:
             await asyncio.sleep(self.request_config['DELAY'])
@@ -128,8 +134,7 @@ class Request(object):
             self.retry_times -= 1
             return await self.fetch()
 
-        if self.close_request_session:
-            await self.request_session.close()
+        await self.close()
 
         response = Response(url=self.url,
                             body=data,

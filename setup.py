@@ -1,17 +1,30 @@
 #!/usr/bin/env python
 import os
+import re
 
 from setuptools import find_packages, setup
 
+_version_re = re.compile(r'__version__\s+=\s+(.*)')
 
-def read(fname):
-    with open(os.path.join(os.path.dirname(__file__), fname)) as f:
+with open(
+        os.path.join(
+            os.path.abspath(os.path.dirname(__file__)),
+            'aspider/__init__.py')) as fp:
+    try:
+        version = re.findall(
+            r"^__version__ = \"([^']+)\"\r?$", fp.read(), re.M)[0]
+    except IndexError:
+        raise RuntimeError('Unable to determine version.')
+
+
+def read(file_name):
+    with open(os.path.join(os.path.dirname(__file__), file_name)) as f:
         return f.read()
 
 
 setup(
     name='aspider',
-    version='0.0.5',
+    version=version,
     author='Howie Hu',
     description="A lightweight,asynchronous,distributed scraping micro-framework",
     long_description=read('README.md'),
@@ -31,4 +44,8 @@ setup(
         'Documentation': 'https://github.com/howie6879/aspider',
         'Source': 'https://github.com/howie6879/aspider',
     },
-    package_data={'aspider': ['utils/*.txt']})
+    package_data={'aspider': ['utils/*.txt']},
+    extras_require={
+        'uvloop': ['uvloop']
+    }
+)
