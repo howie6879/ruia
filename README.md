@@ -39,7 +39,7 @@ response = asyncio.get_event_loop().run_until_complete(request.fetch())
 print(response.body)
 ```
 
-Note, when you ever run the `fetch()` method first time,, it will download a recent version of Chromium (~100MB). This only happens once.
+You need to pay attention when you use `load_js`, it will download a recent version of Chromium (~100MB). This only happens once.
 
 #### Item
 
