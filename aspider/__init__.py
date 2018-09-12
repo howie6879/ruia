@@ -5,4 +5,4 @@ from .item import Item
 from .request import Request
 from .spider import Spider
 
-__version__ = "0.0.6"
+__version__ = "0.0.7"

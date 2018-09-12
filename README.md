@@ -1,14 +1,19 @@
 ## aspider
 
-[![travis](https://travis-ci.org/howie6879/aspider.svg?branch=master)](https://travis-ci.org/howie6879/aspider) [![PyPI - Python Version](https://img.shields.io/pypi/pyversions/aspider.svg)](https://pypi.org/project/aspider/) [![license](https://img.shields.io/github/license/howie6879/aspider.svg)](https://github.com/howie6879/aspider)
+[![travis](https://travis-ci.org/howie6879/aspider.svg?branch=master)](https://travis-ci.org/howie6879/aspider) [![PyPI - Python Version](https://img.shields.io/pypi/pyversions/aspider.svg)](https://pypi.org/project/aspider/) [![PyPI](https://img.shields.io/pypi/v/aspider.svg)](https://pypi.org/project/aspider/) [![license](https://img.shields.io/github/license/howie6879/aspider.svg)](https://github.com/howie6879/aspider)
 
 An async web scraping micro-framework, written with `asyncio` and `aiohttp`, aims to make crawling url as convenient as possible.
 
 ### Installation
 
 ``` shell
-pip install aspider
+# For Linux & Mac
+pip install -U aspider[uvloop]
 
+# For Windows
+pip install -U aspider
+
+# New features
 pip install git+https://github.com/howie6879/aspider
 ```
 

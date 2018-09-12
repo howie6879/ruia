@@ -106,3 +106,4 @@ venv.bak/
 .mypy_cache/
 
 .idea/
+/examples/hacker_news.txt
