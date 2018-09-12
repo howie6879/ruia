@@ -138,7 +138,7 @@ class Request(object):
         await self.close()
 
         response = Response(url=self.url,
-                            body=data,
+                            html=data,
                             metadata=self.metadata,
                             res_type=self.res_type,
                             cookies=res_cookies,

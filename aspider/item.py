@@ -36,7 +36,7 @@ class Item(metaclass=ItemMeta):
         if not html:
             request = Request(url, **kwargs)
             response = await request.fetch()
-            html = response.body
+            html = response.html
         return etree.HTML(html)
 
     @classmethod

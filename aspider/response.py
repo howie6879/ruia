@@ -11,7 +11,7 @@ class Response(object):
     def __init__(self, url: str, *,
                  metadata: dict,
                  res_type: str,
-                 body=b'',
+                 html: str = '',
                  cookies,
                  history,
                  headers: dict = None,
@@ -19,7 +19,7 @@ class Response(object):
         self._url = url
         self._metadata = metadata
         self._res_type = res_type
-        self._body = body
+        self._html = html
         self._cookies = cookies
         self._history = history
         self._headers = headers
@@ -38,8 +38,8 @@ class Response(object):
         return self._res_type
 
     @property
-    def body(self):
-        return self._body
+    def html(self):
+        return self._html
 
     @property
     def cookies(self):
@@ -60,8 +60,8 @@ class Response(object):
     @property
     def e_html(self):
         e_html = None
-        if self.body:
-            e_html = etree.HTML(self.body)
+        if self.html:
+            e_html = etree.HTML(self.html)
         return e_html
 
     def __str__(self):

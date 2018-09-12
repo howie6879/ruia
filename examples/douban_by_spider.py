@@ -45,7 +45,7 @@ class DoubanSpider(Spider):
                           metadata={'index': index})
 
     async def parse_item(self, res):
-        items_data = await DoubanItem.get_items(html=res.body)
+        items_data = await DoubanItem.get_items(html=res.html)
         for item in items_data:
             print(item.title)
         print(res)

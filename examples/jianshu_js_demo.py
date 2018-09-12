@@ -18,7 +18,7 @@ class JianshuSpider(Spider):
     load_js = True
 
     async def parse(self, res):
-        items = await JianshuItem.get_items(html=res.body)
+        items = await JianshuItem.get_items(html=res.html)
         for item in items:
             print(item)
 
