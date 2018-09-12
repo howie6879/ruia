@@ -2,12 +2,14 @@
 
 import asyncio
 
-from inspect import iscoroutinefunction
-
 import aiohttp
 import async_timeout
 import cchardet
 import pyppeteer
+
+from inspect import iscoroutinefunction
+from types import AsyncGeneratorType
+from typing import Tuple
 
 try:
     import uvloop
@@ -18,7 +20,6 @@ except ImportError:
 
 from aspider.response import Response
 from aspider.utils import get_logger
-from aspider.wrappers import SettingsWrapper
 
 
 class Request(object):
@@ -146,7 +147,7 @@ class Request(object):
                             status=res_status)
         return response
 
-    async def fetch_callback(self, sem):
+    async def fetch_callback(self, sem) -> Tuple[AsyncGeneratorType, Response]:
         async with sem:
             res = await self.fetch()
         if self.callback is not None:

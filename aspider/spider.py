@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 
 import asyncio
-import aiohttp
 
 from datetime import datetime
 from signal import SIGINT, SIGTERM
@@ -36,9 +35,6 @@ class Spider:
 
     async def parse(self, res):
         raise NotImplementedError
-
-    async def make_request_from_url(self, url):
-        yield Request(url=url)
 
     async def start_master(self):
         for url in self.start_urls:

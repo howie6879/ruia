@@ -16,8 +16,8 @@ class HackerNewsItem(Item):
         return value
 
 
-asycn_func = HackerNewsItem.get_items(url="https://news.ycombinator.com/")
-items = asyncio.get_event_loop().run_until_complete(asycn_func)
+async_func = HackerNewsItem.get_items(url="https://news.ycombinator.com/")
+items = asyncio.get_event_loop().run_until_complete(async_func)
 for item in items:
     print(item.title, item.url)
 

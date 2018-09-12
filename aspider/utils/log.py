@@ -5,7 +5,7 @@ import logging
 
 def get_logger(name='aspider'):
     logging_format = "[%(asctime)s]-%(name)s-%(levelname)-6s"
-    # logging_format += "%(module)s::%(funcName)s():l%(lineno)d: "
+    logging_format += "%(module)s::l%(lineno)d: "
     logging_format += "%(message)s"
 
     logging.basicConfig(

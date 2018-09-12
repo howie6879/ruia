@@ -58,3 +58,123 @@ Launch HN: OneGraph (YC S18) – Build API Integrations with GraphQL
 What could you write down about a juggling pattern? (1993)
 The Source of Dr Seuss’ Lorax?
 Richard Milner on a new U.S. particle accelerator
+Empty bottles quickly with a whirlpool trick (2012)
+Strest – Flexible REST Tests in YAML
+Companies worry more about access to software developers than capital
+APL matrix product operator
+First-party isolation in Firefox: what breaks if you enable it?
+A year later, Equifax has faced little fallout from losing data
+Let's Encrypt at Scale
+Why Are Newspaper Websites So Horrible?
+XSV: A fast CSV command-line toolkit written in Rust
+Creating a Fibonacci Generator in Assembly
+Isochronous Curves
+Tesla Model 3 is the #1 Best Selling Car in the US by Revenue
+How Tutanota replaced Google’s FCM with their own notification system
+Building a Desktop App Without Electron Using Vue: Vuido
+Tools of the Trade, from Hacker News
+NSA metadata program “consistent” with Fourth Amendment, Kavanaugh once argued
+To Restore Civil Society, Start with the Library
+Smenu, a command-line advanced selection filter and a menu builder for terminal
+Tell HN: Google requiring phone number to log into Chromebook
+Popular iPhone apps caught sending user location data to monetization firms
+Lisp for the Web (2008)
+EU copyright must protect access to knowledge and the commons
+DIY puller RC flying wing airplane with Kline–Fogleman modified airfoil
+Mistakes C/C++ Devs make writing Go
+Infectious Theory of Alzheimer's Disease Draws Fresh Interest
+Into a new era by Desire
+Spontaneous knotting of an agitated string (2007)
+Beijing’s Three Options: Unemployment, Debt, or Wealth Transfers
+An Engineer’s Guide to the Docuverse
+How social-media platforms dispense justice
+Things I Never Knew About Las Vegas Until I Ran a High-Roller Suite
+Show HN: Zero – Local file system transparently swapping to the cloud
+Decentralisation: the next big step for the world wide web
+Australia's anti-encryption law will merely relocate the backdoors: Expert
+Build a better Bookshelf
+Learning Dense Visual Object Descriptors By and For Robotic Manipulation
+A file that’s both an acceptable HTML page and a JPEG (2012)
+Starting an ISP: Deploying Fiber
+Computer Science Encyclopedia Can Fill a Gap
+Mirror life
+Aspider: A lightweight, asynchronous micro-framework based on asyncio
+Scientists discover how to turn light into matter after 80-year quest (2014)
+The First 15 Years of PyPy – A Personal Retrospective
+Why Can’t Apes Talk?
+A map showing the steepness of streets (2013)
+Show HN: Prod – Blocks addictive websites until you've finished your to-do list
+What Is the Cosmic Microwave Background?
+Ask HN: How to transition from academic programming to software engineering?
+The Question of Hamlet
+J. L. Austin: A return to common sense
+Transplanted mammals take a century to re-learn migration routes
+Entrepreneur raises millions of bugs to tackle food waste problem (2017)
+How WhatsApp Destroyed a Village
+YouTube stars heading for burnout
+Blogging with org-publish in Emacs
+Additional Mac App Store apps caught stealing and uploading browser history
+Extreme Athleticism Is the New Midlife Crisis
+D3-dag – Layout algorithms for visualizing directed acylic graphs
+Tidying One’s Room
+ML-powered newspaper for showing news from many political perspectives
+Deep image reconstruction from human brain activity (2017)
+A new transducer could dramatically lower the cost of ultrasound scanners
+Dry Water
+Hyperkernel – A push-button approach to building provably correct OS kernels
+Americans Want to Believe Jobs Are the Solution to Poverty. They’re Not
+Good Apple (Bad Apple Remix) on the Soviet BK-0010/11M
+Amazon Makes Good on Business-To-Business Threat
+Digging into Browser-Based Crypto Mining
+Taking back control of my digital life
+How America lost its love for the stick shift
+Solid-state battery startup claims breakthrough for electric vehicles
+DeveloperHub.io: Create beautiful product documentation, hassle-free
+Dark Motives and Elective Use of Brainteaser Interview Questions
+SQLite: Infinite loop due to the ‘order by limit’ optimization
+Improving Point-Lookup Using Data Block Hash Index
+Iris Automation Is Hiring a Full Stack Recruiter – AI for Drones
+Monte Carlo Methods for the Game Kingdomino
+Font Loading Checklist
+Amazon is stuffing its search results pages with ads
+We Can Stop Pretending LTE-M Is a Low-Power WAN
+Project Python – Free Interactive Book That Introduces Python Programming and CS
+Are BGPs security features working yet?
+Switzerland: Welcome to the Drone Valley
+Idle Thoughts About Pollard Rho
+Measuring Information in Millibytes
+Ericsson and T-Mobile ink $3.5B deal for 5G
+Argue with your customers
+Marvelous Muriel
+The use of embeddings in OpenAI Five
+Tolstoy’s ‘Resurrection’ is strikingly similar to how we treat prisoners today
+Lumen: A Lisp for Lua and JavaScript
+The “Developer Experience” Bait-And-Switch
+PostgreSQL 11 and Just in Time Compilation of Queries
+The Dark (Patterns) Side of UX Design [pdf]
+Ada on FPGAs with PicoRV32
+A Template for Understanding How the Economic Machine Works (2011) [pdf]
+Why Is College in America So Expensive?
+The Effectiveness of Publicly Shaming Bad Security
+Marshall Islands warned against adopting digital currency
+Launch HN: Sterblue (YC S18) – Software for drones to inspect power lines
+The Pre-CRT Oscilloscope
+Really Big Numbers (2015)
+MS Paint IDE
+Relational Program Synthesis
+Ten years of V8
+Middle Earth Map Style
+Nothing Snowballs Online Like Fear (2016)
+A Battle Plan for a War on Rare Diseases: Conversation with Matt Might
+More than ‘know thyself’: on all the other Delphic maxims
+The Ugly History of Beautiful Things: Perfume
+The Real Cost of the 2008 Financial Crisis
+Go in Debian
+Securing MongoDB Using Let's Encrypt Certificate
+Forecasting: Principles and Practice
+There are now 141 bio and healthcare companies funded by YC
+An IPv6 Update [pdf]
+Harvard’s Foreign Farmland Investment Mess
+How Discord Handles Two and Half Million Concurrent Voice Users Using WebRTC
+Never Knowingly Understaffed: A Domestic History of the Royal Household
+What Is Systems Programming, Really?
