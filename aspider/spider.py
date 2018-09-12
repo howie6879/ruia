@@ -85,7 +85,11 @@ class Spider:
         start_time = datetime.now()
 
         for _signal in (SIGINT, SIGTERM):
-            spider_ins.loop.add_signal_handler(_signal, lambda: asyncio.ensure_future(spider_ins.stop(_signal)))
+            try:
+                spider_ins.loop.add_signal_handler(_signal, lambda: asyncio.ensure_future(spider_ins.stop(_signal)))
+            except NotImplementedError:
+                spider_ins.logger.warning(f'{spider_ins.name} tried to use loop.add_signal_handler '
+                               'but it is not implemented on this platform.')
         asyncio.ensure_future(spider_ins.start_master())
         try:
             spider_ins.loop.run_forever()

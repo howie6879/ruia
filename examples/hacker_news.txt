@@ -178,3 +178,93 @@ Harvardâ€™s Foreign Farmland Investment Mess
 How Discord Handles Two and Half Million Concurrent Voice Users Using WebRTC
 Never Knowingly Understaffed: A Domestic History of the Royal Household
 What Is Systems Programming, Really?
+EU approves internet copyright law, including ¡®link tax¡¯ and ¡®upload filter¡¯
+Microsoft intercepting Firefox and Chrome installation on Windows 10
+State of the World's Fungi
+China Can¡¯t Afford a Cashless Society
+The Escape of Bernd Boettger (2014)
+The Secret Drug Pricing System Middlemen Use to Rake in Millions
+Deep image reconstruction from human brain activity (2017)
+Scientists warn of potential serious health effects of 5G (2017) [pdf]
+Single gene mutation may have helped humans become optimal long-distance runners
+EA reportedly under criminal investigation in Belgium due to FIFA's loot boxes
+Hundreds of Roman gold coins found in basement of old theater
+A new transducer could dramatically lower the cost of ultrasound scanners
+Hyperkernel ¨C A push-button approach to building provably correct OS kernels
+HashiCorp Blog: Why We Need Dynamic Secrets
+Optimize Dokku Deployment Speed for Ruby on Rails Apps with Dockerfile
+Good Apple (Bad Apple Remix) on the Soviet BK-0010/11M
+SQLite: Infinite loop due to the ¡®order by limit¡¯ optimization
+FrontPage 98: Elegant and Exquisite (1997)
+Amazon Makes Good on Business-To-Business Threat
+The errors, insights and lessons of famous AI predictions (2014) [pdf]
+Project Python ¨C Free Interactive Book That Introduces Python Programming and CS
+Digging into Browser-Based Crypto Mining
+Razorpay Is Hiring Principal Engineer / Architect
+DeveloperHub.io: Create beautiful product documentation, hassle-free
+The Psychology of Security (2008) [pdf]
+Amazon is stuffing its search results pages with ads
+Dry Water
+Man Drives ¡®Transformer¡¯ on Streets of Beijing, Gets Pulled Over by Cops
+We Can Stop Pretending LTE-M Is a Low-Power WAN
+Are BGPs security features working yet?
+Monte Carlo Methods for the Game Kingdomino
+Americans Want to Believe Jobs Are the Solution to Poverty. They¡¯re Not
+A Peddler of Fake Reviews on TripAdvisor Gets Jail Time
+Show HN: MAWD ¨C Simple web accessibility testing for developers
+Improving Point-Lookup Using Data Block Hash Index
+Tolstoy¡¯s ¡®Resurrection¡¯ is strikingly similar to how we treat prisoners today
+Measuring Information in Millibytes
+The use of embeddings in OpenAI Five
+Firefox Now Built with Clang+LTO Everywhere, Sizable Performance Wins for Linux
+The Dark (Patterns) Side of UX Design [pdf]
+PostgreSQL 11 and Just in Time Compilation of Queries
+How America lost its love for the stick shift
+A Template for Understanding How the Economic Machine Works (2011) [pdf]
+Ada on FPGAs with PicoRV32
+The Effectiveness of Publicly Shaming Bad Security
+The ¡°Developer Experience¡± Bait-And-Switch
+Why Is College in America So Expensive?
+Taking back control of my digital life
+Dark Motives and Elective Use of Brainteaser Interview Questions
+Google Cloud's new AI chief is on a task force for AI military uses
+Solid-state battery startup claims breakthrough for electric vehicles
+Google Fights Plan to Extend 'Right to Be Forgotten'
+The Pre-CRT Oscilloscope
+Launch HN: Sterblue (YC S18) ¨C Software for drones to inspect power lines
+Font Loading Checklist
+Marvelous Muriel
+Idle Thoughts About Pollard Rho
+A Battle Plan for a War on Rare Diseases: Conversation with Matt Might
+MS Paint IDE
+Relational Program Synthesis
+EU approves internet copyright law, including ¡®link tax¡¯ and ¡®upload filter¡¯
+The Secret Drug Pricing System Middlemen Use to Rake in Millions
+Microsoft intercepting Firefox and Chrome installation on Windows 10
+State of the World's Fungi
+Scientists warn of potential serious health effects of 5G (2017) [pdf]
+China Can¡¯t Afford a Cashless Society
+Preventing Muscle Loss as We Age
+The Escape of Bernd Boettger (2014)
+Deep image reconstruction from human brain activity (2017)
+Hundreds of Roman gold coins found in basement of old theater
+Single gene mutation may have helped humans become optimal long-distance runners
+EA reportedly under criminal investigation in Belgium due to FIFA's loot boxes
+Why We Need Dynamic Secrets
+A Peddler of Fake Reviews on TripAdvisor Gets Jail Time
+A new transducer could dramatically lower the cost of ultrasound scanners
+Hyperkernel ¨C A push-button approach to building provably correct OS kernels
+Optimize Dokku Deployment Speed for Ruby on Rails Apps with Dockerfile
+SQLite: Infinite loop due to the ¡®order by limit¡¯ optimization
+Good Apple (Bad Apple Remix) on the Soviet BK-0010/11M
+FrontPage 98: Elegant and Exquisite (1997)
+Amazon Makes Good on Business-To-Business Threat
+Project Python ¨C Free Interactive Book That Introduces Python Programming and CS
+The errors, insights and lessons of famous AI predictions (2014) [pdf]
+Razorpay Is Hiring Principal Engineer / Architect
+Digging into Browser-Based Crypto Mining
+The Psychology of Security (2008) [pdf]
+DeveloperHub.io: Create beautiful product documentation, hassle-free
+Amazon is stuffing its search results pages with ads
+Man Drives ¡®Transformer¡¯ on Streets of Beijing, Gets Pulled Over by Cops
+Dry Water
