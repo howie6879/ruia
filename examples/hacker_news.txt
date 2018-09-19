@@ -178,6 +178,7 @@ Harvard’s Foreign Farmland Investment Mess
 How Discord Handles Two and Half Million Concurrent Voice Users Using WebRTC
 Never Knowingly Understaffed: A Domestic History of the Royal Household
 What Is Systems Programming, Really?
+<<<<<<< Updated upstream
 EU approves internet copyright law, including ��link tax�� and ��upload filter��
 Microsoft intercepting Firefox and Chrome installation on Windows 10
 State of the World's Fungi
@@ -268,3 +269,215 @@ DeveloperHub.io: Create beautiful product documentation, hassle-free
 Amazon is stuffing its search results pages with ads
 Man Drives ��Transformer�� on Streets of Beijing, Gets Pulled Over by Cops
 Dry Water
+=======
+The Escape of Bernd Boettger (2014)
+Deep image reconstruction from human brain activity (2017)
+Dry Water
+Hyperkernel – A push-button approach to building provably correct OS kernels
+Americans Want to Believe Jobs Are the Solution to Poverty. They’re Not
+A new transducer could dramatically lower the cost of ultrasound scanners
+Google Is Handing the Future of the Internet to China
+Good Apple (Bad Apple Remix) on the Soviet BK-0010/11M
+Amazon Makes Good on Business-To-Business Threat
+How America lost its love for the stick shift
+Digging into Browser-Based Crypto Mining
+Taking back control of my digital life
+Optimize Dokku Deployment Speed for Ruby on Rails Apps with Dockerfile
+Solid-state battery startup claims breakthrough for electric vehicles
+Single gene mutation may have helped humans become optimal long-distance runners
+SQLite: Infinite loop due to the ‘order by limit’ optimization
+DeveloperHub.io: Create beautiful product documentation, hassle-free
+EA reportedly under criminal investigation in Belgium due to FIFA's loot boxes
+Improving Point-Lookup Using Data Block Hash Index
+Project Python – Free Interactive Book That Introduces Python Programming and CS
+Amazon is stuffing its search results pages with ads
+The Psychology of Security (2008) [pdf]
+Monte Carlo Methods for the Game Kingdomino
+We Can Stop Pretending LTE-M Is a Low-Power WAN
+Are BGPs security features working yet?
+Man Drives ‘Transformer’ on Streets of Beijing, Gets Pulled Over by Cops
+Iris Automation Is Hiring a Full Stack Recruiter – AI for Drones
+Argue with your customers
+Font Loading Checklist
+Measuring Information in Millibytes
+Tolstoy’s ‘Resurrection’ is strikingly similar to how we treat prisoners today
+The use of embeddings in OpenAI Five
+Lumen: A Lisp for Lua and JavaScript
+The Dark (Patterns) Side of UX Design [pdf]
+PostgreSQL 11 and Just in Time Compilation of Queries
+Google Cloud's new AI chief is on a task force for AI military uses
+The “Developer Experience” Bait-And-Switch
+Idle Thoughts About Pollard Rho
+Ada on FPGAs with PicoRV32
+A Template for Understanding How the Economic Machine Works (2011) [pdf]
+Marvelous Muriel
+The Effectiveness of Publicly Shaming Bad Security
+Why Is College in America So Expensive?
+Dark Motives and Elective Use of Brainteaser Interview Questions
+Amazon: System and method for transporting personnel within an active workspace
+Marshall Islands warned against adopting digital currency
+Immune Cells Play Key Role in Determining Male or Female Traits in the Brain
+Launch HN: Sterblue (YC S18) – Software for drones to inspect power lines
+FrontPage 98: Elegant and Exquisite (1997)
+The Pre-CRT Oscilloscope
+Ten years of V8
+MS Paint IDE
+Relational Program Synthesis
+Middle Earth Map Style
+A Battle Plan for a War on Rare Diseases: Conversation with Matt Might
+More than ‘know thyself’: on all the other Delphic maxims
+Really Big Numbers (2015)
+Nothing Snowballs Online Like Fear (2016)
+Switzerland: Welcome to the Drone Valley
+The Ugly History of Beautiful Things: Perfume
+>>>>>>> Stashed changes
+FDA to Ban Juul, Flavored E-Cigarettes If Industry Doesn't Change
+Preventing Muscle Loss as We Age
+The Secret Drug Pricing System Middlemen Use to Rake in Millions
+A proposal to roll back exclusionary zoning would make housing more affordable
+EU approves internet copyright law, including ‘link tax’ and ‘upload filter’
+Writing a simple SQL interpreter in Julia
+Interview with Andrew Ng, leader in artificial intelligence [audio]
+Microsoft intercepting Firefox and Chrome installation on Windows 10
+Ambition Hiring VP Sales in Nashville, TN
+China Can’t Afford a Cashless Society
+State of the World's Fungi
+Why We Need Dynamic Secrets
+Git 2.19.0 released
+A Peddler of Fake Reviews on TripAdvisor Gets Jail Time
+FrontPage 98: Elegant and Exquisite (1997)
+Deep image reconstruction from human brain activity (2017)
+Hundreds of Roman gold coins found in basement of old theater
+The Escape of Bernd Boettger (2014)
+EA reportedly under criminal investigation in Belgium due to FIFA's loot boxes
+Single gene mutation may have helped humans become optimal long-distance runners
+A new transducer could dramatically lower the cost of ultrasound scanners
+Hyperkernel – A push-button approach to building provably correct OS kernels
+Project Python – Free Interactive Book That Introduces Python Programming and CS
+Good Apple (Bad Apple Remix) on the Soviet BK-0010/11M
+Andrew Motion wonders whether Philip Larkin had an unexpected afterlife
+Amazon Makes Good on Business-To-Business Threat
+Optimize Dokku Deployment Speed for Ruby on Rails Apps with Dockerfile
+Scientists warn of potential serious health effects of 5G (2017) [pdf]
+DeveloperHub.io: Create beautiful product documentation, hassle-free
+Digging into Browser-Based Crypto Mining
+Manhattan DA's office drops more than 3,000 open marijuana cases
+China now the most prolific contributor to physical sciences, engineering, math
+EU approves internet copyright law, including ‘link tax’ and ‘upload filter’
+Yale researchers 'teleport' a quantum gate
+Brave files adtech complaint against Google
+Microsoft intercepting Firefox, Chrome installation on Windows 10 Insider build
+Facebook open-sources LogDevice, a distributed storage for sequential data
+Business school grads and quants are winning the battle to create the next P&G
+Apple, Huawei Both Claim First 7-nm Smartphone Chips
+How We Found a Missing Scala Class
+E-cigarette use as a predictor of cigarette smoking
+Are Audiobooks as Good for You as Reading?
+First Wave of Spiking Neural Network Hardware Hits
+Watsi is hiring a head of product – remote ok
+The MOnSter 6502: transistor-scale replica of classic MOS 6502 microprocessor
+Immune Cells Play Key Role in Determining Male or Female Traits in the Brain
+Google is discontinuing Inbox
+Why are conversations limited to about four people?
+Before It Was Hacked, Equifax Had a Different Fear: Chinese Spying
+The Known Known
+Google’s first all-hands after 2016 election [video]
+Apple can delete purchased movies from your library without telling you
+How a New York Times Software Engineer Ended Up Covering Miss America
+Drug Pricing System Used by Middlemen
+Carbon – Create images of your source code
+The United States Is Now the Largest Global Crude Oil Producer
+Tables
+LOLWUT: a piece of art inside a database command
+A Proposed Alternative to Corporate Governance and Theory of Shareholder Primacy
+Element – A Desktop UI Toolkit for Web
+Penn State scientists build quantum version of Maxwell’s demon
+How can we resist the seduction of the mobile phone?
+Apple Special Event [video]
+The Julia Language Challenge
+Optimal magnetic fields for suppressing instabilities in tokamaks
+How AI changed organ donation in the US
+Today, Europe Lost The Internet. Now, We Fight Back
+Firefox nightly is now built with clang LTO on all platforms
+China Can’t Afford a Cashless Society
+The language the French forbade
+What We Know About Art and the Mind
+Drawing fractals in the browser with L-systems and ES6
+A proposal to roll back exclusionary zoning would make housing more affordable
+The Darknet and the Future of Content Distribution (2002)
+Writing a simple SQL interpreter in Julia
+Preventing Muscle Loss as We Age
+Git 2.19.0 released
+Why We Need Dynamic Secrets
+Feedify is compromised with code mirroring Magecart
+Ask HN: Immigrate from EU to US?
+Update on special-case subdomain elision in Chrome
+Thousands of scientists publish a paper every five days
+Zoox is offering autonomous rides in SF this week
+The foot soldiers behind psychology’s replication crisis
+EU climate law could cause deforestation
+US Attorney General Open to Probe of Social Media Giants
+A Peddler of Fake Reviews on TripAdvisor Gets Jail Time
+Amazon is stuffing its search results pages with ads
+Interview with Andrew Ng [audio]
+Firefox is now built with clang LTO on all platforms
+GnuPG can now be used to perform notarial acts in the State of Washington
+Life in the Spanish city that banned cars
+Woman Rides Bicycle to 183.9 MPH, a New World Record
+Firefox Reality Now Available
+Evernote just slashed 54 jobs, or 15 percent of its workforce
+Falling in love with Rust
+Is “data scientist” the new “programmer”?
+How Puerto Rico Became a Tax Haven for the Super Rich
+The Mirai Botnet Architects Are Now Fighting Crime with the FBI
+Am I Happy At Work? Analyzing my entire career
+French bookshops revolt after prize selects novel self-published on Amazon
+Physics as a Way of Thinking (1936)
+New bridge collapses into river in eastern Saskatchewan hours after opening
+Towards Natural Language Semantic Code Search at GitHub
+Frankfurt kitchen
+Fennel – Lisp in Lua
+iOS 12, reviewed
+Short Selling Is Tough Business
+I simulated California housing and learned about simulators
+Times Newer Roman, a sneaky font designed to make essays look longer
+Willing (YC S15) Is Hiring a Head of Growth
+The On-Line Encyclopedia of Integer Sequences [pdf]
+You and Your Research (1986)
+Papers of Srinivasa Ramanujan (1887-1920), mathematician
+Scaling AFL to a 256 thread machine
+China Once Looked Tough on Trade. Now Its Options Are Dwindling
+Zero-Day Bug Allows Hackers to Access CCTV Surveillance Cameras
+Scaling AFL to a 256 thread machine
+Show HN: Panther – A browser testing and web crawling library for PHP
+Electron 3.0.0
+TPM-JS: Interactive Intro to Trusted Platform Modules
+List of 600+ Startups Hiring Remote in 2018
+An open governance model for the AMP Project
+An Oral History of Apple's Infinite Loop
+Ask HN: How did you get started as a freelancer?
+Lisp Repl.it Tutorial
+Hoʻoponopono, Hawaii’s trendy word that’s misunderstood
+Facebook Is Letting Job Advertisers Target Only Men
+WeWork Backs Down on Employee Noncompete Requirements
+Improving DataView performance in V8
+What Really Happened to Apple’s Airpower
+Monolist: working hard to preserve the spirit of Inbox's organizational features
+Sudoku Solver and Generator
+Framer – Interactive Design Tool
+Kubernetes brings all the Cloud Natives to the yard
+NY Attorney General Report on Crytpocurrency Market Integrity
+Bomb squad warning over magnet fishing
+Direct contact among galactic civilizations by interstellar spaceflight (1962)
+Tesla Faces U.S. Criminal Probe Over Musk Statements
+EU to stop changing the clocks in 2019
+Migrating Passenger from C++ to Go?
+Judge: FCC can’t hide records that may explain net neutrality comment fraud
+A $1, Linux-Capable, Hand-Solderable Processor
+Show HN: Visual CSS Grid Editor
+Steve Jobs licensed Amazon’s one-click patent for $1M in one phone call
+Any positive number can be written as a sum of three palindromes
+Neruda's Voice
+Programmer’s Thesaurus (2014)
+Masque – Wearable that manipulates a user’s perception of their own respiration
+Atomic Design

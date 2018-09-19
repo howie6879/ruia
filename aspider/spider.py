@@ -28,7 +28,7 @@ class Spider:
         if not self.start_urls or not isinstance(self.start_urls, list):
             raise ValueError("Spider must have a param named start_urls, eg: start_urls = ['https://www.github.com']")
         self.logger = get_logger(name=self.name)
-        self.loop = loop or asyncio.get_event_loop()
+        self.loop = loop or asyncio.new_event_loop()
         asyncio.set_event_loop(self.loop)
         self.request_queue = asyncio.Queue()
         self.sem = asyncio.Semaphore(getattr(self, 'concurrency', 3))
@@ -55,18 +55,19 @@ class Spider:
     async def start_worker(self):
         while True:
             request_item = await self.request_queue.get()
-            self.worker_tasks.append(asyncio.ensure_future(request_item))
+            self.worker_tasks.append(request_item)
             if self.request_queue.empty():
-                done, pending = await asyncio.wait(self.worker_tasks, loop=self.loop)
-                for task in done:
-                    callback_res, res = task.result()
-                    if isinstance(callback_res, AsyncGeneratorType):
-                        async for each in callback_res:
-                            self.request_queue.put_nowait(each.fetch_callback(self.sem))
-                    if res.html is None:
-                        self.failed_counts += 1
-                    else:
-                        self.success_counts += 1
+                results = await asyncio.gather(*self.worker_tasks, return_exceptions=True)
+                for task_result in results:
+                    if not isinstance(task_result, RuntimeError):
+                        callback_res, res = task_result
+                        if isinstance(callback_res, AsyncGeneratorType):
+                            async for each in callback_res:
+                                self.request_queue.put_nowait(each.fetch_callback(self.sem))
+                        if res.html is None:
+                            self.failed_counts += 1
+                        else:
+                            self.success_counts += 1
                 self.worker_tasks = []
             self.request_queue.task_done()
 
@@ -89,7 +90,7 @@ class Spider:
                 spider_ins.loop.add_signal_handler(_signal, lambda: asyncio.ensure_future(spider_ins.stop(_signal)))
             except NotImplementedError:
                 spider_ins.logger.warning(f'{spider_ins.name} tried to use loop.add_signal_handler '
-                               'but it is not implemented on this platform.')
+                                          'but it is not implemented on this platform.')
         asyncio.ensure_future(spider_ins.start_master())
         try:
             spider_ins.loop.run_forever()
@@ -100,4 +101,5 @@ class Spider:
                 spider_ins.logger.info(f'Failed requests: {spider_ins.failed_counts}')
             spider_ins.logger.info(f'Time usage: {end_time - start_time}')
             spider_ins.logger.info('Spider finished!')
-            # spider_ins.loop.close()
+            spider_ins.loop.run_until_complete(spider_ins.loop.shutdown_asyncgens())
+            spider_ins.loop.close()

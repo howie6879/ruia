@@ -91,6 +91,7 @@ class Request(object):
             await self.browser.close()
         if self.close_request_session:
             await self.request_session.close()
+            self.request_session = None
 
     async def fetch(self) -> Response:
         if self.request_config.get('DELAY', 0) > 0:
