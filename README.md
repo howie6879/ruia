@@ -131,7 +131,7 @@ Run `hacker_news_spider.py`:
 The following middleware code is based on the above example:
 
 ``` python
-from aspider import AttrField, TextField, Item, Middleware, Spider
+from aspider import Middleware
 
 middleware = Middleware()
 
@@ -148,7 +148,7 @@ async def print_on_request(request):
 async def print_on_response(request, response):
     print(f"response: {response.metadata}")
 
-...
+# Add HackerNewsSpider
 
 if __name__ == '__main__':
     HackerNewsSpider.start(middleware=middleware)
