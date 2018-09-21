@@ -99,7 +99,7 @@ class HackerNewsItem(Item):
 
 
 class HackerNewsSpider(Spider):
-    start_urls = ['https://news.ycombinator.com/', 'https://news.ycombinator.com/news?p=2']
+    start_urls = ['https://news.ycombinator.com/news?p=1', 'https://news.ycombinator.com/news?p=2']
 
     async def parse(self, res):
         items = await HackerNewsItem.get_items(html=res.html)
@@ -117,7 +117,7 @@ Run `hacker_news_spider.py`:
 ``` shell
 [2018-09-21 17:27:14,497]-aspider-INFO  spider::l54: Spider started!
 [2018-09-21 17:27:14,502]-Request-INFO  request::l77: <GET: https://news.ycombinator.com/news?p=2>
-[2018-09-21 17:27:14,527]-Request-INFO  request::l77: <GET: https://news.ycombinator.com/?news?p=1>
+[2018-09-21 17:27:14,527]-Request-INFO  request::l77: <GET: https://news.ycombinator.com/news?p=1>
 [2018-09-21 17:27:16,388]-aspider-INFO  spider::l122: Stopping spider: aspider
 [2018-09-21 17:27:16,389]-aspider-INFO  spider::l68: Total requests: 2
 [2018-09-21 17:27:16,389]-aspider-INFO  spider::l71: Time usage: 0:00:01.891688
@@ -167,4 +167,5 @@ if __name__ == '__main__':
 
 ### Thanks
 
+- [sanic](https://github.com/huge-success/sanic)
 - [demiurge](https://github.com/matiasb/demiurge)
