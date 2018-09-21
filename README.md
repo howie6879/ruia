@@ -115,16 +115,48 @@ if __name__ == '__main__':
 Run `hacker_news_spider.py`:
 
 ``` shell
-[2018-07-11 17:50:12,430]-aspider-INFO  Spider started!
-[2018-07-11 17:50:12,430]-Request-INFO  <GET: https://news.ycombinator.com/>
-[2018-07-11 17:50:12,456]-Request-INFO  <GET: https://news.ycombinator.com/news?p=2>
-[2018-07-11 17:50:14,785]-aspider-INFO  Time usage: 0:00:02.355062
-[2018-07-11 17:50:14,785]-aspider-INFO  Spider finished!
+[2018-09-21 17:27:14,497]-aspider-INFO  spider::l54: Spider started!
+[2018-09-21 17:27:14,502]-Request-INFO  request::l77: <GET: https://news.ycombinator.com/news?p=2>
+[2018-09-21 17:27:14,527]-Request-INFO  request::l77: <GET: https://news.ycombinator.com/?news?p=1>
+[2018-09-21 17:27:16,388]-aspider-INFO  spider::l122: Stopping spider: aspider
+[2018-09-21 17:27:16,389]-aspider-INFO  spider::l68: Total requests: 2
+[2018-09-21 17:27:16,389]-aspider-INFO  spider::l71: Time usage: 0:00:01.891688
+[2018-09-21 17:27:16,389]-aspider-INFO  spider::l72: Spider finished!
+```
+
+#### Custom middleware
+
+`aspider` provides an easy way to customize requests, *as long as it does not return it*. 
+
+The following middleware code is based on the above example:
+
+``` python
+from aspider import AttrField, TextField, Item, Middleware, Spider
+
+middleware = Middleware()
+
+
+@middleware.request
+async def print_on_request(request):
+    request.metadata = {
+        'index': request.url.split('=')[-1]
+    }
+    print(f"request: {request.metadata}")
+
+
+@middleware.response
+async def print_on_response(request, response):
+    print(f"response: {response.metadata}")
+
+...
+
+if __name__ == '__main__':
+    HackerNewsSpider.start(middleware=middleware)
 ```
 
 ### TODO
 
-- [ ] Custom middleware
+- [x] Custom middleware
 - [x] JavaScript support
 - [x] Friendly response
 

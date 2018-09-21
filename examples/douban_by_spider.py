@@ -1,7 +1,16 @@
 #!/usr/bin/env python
 
-from aspider import AttrField, TextField, Item, Request, Spider
+from aspider import AttrField, TextField, Item, Middleware, Request, Spider
 from aspider.utils import get_random_user_agent
+
+middleware = Middleware()
+
+
+@middleware.response
+async def print_on_response(request, response):
+    if response.callback_result:
+        print(response.callback_result)
+    # print(f"response: {response.metadata}")
 
 
 class DoubanItem(Item):
@@ -39,17 +48,19 @@ class DoubanSpider(Spider):
         for index, page in enumerate(pages):
             url = self.start_urls[0] + page
             yield Request(url,
-                          request_config=self.request_config,
-                          headers=headers,
                           callback=self.parse_item,
-                          metadata={'index': index})
+                          headers=headers,
+                          metadata={'index': index},
+                          request_config=self.request_config
+                          )
 
     async def parse_item(self, res):
         items_data = await DoubanItem.get_items(html=res.html)
+        title_list = []
         for item in items_data:
-            print(item.title)
-        print(res)
+            title_list.append(item.title)
+        return title_list
 
 
 if __name__ == '__main__':
-    DoubanSpider.start()
+    DoubanSpider.start(middleware=middleware)

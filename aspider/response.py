@@ -16,6 +16,7 @@ class Response(object):
                  history,
                  headers: dict = None,
                  status: int):
+        self._callback_result = None
         self._url = url
         self._metadata = metadata
         self._res_type = res_type
@@ -24,6 +25,14 @@ class Response(object):
         self._history = history
         self._headers = headers
         self._status = status
+
+    @property
+    def callback_result(self):
+        return self._callback_result
+
+    @callback_result.setter
+    def callback_result(self, value):
+        self._callback_result = value
 
     @property
     def url(self):

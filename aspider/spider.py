@@ -3,9 +3,11 @@
 import asyncio
 
 from datetime import datetime
+from inspect import isawaitable
 from signal import SIGINT, SIGTERM
 from types import AsyncGeneratorType
 
+from aspider.middleware import Middleware
 from aspider.request import Request
 from aspider.utils import get_logger
 
@@ -24,64 +26,31 @@ class Spider:
     failed_counts, success_counts = 0, 0
     start_urls, worker_tasks = [], []
 
-    def __init__(self, loop=None):
+    def __init__(self, middleware, loop=None):
         if not self.start_urls or not isinstance(self.start_urls, list):
             raise ValueError("Spider must have a param named start_urls, eg: start_urls = ['https://www.github.com']")
         self.logger = get_logger(name=self.name)
         self.loop = loop or asyncio.new_event_loop()
         asyncio.set_event_loop(self.loop)
+        # customize middleware
+        self.middleware = middleware or Middleware()
+        # async queue
         self.request_queue = asyncio.Queue()
+        # semaphore
         self.sem = asyncio.Semaphore(getattr(self, 'concurrency', 3))
 
     async def parse(self, res):
         raise NotImplementedError
 
-    async def start_master(self):
-        for url in self.start_urls:
-            request_ins = Request(url=url,
-                                  callback=self.parse,
-                                  headers=getattr(self, 'headers', None),
-                                  load_js=getattr(self, 'load_js', False),
-                                  metadata=getattr(self, 'metadata', None),
-                                  request_config=getattr(self, 'request_config'),
-                                  request_session=getattr(self, 'request_session', None),
-                                  res_type=getattr(self, 'res_type', 'text'),
-                                  **getattr(self, 'kwargs', {}))
-            self.request_queue.put_nowait(request_ins.fetch_callback(self.sem))
-        workers = [asyncio.ensure_future(self.start_worker()) for i in range(2)]
-        await self.request_queue.join()
-        await self.stop(SIGINT)
-
-    async def start_worker(self):
-        while True:
-            request_item = await self.request_queue.get()
-            self.worker_tasks.append(request_item)
-            if self.request_queue.empty():
-                results = await asyncio.gather(*self.worker_tasks, return_exceptions=True)
-                for task_result in results:
-                    if not isinstance(task_result, RuntimeError):
-                        callback_res, res = task_result
-                        if isinstance(callback_res, AsyncGeneratorType):
-                            async for each in callback_res:
-                                self.request_queue.put_nowait(each.fetch_callback(self.sem))
-                        if res.html is None:
-                            self.failed_counts += 1
-                        else:
-                            self.success_counts += 1
-                self.worker_tasks = []
-            self.request_queue.task_done()
-
-    async def stop(self, _signal):
-        self.logger.info(f'Stopping spider: {self.name}')
-        tasks = [task for task in asyncio.Task.all_tasks() if task is not
-                 asyncio.tasks.Task.current_task()]
-        list(map(lambda task: task.cancel(), tasks))
-        results = await asyncio.gather(*tasks, return_exceptions=True)
-        self.loop.stop()
-
     @classmethod
-    def start(cls, loop=None):
-        spider_ins = cls(loop=loop)
+    def start(cls, middleware=None, loop=None):
+        """
+        Start a spider
+        :param middleware: customize middleware
+        :param loop: event loop
+        :return:
+        """
+        spider_ins = cls(middleware=middleware, loop=loop)
         spider_ins.logger.info('Spider started!')
         start_time = datetime.now()
 
@@ -103,3 +72,76 @@ class Spider:
             spider_ins.logger.info('Spider finished!')
             spider_ins.loop.run_until_complete(spider_ins.loop.shutdown_asyncgens())
             spider_ins.loop.close()
+
+    async def handle_request(self, request):
+        # request middleware
+        await self._run_request_middleware(request)
+        # make a request
+        callback_res, response = await request.fetch_callback(self.sem)
+        # response middleware
+        await self._run_response_middleware(request, response)
+        return callback_res, response
+
+    async def start_master(self):
+        for url in self.start_urls:
+            request_ins = Request(url=url,
+                                  callback=self.parse,
+                                  headers=getattr(self, 'headers', None),
+                                  load_js=getattr(self, 'load_js', False),
+                                  metadata=getattr(self, 'metadata', None),
+                                  request_config=getattr(self, 'request_config'),
+                                  request_session=getattr(self, 'request_session', None),
+                                  res_type=getattr(self, 'res_type', 'text'),
+                                  **getattr(self, 'kwargs', {}))
+            # self.request_queue.put_nowait(request_ins.fetch_callback(self.sem))
+            self.request_queue.put_nowait(self.handle_request(request_ins))
+        workers = [asyncio.ensure_future(self.start_worker()) for i in range(2)]
+        await self.request_queue.join()
+        await self.stop(SIGINT)
+
+    async def start_worker(self):
+        while True:
+            request_item = await self.request_queue.get()
+            self.worker_tasks.append(request_item)
+            if self.request_queue.empty():
+                results = await asyncio.gather(*self.worker_tasks, return_exceptions=True)
+                for task_result in results:
+                    if not isinstance(task_result, RuntimeError):
+                        callback_res, res = task_result
+                        if isinstance(callback_res, AsyncGeneratorType):
+                            async for request_ins in callback_res:
+                                self.request_queue.put_nowait(self.handle_request(request_ins))
+                        if res.html is None:
+                            self.failed_counts += 1
+                        else:
+                            self.success_counts += 1
+                self.worker_tasks = []
+            self.request_queue.task_done()
+
+    async def stop(self, _signal):
+        self.logger.info(f'Stopping spider: {self.name}')
+        tasks = [task for task in asyncio.Task.all_tasks() if task is not
+                 asyncio.tasks.Task.current_task()]
+        list(map(lambda task: task.cancel(), tasks))
+        results = await asyncio.gather(*tasks, return_exceptions=True)
+        self.loop.stop()
+
+    async def _run_request_middleware(self, request):
+        if self.middleware.request_middleware:
+            for middleware in self.middleware.request_middleware:
+                middleware_func = middleware(request)
+                if isawaitable(middleware_func):
+                    result = await middleware_func
+                else:
+                    self.logger.error('Middleware must be a coroutine function')
+                    result = None
+
+    async def _run_response_middleware(self, request, response):
+        if self.middleware.response_middleware:
+            for middleware in self.middleware.response_middleware:
+                middleware_func = middleware(request, response)
+                if isawaitable(middleware_func):
+                    result = await middleware_func
+                else:
+                    self.logger.error('Middleware must be a coroutine function')
+                    result = None

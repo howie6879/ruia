@@ -39,6 +39,7 @@ class Request(object):
 
     def __init__(self, url: str, method: str = 'GET', *,
                  callback=None,
+                 headers: dict = None,
                  load_js: bool = False,
                  metadata: dict = None,
                  request_config: dict = None,
@@ -55,6 +56,7 @@ class Request(object):
             raise ValueError('%s method is not supported' % self.method)
 
         self.callback = callback
+        self.headers = headers
         self.load_js = load_js
         self.metadata = metadata if metadata is not None else {}
         self.request_session = request_session
@@ -74,9 +76,19 @@ class Request(object):
     def current_request_func(self):
         self.logger.info(f"<{self.method}: {self.url}>")
         if self.method == 'GET':
-            request_func = self.current_request_session.get(self.url, verify_ssl=False, **self.kwargs)
+            request_func = self.current_request_session.get(
+                self.url,
+                headers=self.headers,
+                verify_ssl=False,
+                **self.kwargs
+            )
         else:
-            request_func = self.current_request_session.post(self.url, verify_ssl=False, **self.kwargs)
+            request_func = self.current_request_session.post(
+                self.url,
+                headers=self.headers,
+                verify_ssl=False,
+                **self.kwargs
+            )
         return request_func
 
     @property
@@ -155,6 +167,7 @@ class Request(object):
             try:
                 if iscoroutinefunction(self.callback):
                     callback_res = await self.callback(res)
+                    res.callback_result = callback_res
                 else:
                     callback_res = self.callback(res)
             except Exception as e:
