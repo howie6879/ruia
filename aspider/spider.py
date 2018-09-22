@@ -33,7 +33,13 @@ class Spider:
         self.loop = loop or asyncio.new_event_loop()
         asyncio.set_event_loop(self.loop)
         # customize middleware
-        self.middleware = middleware or Middleware()
+        self.middleware = Middleware()
+        if isinstance(middleware, list):
+            for each_middleware in middleware:
+                self.middleware.request_middleware.extend(each_middleware.request_middleware)
+                self.middleware.response_middleware.extendleft(each_middleware.response_middleware)
+        else:
+            self.middleware = middleware or self.middleware
         # async queue
         self.request_queue = asyncio.Queue()
         # semaphore
@@ -48,7 +54,7 @@ class Spider:
         Start a spider
         :param after_start:
         :param before_stop:
-        :param middleware: customize middleware
+        :param middleware: customize middleware or a list of middleware
         :param loop: event loop
         :return:
         """
@@ -144,7 +150,10 @@ class Spider:
             for middleware in self.middleware.request_middleware:
                 middleware_func = middleware(request)
                 if isawaitable(middleware_func):
-                    result = await middleware_func
+                    try:
+                        result = await middleware_func
+                    except Exception as e:
+                        self.logger.exception(e)
                 else:
                     self.logger.error('Middleware must be a coroutine function')
                     result = None
@@ -154,7 +163,10 @@ class Spider:
             for middleware in self.middleware.response_middleware:
                 middleware_func = middleware(request, response)
                 if isawaitable(middleware_func):
-                    result = await middleware_func
+                    try:
+                        result = await middleware_func
+                    except Exception as e:
+                        self.logger.exception(e)
                 else:
                     self.logger.error('Middleware must be a coroutine function')
                     result = None
