@@ -99,7 +99,7 @@ class Spider:
         for url in self.start_urls:
             request_ins = Request(url=url,
                                   callback=self.parse,
-                                  headers=getattr(self, 'headers', None),
+                                  headers=getattr(self, 'headers', {}),
                                   load_js=getattr(self, 'load_js', False),
                                   metadata=getattr(self, 'metadata', None),
                                   request_config=getattr(self, 'request_config'),

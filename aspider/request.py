@@ -39,10 +39,10 @@ class Request(object):
 
     def __init__(self, url: str, method: str = 'GET', *,
                  callback=None,
-                 headers: dict = None,
+                 headers: dict = {},
                  load_js: bool = False,
-                 metadata: dict = None,
-                 request_config: dict = None,
+                 metadata: dict = {},
+                 request_config: dict = {},
                  request_session=None,
                  res_type: str = 'text',
                  **kwargs):

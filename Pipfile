@@ -1,14 +1,13 @@
 [[source]]
 name = "pypi"
 verify_ssl = true
-url = "https://pypi.douban.com/simple/"
+url = "https://pypi.python.org/simple"
 
 [dev-packages]
 pytest = "*"
 
 [packages]
-aiofiles = "*"
-aiohttp =  ">=3.3.2"
+aiohttp = ">=3.3.2"
 cchardet = "*"
 cssselect = "*"
 lxml = "*"

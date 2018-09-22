@@ -29,7 +29,7 @@ setup(
     description="aspider - An async web scraping micro-framework based on asyncio.",
     long_description=read('README.md'),
     author_email='xiaozizayang@gmail.com',
-    install_requires=['aiofiles', 'aiohttp', 'cchardet', 'cssselect', 'lxml', 'pyppeteer'],
+    install_requires=['aiohttp', 'cchardet', 'cssselect', 'lxml', 'pyppeteer'],
     url="https://github.com/howie6879/aspider/blob/master/README.md",
     packages=find_packages(),
     license='MIT',
@@ -44,7 +44,6 @@ setup(
         'Documentation': 'https://github.com/howie6879/aspider',
         'Source': 'https://github.com/howie6879/aspider',
     },
-    package_data={'aspider': ['utils/*.txt']},
     extras_require={
         'uvloop': ['uvloop']
     }

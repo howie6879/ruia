@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 
 from aspider import AttrField, TextField, Item, Middleware, Request, Spider
-from aspider.utils import get_random_user_agent
 
 middleware = Middleware()
 
@@ -42,14 +41,10 @@ class DoubanSpider(Spider):
     async def parse(self, res):
         etree = res.e_html
         pages = ['?start=0&filter='] + [i.get('href') for i in etree.cssselect('.paginator>a')]
-        headers = {
-            "User-Agent": await get_random_user_agent()
-        }
         for index, page in enumerate(pages):
             url = self.start_urls[0] + page
             yield Request(url,
                           callback=self.parse_item,
-                          headers=headers,
                           metadata={'index': index},
                           request_config=self.request_config
                           )

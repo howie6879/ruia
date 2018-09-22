@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 """
  Target: https://news.ycombinator.com/
+ pip install aiofiles
 """
 import aiofiles
 

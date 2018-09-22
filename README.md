@@ -154,6 +154,12 @@ if __name__ == '__main__':
     HackerNewsSpider.start(middleware=middleware)
 ```
 
+#### Extensions
+
+A list of aspider extensions created by the community:
+
+- [aspider-ua](https://github.com/howie6879/aspider-ua)
+
 ### TODO
 
 - [x] Custom middleware
