@@ -12,11 +12,12 @@ class TestSpider(Spider):
     async def parse(self, res):
         pages = ['http://www.httpbin.org/get', 'http://www.httpbin.org/get']
         for index, page in enumerate(pages):
-            yield Request(page,
-                          callback=self.parse_item,
-                          metadata={'index': index},
-                          request_config=self.request_config,
-                          )
+            yield Request(
+                page,
+                callback=self.parse_item,
+                metadata={'index': index},
+                request_config=self.request_config,
+            )
 
     async def parse_item(self, res):
         item_data = res.html

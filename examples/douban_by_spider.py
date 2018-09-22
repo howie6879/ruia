@@ -9,7 +9,6 @@ middleware = Middleware()
 async def print_on_response(request, response):
     if response.callback_result:
         print(response.callback_result)
-    # print(f"response: {response.metadata}")
 
 
 class DoubanItem(Item):
@@ -43,11 +42,12 @@ class DoubanSpider(Spider):
         pages = ['?start=0&filter='] + [i.get('href') for i in etree.cssselect('.paginator>a')]
         for index, page in enumerate(pages):
             url = self.start_urls[0] + page
-            yield Request(url,
-                          callback=self.parse_item,
-                          metadata={'index': index},
-                          request_config=self.request_config
-                          )
+            yield Request(
+                url,
+                callback=self.parse_item,
+                metadata={'index': index},
+                request_config=self.request_config
+            )
 
     async def parse_item(self, res):
         items_data = await DoubanItem.get_items(html=res.html)

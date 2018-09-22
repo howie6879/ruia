@@ -37,7 +37,7 @@ class Spider:
         if isinstance(middleware, list):
             self.middleware = reduce(lambda x, y: x + y, middleware)
         else:
-            self.middleware = middleware or self.middleware
+            self.middleware = middleware or Middleware()
         # async queue
         self.request_queue = asyncio.Queue()
         # semaphore
