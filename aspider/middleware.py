@@ -62,3 +62,13 @@ class Middleware:
             return middleware
 
         return register_middleware()
+
+    def __add__(self, other):
+        new_middleware = Middleware()
+        # asc
+        new_middleware.request_middleware.extend(self.request_middleware)
+        new_middleware.request_middleware.extend(other.request_middleware)
+        # desc
+        new_middleware.response_middleware.extend(other.response_middleware)
+        new_middleware.response_middleware.extend(self.response_middleware)
+        return new_middleware

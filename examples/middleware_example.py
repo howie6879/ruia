@@ -28,7 +28,7 @@ res_type_middleware = Middleware()
 
 
 @middleware.request
-async def print_on_response(request):
+async def print_on_request(request):
     request.headers = {
         'User-Agent': 'aspider ua'
     }
@@ -40,7 +40,7 @@ async def print_on_response(request, response):
 
 
 @res_type_middleware.request
-async def print_on_response(request):
+async def print_on_request(request):
     request.res_type = 'json'
 
 

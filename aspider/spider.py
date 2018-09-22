@@ -3,6 +3,7 @@
 import asyncio
 
 from datetime import datetime
+from functools import reduce
 from inspect import isawaitable
 from signal import SIGINT, SIGTERM
 from types import AsyncGeneratorType
@@ -33,11 +34,8 @@ class Spider:
         self.loop = loop or asyncio.new_event_loop()
         asyncio.set_event_loop(self.loop)
         # customize middleware
-        self.middleware = Middleware()
         if isinstance(middleware, list):
-            for each_middleware in middleware:
-                self.middleware.request_middleware.extend(each_middleware.request_middleware)
-                self.middleware.response_middleware.extendleft(each_middleware.response_middleware)
+            self.middleware = reduce(lambda x, y: x + y, middleware)
         else:
             self.middleware = middleware or self.middleware
         # async queue
