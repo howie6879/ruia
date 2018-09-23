@@ -1,17 +1,10 @@
-#!/usr/bin/env python
-
-from aspider import AttrField, TextField, Item, Middleware, Request, Spider
-
-middleware = Middleware()
-
-
-@middleware.response
-async def print_on_response(request, response):
-    if response.callback_result:
-        print(response.callback_result)
+from aspider import AttrField, TextField, Item, Request, Spider
 
 
 class DoubanItem(Item):
+    """
+    定义爬虫的目标字段
+    """
     target_item = TextField(css_select='div.item')
     title = TextField(css_select='span.title')
     cover = AttrField(css_select='div.pic>a>img', attr='src')
@@ -25,6 +18,9 @@ class DoubanItem(Item):
 
 
 class DoubanSpider(Spider):
+    """
+    爬虫程序的入口
+    """
     start_urls = ['https://movie.douban.com/top250']
     request_config = {
         'RETRIES': 3,
@@ -32,10 +28,6 @@ class DoubanSpider(Spider):
         'TIMEOUT': 20
     }
     concurrency = 10
-
-    # kwargs = {
-    #     "proxy": "http://0.0.0.0:8118"
-    # }
 
     async def parse(self, res):
         etree = res.e_html
@@ -58,4 +50,4 @@ class DoubanSpider(Spider):
 
 
 if __name__ == '__main__':
-    DoubanSpider.start(middleware=middleware)
+    DoubanSpider.start()
