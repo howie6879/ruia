@@ -3,7 +3,7 @@
 [![travis](https://travis-ci.org/howie6879/aspider.svg?branch=master)](https://travis-ci.org/howie6879/aspider) [![PyPI - Python Version](https://img.shields.io/pypi/pyversions/aspider.svg)](https://pypi.org/project/aspider/) [![PyPI](https://img.shields.io/pypi/v/aspider.svg)](https://pypi.org/project/aspider/) [![license](https://img.shields.io/github/license/howie6879/aspider.svg)](https://github.com/howie6879/aspider)
 
 
-**aspider**是一个基于`asyncio`和`aiohttp`的异步爬虫框架，它具有编写快速，非阻塞，扩展性强等特点，让你写更少的代码，得到更快的速度
+**aspider**是一个基于`asyncio`和`aiohttp`的异步爬虫框架，它具有编写快速，非阻塞，扩展性强等特点，让你写更少的代码，收获更快的运行速度
 
 特性如下：
 - 自定义中间件
