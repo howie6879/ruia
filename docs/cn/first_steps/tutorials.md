@@ -17,7 +17,7 @@ hacker_news_spider
 
 `Item`的目的是定义目标网站中你需要爬取的数据，此时，爬虫的目标数据就是页面中的`Title`和`Url`，怎么提取数据，**aspider**提供了[CSS Selector](https://www.w3schools.com/cssref/css_selectors.asp)和[XPath](https://www.w3schools.com/xml/xpath_intro.asp)两种方式提取目标数据
 
-``` tex
+``` text
 Notice: 后续爬虫例子都默认使用CSS Selector的规则来提取目标数据
 ```
 
@@ -57,7 +57,7 @@ class HackerNewsItem(Item):
 
 ### Middleware
 
-`Middleware`的目的是对每次请求前后进行一番处理，分下面两种情况：
+`Middleware`的目的是对每次请求前后进行一番处理，分下面两种情况：
 
 - 在每次请求之前做一些事
 - 在每次请求后做一些事
@@ -121,7 +121,7 @@ if __name__ == '__main__':
 
 `HackerNewsSpider`继承于`Spider`类，其中子类必须实现`parse()`方法，运行`python hacker_news.py`：
 
-```python
+```text
 [2018-09-24 17:59:19,865]-aspider-INFO  spider : Spider started!
 [2018-09-24 17:59:19,866]-Request-INFO  request: <GET: https://news.ycombinator.com>
 [2018-09-24 17:59:23,259]-Request-INFO  request: <GET: https://news.ycombinator.com/news?p=1>
@@ -137,4 +137,4 @@ if __name__ == '__main__':
 
 通过这个例子，你已经基本掌握了**aspider**的`Item`、`Middleware`、`Request`等模块的用法，结合自身需求，你可以编写任何爬虫，例子代码见[hacker_news_spider](https://github.com/howie6879/aspider/tree/master/examples/hacker_news_spider)
 
-接下来，我们将结合实例，编写一个**aspider**的第三方扩展：[aspider-ua](./extensions.md)
+接下来，我们将结合实例，编写一个**aspider**的第三方扩展，详见：[Extensions](./extensions.md)
