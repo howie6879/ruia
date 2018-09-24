@@ -12,3 +12,4 @@ middleware = Middleware()
 async def print_on_request(request):
     ua = 'aspider user-agent'
     request.headers.update({'User-Agent': ua})
+    # request.kwargs.update({"proxy": "http://0.0.0.0:8118"})

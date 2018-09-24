@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+
 from aspider import AttrField, TextField, Item, Request, Spider
 
 
@@ -18,9 +20,6 @@ class DoubanItem(Item):
 
 
 class DoubanSpider(Spider):
-    """
-    爬虫程序的入口
-    """
     start_urls = ['https://movie.douban.com/top250']
     request_config = {
         'RETRIES': 3,
@@ -43,10 +42,8 @@ class DoubanSpider(Spider):
 
     async def parse_item(self, res):
         items_data = await DoubanItem.get_items(html=res.html)
-        title_list = []
         for item in items_data:
-            title_list.append(item.title)
-        return title_list
+            print(item.title)
 
 
 if __name__ == '__main__':

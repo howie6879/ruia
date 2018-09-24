@@ -11,6 +11,11 @@ from middlewares import middleware
 
 class HackerNewsSpider(Spider):
     start_urls = ['https://news.ycombinator.com']
+    request_config = {
+        'RETRIES': 3,
+        'DELAY': 0,
+        'TIMEOUT': 20
+    }
     concurrency = 3
 
     async def parse(self, res):
@@ -25,7 +30,7 @@ class HackerNewsSpider(Spider):
     async def parse_item(self, res):
         items = await HackerNewsItem.get_items(html=res.html)
         for item in items:
-            print(item.title)
+            print(item)
 
 
 if __name__ == '__main__':
