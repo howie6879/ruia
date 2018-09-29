@@ -2,12 +2,13 @@
 
 目标：通过对[Hacker News](https://news.ycombinator.com/news)的爬取来展示如何使用**aspider**，下图红框中的数据就是我们需要爬取的：
 
-![item_01](../../images/item_01.png)
+![tutorials_01](../../images/tutorials_01.png)
 
 假设我们将此项目命名为`hacker_news_spider`，项目结构如下：
 
 ```shell
 hacker_news_spider
+├── db.py
 ├── hacker_news.py
 ├── items.py
 └── middlewares.py
@@ -23,7 +24,7 @@ Notice: 后续爬虫例子都默认使用CSS Selector的规则来提取目标数
 
 这里我们使用`CSS Selector`来提取目标数据，用浏览器打开[Hacker News](https://news.ycombinator.com/news)，右键审查元素：
 
-![item_02](../../images/item_02.png)
+![tutorials_02](../../images/tutorials_02.png)
 
 显而易见，每页包含`30`条资讯，那么目标数据的规则可以总结为：
 
@@ -78,6 +79,44 @@ async def print_on_request(request):
 
 这样，程序会在爬虫请求网页资源之前自动加上`User-Agent`
 
+### Database
+
+对于数据持久化，你可以按照自己喜欢的方式去做，接下来我们将以`MongoDB`为例对爬取的数据进行存储，创建`db.py`文件：
+
+```python
+import asyncio
+
+from motor.motor_asyncio import AsyncIOMotorClient
+
+
+class MotorBase:
+    """
+    About motor's doc: https://github.com/mongodb/motor
+    """
+    _db = {}
+    _collection = {}
+
+    def __init__(self, loop=None):
+        self.motor_uri = ''
+        self.loop = loop or asyncio.get_event_loop()
+
+    def client(self, db):
+        # motor
+        self.motor_uri = f"mongodb://localhost:27017/{db}"
+        return AsyncIOMotorClient(self.motor_uri, io_loop=self.loop)
+
+    def get_db(self, db='test'):
+        """
+        Get a db instance
+        :param db: database name
+        :return: the motor db instance
+        """
+        if db not in self._db:
+            self._db[db] = self.client(db)[db]
+
+        return self._db[db]
+```
+
 ### Spider
 
 `Spider`可以说是爬虫程序的入口，它将`Item`、`Middleware`、`Request`、等模块组合在一起，从而为你构造一个稳健的爬虫程序
@@ -89,18 +128,15 @@ from aspider import Request, Spider
 
 from items import HackerNewsItem
 from middlewares import middleware
+from db import MotorBase
 
 
 class HackerNewsSpider(Spider):
     start_urls = ['https://news.ycombinator.com']
-    request_config = {
-        'RETRIES': 3,
-        'DELAY': 0,
-        'TIMEOUT': 20
-    }
     concurrency = 3
 
     async def parse(self, res):
+        self.mongo_db = MotorBase().get_db('aspider_test')
         urls = ['https://news.ycombinator.com/news?p=1', 'https://news.ycombinator.com/news?p=2']
         for index, url in enumerate(urls):
             yield Request(
@@ -111,8 +147,15 @@ class HackerNewsSpider(Spider):
 
     async def parse_item(self, res):
         items = await HackerNewsItem.get_items(html=res.html)
+
         for item in items:
-            print(item)
+            try:
+                await self.mongo_db.news.update_one({
+                    'url': item.url},
+                    {'$set': {'url': item.url, 'title': item.title}},
+                    upsert=True)
+            except Exception as e:
+                self.logger.exception(e)
 
 
 if __name__ == '__main__':
@@ -126,14 +169,15 @@ if __name__ == '__main__':
 [2018-09-24 17:59:19,866]-Request-INFO  request: <GET: https://news.ycombinator.com>
 [2018-09-24 17:59:23,259]-Request-INFO  request: <GET: https://news.ycombinator.com/news?p=1>
 [2018-09-24 17:59:23,260]-Request-INFO  request: <GET: https://news.ycombinator.com/news?p=2>
-<Item {'title': 'Modifications to Google Chromium for removing Google integration', 'url': 'https://github.com/Eloston/ungoogled-chromium'}>
-<Item {'title': 'Why I’m done with Chrome', 'url': 'https://blog.cryptographyengineering.com/2018/09/23/why-im-leaving-chrome/'}>
-......
 [2018-09-24 18:03:05,562]-aspider-INFO  spider : Stopping spider: aspider
 [2018-09-24 18:03:05,562]-aspider-INFO  spider : Total requests: 3
 [2018-09-24 18:03:05,562]-aspider-INFO  spider : Time usage: 0:00:02.802862
 [2018-09-24 18:03:05,562]-aspider-INFO  spider : Spider finished!
 ```
+
+数据库中可以看到：
+
+![tutorials_03](../../images/tutorials_03.jpg)
 
 通过这个例子，你已经基本掌握了**aspider**的`Item`、`Middleware`、`Request`等模块的用法，结合自身需求，你可以编写任何爬虫，例子代码见[hacker_news_spider](https://github.com/howie6879/aspider/tree/master/examples/hacker_news_spider)
 

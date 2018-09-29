@@ -27,7 +27,7 @@ class Spider:
     failed_counts, success_counts = 0, 0
     start_urls, worker_tasks = [], []
 
-    def __init__(self, middleware, loop=None):
+    def __init__(self, middleware=None, loop=None):
         if not self.start_urls or not isinstance(self.start_urls, list):
             raise ValueError("Spider must have a param named start_urls, eg: start_urls = ['https://www.github.com']")
         self.logger = get_logger(name=self.name)
