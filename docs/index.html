@@ -1,0 +1,873 @@
+<!doctype html>
+<html>
+<head>
+<meta charset='UTF-8'><meta name='viewport' content='width=device-width initial-scale=1'>
+<title>README</title><style type='text/css'>html {overflow-x: initial !important;}:root { --bg-color: #ffffff; --text-color: #333333; --select-text-bg-color: #B5D6FC; --select-text-font-color: auto; --monospace: "Lucida Console",Consolas,"Courier",monospace; }
+html { font-size: 14px; background-color: var(--bg-color); color: var(--text-color); font-family: "Helvetica Neue", Helvetica, Arial, sans-serif; -webkit-font-smoothing: antialiased; }
+body { margin: 0px; padding: 0px; height: auto; bottom: 0px; top: 0px; left: 0px; right: 0px; font-size: 1rem; line-height: 1.42857143; overflow-x: hidden; background-image: inherit; background-size: inherit; background-attachment: inherit; background-origin: inherit; background-clip: inherit; background-color: inherit; background-position: inherit inherit; background-repeat: inherit inherit; }
+iframe { margin: auto; }
+a.url { word-break: break-all; }
+a:active, a:hover { outline: 0px; }
+.in-text-selection, ::selection { text-shadow: none; background: var(--select-text-bg-color); color: var(--select-text-font-color); }
+#write { margin: 0px auto; height: auto; width: inherit; word-break: normal; word-wrap: break-word; position: relative; white-space: normal; padding-bottom: 70px; overflow-x: visible; }
+.first-line-indent #write div, .first-line-indent #write li, .first-line-indent #write p { text-indent: 2em; }
+.first-line-indent #write div :not(p):not(div), .first-line-indent #write div.md-htmlblock-container, .first-line-indent #write p *, .first-line-indent pre { text-indent: 0px; }
+.for-image #write { padding-left: 8px; padding-right: 8px; }
+body.typora-export { padding-left: 30px; padding-right: 30px; }
+@media screen and (max-width: 500px) { 
+  body.typora-export { padding-left: 0px; padding-right: 0px; }
+  .CodeMirror-sizer { margin-left: 0px !important; }
+  .CodeMirror-gutters { display: none !important; }
+}
+#write > blockquote:first-child, #write > div:first-child, #write > figure:first-child, #write > ol:first-child, #write > p:first-child, #write > pre:first-child, #write > ul:first-child { margin-top: 30px; }
+#write li > figure:first-child { margin-top: -20px; }
+#write ol, #write ul { position: relative; }
+img { max-width: 100%; vertical-align: middle; }
+button, input, select, textarea { color: inherit; font-family: inherit; font-size: inherit; font-style: inherit; font-variant-caps: inherit; font-weight: inherit; font-stretch: inherit; line-height: inherit; }
+input[type="checkbox"], input[type="radio"] { line-height: normal; padding: 0px; }
+*, ::after, ::before { box-sizing: border-box; }
+#write h1, #write h2, #write h3, #write h4, #write h5, #write h6, #write p, #write pre { width: inherit; }
+#write h1, #write h2, #write h3, #write h4, #write h5, #write h6, #write p { position: relative; }
+h1, h2, h3, h4, h5, h6 { break-after: avoid-page; break-inside: avoid; orphans: 2; }
+p { orphans: 4; }
+h1 { font-size: 2rem; }
+h2 { font-size: 1.8rem; }
+h3 { font-size: 1.6rem; }
+h4 { font-size: 1.4rem; }
+h5 { font-size: 1.2rem; }
+h6 { font-size: 1rem; }
+.md-math-block, .md-rawblock, h1, h2, h3, h4, h5, h6, p { margin-top: 1rem; margin-bottom: 1rem; }
+.hidden { display: none; }
+.md-blockmeta { color: rgb(204, 204, 204); font-weight: 700; font-style: italic; }
+a { cursor: pointer; }
+sup.md-footnote { padding: 2px 4px; background-color: rgba(238, 238, 238, 0.701961); color: rgb(85, 85, 85); border-top-left-radius: 4px; border-top-right-radius: 4px; border-bottom-right-radius: 4px; border-bottom-left-radius: 4px; cursor: pointer; }
+sup.md-footnote a, sup.md-footnote a:hover { color: inherit; text-transform: inherit; text-decoration: inherit; }
+#write input[type="checkbox"] { cursor: pointer; width: inherit; height: inherit; }
+figure { overflow-x: auto; margin: 1.2em 0px; max-width: calc(100% + 16px); padding: 0px; }
+figure > table { margin: 0px !important; }
+tr { break-inside: avoid; break-after: auto; }
+thead { display: table-header-group; }
+table { border-collapse: collapse; border-spacing: 0px; width: 100%; overflow: auto; break-inside: auto; text-align: left; }
+table.md-table td { min-width: 80px; }
+.CodeMirror-gutters { border-right-width: 0px; background-color: inherit; }
+.CodeMirror { text-align: left; }
+.CodeMirror-placeholder { opacity: 0.3; }
+.CodeMirror pre { padding: 0px 4px; }
+.CodeMirror-lines { padding: 0px; }
+div.hr:focus { cursor: none; }
+#write pre { white-space: pre-wrap; }
+#write.fences-no-line-wrapping pre { white-space: pre; }
+#write pre.ty-contain-cm { white-space: normal; }
+.CodeMirror-gutters { margin-right: 4px; }
+.md-fences { font-size: 0.9rem; display: block; break-inside: avoid; text-align: left; overflow: visible; white-space: pre; background-image: inherit; background-size: inherit; background-attachment: inherit; background-origin: inherit; background-clip: inherit; background-color: inherit; position: relative !important; background-position: inherit inherit; background-repeat: inherit inherit; }
+.md-diagram-panel { width: 100%; margin-top: 10px; text-align: center; padding-top: 0px; padding-bottom: 8px; overflow-x: auto; }
+#write .md-fences.mock-cm { white-space: pre-wrap; }
+.md-fences.md-fences-with-lineno { padding-left: 0px; }
+#write.fences-no-line-wrapping .md-fences.mock-cm { white-space: pre; overflow-x: auto; }
+.md-fences.mock-cm.md-fences-with-lineno { padding-left: 8px; }
+.CodeMirror-line, twitterwidget { break-inside: avoid; }
+.footnotes { opacity: 0.8; font-size: 0.9rem; margin-top: 1em; margin-bottom: 1em; }
+.footnotes + .footnotes { margin-top: 0px; }
+.md-reset { margin: 0px; padding: 0px; border: 0px; outline: 0px; vertical-align: top; text-decoration: none; text-shadow: none; float: none; position: static; width: auto; height: auto; white-space: nowrap; cursor: inherit; line-height: normal; font-weight: 400; text-align: left; box-sizing: content-box; direction: ltr; background-position: 0px 0px; background-repeat: initial initial; }
+li div { padding-top: 0px; }
+blockquote { margin: 1rem 0px; }
+li .mathjax-block, li p { margin: 0.5rem 0px; }
+li { margin: 0px; position: relative; }
+blockquote > :last-child { margin-bottom: 0px; }
+blockquote > :first-child, li > :first-child { margin-top: 0px; }
+.footnotes-area { color: rgb(136, 136, 136); margin-top: 0.714rem; padding-bottom: 0.143rem; white-space: normal; }
+#write .footnote-line { white-space: pre-wrap; }
+@media print { 
+  body, html { border: 1px solid transparent; height: 99%; break-after: avoid-page; break-before: avoid-page; }
+  #write { margin-top: 0px; border-color: transparent !important; }
+  .typora-export * { -webkit-print-color-adjust: exact; }
+  html.blink-to-pdf { font-size: 13px; }
+  .typora-export #write { padding-left: 1cm; padding-right: 1cm; padding-bottom: 0px; break-after: avoid-page; }
+  .typora-export #write::after { height: 0px; }
+  @page { margin: 20mm 0px; }
+}
+.footnote-line { margin-top: 0.714em; font-size: 0.7em; }
+a img, img a { cursor: pointer; }
+pre.md-meta-block { font-size: 0.8rem; min-height: 0.8rem; white-space: pre-wrap; background-color: rgb(204, 204, 204); display: block; overflow-x: hidden; background-position: initial initial; background-repeat: initial initial; }
+p > img:only-child { display: block; margin: auto; }
+p > .md-image:only-child { display: inline-block; width: 100%; text-align: center; }
+#write .MathJax_Display { margin: 0.8em 0px 0px; }
+.md-math-block { width: 100%; }
+.md-math-block:not(:empty)::after { display: none; }
+[contenteditable="true"]:active, [contenteditable="true"]:focus { outline: 0px; box-shadow: none; }
+.md-task-list-item { position: relative; list-style-type: none; }
+.task-list-item.md-task-list-item { padding-left: 0px; }
+.md-task-list-item > input { position: absolute; top: 0px; left: 0px; margin-left: -1.2em; margin-top: calc(1em - 10px); }
+.math { font-size: 1rem; }
+.md-toc { min-height: 3.58rem; position: relative; font-size: 0.9rem; border-top-left-radius: 10px; border-top-right-radius: 10px; border-bottom-right-radius: 10px; border-bottom-left-radius: 10px; }
+.md-toc-content { position: relative; margin-left: 0px; }
+.md-toc-content::after, .md-toc::after { display: none; }
+.md-toc-item { display: block; color: rgb(65, 131, 196); }
+.md-toc-item a { text-decoration: none; }
+.md-toc-inner:hover { }
+.md-toc-inner { display: inline-block; cursor: pointer; }
+.md-toc-h1 .md-toc-inner { margin-left: 0px; font-weight: 700; }
+.md-toc-h2 .md-toc-inner { margin-left: 2em; }
+.md-toc-h3 .md-toc-inner { margin-left: 4em; }
+.md-toc-h4 .md-toc-inner { margin-left: 6em; }
+.md-toc-h5 .md-toc-inner { margin-left: 8em; }
+.md-toc-h6 .md-toc-inner { margin-left: 10em; }
+@media screen and (max-width: 48em) { 
+  .md-toc-h3 .md-toc-inner { margin-left: 3.5em; }
+  .md-toc-h4 .md-toc-inner { margin-left: 5em; }
+  .md-toc-h5 .md-toc-inner { margin-left: 6.5em; }
+  .md-toc-h6 .md-toc-inner { margin-left: 8em; }
+}
+a.md-toc-inner { font-size: inherit; font-style: inherit; font-weight: inherit; line-height: inherit; }
+.footnote-line a:not(.reversefootnote) { color: inherit; }
+.md-attr { display: none; }
+.md-fn-count::after { content: "."; }
+code, pre, samp, tt { font-family: var(--monospace); }
+kbd { margin: 0px 0.1em; padding: 0.1em 0.6em; font-size: 0.8em; color: rgb(36, 39, 41); background-color: rgb(255, 255, 255); border: 1px solid rgb(173, 179, 185); border-top-left-radius: 3px; border-top-right-radius: 3px; border-bottom-right-radius: 3px; border-bottom-left-radius: 3px; box-shadow: rgba(12, 13, 14, 0.2) 0px 1px 0px, rgb(255, 255, 255) 0px 0px 0px 2px inset; white-space: nowrap; vertical-align: middle; background-position: initial initial; background-repeat: initial initial; }
+.md-comment { color: rgb(162, 127, 3); opacity: 0.8; font-family: var(--monospace); }
+code { text-align: left; }
+a.md-print-anchor { white-space: pre !important; border: none !important; display: inline-block !important; position: absolute !important; width: 1px !important; right: 0px !important; outline: 0px !important; text-shadow: initial !important; background-position: 0px 0px !important; background-repeat: initial initial !important; }
+.md-inline-math .MathJax_SVG .noError { display: none !important; }
+.md-math-block .MathJax_SVG_Display { text-align: center; margin: 0px; position: relative; text-indent: 0px; max-width: none; max-height: none; min-height: 0px; min-width: 100%; width: auto; overflow-y: hidden; display: block !important; }
+.MathJax_SVG_Display, .md-inline-math .MathJax_SVG_Display { width: auto; margin: inherit; display: inline-block !important; }
+.MathJax_SVG .MJX-monospace { font-family: var(--monospace); }
+.MathJax_SVG .MJX-sans-serif { font-family: sans-serif; }
+.MathJax_SVG { display: inline; font-style: normal; font-weight: 400; line-height: normal; zoom: 90%; text-indent: 0px; text-align: left; text-transform: none; letter-spacing: normal; word-spacing: normal; word-wrap: normal; white-space: nowrap; float: none; direction: ltr; max-width: none; max-height: none; min-width: 0px; min-height: 0px; border: 0px; padding: 0px; margin: 0px; }
+.MathJax_SVG * { transition: none; }
+.MathJax_SVG_Display svg { vertical-align: middle !important; margin-bottom: 0px !important; }
+.os-windows.monocolor-emoji .md-emoji { font-family: "Segoe UI Symbol", sans-serif; }
+.md-diagram-panel > svg { max-width: 100%; }
+[lang="mermaid"] svg, [lang="flow"] svg { max-width: 100%; }
+[lang="mermaid"] .node text { font-size: 1rem; }
+table tr th { border-bottom-width: 0px; }
+video { max-width: 100%; display: block; margin: 0px auto; }
+iframe { max-width: 100%; width: 100%; border: none; }
+.highlight td, .highlight tr { border: 0px; }
+
+
+.CodeMirror { height: auto; }
+.CodeMirror.cm-s-inner { background-image: inherit; background-size: inherit; background-attachment: inherit; background-origin: inherit; background-clip: inherit; background-color: inherit; background-position: inherit inherit; background-repeat: inherit inherit; }
+.CodeMirror-scroll { overflow-y: hidden; overflow-x: auto; z-index: 3; }
+.CodeMirror-gutter-filler, .CodeMirror-scrollbar-filler { background-color: rgb(255, 255, 255); }
+.CodeMirror-gutters { border-right-width: 1px; border-right-style: solid; border-right-color: rgb(221, 221, 221); background-image: inherit; background-size: inherit; background-attachment: inherit; background-origin: inherit; background-clip: inherit; background-color: inherit; white-space: nowrap; background-position: inherit inherit; background-repeat: inherit inherit; }
+.CodeMirror-linenumber { padding: 0px 3px 0px 5px; text-align: right; color: rgb(153, 153, 153); }
+.cm-s-inner .cm-keyword { color: rgb(119, 0, 136); }
+.cm-s-inner .cm-atom, .cm-s-inner.cm-atom { color: rgb(34, 17, 153); }
+.cm-s-inner .cm-number { color: rgb(17, 102, 68); }
+.cm-s-inner .cm-def { color: rgb(0, 0, 255); }
+.cm-s-inner .cm-variable { color: rgb(0, 0, 0); }
+.cm-s-inner .cm-variable-2 { color: rgb(0, 85, 170); }
+.cm-s-inner .cm-variable-3 { color: rgb(0, 136, 85); }
+.cm-s-inner .cm-string { color: rgb(170, 17, 17); }
+.cm-s-inner .cm-property { color: rgb(0, 0, 0); }
+.cm-s-inner .cm-operator { color: rgb(152, 26, 26); }
+.cm-s-inner .cm-comment, .cm-s-inner.cm-comment { color: rgb(170, 85, 0); }
+.cm-s-inner .cm-string-2 { color: rgb(255, 85, 0); }
+.cm-s-inner .cm-meta { color: rgb(85, 85, 85); }
+.cm-s-inner .cm-qualifier { color: rgb(85, 85, 85); }
+.cm-s-inner .cm-builtin { color: rgb(51, 0, 170); }
+.cm-s-inner .cm-bracket { color: rgb(153, 153, 119); }
+.cm-s-inner .cm-tag { color: rgb(17, 119, 0); }
+.cm-s-inner .cm-attribute { color: rgb(0, 0, 204); }
+.cm-s-inner .cm-header, .cm-s-inner.cm-header { color: rgb(0, 0, 255); }
+.cm-s-inner .cm-quote, .cm-s-inner.cm-quote { color: rgb(0, 153, 0); }
+.cm-s-inner .cm-hr, .cm-s-inner.cm-hr { color: rgb(153, 153, 153); }
+.cm-s-inner .cm-link, .cm-s-inner.cm-link { color: rgb(0, 0, 204); }
+.cm-negative { color: rgb(221, 68, 68); }
+.cm-positive { color: rgb(34, 153, 34); }
+.cm-header, .cm-strong { font-weight: 700; }
+.cm-del { text-decoration: line-through; }
+.cm-em { font-style: italic; }
+.cm-link { text-decoration: underline; }
+.cm-error { color: red; }
+.cm-invalidchar { color: red; }
+.cm-constant { color: rgb(38, 139, 210); }
+.cm-defined { color: rgb(181, 137, 0); }
+div.CodeMirror span.CodeMirror-matchingbracket { color: rgb(0, 255, 0); }
+div.CodeMirror span.CodeMirror-nonmatchingbracket { color: rgb(255, 34, 34); }
+.cm-s-inner .CodeMirror-activeline-background { background-image: inherit; background-size: inherit; background-attachment: inherit; background-origin: inherit; background-clip: inherit; background-color: inherit; background-position: inherit inherit; background-repeat: inherit inherit; }
+.CodeMirror { position: relative; overflow: hidden; }
+.CodeMirror-scroll { height: 100%; outline: 0px; position: relative; box-sizing: content-box; background-image: inherit; background-size: inherit; background-attachment: inherit; background-origin: inherit; background-clip: inherit; background-color: inherit; background-position: inherit inherit; background-repeat: inherit inherit; }
+.CodeMirror-sizer { position: relative; }
+.CodeMirror-gutter-filler, .CodeMirror-hscrollbar, .CodeMirror-scrollbar-filler, .CodeMirror-vscrollbar { position: absolute; z-index: 6; display: none; }
+.CodeMirror-vscrollbar { right: 0px; top: 0px; overflow: hidden; }
+.CodeMirror-hscrollbar { bottom: 0px; left: 0px; overflow: hidden; }
+.CodeMirror-scrollbar-filler { right: 0px; bottom: 0px; }
+.CodeMirror-gutter-filler { left: 0px; bottom: 0px; }
+.CodeMirror-gutters { position: absolute; left: 0px; top: 0px; padding-bottom: 30px; z-index: 3; }
+.CodeMirror-gutter { white-space: normal; height: 100%; box-sizing: content-box; padding-bottom: 30px; margin-bottom: -32px; display: inline-block; }
+.CodeMirror-gutter-wrapper { position: absolute; z-index: 4; border: none !important; background-position: 0px 0px !important; background-repeat: initial initial !important; }
+.CodeMirror-gutter-background { position: absolute; top: 0px; bottom: 0px; z-index: 4; }
+.CodeMirror-gutter-elt { position: absolute; cursor: default; z-index: 4; }
+.CodeMirror-lines { cursor: text; }
+.CodeMirror pre { border-top-left-radius: 0px; border-top-right-radius: 0px; border-bottom-right-radius: 0px; border-bottom-left-radius: 0px; border-width: 0px; font-family: inherit; font-size: inherit; margin: 0px; white-space: pre; word-wrap: normal; color: inherit; z-index: 2; position: relative; overflow: visible; background-position: 0px 0px; background-repeat: initial initial; }
+.CodeMirror-wrap pre { word-wrap: break-word; white-space: pre-wrap; word-break: normal; }
+.CodeMirror-code pre { border-right-width: 30px; border-right-style: solid; border-right-color: transparent; width: fit-content; }
+.CodeMirror-wrap .CodeMirror-code pre { border-right-style: none; width: auto; }
+.CodeMirror-linebackground { position: absolute; left: 0px; right: 0px; top: 0px; bottom: 0px; z-index: 0; }
+.CodeMirror-linewidget { position: relative; z-index: 2; overflow: auto; }
+.CodeMirror-wrap .CodeMirror-scroll { overflow-x: hidden; }
+.CodeMirror-measure { position: absolute; width: 100%; height: 0px; overflow: hidden; visibility: hidden; }
+.CodeMirror-measure pre { position: static; }
+.CodeMirror div.CodeMirror-cursor { position: absolute; visibility: hidden; border-right-style: none; width: 0px; }
+.CodeMirror div.CodeMirror-cursor { visibility: hidden; }
+.CodeMirror-focused div.CodeMirror-cursor { visibility: inherit; }
+.cm-searching { background-color: rgba(255, 255, 0, 0.4); background-position: initial initial; background-repeat: initial initial; }
+@media print { 
+  .CodeMirror div.CodeMirror-cursor { visibility: hidden; }
+}
+
+
+@charset "utf-8";
+
+:root {
+  --active-file-bg-color: #dadada;
+  --active-file-bg-color: rgba(32, 43, 51, 0.63);
+  --active-file-text-color: white;
+  --bg-color: #fff;
+  --text-color: #333;
+  --side-bar-bg-color: #f5f5f5;
+  --control-text-color: #666;
+}
+
+/* 防止用户自定义背景颜色对网页的影响，添加让用户可以自定义字体 */
+html {
+  color: #333;
+  background: #fff;
+  -webkit-text-size-adjust: 100%;
+  -ms-text-size-adjust: 100%;
+  text-rendering: optimizelegibility;
+  font-size: 14px;
+  -webkit-font-smoothing: initial;
+}
+
+#write {
+  max-width: 960px;
+  padding-top: 2em;
+  padding-left: 60px;
+  padding-right: 60px;
+  min-height: calc(100vh - 6em);
+  -webkit-font-smoothing: antialiased;
+  font-size: 16px;
+}
+
+.typora-node #write {
+  min-height: calc(100% - 6em);
+}
+
+pre.md-meta-block {
+  background: #f5f5f5;
+  padding: 1em;
+  border-radius: 3px;
+  font-size: 14px;
+}
+
+@media screen and (max-width: 800px) {
+    html {
+      font-size: 14px;
+    }
+
+    #write {
+      padding-left: 30px;
+      padding-right: 30px;
+      font-size: 14px;
+    }
+}
+
+@media screen and (min-width: 1100px) {
+    body, #footer-word-count-info {
+      background: #f5f5f5;
+    }
+
+    body.pin-outline,
+    .pin-outline #footer-word-count-info,
+    .pin-outline footer {
+      background: #fff;
+    }
+
+    #write {
+      max-width: 1000px;
+      padding: 40px 60px;
+      background: #fff;
+      margin: 3em auto 3em;
+      border: 1px solid #ddd;
+      border-width: 0 1px;
+    }
+
+    .pin-outline #write {
+      max-width: 1000px;
+      background: #fff;
+      margin: 0 0 0;
+      border: 0;
+      padding-left: 60px;
+      padding-right: 60px;
+    }
+
+    footer {
+      background-color: transparent;
+    }
+}
+
+@media screen and (min-width: 1300px) {
+    body.pin-outline,
+    .pin-outline #footer-word-count-info,
+    .pin-outline footer {
+      background: #f5f5f5;
+    }
+
+    .pin-outline  #write {
+      max-width: 1000px;
+      padding: 40px 60px;
+      background: #fff;
+      margin: 3em auto 3em;
+      border: 1px solid #ddd;
+      border-width: 0 1px;
+    }
+
+    .pin-outline footer {
+      background-color: transparent;
+    }
+
+    #footer-word-count-info {
+      background: #f5f5f5;
+    }
+}
+
+
+/* 如果你的项目仅支持 IE9+ | Chrome | Firefox 等，推荐在 <html> 中添加 .borderbox 这个 class */
+html.borderbox *, html.borderbox *:before, html.borderbox *:after {
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+/* 内外边距通常让各个浏览器样式的表现位置不同 */
+body, dl, dt, dd, ul, ol, li, h1, h2, h3, h4, h5, h6, code, form, fieldset, legend, input, textarea, p, blockquote, th, td, hr, button, article, aside, details, figcaption, figure, footer, header, menu, nav, section {
+  margin: 0;
+  padding: 0;
+}
+
+/* 重设 HTML5 标签, IE 需要在 js 中 createElement(TAG) */
+article, aside, details, figcaption, figure, footer, header, menu, nav, section {
+  display: block;
+}
+
+/* HTML5 媒体文件跟 img 保持一致 */
+audio, canvas, video {
+  display: inline-block;
+}
+
+/* 要注意表单元素并不继承父级 font 的问题 */
+body, button, input, select, textarea {
+  font: 300 1em/1.8 "PingFang SC", "Lantinghei SC", "Microsoft Yahei", "Hiragino Sans GB", "Microsoft Sans Serif", "WenQuanYi Micro Hei", sans;
+}
+
+body {
+  font-family: "PingFang SC", "Lantinghei SC", "Microsoft Yahei", "Hiragino Sans GB", "Microsoft Sans Serif", "WenQuanYi Micro Hei", sans;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: "TimesNewRomanPS-ItalicMT", "PingFang SC", "Lantinghei SC", "Microsoft Yahei", "Hiragino Sans GB", "Microsoft Sans Serif", "WenQuanYi Micro Hei", sans;
+  /*font-family: "PingFang SC", "Lantinghei SC", "Microsoft Yahei", "Hiragino Sans GB", "Microsoft Sans Serif", "WenQuanYi Micro Hei", sans;*/
+  -webkit-font-smoothing: initial;
+  font-weight: 100;
+  color: var(--text-color);
+  line-height: 1.35 
+  font-variant-numeric: lining-nums;
+  margin-bottom: 1em;
+}
+
+em {
+  font-family: Georgia-Italic, STSongti-SC-Light, serif;
+}
+
+strong em,
+em strong {
+  font-family: Georgia-BoldItalic, STSongti-SC-Regular, serif;
+}
+
+button::-moz-focus-inner,
+input::-moz-focus-inner {
+  padding: 0;
+  border: 0;
+}
+
+/* 去掉各Table cell 的边距并让其边重合 */
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+/* 去除默认边框 */
+fieldset, img {
+  border: 0;
+}
+
+/* 块/段落引用 */
+blockquote {
+  position: relative;
+  color: #999;
+  font-weight: 400;
+  border-left: 1px solid #1abc9c;
+  padding-left: 1em;
+  margin: 1em 3em 1em 2em;
+}
+
+@media only screen and ( max-width: 640px ) {
+  blockquote {
+    margin: 1em 0;
+  }
+}
+
+/* Firefox 以外，元素没有下划线，需添加 */
+acronym, abbr {
+  border-bottom: 1px dotted;
+  font-variant: normal;
+}
+
+/* 添加鼠标问号，进一步确保应用的语义是正确的（要知道，交互他们也有洁癖，如果你不去掉，那得多花点口舌） */
+abbr {
+  cursor: help;
+}
+
+address, caption, cite, code, dfn, th, var {
+  font-style: normal;
+  font-weight: 400;
+}
+
+/* 去掉列表前的标识, li 会继承，大部分网站通常用列表来很多内容，所以应该当去 */
+ul, ol {
+  list-style: none;
+}
+
+/* 对齐是排版最重要的因素, 别让什么都居中 */
+caption, th {
+  text-align: left;
+}
+
+q:before, q:after {
+  content: '';
+}
+
+/* 统一上标和下标 */
+sub, sup {
+  font-size: 75%;
+  line-height: 0;
+  position: relative;
+}
+
+:root sub, :root sup {
+  vertical-align: baseline; /* for ie9 and other modern browsers */
+}
+
+sup {
+  top: -0.5em;
+}
+
+sub {
+  bottom: -0.25em;
+}
+
+/* 让链接在 hover 状态下显示下划线 */
+a {
+  color: #1abc9c;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+#write a {
+  border-bottom: 1px solid #1abc9c;
+}
+
+#write a:hover {
+  border-bottom-color: #555;
+  color: #555;
+  text-decoration: none;
+}
+
+/* 默认不显示下划线，保持页面简洁 */
+ins, a {
+  text-decoration: none;
+}
+
+/* 标记，类似于手写的荧光笔的作用 */
+mark {
+  background: #fffdd1;
+  border-bottom: 1px solid #ffedce;
+  padding: 2px;
+  margin: 0 5px;
+}
+
+/* 代码片断 */
+pre, code, pre tt {
+  font-family: Courier, 'Courier New', monospace;
+}
+
+#write .md-fences {
+  border: 1px solid #ddd;
+  padding: 1em 0.5em;
+  display: block;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* 一致化 horizontal rule */
+hr {
+  border: none;
+  border-bottom: 1px solid #cfcfcf;
+  margin-bottom: 0.8em;
+  height: 10px;
+}
+
+strong, b {
+  font-weight: bolder;
+  color: #000;
+}
+
+/* 保证块/段落之间的空白隔行 */
+#write p, #write .md-fences, #write ul, #write ol, #write dl, #write form, #write hr, #write figure,
+#write-p, #write-pre, #write-ul, #write-ol, #write-dl, #write-form, #write-hr, #write-table, blockquote {
+  margin-bottom: 1.2em
+}
+
+html {
+  font-family: PingFang SC, Verdana, Helvetica Neue, Microsoft Yahei, Hiragino Sans GB, Microsoft Sans Serif, WenQuanYi Micro Hei, sans-serif;
+}
+
+/* 标题应该更贴紧内容，并与其他块区分，margin 值要相应做优化 */
+#write h1, #write h2, #write h3, #write h4, #write h5, #write h6,
+#write-h1, #write-h2, #write-h3, #write-h4, #write-h5, #write-h6 {
+  margin-top: 1.2em;
+  margin-bottom: 0.6em;
+  line-height: 1.35;
+  color: #000;
+}
+
+#write h1, #write-h1 {
+  font-size: 2.4em;
+  padding-bottom: 1em;
+  border-bottom: 3px double #eee;
+}
+
+#write h2, #write-h2 {
+  font-size: 1.8em;
+}
+
+#write h3, #write-h3 {
+  font-size: 1.6em;
+}
+
+#write h4, #write-h4 {
+  font-size: 1.4em;
+}
+
+#write h5, #write h6, #write-h5, #write-h6 {
+  font-size: 1.2em;
+}
+
+/* 在文章中，应该还原 ul 和 ol 的样式 */
+#write ul, #write-ul {
+  margin-left: 1.3em;
+  list-style: disc;
+}
+
+#write ol, #write-ol {
+  list-style: decimal;
+  margin-left: 1.9em;
+}
+
+#write li ul, #write li ol, #write-ul ul, #write-ul ol, #write-ol ul, #write-ol ol {
+  margin-bottom: 0.8em;
+  margin-left: 2em;
+}
+
+#write li ul, #write-ul ul, #write-ol ul {
+  list-style: circle;
+}
+
+
+[mdtype="table_row"] > th, 
+[mdtype="table_row"] > td {
+  border: 1px solid #ddd;
+  padding: 0.5em 1em;
+  color: #666;
+}
+
+#write table th, #write-table th {
+  background: #fbfbfb;
+}
+
+#write table thead th, #write-table thead th {
+  background: #f1f1f1;
+}
+
+#write table caption {
+  border-bottom: none;
+}
+
+#write em {
+  font-weight: inherit;
+  font-style: inherit;
+}
+
+li>p {
+    margin-bottom: 0 !important;
+}
+
+/* Responsive images */
+#write img {
+  max-width: 100%;
+}
+
+a.md-toc-inner {
+    border-bottom: 0 !important;
+}
+
+.md-toc-h1:first-of-type:last-of-type{
+  display: none;
+}
+
+.md-toc {
+  font-size: inherit;
+}
+
+.md-toc-h1 .md-toc-inner {
+  font-weight: normal;
+}
+
+.md-table-edit th {
+  padding: 0 !important;
+  border: 0 !important;
+}
+
+.mac-seamless-mode #write {
+  min-height: calc(100vh - 6em - 20px);
+}
+
+.typora-quick-open-item.active {
+    color: var(--active-file-text-color);
+}
+
+*.in-text-selection, ::selection {
+    background: var(--active-file-bg-color);
+    text-shadow: none;
+    color: white;
+}
+
+.btn-primary {
+    background-color: #2d2d2d;
+    border-color: #020202;
+}
+
+.btn-primary:hover, .btn-primary:focus, .btn-primary.focus, .btn-primary:active, .btn-primary.active, .open > .dropdown-toggle.btn-primary {
+    background-color: #4e4c4e;
+    border: #4e4c4e;
+}
+
+#preference-dialog .modal-content{
+  background: #6e757a;
+  --bg-color: #6e757a;
+  --text-color: #f1f1f1;
+  color: #f1f1f1;
+}
+
+#typora-source,
+.typora-sourceview-on  {
+  --bg-color: #eee;
+  background: #eee;
+}
+
+.cm-s-typora-default .cm-header, .cm-s-typora-default .cm-property {
+    color: #116098;
+}
+
+.cm-s-typora-default .cm-link {
+    color: #11987d;
+}
+
+.cm-s-typora-default .cm-em {
+  font-family: Georgia-Italic, STSongti-SC-Light, serif;
+  color: #6f6400;
+}
+
+.cm-s-typora-default .cm-em{
+    color: rgb(0, 22, 45);
+}
+
+.CodeMirror.cm-s-typora-default div.CodeMirror-cursor{
+    border-left: 3px solid #6e757a;
+}
+
+.cm-s-typora-default .CodeMirror-selectedtext,
+.typora-sourceview-on .CodeMirror-focused .CodeMirror-selected {
+    background: #6e757a;
+    color: white;
+}
+
+.file-node-icon.fa.fa-folder:before {
+  color: rgba(32, 43, 51, 0.49);
+}
+
+#preference-dialog .megamenu-menu-panel h1 {
+  margin-bottom: 1em;
+}
+
+::-webkit-scrollbar-corner {
+  display: none;
+  background: transparent;
+}
+
+/*.file-node-icon.fa.fa-folder:before {
+  content: "\f114";
+}
+
+#typora-sidebar {
+
+}*/
+
+/*.cm-s-typora-default .cm-header, .cm-s-typora-default .cm-property {
+  color: #fffff1;
+}
+
+.cm-s-typora-default .cm-link {
+    color: #86f9e2;
+    color: #e5f7eb;
+}
+
+.cm-s-typora-default .cm-comment, .cm-s-typora-default .cm-code {
+    color: rgb(255, 199, 199);
+}
+
+.cm-s-typora-default .cm-atom, .cm-s-typora-default .cm-number {
+    color: #dec4c7;
+}
+
+.cm-s-typora-default  .cm-em {
+  font-family: Georgia-Italic, STSongti-SC-Light, serif;
+  color: #f3ff7e;
+}
+
+.typora-sourceview-on .CodeMirror-cursor {
+  border-left: 3px solid #ffffd6;
+}
+
+.typora-sourceview-on #toggle-sourceview-btn {
+  background: #505050;
+}
+
+.typora-sourceview-on .cm-s-inner .cm-variable,
+.typora-sourceview-on .cm-s-inner .cm-operator,
+.typora-sourceview-on .cm-s-inner .cm-property {
+    color: #b8bfc6;
+}
+
+.typora-sourceview-on .cm-s-inner .cm-keyword {
+    color: #C88FD0;
+}
+
+.typora-sourceview-on .cm-s-inner .cm-tag {
+    color: #7DF46A;
+}
+
+.typora-sourceview-on .cm-s-inner .cm-attribute {
+    color: #7575E4;
+}
+
+.typora-sourceview-on .cm-s-inner .cm-string {
+    color: #D26B6B;
+}
+
+.typora-sourceview-on .cm-s-inner .cm-comment,
+.typora-sourceview-on .cm-s-inner.cm-comment {
+    color: #DA924A;
+}
+
+.typora-sourceview-on .cm-s-inner .cm-header,
+.typora-sourceview-on .cm-s-inner .cm-def,
+.typora-sourceview-on .cm-s-inner.cm-header,
+.typora-sourceview-on .cm-s-inner.cm-def {
+    color: #8d8df0;
+}
+
+.typora-sourceview-on .cm-s-inner .cm-quote,
+.typora-sourceview-on .cm-s-inner.cm-quote {
+    color: #57ac57;
+}
+
+.typora-sourceview-on .cm-s-inner .cm-hr {
+    color: #d8d5d5;
+}
+
+.typora-sourceview-on .cm-s-inner .cm-link {
+    color: #d3d3ef;
+}
+
+.typora-sourceview-on .cm-s-inner .cm-negative {
+    color: #d95050;
+}
+
+.typora-sourceview-on .cm-s-inner .cm-positive {
+    color: #50e650;
+}
+
+.typora-sourceview-on .cm-s-inner .cm-string-2 {
+    color: #f50;
+}
+
+.typora-sourceview-on .cm-s-inner .cm-meta,
+.typora-sourceview-on .cm-s-inner .cm-qualifier {
+    color: #b7b3b3;
+}
+
+.typora-sourceview-on .cm-s-inner .cm-builtin {
+    color: #f3b3f8;
+}
+
+.typora-sourceview-on .cm-s-inner .cm-bracket {
+    color: #997;
+}
+
+.typora-sourceview-on .cm-s-inner .cm-atom,
+.typora-sourceview-on .cm-s-inner.cm-atom {
+    color: #84B6CB;
+}
+
+.typora-sourceview-on .cm-s-inner .cm-number {
+    color: #64AB8F;
+}
+
+.typora-sourceview-on .cm-s-inner .cm-variable {
+    color: #b8bfc6;
+}
+
+.typora-sourceview-on .cm-s-inner .cm-variable-2 {
+    color: #9FBAD5;
+}
+
+.typora-sourceview-on .cm-s-inner .cm-variable-3 {
+    color: #1cc685;
+}
+
+.typora-sourceview-on .CodeMirror div.CodeMirror-cursor {
+    border-left: 1px solid #b8bfc6;
+    z-index: 3;
+}
+
+.cm-s-typora-default .CodeMirror-selectedtext,
+.typora-sourceview-on .CodeMirror-focused .CodeMirror-selected {
+  background: #212324;
+}
+
+.typora-sourceview-on .CodeMirror-linenumber {
+    color: rgb(255, 255, 255);
+}*/
+
+
+ .typora-export p, .typora-export .footnote-line {white-space: normal;} 
+</style>
+</head>
+<body class='typora-export' >
+<div  id='write'  class = 'is-mac'><h2><a name='header-n0' class='md-header-anchor '></a>aspider</h2><p><a href='https://travis-ci.org/howie6879/aspider'><img src='https://travis-ci.org/howie6879/aspider.svg?branch=master' alt='travis' referrerPolicy='no-referrer' /></a> <a href='https://pypi.org/project/aspider/'><img src='https://img.shields.io/pypi/pyversions/aspider.svg' alt='PyPI - Python Version' referrerPolicy='no-referrer' /></a> <a href='https://pypi.org/project/aspider/'><img src='https://img.shields.io/pypi/v/aspider.svg' alt='PyPI' referrerPolicy='no-referrer' /></a> <a href='https://github.com/howie6879/aspider'><img src='https://img.shields.io/github/license/howie6879/aspider.svg' alt='license' referrerPolicy='no-referrer' /></a></p><h3><a name='header-n3' class='md-header-anchor '></a>Overview</h3><p>An async web scraping micro-framework, written with <code>asyncio</code> and <code>aiohttp</code>, aims to make crawling url as convenient as possible.</p><p>For more details see the documentation: <a href='https://github.com/howie6879/aspider/blob/master/docs/cn/README.md'>中文文档</a> | <a href='https://github.com/howie6879/aspider/blob/master/docs/en/README.md'>documentation</a></p><h3><a name='header-n7' class='md-header-anchor '></a>Installation</h3><pre spellcheck="false" class="md-fences md-end-block ty-contain-cm modeLoaded" lang="shell"><div class="CodeMirror cm-s-inner CodeMirror-wrap" lang="shell"><div style="overflow: hidden; position: relative; width: 3px; height: 0px; top: 0px; left: 4px;"><textarea autocorrect="off" autocapitalize="off" spellcheck="false" tabindex="0" style="position: absolute; bottom: -1em; padding: 0px; width: 1000px; height: 1em; outline: none;"></textarea></div><div class="CodeMirror-scrollbar-filler" cm-not-content="true"></div><div class="CodeMirror-gutter-filler" cm-not-content="true"></div><div class="CodeMirror-scroll" tabindex="-1"><div class="CodeMirror-sizer" style="margin-left: 0px; margin-bottom: 0px; border-right-width: 0px; padding-right: 0px; padding-bottom: 0px;"><div style="position: relative; top: 0px;"><div class="CodeMirror-lines" role="presentation"><div role="presentation" style="position: relative; outline: none;"><div class="CodeMirror-measure"><pre><span>xxxxxxxxxx</span></pre></div><div class="CodeMirror-measure"></div><div style="position: relative; z-index: 1;"></div><div class="CodeMirror-code" role="presentation" style=""><div class="CodeMirror-activeline" style="position: relative;"><div class="CodeMirror-activeline-background CodeMirror-linebackground"></div><div class="CodeMirror-gutter-background CodeMirror-activeline-gutter" style="left: 0px; width: 0px;"></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-comment"># For Linux &amp; Mac</span></span></pre></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">pip install <span class="cm-attribute">-U</span> aspider[uvloop]</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="">​</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-comment"># For Windows</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">pip install <span class="cm-attribute">-U</span> aspider</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="">​</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-comment"># New features</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">pip install <span class="cm-builtin">git</span><span class="cm-operator">+</span>https://github.com/howie6879/aspider</span></pre></div></div></div></div></div><div style="position: absolute; height: 0px; width: 1px; border-bottom-width: 0px; border-bottom-style: solid; border-bottom-color: transparent; top: 184px;"></div><div class="CodeMirror-gutters" style="display: none; height: 184px;"></div></div></div></pre><h3><a name='header-n9' class='md-header-anchor '></a>Usage</h3><h4><a name='header-n10' class='md-header-anchor '></a>Request &amp; Response</h4><p>We provide an easy way to <code>request</code> a url and return a friendly <code>response</code>:</p><pre spellcheck="false" class="md-fences md-end-block ty-contain-cm modeLoaded" lang="python"><div class="CodeMirror cm-s-inner CodeMirror-wrap" lang="python"><div style="overflow: hidden; position: relative; width: 3px; height: 0px; top: 0px; left: 4px;"><textarea autocorrect="off" autocapitalize="off" spellcheck="false" tabindex="0" style="position: absolute; bottom: -1em; padding: 0px; width: 1000px; height: 1em; outline: none;"></textarea></div><div class="CodeMirror-scrollbar-filler" cm-not-content="true"></div><div class="CodeMirror-gutter-filler" cm-not-content="true"></div><div class="CodeMirror-scroll" tabindex="-1"><div class="CodeMirror-sizer" style="margin-left: 0px; margin-bottom: 0px; border-right-width: 0px; padding-right: 0px; padding-bottom: 0px;"><div style="position: relative; top: 0px;"><div class="CodeMirror-lines" role="presentation"><div role="presentation" style="position: relative; outline: none;"><div class="CodeMirror-measure"><pre><span>xxxxxxxxxx</span></pre></div><div class="CodeMirror-measure"></div><div style="position: relative; z-index: 1;"></div><div class="CodeMirror-code" role="presentation" style=""><div class="CodeMirror-activeline" style="position: relative;"><div class="CodeMirror-activeline-background CodeMirror-linebackground"></div><div class="CodeMirror-gutter-background CodeMirror-activeline-gutter" style="left: 0px; width: 0px;"></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-keyword">import</span> <span class="cm-variable">asyncio</span></span></pre></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="">​</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-keyword">from</span> <span class="cm-variable">aspider</span> <span class="cm-keyword">import</span> <span class="cm-variable">Request</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="">​</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-variable">request</span> = <span class="cm-variable">Request</span>(<span class="cm-string">"https://news.ycombinator.com/"</span>)</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-variable">response</span> = <span class="cm-variable">asyncio</span>.<span class="cm-property">get_event_loop</span>().<span class="cm-property">run_until_complete</span>(<span class="cm-variable">request</span>.<span class="cm-property">fetch</span>())</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="">​</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-comment"># Output</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-comment"># [2018-07-25 11:23:42,620]-Request-INFO  &lt;GET: https://news.ycombinator.com/&gt;</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-comment"># &lt;Response url[text]: https://news.ycombinator.com/ status:200 metadata:{}&gt;</span></span></pre></div></div></div></div></div><div style="position: absolute; height: 0px; width: 1px; border-bottom-width: 0px; border-bottom-style: solid; border-bottom-color: transparent; top: 230px;"></div><div class="CodeMirror-gutters" style="display: none; height: 230px;"></div></div></div></pre><p><strong>JavaScript Support</strong>:</p><pre spellcheck="false" class="md-fences md-end-block ty-contain-cm modeLoaded" lang="python"><div class="CodeMirror cm-s-inner CodeMirror-wrap" lang="python"><div style="overflow: hidden; position: relative; width: 3px; height: 0px; top: 0px; left: 4px;"><textarea autocorrect="off" autocapitalize="off" spellcheck="false" tabindex="0" style="position: absolute; bottom: -1em; padding: 0px; width: 1000px; height: 1em; outline: none;"></textarea></div><div class="CodeMirror-scrollbar-filler" cm-not-content="true"></div><div class="CodeMirror-gutter-filler" cm-not-content="true"></div><div class="CodeMirror-scroll" tabindex="-1"><div class="CodeMirror-sizer" style="margin-left: 0px; margin-bottom: 0px; border-right-width: 0px; padding-right: 0px; padding-bottom: 0px;"><div style="position: relative; top: 0px;"><div class="CodeMirror-lines" role="presentation"><div role="presentation" style="position: relative; outline: none;"><div class="CodeMirror-measure"><pre><span>xxxxxxxxxx</span></pre></div><div class="CodeMirror-measure"></div><div style="position: relative; z-index: 1;"></div><div class="CodeMirror-code" role="presentation"><div class="CodeMirror-activeline" style="position: relative;"><div class="CodeMirror-activeline-background CodeMirror-linebackground"></div><div class="CodeMirror-gutter-background CodeMirror-activeline-gutter" style="left: 0px; width: 0px;"></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-variable">request</span> = <span class="cm-variable">Request</span>(<span class="cm-string">"https://www.jianshu.com/"</span>, <span class="cm-variable">load_js</span>=<span class="cm-keyword">True</span>)</span></pre></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-variable">response</span> = <span class="cm-variable">asyncio</span>.<span class="cm-property">get_event_loop</span>().<span class="cm-property">run_until_complete</span>(<span class="cm-variable">request</span>.<span class="cm-property">fetch</span>())</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-builtin">print</span>(<span class="cm-variable">response</span>.<span class="cm-property">body</span>)</span></pre></div></div></div></div></div><div style="position: absolute; height: 0px; width: 1px; border-bottom-width: 0px; border-bottom-style: solid; border-bottom-color: transparent; top: 69px;"></div><div class="CodeMirror-gutters" style="display: none; height: 69px;"></div></div></div></pre><p>You need to pay attention when you use <code>load_js</code>, it will download a recent version of Chromium (~100MB). This only happens once.</p><h4><a name='header-n16' class='md-header-anchor '></a>Item</h4><p>Let&#39;s take a look at a quick example of using <code>Item</code> to extract target data. Start off by adding the following to your demo.py:</p><pre spellcheck="false" class="md-fences md-end-block ty-contain-cm modeLoaded" lang="python" style="page-break-inside: unset;"><div class="CodeMirror cm-s-inner CodeMirror-wrap" lang="python"><div style="overflow: hidden; position: relative; width: 3px; height: 0px; top: 0px; left: 4px;"><textarea autocorrect="off" autocapitalize="off" spellcheck="false" tabindex="0" style="position: absolute; bottom: -1em; padding: 0px; width: 1000px; height: 1em; outline: none;"></textarea></div><div class="CodeMirror-scrollbar-filler" cm-not-content="true"></div><div class="CodeMirror-gutter-filler" cm-not-content="true"></div><div class="CodeMirror-scroll" tabindex="-1"><div class="CodeMirror-sizer" style="margin-left: 0px; margin-bottom: 0px; border-right-width: 0px; padding-right: 0px; padding-bottom: 0px;"><div style="position: relative; top: 0px;"><div class="CodeMirror-lines" role="presentation"><div role="presentation" style="position: relative; outline: none;"><div class="CodeMirror-measure"><pre><span>xxxxxxxxxx</span></pre></div><div class="CodeMirror-measure"></div><div style="position: relative; z-index: 1;"></div><div class="CodeMirror-code" role="presentation" style=""><div class="CodeMirror-activeline" style="position: relative;"><div class="CodeMirror-activeline-background CodeMirror-linebackground"></div><div class="CodeMirror-gutter-background CodeMirror-activeline-gutter" style="left: 0px; width: 0px;"></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-keyword">import</span> <span class="cm-variable">asyncio</span></span></pre></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="">​</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-keyword">from</span> <span class="cm-variable">aspider</span> <span class="cm-keyword">import</span> <span class="cm-variable">AttrField</span>, <span class="cm-variable">TextField</span>, <span class="cm-variable">Item</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="">​</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="">​</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-keyword">class</span> <span class="cm-def">HackerNewsItem</span>(<span class="cm-variable">Item</span>):</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp;<span class="cm-variable">target_item</span> = <span class="cm-variable">TextField</span>(<span class="cm-variable">css_select</span>=<span class="cm-string">'tr.athing'</span>)</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp;<span class="cm-variable">title</span> = <span class="cm-variable">TextField</span>(<span class="cm-variable">css_select</span>=<span class="cm-string">'a.storylink'</span>)</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp;<span class="cm-variable">url</span> = <span class="cm-variable">AttrField</span>(<span class="cm-variable">css_select</span>=<span class="cm-string">'a.storylink'</span>, <span class="cm-variable">attr</span>=<span class="cm-string">'href'</span>)</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="">​</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp;<span class="cm-keyword">async</span> <span class="cm-keyword">def</span> <span class="cm-def">clean_title</span>(<span class="cm-variable-2">self</span>, <span class="cm-variable">value</span>):</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp; &nbsp;<span class="cm-keyword">return</span> <span class="cm-variable">value</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="">​</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="">​</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-variable">items</span> = <span class="cm-variable">asyncio</span>.<span class="cm-property">get_event_loop</span>().<span class="cm-property">run_until_complete</span>(<span class="cm-variable">HackerNewsItem</span>.<span class="cm-property">get_items</span>(<span class="cm-variable">url</span>=<span class="cm-string">"https://news.ycombinator.com/"</span>))</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-keyword">for</span> <span class="cm-variable">item</span> <span class="cm-keyword">in</span> <span class="cm-variable">items</span>:</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp;<span class="cm-builtin">print</span>(<span class="cm-variable">item</span>.<span class="cm-property">title</span>, <span class="cm-variable">item</span>.<span class="cm-property">url</span>)</span></pre></div></div></div></div></div><div style="position: absolute; height: 0px; width: 1px; border-bottom-width: 0px; border-bottom-style: solid; border-bottom-color: transparent; top: 437px;"></div><div class="CodeMirror-gutters" style="display: none; height: 437px;"></div></div></div></pre><p>Run: <code>python demo.py</code></p><pre spellcheck="false" class="md-fences md-end-block ty-contain-cm modeLoaded" lang="shell"><div class="CodeMirror cm-s-inner CodeMirror-wrap" lang="shell"><div style="overflow: hidden; position: relative; width: 3px; height: 0px; top: 0px; left: 4px;"><textarea autocorrect="off" autocapitalize="off" spellcheck="false" tabindex="0" style="position: absolute; bottom: -1em; padding: 0px; width: 1000px; height: 1em; outline: none;"></textarea></div><div class="CodeMirror-scrollbar-filler" cm-not-content="true"></div><div class="CodeMirror-gutter-filler" cm-not-content="true"></div><div class="CodeMirror-scroll" tabindex="-1"><div class="CodeMirror-sizer" style="margin-left: 0px; margin-bottom: 0px; border-right-width: 0px; padding-right: 0px; padding-bottom: 0px;"><div style="position: relative; top: 0px;"><div class="CodeMirror-lines" role="presentation"><div role="presentation" style="position: relative; outline: none;"><div class="CodeMirror-measure"><pre><span>xxxxxxxxxx</span></pre></div><div class="CodeMirror-measure"></div><div style="position: relative; z-index: 1;"></div><div class="CodeMirror-code" role="presentation"><div class="CodeMirror-activeline" style="position: relative;"><div class="CodeMirror-activeline-background CodeMirror-linebackground"></div><div class="CodeMirror-gutter-background CodeMirror-activeline-gutter" style="left: 0px; width: 0px;"></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">Notorious ‘Hijack Factory’ Shunned from Web https://krebsonsecurity.com/2018/07/notorious-hijack-factory-shunned-from-web/</span></pre></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> ......</span></pre></div></div></div></div></div><div style="position: absolute; height: 0px; width: 1px; border-bottom-width: 0px; border-bottom-style: solid; border-bottom-color: transparent; top: 69px;"></div><div class="CodeMirror-gutters" style="display: none; height: 69px;"></div></div></div></pre><h4><a name='header-n21' class='md-header-anchor '></a>Spider</h4><p>For multiple pages, you can solve this with <code>Spider</code></p><p>Create <code>hacker_news_spider.py</code>:</p><pre spellcheck="false" class="md-fences md-end-block ty-contain-cm modeLoaded" lang="python" style="page-break-inside: unset;"><div class="CodeMirror cm-s-inner CodeMirror-wrap" lang="python"><div style="overflow: hidden; position: relative; width: 3px; height: 0px; top: 0px; left: 4px;"><textarea autocorrect="off" autocapitalize="off" spellcheck="false" tabindex="0" style="position: absolute; bottom: -1em; padding: 0px; width: 1000px; height: 1em; outline: none;"></textarea></div><div class="CodeMirror-scrollbar-filler" cm-not-content="true"></div><div class="CodeMirror-gutter-filler" cm-not-content="true"></div><div class="CodeMirror-scroll" tabindex="-1"><div class="CodeMirror-sizer" style="margin-left: 0px; margin-bottom: 0px; border-right-width: 0px; padding-right: 0px; padding-bottom: 0px;"><div style="position: relative; top: 0px;"><div class="CodeMirror-lines" role="presentation"><div role="presentation" style="position: relative; outline: none;"><div class="CodeMirror-measure"><pre><span>xxxxxxxxxx</span></pre></div><div class="CodeMirror-measure"></div><div style="position: relative; z-index: 1;"></div><div class="CodeMirror-code" role="presentation" style=""><div class="CodeMirror-activeline" style="position: relative;"><div class="CodeMirror-activeline-background CodeMirror-linebackground"></div><div class="CodeMirror-gutter-background CodeMirror-activeline-gutter" style="left: 0px; width: 0px;"></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-keyword">import</span> <span class="cm-variable">aiofiles</span></span></pre></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="">​</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-keyword">from</span> <span class="cm-variable">aspider</span> <span class="cm-keyword">import</span> <span class="cm-variable">AttrField</span>, <span class="cm-variable">TextField</span>, <span class="cm-variable">Item</span>, <span class="cm-variable">Spider</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="">​</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="">​</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-keyword">class</span> <span class="cm-def">HackerNewsItem</span>(<span class="cm-variable">Item</span>):</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp;<span class="cm-variable">target_item</span> = <span class="cm-variable">TextField</span>(<span class="cm-variable">css_select</span>=<span class="cm-string">'tr.athing'</span>)</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp;<span class="cm-variable">title</span> = <span class="cm-variable">TextField</span>(<span class="cm-variable">css_select</span>=<span class="cm-string">'a.storylink'</span>)</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp;<span class="cm-variable">url</span> = <span class="cm-variable">AttrField</span>(<span class="cm-variable">css_select</span>=<span class="cm-string">'a.storylink'</span>, <span class="cm-variable">attr</span>=<span class="cm-string">'href'</span>)</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="">​</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp;<span class="cm-keyword">async</span> <span class="cm-keyword">def</span> <span class="cm-def">clean_title</span>(<span class="cm-variable-2">self</span>, <span class="cm-variable">value</span>):</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp; &nbsp;<span class="cm-keyword">return</span> <span class="cm-variable">value</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="">​</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="">​</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-keyword">class</span> <span class="cm-def">HackerNewsSpider</span>(<span class="cm-variable">Spider</span>):</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp;<span class="cm-variable">start_urls</span> = [<span class="cm-string">'https://news.ycombinator.com/news?p=1'</span>, <span class="cm-string">'https://news.ycombinator.com/news?p=2'</span>]</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="">​</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp;<span class="cm-keyword">async</span> <span class="cm-keyword">def</span> <span class="cm-def">parse</span>(<span class="cm-variable-2">self</span>, <span class="cm-variable">res</span>):</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp; &nbsp;<span class="cm-variable">items</span> = <span class="cm-keyword">await</span> <span class="cm-variable">HackerNewsItem</span>.<span class="cm-property">get_items</span>(<span class="cm-variable">html</span>=<span class="cm-variable">res</span>.<span class="cm-property">html</span>)</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp; &nbsp;<span class="cm-keyword">for</span> <span class="cm-variable">item</span> <span class="cm-keyword">in</span> <span class="cm-variable">items</span>:</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<span class="cm-keyword">async</span> <span class="cm-keyword">with</span> <span class="cm-variable">aiofiles</span>.<span class="cm-property">open</span>(<span class="cm-string">'./hacker_news.txt'</span>, <span class="cm-string">'a'</span>) <span class="cm-keyword">as</span> <span class="cm-variable">f</span>:</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<span class="cm-keyword">await</span> <span class="cm-variable">f</span>.<span class="cm-property">write</span>(<span class="cm-variable">item</span>.<span class="cm-property">title</span> <span class="cm-operator">+</span> <span class="cm-string">'\n'</span>)</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="">​</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="">​</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-keyword">if</span> <span class="cm-variable">__name__</span> == <span class="cm-string">'__main__'</span>:</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp;<span class="cm-variable">HackerNewsSpider</span>.<span class="cm-property">start</span>()</span></pre></div></div></div></div></div><div style="position: absolute; height: 0px; width: 1px; border-bottom-width: 0px; border-bottom-style: solid; border-bottom-color: transparent; top: 598px;"></div><div class="CodeMirror-gutters" style="display: none; height: 598px;"></div></div></div></pre><p>Run <code>hacker_news_spider.py</code>:</p><pre spellcheck="false" class="md-fences md-end-block ty-contain-cm modeLoaded" lang="shell"><div class="CodeMirror cm-s-inner CodeMirror-wrap" lang="shell"><div style="overflow: hidden; position: relative; width: 3px; height: 0px; top: 0px; left: 4px;"><textarea autocorrect="off" autocapitalize="off" spellcheck="false" tabindex="0" style="position: absolute; bottom: -1em; padding: 0px; width: 1000px; height: 1em; outline: none;"></textarea></div><div class="CodeMirror-scrollbar-filler" cm-not-content="true"></div><div class="CodeMirror-gutter-filler" cm-not-content="true"></div><div class="CodeMirror-scroll" tabindex="-1"><div class="CodeMirror-sizer" style="margin-left: 0px; margin-bottom: 0px; border-right-width: 0px; padding-right: 0px; padding-bottom: 0px;"><div style="position: relative; top: 0px;"><div class="CodeMirror-lines" role="presentation"><div role="presentation" style="position: relative; outline: none;"><div class="CodeMirror-measure"><pre><span>xxxxxxxxxx</span></pre></div><div class="CodeMirror-measure"></div><div style="position: relative; z-index: 1;"></div><div class="CodeMirror-code" role="presentation" style=""><div class="CodeMirror-activeline" style="position: relative;"><div class="CodeMirror-activeline-background CodeMirror-linebackground"></div><div class="CodeMirror-gutter-background CodeMirror-activeline-gutter" style="left: 0px; width: 0px;"></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">[2018-09-21 <span class="cm-number">17</span>:27:14,497]-aspider-INFO  spider::l54: Spider started!</span></pre></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">[2018-09-21 <span class="cm-number">17</span>:27:14,502]-Request-INFO  request::l77: &lt;GET: https://news.ycombinator.com/news<span class="cm-def">?p</span><span class="cm-operator">=</span><span class="cm-number">2</span>&gt;</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">[2018-09-21 <span class="cm-number">17</span>:27:14,527]-Request-INFO  request::l77: &lt;GET: https://news.ycombinator.com/news<span class="cm-def">?p</span><span class="cm-operator">=</span><span class="cm-number">1</span>&gt;</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">[2018-09-21 <span class="cm-number">17</span>:27:16,388]-aspider-INFO  spider::l122: Stopping spider: aspider</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">[2018-09-21 <span class="cm-number">17</span>:27:16,389]-aspider-INFO  spider::l68: Total requests: <span class="cm-number">2</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">[2018-09-21 <span class="cm-number">17</span>:27:16,389]-aspider-INFO  spider::l71: Time usage: <span class="cm-number">0</span>:00:01.891688</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">[2018-09-21 <span class="cm-number">17</span>:27:16,389]-aspider-INFO  spider::l72: Spider finished!</span></pre></div></div></div></div></div><div style="position: absolute; height: 0px; width: 1px; border-bottom-width: 0px; border-bottom-style: solid; border-bottom-color: transparent; top: 161px;"></div><div class="CodeMirror-gutters" style="display: none; height: 161px;"></div></div></div></pre><h4><a name='header-n27' class='md-header-anchor '></a>Custom middleware</h4><p><code>aspider</code> provides an easy way to customize requests, <em>as long as it does not return it</em>. </p><p>The following middleware code is based on the above example:</p><pre spellcheck="false" class="md-fences md-end-block ty-contain-cm modeLoaded" lang="python" style="page-break-inside: unset;"><div class="CodeMirror cm-s-inner CodeMirror-wrap" lang="python"><div style="overflow: hidden; position: relative; width: 3px; height: 0px; top: 0px; left: 4px;"><textarea autocorrect="off" autocapitalize="off" spellcheck="false" tabindex="0" style="position: absolute; bottom: -1em; padding: 0px; width: 1000px; height: 1em; outline: none;"></textarea></div><div class="CodeMirror-scrollbar-filler" cm-not-content="true"></div><div class="CodeMirror-gutter-filler" cm-not-content="true"></div><div class="CodeMirror-scroll" tabindex="-1"><div class="CodeMirror-sizer" style="margin-left: 0px; margin-bottom: 0px; border-right-width: 0px; padding-right: 0px; padding-bottom: 0px;"><div style="position: relative; top: 0px;"><div class="CodeMirror-lines" role="presentation"><div role="presentation" style="position: relative; outline: none;"><div class="CodeMirror-measure"><pre><span>xxxxxxxxxx</span></pre></div><div class="CodeMirror-measure"></div><div style="position: relative; z-index: 1;"></div><div class="CodeMirror-code" role="presentation" style=""><div class="CodeMirror-activeline" style="position: relative;"><div class="CodeMirror-activeline-background CodeMirror-linebackground"></div><div class="CodeMirror-gutter-background CodeMirror-activeline-gutter" style="left: 0px; width: 0px;"></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-keyword">from</span> <span class="cm-variable">aspider</span> <span class="cm-keyword">import</span> <span class="cm-variable">Middleware</span></span></pre></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="">​</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-variable">middleware</span> = <span class="cm-variable">Middleware</span>()</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="">​</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="">​</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-meta">@middleware</span>.<span class="cm-property">request</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-keyword">async</span> <span class="cm-keyword">def</span> <span class="cm-def">print_on_request</span>(<span class="cm-variable">request</span>):</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp;<span class="cm-variable">request</span>.<span class="cm-property">metadata</span> = {</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp; &nbsp;<span class="cm-string">'index'</span>: <span class="cm-variable">request</span>.<span class="cm-property">url</span>.<span class="cm-property">split</span>(<span class="cm-string">'='</span>)[<span class="cm-operator">-</span><span class="cm-number">1</span>]</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp;  }</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp;<span class="cm-builtin">print</span>(<span class="cm-string">f"request: {request.metadata}"</span>)</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="">​</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="">​</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-meta">@middleware</span>.<span class="cm-property">response</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-keyword">async</span> <span class="cm-keyword">def</span> <span class="cm-def">print_on_response</span>(<span class="cm-variable">request</span>, <span class="cm-variable">response</span>):</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp;<span class="cm-builtin">print</span>(<span class="cm-string">f"response: {response.metadata}"</span>)</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="">​</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-comment"># Add HackerNewsSpider</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="">​</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-keyword">if</span> <span class="cm-variable">__name__</span> == <span class="cm-string">'__main__'</span>:</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp;<span class="cm-variable">HackerNewsSpider</span>.<span class="cm-property">start</span>(<span class="cm-variable">middleware</span>=<span class="cm-variable">middleware</span>)</span></pre></div></div></div></div></div><div style="position: absolute; height: 0px; width: 1px; border-bottom-width: 0px; border-bottom-style: solid; border-bottom-color: transparent; top: 483px;"></div><div class="CodeMirror-gutters" style="display: none; height: 483px;"></div></div></div></pre><h3><a name='header-n31' class='md-header-anchor '></a>Features</h3><ul><li>Custom middleware</li><li>JavaScript support</li><li>Friendly response</li></ul><h3><a name='header-n39' class='md-header-anchor '></a>TODO</h3><ul><li class='md-task-list-item task-list-item task-list-not-done' ><input type='checkbox' disabled='disabled' /><p>Distributed crawling/scraping</p></li></ul><h3><a name='header-n43' class='md-header-anchor '></a>Extensions</h3><p>A list of aspider extensions created by the community:</p><ul><li><a href='https://github.com/howie6879/aspider-ua'>aspider-ua</a>: simple user-agent middleware for aspider</li></ul><h3><a name='header-n48' class='md-header-anchor '></a>Contribution</h3><ul><li>Pull Request</li><li>Open Issue</li></ul><h3><a name='header-n54' class='md-header-anchor '></a>Thanks</h3><ul><li><a href='https://github.com/huge-success/sanic'>sanic</a></li><li><a href='https://github.com/matiasb/demiurge'>demiurge</a></li></ul></div>
+</body>
+</html>

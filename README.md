@@ -6,7 +6,7 @@
 
 An async web scraping micro-framework, written with `asyncio` and `aiohttp`, aims to make crawling url as convenient as possible.
 
-For more details see the documentation: [中文文档](./docs/cn/README.md) | [documentation](./docs/en/README.md)
+For more details see the documentation: [中文文档](https://github.com/howie6879/aspider/blob/master/docs/cn/README.md) | [documentation](https://github.com/howie6879/aspider/blob/master/docs/en/README.md)
 
 
 ### Installation
