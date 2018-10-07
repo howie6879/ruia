@@ -6,7 +6,10 @@
 
 An async web scraping micro-framework, written with `asyncio` and `aiohttp`, aims to make crawling url as convenient as possible.
 
-For more details see the documentation: [中文文档](https://github.com/howie6879/aspider/blob/master/docs/cn/README.md) | [documentation](https://github.com/howie6879/aspider/blob/master/docs/en/README.md)
+Write less, run faster:
+
+- Documentation: [中文文档](https://github.com/howie6879/aspider/blob/master/docs/cn/README.md) |[documentation](https://github.com/howie6879/aspider/blob/master/docs/en/README.md)
+- Extensions: [https://github.com/aspider-plugins](https://github.com/aspider-plugins)
 
 
 ### Installation
@@ -168,12 +171,6 @@ if __name__ == '__main__':
 ### TODO
 
 - [ ] Distributed crawling/scraping
-
-### Extensions
-
-A list of aspider extensions created by the community:
-
-- [aspider-ua](https://github.com/howie6879/aspider-ua): simple user-agent middleware for aspider
 
 ### Contribution
 

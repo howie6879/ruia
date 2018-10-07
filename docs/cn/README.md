@@ -22,3 +22,7 @@
 ### Getting help
 
 如果在使用过程中遇到了困难，随时欢迎提[Issue](https://github.com/howie6879/aspider/issues)
+
+也随时欢迎加我微信拉您进群交流，备注(aspider)：
+
+<img src="https://ws1.sinaimg.cn/large/007i3XCUgy1fw0077yyf5j30dw0dwwen.jpg" width = "400" height = "400" alt="sanic_group" align=center />
