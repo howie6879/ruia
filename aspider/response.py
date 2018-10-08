@@ -67,11 +67,11 @@ class Response(object):
         return self._status
 
     @property
-    def e_html(self):
-        e_html = None
+    def html_etree(self):
+        html_etree = None
         if self.html:
-            e_html = etree.HTML(self.html)
-        return e_html
+            html_etree = etree.HTML(self.html)
+        return html_etree
 
     def __str__(self):
         return f'<Response url[{self._res_type}]: {self._url} status:{self._status} metadata:{self._metadata}>'
