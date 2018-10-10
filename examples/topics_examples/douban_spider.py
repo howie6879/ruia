@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-from aspider import AttrField, TextField, Item, Request, Spider
+from aspider import AttrField, Item, Request, Spider, TextField
 
 
 class DoubanItem(Item):
@@ -25,6 +25,10 @@ class DoubanSpider(Spider):
     }
     concurrency = 10
 
+    # proxy config
+    # kwargs = {"proxy": "http://0.0.0.0:8118"}
+    kwargs = {}
+
     async def parse(self, res):
         etree = res.html_etree
         pages = ['?start=0&filter='] + [i.get('href') for i in etree.cssselect('.paginator>a')]
@@ -35,6 +39,7 @@ class DoubanSpider(Spider):
                 callback=self.parse_item,
                 metadata={'index': index},
                 request_config=self.request_config,
+                **self.kwargs
             )
 
     async def parse_item(self, res):
