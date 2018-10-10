@@ -78,4 +78,4 @@ if __name__ == '__main__':
 
 如果程序运行地不够顺利，请总结问题日志，并给我们提交[Issue](https://github.com/howie6879/aspider/issues)
 
-恭喜你，你已经编写了一个属于自己的异步爬虫，是不是很简单，接下来你将实际编写一个例子，会更加深刻地认识到**aspider**的强大之处，请继续阅读[tutorials](./tutorials.md)
+恭喜你，你已经编写了一个属于自己的异步爬虫，是不是很简单，接下来你将实际编写一个例子，会更加深刻地认识到**aspider**的强大之处，请继续阅读[Tutorials](./tutorials.md)
