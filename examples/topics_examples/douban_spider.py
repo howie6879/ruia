@@ -4,9 +4,6 @@ from aspider import AttrField, TextField, Item, Request, Spider
 
 
 class DoubanItem(Item):
-    """
-    定义爬虫的目标字段
-    """
     target_item = TextField(css_select='div.item')
     title = TextField(css_select='span.title')
     cover = AttrField(css_select='div.pic>a>img', attr='src')
@@ -29,7 +26,7 @@ class DoubanSpider(Spider):
     concurrency = 10
 
     async def parse(self, res):
-        etree = res.e_html
+        etree = res.html_etree
         pages = ['?start=0&filter='] + [i.get('href') for i in etree.cssselect('.paginator>a')]
         for index, page in enumerate(pages):
             url = self.start_urls[0] + page
@@ -37,7 +34,7 @@ class DoubanSpider(Spider):
                 url,
                 callback=self.parse_item,
                 metadata={'index': index},
-                request_config=self.request_config
+                request_config=self.request_config,
             )
 
     async def parse_item(self, res):
