@@ -3,6 +3,7 @@
 from inspect import iscoroutinefunction
 
 from lxml import etree
+from typing import Any
 
 from aspider.field import BaseField
 from aspider.request import Request
@@ -40,7 +41,7 @@ class Item(metaclass=ItemMeta):
         return etree.HTML(html)
 
     @classmethod
-    async def get_item(cls, *, html: str = '', url: str = '', html_etree: etree._Element = None, **kwargs) -> object:
+    async def get_item(cls, *, html: str = '', url: str = '', html_etree: etree._Element = None, **kwargs) -> Any:
         if html_etree is None:
             etree_result = await cls._get_html(html, url, **kwargs)
         else:

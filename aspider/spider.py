@@ -105,7 +105,7 @@ class Spider:
                                   callback=self.parse,
                                   headers=getattr(self, 'headers', {}),
                                   load_js=getattr(self, 'load_js', False),
-                                  metadata=getattr(self, 'metadata', None),
+                                  metadata=getattr(self, 'metadata', {}),
                                   request_config=getattr(self, 'request_config'),
                                   request_session=getattr(self, 'request_session', None),
                                   res_type=getattr(self, 'res_type', 'text'),
