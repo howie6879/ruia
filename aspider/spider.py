@@ -61,9 +61,9 @@ class Spider:
         start_time = datetime.now()
 
         if after_start:
-            result = after_start(spider_ins.loop)
-            if isawaitable(result):
-                spider_ins.loop.run_until_complete(result)
+            func_after_start = after_start(spider_ins)
+            if isawaitable(func_after_start):
+                spider_ins.loop.run_until_complete(func_after_start)
 
         for _signal in (SIGINT, SIGTERM):
             try:
@@ -75,11 +75,10 @@ class Spider:
         try:
             spider_ins.loop.run_forever()
         finally:
-
             if before_stop:
-                result = before_stop(spider_ins.loop)
-                if isawaitable(result):
-                    spider_ins.loop.run_until_complete(result)
+                func_before_stop = before_stop(spider_ins)
+                if isawaitable(func_before_stop):
+                    spider_ins.loop.run_until_complete(func_before_stop)
 
             end_time = datetime.now()
             spider_ins.logger.info(f'Total requests: {spider_ins.failed_counts + spider_ins.success_counts}')
