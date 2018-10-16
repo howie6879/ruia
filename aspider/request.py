@@ -32,7 +32,8 @@ class Request(object):
     REQUEST_CONFIG = {
         'RETRIES': 3,
         'DELAY': 0,
-        'TIMEOUT': 10
+        'TIMEOUT': 10,
+        'RETRY_FUNC': None
     }
 
     METHOD = ['GET', 'POST']
@@ -146,6 +147,11 @@ class Request(object):
             retry_times = self.request_config.get('RETRIES', 3) - self.retry_times + 1
             self.logger.info(f'<Retry url: {self.url}>, Retry times: {retry_times}')
             self.retry_times -= 1
+            retry_func = self.request_config.get('RETRY_FUNC')
+            if retry_func and iscoroutinefunction(retry_func):
+                request_ins = await retry_func(self)
+                if isinstance(request_ins, Request):
+                    return await request_ins.fetch()
             return await self.fetch()
 
         await self.close()

@@ -47,7 +47,7 @@ class Spider:
         raise NotImplementedError
 
     @classmethod
-    def start(cls, after_start=None, before_stop=None, middleware=None, loop=None):
+    def start(cls, after_start=None, before_stop=None, middleware=None, loop=None, close_event_loop=True):
         """
         Start a spider
         :param after_start:
@@ -87,7 +87,8 @@ class Spider:
             spider_ins.logger.info(f'Time usage: {end_time - start_time}')
             spider_ins.logger.info('Spider finished!')
             spider_ins.loop.run_until_complete(spider_ins.loop.shutdown_asyncgens())
-            spider_ins.loop.close()
+            if close_event_loop:
+                spider_ins.loop.close()
 
     async def handle_request(self, request):
         # request middleware
