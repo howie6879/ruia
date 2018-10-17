@@ -1,1 +1,1 @@
-## Extensions
+## Plugins
