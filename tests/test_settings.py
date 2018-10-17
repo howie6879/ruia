@@ -24,7 +24,7 @@ def test_settings_load_with_dict():
 
 def test_settings_load_with_env():
     os.environ = {
-        'ASPIDER_DELAY':15,
+        'RUIA_DELAY':15,
     }
     s.load_from_environment()
     assert s.my_settings.get('DELAY', None) == 15

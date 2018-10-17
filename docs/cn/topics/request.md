@@ -1,7 +1,7 @@
 ## Request
 `Request`的主要作用是方便地处理网络请求，最终返回一个[Response](./response.md)对象主要提供的方法有：
-- [Request().fetch](https://github.com/howie6879/aspider/blob/master/aspider/request.py)：请求一个网页资源，可以单独使用
-- [Request().fetch_callback](https://github.com/howie6879/aspider/blob/master/aspider/request.py)：为`Spider`类提供的和核心方法
+- [Request().fetch](https://github.com/howie6879/ruia/blob/master/ruia/request.py)：请求一个网页资源，可以单独使用
+- [Request().fetch_callback](https://github.com/howie6879/ruia/blob/master/ruia/request.py)：为`Spider`类提供的和核心方法
 
 ### Core arguments
 - url：请求的资源链接
@@ -22,7 +22,7 @@
 ```python
 import asyncio
 
-from aspider import Request
+from ruia import Request
 
 request = Request("https://news.ycombinator.com/")
 response = asyncio.get_event_loop().run_until_complete(request.fetch())

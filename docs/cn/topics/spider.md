@@ -17,7 +17,7 @@
 ```python
 import aiofiles
 
-from aspider import AttrField, TextField, Item, Spider
+from ruia import AttrField, TextField, Item, Spider
 
 
 class HackerNewsItem(Item):

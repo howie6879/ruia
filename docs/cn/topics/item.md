@@ -1,8 +1,8 @@
 ## Item
 
 `Item`的主要作用是定义以及通过一定的规则提取源网页中的目标数据，它主要提供一下两个方法：
-- [get_item](https://github.com/howie6879/aspider/blob/master/aspider/item.py)：针对页面单目标数据进行提取
-- [get_items](https://github.com/howie6879/aspider/blob/master/aspider/item.py)：针对页面多目标数据进行提取
+- [get_item](https://github.com/howie6879/ruia/blob/master/ruia/item.py)：针对页面单目标数据进行提取
+- [get_items](https://github.com/howie6879/ruia/blob/master/ruia/item.py)：针对页面多目标数据进行提取
 
 ### Core arguments
 
@@ -18,7 +18,7 @@
 ```python
 import asyncio
 
-from aspider import AttrField, TextField, Item
+from ruia import AttrField, TextField, Item
 
 class HackerNewsItem(Item):
     target_item = TextField(css_select='tr.athing')

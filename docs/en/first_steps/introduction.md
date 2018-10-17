@@ -1,6 +1,6 @@
 ## Introduction
 
-**aspider** is an asynchronous crawler framework, based on `asyncio` and `aiohttp`. *Write less, run faster* is aspider's philosophy.
+**ruia** is an asynchronous crawler framework, based on `asyncio` and `aiohttp`. *Write less, run faster* is ruia's philosophy.
 
 **Fetures**
 
@@ -15,18 +15,18 @@ The first step is make sure that you are using `Python3.6+`, then run the follow
 
 ```shell
 # For Linux & Mac
-$ pip install -U aspider[uvloop]
+$ pip install -U ruia[uvloop]
 
 # For Windows
-$ pip install -U aspider
+$ pip install -U ruia
 
 # New features
-$ pip install git+https://github.com/howie6879/aspider
+$ pip install git+https://github.com/howie6879/ruia
 ```
 
 ### Example
 
-Here's a simple crawler to learn aspider. First, create a file and name it `hacker_news_spider.py`, then copy and paste the following code
+Here's a simple crawler to learn ruia. First, create a file and name it `hacker_news_spider.py`, then copy and paste the following code
 
 ```python
 #!/usr/bin/env python
@@ -36,7 +36,7 @@ Here's a simple crawler to learn aspider. First, create a file and name it `hack
 """
 import aiofiles
 
-from aspider import AttrField, TextField, Item, Spider
+from ruia import AttrField, TextField, Item, Spider
 
 
 class HackerNewsItem(Item):
@@ -66,20 +66,20 @@ if __name__ == '__main__':
 Done! Let's run this script in terminal `python hacker_news_spider.py`, if it works, you'll see something like
 
 ```
-[2018-09-24 11:02:05,088]-aspider-INFO  spider : Spider started!
+[2018-09-24 11:02:05,088]-ruia-INFO  spider : Spider started!
 [2018-09-24 11:02:05,089]-Request-INFO  request: <GET: https://news.ycombinator.com/news?p=2>
 [2018-09-24 11:02:05,113]-Request-INFO  request: <GET: https://news.ycombinator.com/news?p=1>
-[2018-09-24 11:02:09,820]-aspider-INFO  spider : Stopping spider: aspider
-[2018-09-24 11:02:09,820]-aspider-INFO  spider : Total requests: 2
-[2018-09-24 11:02:09,820]-aspider-INFO  spider : Time usage: 0:00:01.731780
-[2018-09-24 11:02:09,821]-aspider-INFO  spider : Spider finished!
+[2018-09-24 11:02:09,820]-ruia-INFO  spider : Stopping spider: ruia
+[2018-09-24 11:02:09,820]-ruia-INFO  spider : Total requests: 2
+[2018-09-24 11:02:09,820]-ruia-INFO  spider : Time usage: 0:00:01.731780
+[2018-09-24 11:02:09,821]-ruia-INFO  spider : Spider finished!
 ```
 
 Besides, you can find a file `hacker_news.txt` in the working directory, stored the target data.
 
-Congrats🎉, you finished your first crawler by using aspider, wanna learn more? [Tutorials](./tutorials.md) are available!
+Congrats🎉, you finished your first crawler by using ruia, wanna learn more? [Tutorials](./tutorials.md) are available!
 
 ### FAQ & Feedback
 
-Need some help? Should there be any questions, don't hesitate to create [issuses](https://github.com/howie6879/aspider/issues).
+Need some help? Should there be any questions, don't hesitate to create [issuses](https://github.com/howie6879/ruia/issues).
 
