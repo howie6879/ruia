@@ -43,7 +43,7 @@ class SettingsWrapper(object):
     def load_with_dict(self, dict_params):
         self.my_settings.update(dict_params)
 
-    def load_from_environment(self, prefix='ASPIDER_'):
+    def load_from_environment(self, prefix='RUIA_'):
         env_dict = {}
         for k, v in os.environ.items():
             if k.startswith(prefix):

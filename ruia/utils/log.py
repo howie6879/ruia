@@ -3,7 +3,7 @@
 import logging
 
 
-def get_logger(name='ruia'):
+def get_logger(name='Ruia'):
     logging_format = "[%(asctime)s]-%(name)s-%(levelname)-6s"
     # logging_format += "%(module)-7s::l%(lineno)d: "
     logging_format += "%(module)-7s: "
