@@ -1,6 +1,6 @@
 ## Tutorials
 
-目标：通过对[Hacker News](https://news.ycombinator.com/news)的爬取来展示如何使用**aspider**，下图红框中的数据就是我们需要爬取的：
+目标：通过对[Hacker News](https://news.ycombinator.com/news)的爬取来展示如何使用**ruia**，下图红框中的数据就是我们需要爬取的：
 
 ![tutorials_01](../../images/tutorials_01.png)
 
@@ -16,7 +16,7 @@ hacker_news_spider
 
 ### Item
 
-`Item`的目的是定义目标网站中你需要爬取的数据，此时，爬虫的目标数据就是页面中的`Title`和`Url`，怎么提取数据，**aspider**提供了[CSS Selector](https://www.w3schools.com/cssref/css_selectors.asp)和[XPath](https://www.w3schools.com/xml/xpath_intro.asp)两种方式提取目标数据
+`Item`的目的是定义目标网站中你需要爬取的数据，此时，爬虫的目标数据就是页面中的`Title`和`Url`，怎么提取数据，**ruia**提供了[CSS Selector](https://www.w3schools.com/cssref/css_selectors.asp)和[XPath](https://www.w3schools.com/xml/xpath_intro.asp)两种方式提取目标数据
 
 ``` text
 Notice: 后续爬虫例子都默认使用CSS Selector的规则来提取目标数据
@@ -37,7 +37,7 @@ Notice: 后续爬虫例子都默认使用CSS Selector的规则来提取目标数
 规则明确之后，就可以用`Item`来实现一个针对于目标数据的ORM，创建文件`items.py`，复制下面代码：
 
 ```python
-from aspider import AttrField, TextField, Item
+from ruia import AttrField, TextField, Item
 
 
 class HackerNewsItem(Item):
@@ -66,14 +66,14 @@ class HackerNewsItem(Item):
 比如此时爬取[Hacker News](https://news.ycombinator.com/news)，你希望在每次请求时候自动添加`Headers`的`User-Agent`，可以将下面代码复制到你建立的`middlewares.py`文件中：
 
 ```python
-from aspider import Middleware
+from ruia import Middleware
 
 middleware = Middleware()
 
 
 @middleware.request
 async def print_on_request(request):
-    ua = 'aspider user-agent'
+    ua = 'ruia user-agent'
     request.headers.update({'User-Agent': ua})
 ```
 
@@ -121,10 +121,10 @@ class MotorBase:
 
 `Spider`可以说是爬虫程序的入口，它将`Item`、`Middleware`、`Request`、等模块组合在一起，从而为你构造一个稳健的爬虫程序
 
-这次的目的仅仅是为了演示如何使用**aspider**编写爬虫，所以这个例子仅仅爬取[Hacker News](https://news.ycombinator.com/news)的前两页数据，创建`hacker_news.py`文件：
+这次的目的仅仅是为了演示如何使用**ruia**编写爬虫，所以这个例子仅仅爬取[Hacker News](https://news.ycombinator.com/news)的前两页数据，创建`hacker_news.py`文件：
 
 ```python
-from aspider import Request, Spider
+from ruia import Request, Spider
 
 from items import HackerNewsItem
 from middlewares import middleware
@@ -136,7 +136,7 @@ class HackerNewsSpider(Spider):
     concurrency = 3
 
     async def parse(self, res):
-        self.mongo_db = MotorBase().get_db('aspider_test')
+        self.mongo_db = MotorBase().get_db('ruia_test')
         urls = ['https://news.ycombinator.com/news?p=1', 'https://news.ycombinator.com/news?p=2']
         for index, url in enumerate(urls):
             yield Request(
@@ -165,20 +165,20 @@ if __name__ == '__main__':
 `HackerNewsSpider`继承于`Spider`类，其中子类必须实现`parse()`方法，运行`python hacker_news.py`：
 
 ```text
-[2018-09-24 17:59:19,865]-aspider-INFO  spider : Spider started!
+[2018-09-24 17:59:19,865]-ruia-INFO  spider : Spider started!
 [2018-09-24 17:59:19,866]-Request-INFO  request: <GET: https://news.ycombinator.com>
 [2018-09-24 17:59:23,259]-Request-INFO  request: <GET: https://news.ycombinator.com/news?p=1>
 [2018-09-24 17:59:23,260]-Request-INFO  request: <GET: https://news.ycombinator.com/news?p=2>
-[2018-09-24 18:03:05,562]-aspider-INFO  spider : Stopping spider: aspider
-[2018-09-24 18:03:05,562]-aspider-INFO  spider : Total requests: 3
-[2018-09-24 18:03:05,562]-aspider-INFO  spider : Time usage: 0:00:02.802862
-[2018-09-24 18:03:05,562]-aspider-INFO  spider : Spider finished!
+[2018-09-24 18:03:05,562]-ruia-INFO  spider : Stopping spider: ruia
+[2018-09-24 18:03:05,562]-ruia-INFO  spider : Total requests: 3
+[2018-09-24 18:03:05,562]-ruia-INFO  spider : Time usage: 0:00:02.802862
+[2018-09-24 18:03:05,562]-ruia-INFO  spider : Spider finished!
 ```
 
 数据库中可以看到：
 
 ![tutorials_03](../../images/tutorials_03.jpg)
 
-通过这个例子，你已经基本掌握了**aspider**的`Item`、`Middleware`、`Request`等模块的用法，结合自身需求，你可以编写任何爬虫，例子代码见[hacker_news_spider](https://github.com/howie6879/aspider/tree/master/examples/hacker_news_spider)
+通过这个例子，你已经基本掌握了**ruia**的`Item`、`Middleware`、`Request`等模块的用法，结合自身需求，你可以编写任何爬虫，例子代码见[hacker_news_spider](https://github.com/howie6879/ruia/tree/master/examples/hacker_news_spider)
 
-接下来，我们将结合实例，编写一个**aspider**的第三方扩展，详见：[Extensions](./extensions.md)
+接下来，我们将结合实例，编写一个**ruia**的第三方扩展，详见：[Plugins](./plugins.md)

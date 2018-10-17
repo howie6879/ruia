@@ -8,9 +8,9 @@ from inspect import isawaitable
 from signal import SIGINT, SIGTERM
 from types import AsyncGeneratorType
 
-from aspider.middleware import Middleware
-from aspider.request import Request
-from aspider.utils import get_logger
+from ruia.middleware import Middleware
+from ruia.request import Request
+from ruia.utils import get_logger
 
 try:
     import uvloop
@@ -21,7 +21,7 @@ except ImportError:
 
 
 class Spider:
-    name = 'aspider'
+    name = 'ruia'
     request_config = None
 
     failed_counts, success_counts = 0, 0

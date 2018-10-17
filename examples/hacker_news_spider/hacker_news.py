@@ -3,7 +3,7 @@
  Created by howie.hu at 2018/9/23.
 """
 
-from aspider import Request, Spider
+from ruia import Request, Spider
 
 from items import HackerNewsItem
 from middlewares import middleware
@@ -20,7 +20,7 @@ class HackerNewsSpider(Spider):
     concurrency = 3
 
     async def parse(self, res):
-        self.mongo_db = MotorBase().get_db('aspider_test')
+        self.mongo_db = MotorBase().get_db('ruia_test')
         urls = ['https://news.ycombinator.com/news?p=1', 'https://news.ycombinator.com/news?p=2']
         for index, url in enumerate(urls):
             yield Request(

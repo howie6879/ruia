@@ -4,7 +4,7 @@
 """
 import asyncio
 
-from aspider import AttrField, TextField, Item
+from ruia import AttrField, TextField, Item
 
 
 class HackerNewsItem(Item):

@@ -3,7 +3,7 @@
  Created by howie.hu at 2018/9/22.
 """
 
-from aspider import Request, Spider, Middleware
+from ruia import Request, Spider, Middleware
 
 
 class TestSpider(Spider):
@@ -31,7 +31,7 @@ res_type_middleware = Middleware()
 @middleware.request
 async def print_on_request(request):
     request.headers = {
-        'User-Agent': 'aspider ua'
+        'User-Agent': 'ruia ua'
     }
 
 

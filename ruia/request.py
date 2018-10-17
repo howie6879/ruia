@@ -18,8 +18,8 @@ try:
 except ImportError:
     pass
 
-from aspider.response import Response
-from aspider.utils import get_logger
+from ruia.response import Response
+from ruia.utils import get_logger
 
 
 class Request(object):

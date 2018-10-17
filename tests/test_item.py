@@ -4,7 +4,7 @@ import asyncio
 
 import pytest
 
-from aspider import AttrField, Item, TextField
+from ruia import AttrField, Item, TextField
 
 HTML = """
 <!DOCTYPE html>

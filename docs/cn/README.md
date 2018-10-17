@@ -1,14 +1,14 @@
-## aspider 中文文档
+## Ruia 中文文档
 
-**aspider**是一个基于`asyncio`和`aiohttp`的异步爬虫框架，它的目标是让你更加方便且迅速地编写出属于自己的爬虫
+**Ruia**是一个基于`asyncio`和`aiohttp`的异步爬虫框架，它的目标是让你更加方便且迅速地编写出属于自己的爬虫
 
-很高兴你能使用**aspider**来实现爬虫程序，不过在编码之前，希望你能通读此文档，因为它包含了**aspider**的使用方法以及一些基础概念介绍
+很高兴你能使用**Ruia**来实现爬虫程序，不过在编码之前，希望你能通读此文档，因为它包含了**Ruia**的使用方法以及一些基础概念介绍
 
 ### First steps
 
-- [Introduction](./first_steps/introduction.md)：介绍aspider
-- [Tutorials](./first_steps/tutorials.md)：使用aspider快速编写一个稳健的爬虫
-- [Extensions](./first_steps/extensions.md)：编写aspider扩展
+- [Introduction](./first_steps/introduction.md)：介绍Ruia
+- [Tutorials](./first_steps/tutorials.md)：使用Ruia快速编写一个稳健的爬虫
+- [Plugins](./first_steps/plugins.md)：编写Ruia扩展
 
 ### Topics
 
@@ -21,8 +21,8 @@
 
 ### Getting help
 
-如果在使用过程中遇到了困难，随时欢迎提[Issue](https://github.com/howie6879/aspider/issues)
+如果在使用过程中遇到了困难，随时欢迎提[Issue](https://github.com/howie6879/Ruia/issues)
 
-也随时欢迎加我微信拉您进群交流，备注(aspider)：
+也随时欢迎加我微信拉您进群交流，备注(Ruia)：
 
 <img src="https://ws1.sinaimg.cn/large/007i3XCUgy1fw0077yyf5j30dw0dwwen.jpg" width = "400" height = "400" alt="sanic_group" align=center />

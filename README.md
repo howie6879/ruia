@@ -1,6 +1,6 @@
-## aspider
+## Ruia
 
-[![travis](https://travis-ci.org/howie6879/aspider.svg?branch=master)](https://travis-ci.org/howie6879/aspider) [![PyPI - Python Version](https://img.shields.io/pypi/pyversions/aspider.svg)](https://pypi.org/project/aspider/) [![PyPI](https://img.shields.io/pypi/v/aspider.svg)](https://pypi.org/project/aspider/) [![license](https://img.shields.io/github/license/howie6879/aspider.svg)](https://github.com/howie6879/aspider)
+[![travis](https://travis-ci.org/howie6879/ruia.svg?branch=master)](https://travis-ci.org/howie6879/ruia) [![PyPI - Python Version](https://img.shields.io/pypi/pyversions/ruia.svg)](https://pypi.org/project/ruia/) [![PyPI](https://img.shields.io/pypi/v/ruia.svg)](https://pypi.org/project/ruia/) [![license](https://img.shields.io/github/license/howie6879/ruia.svg)](https://github.com/howie6879/ruia)
 
 ### Overview
 
@@ -8,21 +8,21 @@ An async web scraping micro-framework, written with `asyncio` and `aiohttp`, aim
 
 Write less, run faster:
 
-- Documentation: [中文文档](https://github.com/howie6879/aspider/blob/master/docs/cn/README.md) |[documentation](https://github.com/howie6879/aspider/blob/master/docs/en/README.md)
-- Extensions: [https://github.com/aspider-plugins](https://github.com/aspider-plugins)
+- Documentation: [中文文档](https://github.com/howie6879/ruia/blob/master/docs/cn/README.md) |[documentation](https://github.com/howie6879/ruia/blob/master/docs/en/README.md)
+- Plugins: [https://github.com/ruia-plugins](https://github.com/ruia-plugins)
 
 
 ### Installation
 
 ``` shell
 # For Linux & Mac
-pip install -U aspider[uvloop]
+pip install -U ruia[uvloop]
 
 # For Windows
-pip install -U aspider
+pip install -U ruia
 
 # New features
-pip install git+https://github.com/howie6879/aspider
+pip install git+https://github.com/howie6879/ruia
 ```
 
 ### Usage
@@ -34,7 +34,7 @@ We provide an easy way to `request` a url and return a friendly `response`:
 ``` python
 import asyncio
 
-from aspider import Request
+from ruia import Request
 
 request = Request("https://news.ycombinator.com/")
 response = asyncio.get_event_loop().run_until_complete(request.fetch())
@@ -61,7 +61,7 @@ Let's take a look at a quick example of using `Item` to extract target data. Sta
 ``` python
 import asyncio
 
-from aspider import AttrField, TextField, Item
+from ruia import AttrField, TextField, Item
 
 
 class HackerNewsItem(Item):
@@ -94,7 +94,7 @@ Create `hacker_news_spider.py`:
 ``` python
 import aiofiles
 
-from aspider import AttrField, TextField, Item, Spider
+from ruia import AttrField, TextField, Item, Spider
 
 
 class HackerNewsItem(Item):
@@ -123,23 +123,23 @@ if __name__ == '__main__':
 Run `hacker_news_spider.py`:
 
 ``` shell
-[2018-09-21 17:27:14,497]-aspider-INFO  spider::l54: Spider started!
+[2018-09-21 17:27:14,497]-ruia-INFO  spider::l54: Spider started!
 [2018-09-21 17:27:14,502]-Request-INFO  request::l77: <GET: https://news.ycombinator.com/news?p=2>
 [2018-09-21 17:27:14,527]-Request-INFO  request::l77: <GET: https://news.ycombinator.com/news?p=1>
-[2018-09-21 17:27:16,388]-aspider-INFO  spider::l122: Stopping spider: aspider
-[2018-09-21 17:27:16,389]-aspider-INFO  spider::l68: Total requests: 2
-[2018-09-21 17:27:16,389]-aspider-INFO  spider::l71: Time usage: 0:00:01.891688
-[2018-09-21 17:27:16,389]-aspider-INFO  spider::l72: Spider finished!
+[2018-09-21 17:27:16,388]-ruia-INFO  spider::l122: Stopping spider: ruia
+[2018-09-21 17:27:16,389]-ruia-INFO  spider::l68: Total requests: 2
+[2018-09-21 17:27:16,389]-ruia-INFO  spider::l71: Time usage: 0:00:01.891688
+[2018-09-21 17:27:16,389]-ruia-INFO  spider::l72: Spider finished!
 ```
 
 #### Custom middleware
 
-`aspider` provides an easy way to customize requests, *as long as it does not return it*. 
+`ruia` provides an easy way to customize requests, *as long as it does not return it*. 
 
 The following middleware code is based on the above example:
 
 ``` python
-from aspider import Middleware
+from ruia import Middleware
 
 middleware = Middleware()
 

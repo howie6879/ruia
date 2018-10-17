@@ -3,7 +3,7 @@
  Created by howie.hu at 2018/9/23.
 """
 
-from aspider import AttrField, TextField, Item
+from ruia import AttrField, TextField, Item
 
 
 class HackerNewsItem(Item):

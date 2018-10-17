@@ -3,7 +3,7 @@
  Created by howie.hu at 2018/9/8.
 """
 
-from aspider import AttrField, TextField, Item, Spider
+from ruia import AttrField, TextField, Item, Spider
 
 
 class JianshuItem(Item):

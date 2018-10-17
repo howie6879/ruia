@@ -5,8 +5,8 @@ from inspect import iscoroutinefunction
 from lxml import etree
 from typing import Any
 
-from aspider.field import BaseField
-from aspider.request import Request
+from ruia.field import BaseField
+from ruia.request import Request
 
 
 class ItemMeta(type):

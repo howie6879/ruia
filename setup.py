@@ -9,7 +9,7 @@ _version_re = re.compile(r'__version__\s+=\s+(.*)')
 with open(
         os.path.join(
             os.path.abspath(os.path.dirname(__file__)),
-            'aspider/__init__.py')) as fp:
+            'ruia/__init__.py')) as fp:
     try:
         version = re.findall(
             r"^__version__ = \"([^']+)\"\r?$", fp.read(), re.M)[0]
@@ -23,14 +23,14 @@ def read(file_name):
 
 
 setup(
-    name='aspider',
+    name='ruia',
     version=version,
     author='Howie Hu',
-    description="aspider - An async web scraping micro-framework based on asyncio.",
+    description="Ruia - An async web scraping micro-framework based on asyncio.",
     long_description=read('README.md'),
     author_email='xiaozizayang@gmail.com',
     install_requires=['aiohttp', 'cchardet', 'cssselect', 'lxml', 'pyppeteer'],
-    url="https://github.com/howie6879/aspider/blob/master/README.md",
+    url="https://github.com/howie6879/ruia/blob/master/README.md",
     packages=find_packages(),
     license='MIT',
     classifiers=[
@@ -41,8 +41,8 @@ setup(
         'Topic :: Software Development :: Libraries :: Python Modules',
     ],
     project_urls={
-        'Documentation': 'https://github.com/howie6879/aspider',
-        'Source': 'https://github.com/howie6879/aspider',
+        'Documentation': 'https://github.com/howie6879/ruia',
+        'Source': 'https://github.com/howie6879/ruia',
     },
     extras_require={
         'uvloop': ['uvloop']

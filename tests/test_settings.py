@@ -4,7 +4,7 @@ import os
 
 import pytest
 
-from aspider.wrappers import SettingsWrapper
+from ruia.wrappers import SettingsWrapper
 
 s = SettingsWrapper()
 

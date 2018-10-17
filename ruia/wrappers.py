@@ -4,7 +4,7 @@ import os
 
 from importlib import util
 
-from aspider.utils import get_logger
+from ruia.utils import get_logger
 
 logger = get_logger('settings')
 
