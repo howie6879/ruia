@@ -8,7 +8,7 @@
 
 ### Creating a project
 
-项目名称为：[ruia-ua](https://github.com/howie6879/ruia-ua)，因为**Ruia**基于`Python3.6+`，所以扩展`ruia-ua`也亦然，假设你此时使用的是`Python3.6+`，请按照如下操作：
+项目名称为：[ruia-ua](https://github.com/ruia-plugins/ruia-ua)，因为**Ruia**基于`Python3.6+`，所以扩展`ruia-ua`也亦然，假设你此时使用的是`Python3.6+`，请按照如下操作：
 
 ```shell
 # 安装包管理工具 pipenv

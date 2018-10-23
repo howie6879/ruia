@@ -47,7 +47,6 @@ class Request(object):
                  request_session=None,
                  res_type: str = 'text',
                  **kwargs):
-        # TODO: cookie
         """
         Initialization parameters
         """
@@ -61,10 +60,7 @@ class Request(object):
         self.load_js = load_js
         self.metadata = metadata if metadata is not None else {}
         self.request_session = request_session
-        if request_config is None:
-            self.request_config = self.REQUEST_CONFIG
-        else:
-            self.request_config = request_config
+        self.request_config = request_config or self.REQUEST_CONFIG
         self.res_type = res_type
         self.kwargs = kwargs
 
