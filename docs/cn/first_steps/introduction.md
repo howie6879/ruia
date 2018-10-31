@@ -44,6 +44,9 @@ class HackerNewsItem(Item):
     url = AttrField(css_select='a.storylink', attr='href')
 
     async def clean_title(self, value):
+        """
+        如果字段不需要清洗 这个函数可以不写
+        """
         return value
 
 

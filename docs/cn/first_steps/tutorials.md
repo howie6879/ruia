@@ -44,14 +44,6 @@ class HackerNewsItem(Item):
     target_item = TextField(css_select='tr.athing')
     title = TextField(css_select='a.storylink')
     url = AttrField(css_select='a.storylink', attr='href')
-
-    async def clean_title(self, value):
-        """
-        清洗目标数据
-        :param value: 初始目标数据
-        :return:
-        """
-        return value
 ```
 
 只需要继承`Item`类，将目标参数定义为一个属性即可，如果目标数据是可以循环提取的，比如此时每一页里面有`30`条数据，那么就需要定义`target_item`来循环提取每一条数据里面的`Title`和`Url`
