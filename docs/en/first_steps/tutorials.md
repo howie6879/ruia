@@ -166,7 +166,7 @@ Run `python hacker_news.py` to launch hacker news spider:
 
 After `Spider finished!`, open the database to have a look:
 
-![tutorials_03](../../images/tutorials_03.png)
+![tutorials_03](../../images/tutorials_03.jpg)
 
 As you can see, this is **ruia**.
 
