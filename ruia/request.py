@@ -41,7 +41,6 @@ class Request(object):
     def __init__(self, url: str, method: str = 'GET', *,
                  callback=None,
                  headers: dict = {},
-                 load_js: bool = False,
                  metadata: dict = {},
                  request_config: dict = {},
                  request_session=None,
@@ -57,7 +56,6 @@ class Request(object):
 
         self.callback = callback
         self.headers = headers
-        self.load_js = load_js
         self.metadata = metadata if metadata is not None else {}
         self.request_session = request_session
         self.request_config = request_config or self.REQUEST_CONFIG
@@ -108,30 +106,19 @@ class Request(object):
         try:
             timeout = self.request_config.get('TIMEOUT', 10)
 
-            if self.load_js:
-                if not hasattr(self, "browser"):
-                    self.browser = await pyppeteer.launch(headless=True, args=['--no-sandbox'])
-                page = await  self.browser.newPage()
-                res = await page.goto(self.url, options={'timeout': int(timeout * 1000)})
-                data = await page.content()
-                res_cookies = await page.cookies()
-                res_headers = res.headers
-                res_history = None
-                res_status = res.status
-            else:
-                async with async_timeout.timeout(timeout):
-                    async with self.current_request_func as resp:
-                        res_status = resp.status
-                        assert res_status in [200, 201]
-                        if self.res_type == 'bytes':
-                            data = await resp.read()
-                        elif self.res_type == 'json':
-                            data = await resp.json()
-                        else:
-                            content = await resp.read()
-                            charset = cchardet.detect(content)
-                            data = content.decode(charset['encoding'])
-                        res_cookies, res_headers, res_history = resp.cookies, resp.headers, resp.history
+            async with async_timeout.timeout(timeout):
+                async with self.current_request_func as resp:
+                    res_status = resp.status
+                    assert res_status in [200, 201]
+                    if self.res_type == 'bytes':
+                        data = await resp.read()
+                    elif self.res_type == 'json':
+                        data = await resp.json()
+                    else:
+                        content = await resp.read()
+                        charset = cchardet.detect(content)
+                        data = content.decode(charset['encoding'])
+                    res_cookies, res_headers, res_history = resp.cookies, resp.headers, resp.history
         except Exception as e:
             res_headers = {}
             res_history = ()
