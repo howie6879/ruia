@@ -10,7 +10,6 @@ pytest = "*"
 aiohttp = ">=3.3.2"
 cssselect = "*"
 lxml = "*"
-pyppeteer = "*"
 
 [requires]
 python_version = "3.6"
