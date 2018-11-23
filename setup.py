@@ -29,7 +29,7 @@ setup(
     description="Ruia - An async web scraping micro-framework based on asyncio.",
     long_description=read('README.md'),
     author_email='xiaozizayang@gmail.com',
-    install_requires=['aiohttp', 'cchardet', 'cssselect', 'lxml'],
+    install_requires=['aiohttp', 'cssselect', 'lxml'],
     url="https://github.com/howie6879/ruia/blob/master/README.md",
     packages=find_packages(),
     license='MIT',

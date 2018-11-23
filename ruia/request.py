@@ -4,8 +4,6 @@ import asyncio
 
 import aiohttp
 import async_timeout
-import cchardet
-import pyppeteer
 
 from inspect import iscoroutinefunction
 from types import AsyncGeneratorType
@@ -115,9 +113,10 @@ class Request(object):
                     elif self.res_type == 'json':
                         data = await resp.json()
                     else:
-                        content = await resp.read()
-                        charset = cchardet.detect(content)
-                        data = content.decode(charset['encoding'])
+                        data = await resp.text()
+                        # content = await resp.read()
+                        # charset = cchardet.detect(content)
+                        # data = content.decode(charset['encoding'])
                     res_cookies, res_headers, res_history = resp.cookies, resp.headers, resp.history
         except Exception as e:
             res_headers = {}
