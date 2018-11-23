@@ -99,6 +99,9 @@ class Request(object):
             self.request_session = None
 
     async def fetch(self) -> Response:
+        res_headers,res_history = {},()
+        res_status = 0
+        res_data, res_cookies = None, None
         if self.request_config.get('DELAY', 0) > 0:
             await asyncio.sleep(self.request_config['DELAY'])
         try:
@@ -109,23 +112,19 @@ class Request(object):
                     res_status = resp.status
                     assert res_status in [200, 201]
                     if self.res_type == 'bytes':
-                        data = await resp.read()
+                        res_data = await resp.read()
                     elif self.res_type == 'json':
-                        data = await resp.json()
+                        res_data = await resp.json()
                     else:
-                        data = await resp.text()
+                        res_data = await resp.text()
                         # content = await resp.read()
                         # charset = cchardet.detect(content)
-                        # data = content.decode(charset['encoding'])
+                        # res_data = content.decode(charset['encoding'])
                     res_cookies, res_headers, res_history = resp.cookies, resp.headers, resp.history
         except Exception as e:
-            res_headers = {}
-            res_history = ()
-            res_status = 0
-            data, res_cookies = None, None
             self.logger.error(f"<Error: {self.url} {res_status} {str(e)}>")
 
-        if self.retry_times > 0 and data is None:
+        if self.retry_times > 0 and res_data is None:
             retry_times = self.request_config.get('RETRIES', 3) - self.retry_times + 1
             self.logger.info(f'<Retry url: {self.url}>, Retry times: {retry_times}')
             self.retry_times -= 1
@@ -139,7 +138,7 @@ class Request(object):
         await self.close()
 
         response = Response(url=self.url,
-                            html=data,
+                            html=res_data,
                             metadata=self.metadata,
                             res_type=self.res_type,
                             cookies=res_cookies,
