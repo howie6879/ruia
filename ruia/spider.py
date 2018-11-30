@@ -151,7 +151,8 @@ class Spider:
             self.request_queue.put_nowait(self.handle_request(request_ins))
         workers = [asyncio.ensure_future(self.start_worker()) for i in range(2)]
         await self.request_queue.join()
-        await self.stop(SIGINT)
+        if not self.is_async_start:
+            await self.stop(SIGINT)
 
     async def start_worker(self):
         while True:
@@ -178,8 +179,7 @@ class Spider:
                  asyncio.tasks.Task.current_task()]
         list(map(lambda task: task.cancel(), tasks))
         results = await asyncio.gather(*tasks, return_exceptions=True)
-        if not self.is_async_start:
-            self.loop.stop()
+        self.loop.stop()
 
     async def _run_request_middleware(self, request):
         if self.middleware.request_middleware:
