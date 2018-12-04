@@ -2,7 +2,6 @@
 
 from lxml import etree
 
-
 class BaseField(object):
     """
     BaseField class
@@ -74,6 +73,36 @@ class AttrField(BaseField):
             value = value[0].get(self.attr, value) if len(value) == 1 else value
         elif self.xpath_select:
             value = html.xpath(self.xpath_select)
+        else:
+            raise ValueError('%s field: css_select or xpath_select is expected' % self.__class__.__name__)
+        if is_source:
+            return value
+        if self.default is not None:
+            value = value if value else self.default
+        return value
+
+class HtmlField(BaseField):
+    """
+    HtmlField class for a field
+    """
+
+    def __init__(self, css_select=None, xpath_select=None, default=None):
+        super(HtmlField, self).__init__(css_select, xpath_select, default)
+
+    def extract_value(self, html, is_source=False):
+        """
+        Use css_select or re_select to extract a field value
+        :return:
+        """
+        if self.css_select:
+            value = html.cssselect(self.css_select)[0]
+            value = etree.tostring(value,encoding='utf-8')
+            value = value.decode(encoding='UTF-8')
+        elif self.xpath_select:
+            value = html.xpath(self.xpath_select)[0]
+            value = etree.tostring(value,encoding='utf-8')
+            value = value.decode(encoding='UTF-8')
+
         else:
             raise ValueError('%s field: css_select or xpath_select is expected' % self.__class__.__name__)
         if is_source:
