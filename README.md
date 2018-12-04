@@ -46,13 +46,19 @@ response = asyncio.get_event_loop().run_until_complete(request.fetch())
 
 **JavaScript Support**:
 
-``` python
+You can load js by using [ruia-pyppeteer](https://github.com/ruia-plugins/ruia-pyppeteer).
+
+For example:
+
+```python
+import asyncio
+
+from ruia_pyppeteer import PyppeteerRequest as Request
+
 request = Request("https://www.jianshu.com/", load_js=True)
 response = asyncio.get_event_loop().run_until_complete(request.fetch())
-print(response.body)
+print(response.html)
 ```
-
-You need to pay attention when you use `load_js`, it will download a recent version of Chromium (~100MB). This only happens once.
 
 #### Item
 

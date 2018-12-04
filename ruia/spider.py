@@ -48,8 +48,10 @@ class Spider:
 
     async def parse(self, res):
         raise NotImplementedError
-    async def get_start_urls(self,spider_ins):
-        spider_ins.start_urls = await database.UrlsDb(self.urls_db, 'ruia_urlsdb',spider_ins.name).get_start_urls()
+
+    async def get_start_urls(self, spider_ins):
+        spider_ins.start_urls = await database.UrlsDb(self.urls_db, 'ruia_urlsdb', spider_ins.name).get_start_urls()
+
     @classmethod
     async def async_start(cls, middleware=None, loop=None, after_start=None, before_stop=None):
         """

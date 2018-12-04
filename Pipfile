@@ -8,10 +8,8 @@ pytest = "*"
 
 [packages]
 aiohttp = ">=3.3.2"
-cchardet = "*"
 cssselect = "*"
 lxml = "*"
-pyppeteer = "*"
 
 [requires]
 python_version = "3.6"
