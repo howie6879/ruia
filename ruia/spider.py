@@ -11,7 +11,7 @@ from types import AsyncGeneratorType
 from ruia.middleware import Middleware
 from ruia.request import Request
 from ruia.utils import get_logger
-
+from ruia import database
 try:
     import uvloop
 
@@ -26,10 +26,12 @@ class Spider:
 
     failed_counts, success_counts = 0, 0
     start_urls, worker_tasks = [], []
+    urls_db = False
 
     def __init__(self, middleware=None, loop=None):
         if not self.start_urls or not isinstance(self.start_urls, list):
-            raise ValueError("Spider must have a param named start_urls, eg: start_urls = ['https://www.github.com']")
+            if not self.urls_db:
+                raise ValueError("Spider must have a param named start_urls, eg: start_urls = ['https://www.github.com']")
         self.logger = get_logger(name=self.name)
         self.loop = loop or asyncio.new_event_loop()
         asyncio.set_event_loop(self.loop)
@@ -45,7 +47,8 @@ class Spider:
 
     async def parse(self, res):
         raise NotImplementedError
-
+    async def get_start_urls(self,spider_ins):
+        spider_ins.start_urls = await database.UrlsDb(self.urls_db, 'ruia_urlsdb',spider_ins.name).get_start_urls()
     @classmethod
     def start(cls, after_start=None, before_stop=None, middleware=None, loop=None, close_event_loop=True):
         """
@@ -59,7 +62,8 @@ class Spider:
         spider_ins = cls(middleware=middleware, loop=loop)
         spider_ins.logger.info('Spider started!')
         start_time = datetime.now()
-
+        if spider_ins.urls_db:
+            spider_ins.loop.run_until_complete(spider_ins.get_start_urls(spider_ins))
         if after_start:
             func_after_start = after_start(spider_ins)
             if isawaitable(func_after_start):
