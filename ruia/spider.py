@@ -28,12 +28,13 @@ class Spider:
     start_urls, worker_tasks = [], []
     urls_db = False
 
-    def __init__(self, middleware=None, loop=None):
+    def __init__(self, middleware=None, loop=None, is_async_start=False):
         if not self.start_urls or not isinstance(self.start_urls, list):
             if not self.urls_db:
                 raise ValueError("Spider must have a param named start_urls, eg: start_urls = ['https://www.github.com']")
+        self.is_async_start = is_async_start
         self.logger = get_logger(name=self.name)
-        self.loop = loop or asyncio.new_event_loop()
+        self.loop = loop
         asyncio.set_event_loop(self.loop)
         # customize middleware
         if isinstance(middleware, list):
@@ -50,7 +51,42 @@ class Spider:
     async def get_start_urls(self,spider_ins):
         spider_ins.start_urls = await database.UrlsDb(self.urls_db, 'ruia_urlsdb',spider_ins.name).get_start_urls()
     @classmethod
-    def start(cls, after_start=None, before_stop=None, middleware=None, loop=None, close_event_loop=True):
+    async def async_start(cls, middleware=None, loop=None, after_start=None, before_stop=None):
+        """
+        Start an async spider
+        :param middleware:
+        :param loop:
+        :param after_start:
+        :param before_stop:
+        :return:
+        """
+        loop = loop or asyncio.get_event_loop()
+        spider_ins = cls(middleware=middleware, loop=loop, is_async_start=True)
+        spider_ins.logger.info('Spider started!')
+        start_time = datetime.now()
+
+        if after_start:
+            func_after_start = after_start(spider_ins)
+            if isawaitable(func_after_start):
+                await func_after_start
+
+        try:
+            await spider_ins.start_master()
+        finally:
+            if before_stop:
+                func_before_stop = before_stop(spider_ins)
+                if isawaitable(func_before_stop):
+                    await func_before_stop
+
+            end_time = datetime.now()
+            spider_ins.logger.info(f'Total requests: {spider_ins.failed_counts + spider_ins.success_counts}')
+            if spider_ins.failed_counts:
+                spider_ins.logger.info(f'Failed requests: {spider_ins.failed_counts}')
+            spider_ins.logger.info(f'Time usage: {end_time - start_time}')
+            spider_ins.logger.info('Spider finished!')
+
+    @classmethod
+    def start(cls, middleware=None, loop=None, after_start=None, before_stop=None, close_event_loop=True):
         """
         Start a spider
         :param after_start:
@@ -59,7 +95,9 @@ class Spider:
         :param loop: event loop
         :return:
         """
+        loop = loop or asyncio.new_event_loop()
         spider_ins = cls(middleware=middleware, loop=loop)
+        spider_ins.is_async_start = False
         spider_ins.logger.info('Spider started!')
         start_time = datetime.now()
         if spider_ins.urls_db:
@@ -108,7 +146,6 @@ class Spider:
             request_ins = Request(url=url,
                                   callback=self.parse,
                                   headers=getattr(self, 'headers', {}),
-                                  load_js=getattr(self, 'load_js', False),
                                   metadata=getattr(self, 'metadata', {}),
                                   request_config=getattr(self, 'request_config'),
                                   request_session=getattr(self, 'request_session', None),
@@ -118,7 +155,8 @@ class Spider:
             self.request_queue.put_nowait(self.handle_request(request_ins))
         workers = [asyncio.ensure_future(self.start_worker()) for i in range(2)]
         await self.request_queue.join()
-        await self.stop(SIGINT)
+        if not self.is_async_start:
+            await self.stop(SIGINT)
 
     async def start_worker(self):
         while True:
