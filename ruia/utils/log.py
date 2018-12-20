@@ -11,7 +11,8 @@ def get_logger(name='Ruia'):
 
     logging.basicConfig(
         format=logging_format,
-        level=logging.DEBUG
+        level=logging.INFO,
+        datefmt='%Y:%m:%d %H:%M:%S'
     )
     logging.getLogger("asyncio").setLevel(logging.INFO)
     logging.getLogger("pyppeteer").setLevel(logging.INFO)
