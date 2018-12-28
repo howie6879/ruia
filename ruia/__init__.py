@@ -6,4 +6,4 @@ from .middleware import Middleware
 from .request import Request
 from .spider import Spider
 
-__version__ = "0.0.9"
+__version__ = "0.1.0"

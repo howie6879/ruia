@@ -7,7 +7,7 @@ import async_timeout
 
 from inspect import iscoroutinefunction
 from types import AsyncGeneratorType
-from typing import Tuple
+from typing import Optional, Tuple
 
 try:
     import uvloop
@@ -38,6 +38,7 @@ class Request(object):
 
     def __init__(self, url: str, method: str = 'GET', *,
                  callback=None,
+                 encoding: Optional[str] = None,
                  headers: dict = {},
                  metadata: dict = {},
                  request_config: dict = {},
@@ -53,6 +54,7 @@ class Request(object):
             raise ValueError('%s method is not supported' % self.method)
 
         self.callback = callback
+        self.encoding = encoding
         self.headers = headers
         self.metadata = metadata if metadata is not None else {}
         self.request_session = request_session
@@ -99,7 +101,7 @@ class Request(object):
             self.request_session = None
 
     async def fetch(self) -> Response:
-        res_headers,res_history = {},()
+        res_headers, res_history = {}, ()
         res_status = 0
         res_data, res_cookies = None, None
         if self.request_config.get('DELAY', 0) > 0:
@@ -116,7 +118,7 @@ class Request(object):
                     elif self.res_type == 'json':
                         res_data = await resp.json()
                     else:
-                        res_data = await resp.text()
+                        res_data = await resp.text(encoding=self.encoding)
                         # content = await resp.read()
                         # charset = cchardet.detect(content)
                         # res_data = content.decode(charset['encoding'])
