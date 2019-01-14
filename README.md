@@ -2,6 +2,8 @@
 
 [![travis](https://travis-ci.org/howie6879/ruia.svg?branch=master)](https://travis-ci.org/howie6879/ruia) [![PyPI - Python Version](https://img.shields.io/pypi/pyversions/ruia.svg)](https://pypi.org/project/ruia/) [![PyPI](https://img.shields.io/pypi/v/ruia.svg)](https://pypi.org/project/ruia/) [![license](https://img.shields.io/github/license/howie6879/ruia.svg)](https://github.com/howie6879/ruia)
 
+![](./docs/images/demo.png)
+
 ### Overview
 
 An async web scraping micro-framework, written with `asyncio` and `aiohttp`, aims to make crawling url as convenient as possible.
