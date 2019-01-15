@@ -44,7 +44,10 @@ class _LxmlElementField(BaseField):
         if is_source:
             return elements if self.many else elements[0]
         results = [self._parse_element(element) for element in elements]
-        return results if self.many else results[0]
+        if self.many:
+            return results
+        else:
+            return results[0] if results else ''
 
 
 class TextField(_LxmlElementField):
