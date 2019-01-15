@@ -6,7 +6,7 @@
 
 ### Core arguments
 
-`get_item`和`get_item`方法接收的参数是一致的：
+`get_item`和`get_items`方法接收的参数是一致的：
 - html：网页源码
 - url：网页链接
 - html_etree：etree._Element对象
