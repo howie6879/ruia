@@ -43,5 +43,5 @@ for item in items:
 Inner, `item` class will change different kinds of inputs into `etree._Element` obejct, and then extract data.
 `Meta class` will help to get every property defined by `Filed`.
 
-get_item: https://github.com/howie6879/ruia/blob/master/ruia/item.py
-get_items: https://github.com/howie6879/ruia/blob/master/ruia/item.py
+[get_item]: https://github.com/howie6879/ruia/blob/master/ruia/item.py
+[get_items]: https://github.com/howie6879/ruia/blob/master/ruia/item.py
