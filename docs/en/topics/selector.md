@@ -9,16 +9,19 @@ In detail, they are implemented by the following two classes:
 
 ### Core arguments
 
-Arguments of `AttrField` and `TextField`:
+Arguments of all `Field` classes:
+- default: default value if no HTML tag founded.
+- many: bool, the return value will be a list.
 
+
+Arguments of `TextField`:
 - css_select: locate the HTML tag by css selector.
 - xpath_select: locate the HTML tag by xpath selector.
-- default: default value if no HTML tag founded.
-
-对于`TextField`，主要参数说明如下：
 
 Arguments of `AttrField`:
 - attr: the target attribute name of HTML tag.
+- css_select: locate the HTML tag by css selector.
+- xpath_select: locate the HTML tag by xpath selector.
 
 ### Usage
 
