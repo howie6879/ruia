@@ -56,6 +56,7 @@ class Item(metaclass=ItemMeta):
             etree_result = html_etree
         items_field = getattr(cls, '__fields', {}).get('target_item', None)
         if items_field:
+            items_field.many = True
             items = items_field.extract_value(etree_result, is_source=True)
             if items:
                 tasks = [cls._parse_html(etree_result=i) for i in items]
