@@ -43,26 +43,22 @@ class Item(metaclass=ItemMeta):
     @classmethod
     async def get_item(cls, *, html: str = '', url: str = '', html_etree: etree._Element = None, **kwargs) -> Any:
         if html_etree is None:
-            etree_result = await cls._get_html(html, url, **kwargs)
-        else:
-            etree_result = html_etree
-        return await cls._parse_html(etree_result)
+            html_etree = await cls._get_html(html, url, **kwargs)
+
+        return await cls._parse_html(html_etree=html_etree)
 
     @classmethod
     async def get_items(cls, *, html: str = '', url: str = '', html_etree: etree._Element = None, **kwargs) -> list:
         if html_etree is None:
-            etree_result = await cls._get_html(html, url, **kwargs)
-        else:
-            etree_result = html_etree
+            html_etree = await cls._get_html(html, url, **kwargs)
         items_field = getattr(cls, '__fields', {}).get('target_item', None)
         if items_field:
             items_field.many = True
-            items = items_field.extract_value(etree_result, is_source=True)
+            items = items_field.extract_value(html_etree=html_etree, is_source=True)
             if items:
-                tasks = [cls._parse_html(etree_result=i) for i in items]
                 all_items = []
-                for task in tasks:
-                    all_items.append(await task)
+                for each_html_etree in items:
+                    all_items.append(await cls._parse_html(html_etree=each_html_etree))
                 return all_items
             else:
                 raise ValueError("Get target_item's value error!")
@@ -70,14 +66,14 @@ class Item(metaclass=ItemMeta):
             raise ValueError("target_item is expected")
 
     @classmethod
-    async def _parse_html(cls, etree_result: etree._Element) -> object:
-        if etree_result is None or not isinstance(etree_result, etree._Element):
+    async def _parse_html(cls, *, html_etree: etree._Element) -> object:
+        if html_etree is None:
             raise ValueError("etree._Element is expected")
         item_ins = cls()
         for field_name, field_value in getattr(item_ins, '__fields', {}).items():
             if not field_name.startswith('target_'):
                 clean_method = getattr(item_ins, 'clean_%s' % field_name, None)
-                value = field_value.extract_value(etree_result) if isinstance(field_value, BaseField) else field_value
+                value = field_value.extract_value(html_etree=html_etree)
                 if clean_method is not None:
                     if iscoroutinefunction(clean_method):
                         value = await clean_method(value)

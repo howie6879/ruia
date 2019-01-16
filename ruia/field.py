@@ -1,6 +1,6 @@
 #!/usr/bin/env python
+
 from lxml import etree
-from copy import deepcopy
 
 
 class NothingMatchedError(Exception):
@@ -28,11 +28,11 @@ class BaseField(object):
 
 
 class _LxmlElementField(BaseField):
-    def _get_elements(self, html):
+    def _get_elements(self, *, html_etree: etree._Element):
         if self.css_select:
-            elements = html.cssselect(self.css_select)
+            elements = html_etree.cssselect(self.css_select)
         elif self.xpath_select:
-            elements = html.xpath(self.xpath_select)
+            elements = html_etree.xpath(self.xpath_select)
         else:
             raise ValueError('%s field: css_select or xpath_select is expected' % self.__class__.__name__)
         if not self.many:
@@ -42,21 +42,18 @@ class _LxmlElementField(BaseField):
     def _parse_element(self, element):
         raise NotImplementedError
 
-    def extract_value(self, html, is_source=False):
-        elements = self._get_elements(html)
+    def extract_value(self, *, html_etree: etree._Element, is_source: bool = False):
+        elements = self._get_elements(html_etree=html_etree)
+
         if is_source:
             return elements if self.many else elements[0]
-        results = [self._parse_element(element) for element in elements]
-        if self.many:
-            return results
+
+        if elements:
+            results = [self._parse_element(element) for element in elements]
         else:
-            if len(results) >= 1:
-                return results[0]
-            else:
-                if self.default:
-                    return self.default
-                else:
-                    raise NothingMatchedError('Nothing matched, and default is not defined.')
+            results = [self.default]
+
+        return results if self.many else results[0]
 
 
 class TextField(_LxmlElementField):
