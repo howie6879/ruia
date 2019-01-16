@@ -74,14 +74,14 @@ class Request(object):
             request_func = self.current_request_session.get(
                 self.url,
                 headers=self.headers,
-                verify_ssl=False,
+                ssl=False,
                 **self.kwargs
             )
         else:
             request_func = self.current_request_session.post(
                 self.url,
                 headers=self.headers,
-                verify_ssl=False,
+                ssl=False,
                 **self.kwargs
             )
         return request_func
