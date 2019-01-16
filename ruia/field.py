@@ -40,7 +40,6 @@ class _LxmlElementField(BaseField):
 
     def extract_value(self, html, is_source=False):
         elements = self._get_elements(html)
-        print(self.css_select, elements)
         if is_source:
             return elements if self.many else elements[0]
         results = [self._parse_element(element) for element in elements]
