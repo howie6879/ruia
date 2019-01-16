@@ -40,19 +40,20 @@ for item in items:
 我们可以使用`Field`字段的`many=True`参数，使这个字段返回一个列表。
 
 ```python
-from ruia import Item, TextField
+import asyncio
+from ruia import Item, TextField, AttrField
+
 
 class GithiubIssueItem(Item):
-    issue_id = TextField(css_select='issue_id_class')
-    title = TextField(css_select='issue_title_class')
-    tags = TextField(css_select='tag_class',many=True)
-    
-    
-item = GithiubIssueItem.get_item(html)
+    title = TextField(css_select='title')
+    tags = AttrField(css_select='a.IssueLabel', attr='data-name', many=True)
+
+
+item = asyncio.run(GithiubIssueItem.get_item(url='https://github.com/pypa/pip/issues/72'))
 assert isinstance(item.tags, list)
 ```
 
-同样，`AttrField`也支持`many`参数。
+同样，`TextField`也支持`many`参数。
 
 ### How It Works?
 最终`Item`类会将输入最终转化为`etree._Element`对象进行处理，然后利用元类的思想将每一个`Field`构造的属性计算为源网页上对应的真实数据
