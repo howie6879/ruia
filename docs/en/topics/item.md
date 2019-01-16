@@ -38,6 +38,27 @@ for item in items:
 
 ```
 
+Sometimes we may come across such a condition.
+When crawling github issues, we will find that there are several tags to a issue.
+Define `TagItem` as a standalone item is not that beautiful.
+It's time to focus on the `many=True` argument.
+Fields with `many=True` will return a list.
+
+```python
+from ruia import Item, TextField
+
+class GithiubIssueItem(Item):
+    issue_id = TextField(css_select='issue_id_class')
+    title = TextField(css_select='issue_title_class')
+    tags = TextField(css_select='tag_class',many=True)
+    
+    
+item = GithiubIssueItem.get_item(html)
+assert isinstance(item.tags, list)
+```
+
+`AttrField` also has the argument `many`.
+
 ### How It Works?
 
 Inner, `item` class will change different kinds of inputs into `etree._Element` obejct, and then extract data.

@@ -6,16 +6,18 @@
 
 ### Core arguments
 
+所有的`Field`共有的参数：
+- default: str, 设置默认值
+- many: bool, 返回值将是一个列表
+
 对于`AttrField`，主要参数说明如下：
-- css_select：利用`CSS Selector`提取目标数据
-- xpath_select：利用`XPath`提取目标数据
-- default：设置默认值
+- css_select：str, 利用`CSS Selector`提取目标数据
+- xpath_select：str, 利用`XPath`提取目标数据
 
 对于`TextField`，主要参数说明如下：
 - attr：目标标签属性
 - css_select：利用`CSS Selector`提取目标数据
 - xpath_select：利用`XPath`提取目标数据
-- default：设置默认值
 
 ### Usage
 
