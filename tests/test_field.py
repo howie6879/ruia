@@ -5,6 +5,7 @@ import pytest
 from lxml import etree
 
 from ruia import AttrField, TextField
+from ruia.field import NothingMatchedError
 
 HTML = """
 <html>
@@ -65,14 +66,20 @@ def test_attr_field_many():
 
 def test_text_field_not_exist():
     field = TextField(css_select="nothing matched")
-    value = field.extract_value(html)
-    assert value == ''
+    try:
+        value = field.extract_value(html)
+        raise AssertionError
+    except NothingMatchedError:
+        pass
 
 
 def test_attr_field_not_exist():
     field = TextField(css_select="nothing matched")
-    value = field.extract_value(html)
-    assert value == ''
+    try:
+        value = field.extract_value(html)
+        raise AssertionError
+    except NothingMatchedError:
+        pass
 
 
 def test_text_field_many_even_there_is_only_one_in_html():
@@ -85,3 +92,29 @@ def test_attr_field_many_even_there_is_only_one_in_html():
     field = AttrField(css_select="div.brand a", attr="href", many=True)
     value = field.extract_value(html)
     assert value[0] == 'https://github.com'
+
+
+def test_text_field_with_default():
+    field = TextField(css_select="div.brand b", default='nothing')
+    value = field.extract_value(html)
+    assert value == 'nothing'
+
+
+def test_attr_field_with_default():
+    field = AttrField(css_select="div.brand b", attr='href', default='nothing')
+    value = field.extract_value(html)
+    assert value == 'nothing'
+
+
+def test_text_field_with_default_and_many():
+    field = TextField(css_select="div.brand b", default="nothing", many=True)
+    values = field.extract_value(html)
+    assert isinstance(values, list)
+    assert len(values) == 0
+
+
+def test_attr_field_with_default_and_many():
+    field = AttrField(css_select="div.brand b", attr="href", default="nothing", many=True)
+    values = field.extract_value(html)
+    assert isinstance(values, list)
+    assert len(values) == 0

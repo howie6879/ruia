@@ -3,6 +3,10 @@ from lxml import etree
 from copy import deepcopy
 
 
+class NothingMatchedError(Exception):
+    pass
+
+
 class BaseField(object):
     """
     BaseField class
@@ -46,7 +50,13 @@ class _LxmlElementField(BaseField):
         if self.many:
             return results
         else:
-            return results[0] if results else ''
+            if len(results) >= 1:
+                return results[0]
+            else:
+                if self.default:
+                    return self.default
+                else:
+                    raise NothingMatchedError('Nothing matched, and default is not defined.')
 
 
 class TextField(_LxmlElementField):
