@@ -71,3 +71,12 @@ class AttrField(_LxmlElementField):
 
     def _parse_element(self, element):
         return element.get(self.attr, self.default)
+
+
+class HtmlField(_LxmlElementField):
+    """
+    This field is used to get raw html code.
+    """
+
+    def _parse_element(self, element):
+        return etree.tostring(element).decode(encoding='utf-8')
