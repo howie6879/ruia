@@ -29,6 +29,7 @@ HTML = """
         </p>        
         <p>
             <a class="test_link" href="https://github.com/howie6879/">hello5 github.</a>
+            Some text outside.
         </p>
     </body>
 </html>
@@ -64,6 +65,7 @@ def test_text_field_many():
 def test_attr_field_many():
     field = AttrField(css_select="a.test_link", attr="href", many=True)
     values = field.extract_value(html_etree=html_etree)
+    assert len(values) == 5
     assert values[3] == "https://github.com/howie6879/ruia"
 
 
@@ -125,5 +127,6 @@ def test_html_field_with_many():
     field = HtmlField(css_select="a.test_link", many=True)
     values = field.extract_value(html_etree=html_etree)
     assert len(values) == 5
-    assert values[0] == '<a class="test_link" href="https://github.com/howie6879/">hello1 github.</a>'
-    assert values[4] == '<a class="test_link" href="https://github.com/howie6879/">hello5 github.</a>'
+    assert values[0] == '<a class="test_link" href="https://github.com/howie6879/">hello1 github.</a>\n        '
+    assert values[4] == '<a class="test_link" href="https://github.com/howie6879/">hello5 github.</a>\n' \
+                        '            Some text outside.\n        '
