@@ -3,10 +3,6 @@
 from lxml import etree
 
 
-class NothingMatchedError(Exception):
-    pass
-
-
 class BaseField(object):
     """
     BaseField class
@@ -57,6 +53,10 @@ class _LxmlElementField(BaseField):
 
 
 class AttrField(_LxmlElementField):
+    """
+    This field is used to get  attribute.
+    """
+
     def __init__(self, attr, css_select=None, xpath_select=None, default='', many=False):
         super(AttrField, self).__init__(
             css_select=css_select, xpath_select=xpath_select, default=default, many=many)
@@ -66,17 +66,21 @@ class AttrField(_LxmlElementField):
         return element.get(self.attr, self.default)
 
 
-class TextField(_LxmlElementField):
-    def _parse_element(self, element):
-        strings = [node.strip() for node in element.itertext()]
-        string = ''.join(strings)
-        return string if string else self.default
-
-
 class HtmlField(_LxmlElementField):
     """
-    This field is used to get raw html code.
+    This field is used to get raw html data.
     """
 
     def _parse_element(self, element):
         return etree.tostring(element).decode(encoding='utf-8')
+
+
+class TextField(_LxmlElementField):
+    """
+    This field is used to get text.
+    """
+
+    def _parse_element(self, element):
+        strings = [node.strip() for node in element.itertext()]
+        string = ''.join(strings)
+        return string if string else self.default
