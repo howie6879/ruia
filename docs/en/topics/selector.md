@@ -50,7 +50,7 @@ html = etree.HTML(HTML)
 
 def test_css_select():
     field = TextField(css_select="head title")
-    value = field.extrextractact_value(html_etree=html)
+    value = field.extract(html_etree=html)
     assert value == "ruia"
 
 
