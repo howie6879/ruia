@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-from .field import AttrField, BaseField, TextField, HtmlField
+from .field import AttrField, BaseField, TextField, HtmlField, REField
 from .item import Item
 from .middleware import Middleware
 from .request import Request

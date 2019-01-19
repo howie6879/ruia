@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 
+import re
 from lxml import etree
 
 
@@ -21,6 +22,9 @@ class BaseField(object):
         """
         self.default = default
         self.many = many
+
+    def extract_value(self, *args, **kwargs):
+        raise NotImplementedError('extract_value is not implemented.')
 
 
 class _LxmlElementField(BaseField):
@@ -88,3 +92,50 @@ class HtmlField(_LxmlElementField):
 
     def _parse_element(self, element):
         return etree.tostring(element).decode(encoding='utf-8')
+
+
+class REField(BaseField):
+    """
+    This field is used to get raw html code by regular expression.
+    REField uses standard library `re` inner, that is to say it has a better performance than _LxmlElementField.
+    """
+
+    def __init__(self, re_select=None, default=None, many=False):
+        super(REField, self).__init__(default=default, many=many)
+        assert isinstance(re_select, str)
+        self._re_select = re_select
+        self._re_object = re.compile(self._re_select)
+
+    def _parse_match(self, match):
+        """
+        If there is a group dict, return the dict;
+            even if there's only one value in the dict, return a dictionary;
+        If there is a group in match, return the group;
+            if there is only one value in the group, return the value;
+        if there has no group, return the whole matched string;
+        if there are many groups, return a tuple;
+        :param match:
+        :return:
+        """
+        if not match:
+            if self.default:
+                return self.default
+            else:
+                raise NothingMatchedError('Nothing matched: ' + self._re_select)
+        string = match.group()
+        groups = match.groups()
+        group_dict = match.groupdict()
+        if group_dict:
+            return group_dict
+        if groups:
+            return groups[0] if len(groups) == 1 else groups
+        return string
+
+    def extract_value(self, html):
+        assert isinstance(html, str)
+        if self.many:
+            matches = self._re_object.finditer(html)
+            return [self._parse_match(match) for match in matches]
+        else:
+            match = self._re_object.search(html)
+            return self._parse_match(match)
