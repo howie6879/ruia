@@ -132,7 +132,9 @@ class REField(BaseField):
         return string
 
     def extract_value(self, html):
-        assert isinstance(html, str)
+        assert isinstance(html, (str, etree._Element))
+        if isinstance(html, etree._Element):
+            html = etree.tostring(html).decode(encoding='utf-8')
         if self.many:
             matches = self._re_object.finditer(html)
             return [self._parse_match(match) for match in matches]

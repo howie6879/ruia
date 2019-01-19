@@ -167,3 +167,10 @@ def test_re_field_in_dict_format_with_many():
     assert matches[0]['text'] == 'hello1 github.'
     assert matches[4]['href'] == 'https://github.com/howie6879/'
     assert matches[4]['text'] == 'hello5 github.'
+
+
+def test_re_field_with_html_element():
+    field = REField(re_select='<h1><a href="(?P<href>.*?)">(?P<text>.*?)</a></h1>')
+    result = field.extract_value(html=html_etree)
+    assert result['href'] == 'https://github.com'
+    assert result['text'] == 'Github'
