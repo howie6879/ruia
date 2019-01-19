@@ -2,7 +2,7 @@
 
 import os
 from lxml import etree
-from ruia import AttrField, TextField, HtmlField, REField
+from ruia import AttrField, TextField, HtmlField, RegexField
 from ruia.field import NothingMatchedError
 
 html_path = os.path.join(os.path.dirname(os.path.realpath(__file__)), 'data', 'for_field_testing.html')
@@ -107,49 +107,49 @@ def test_html_field_with_many():
 
 
 def test_re_field_with_one_group():
-    field = REField(re_select='<title>(.*?)</title>')
-    href = field.extract_value(html=HTML)
+    field = RegexField(re_select='<title>(.*?)</title>')
+    href = field.extract(html=HTML)
     assert href == 'ruia'
 
 
 def test_re_field_with_no_group():
-    field = REField(re_select='<title>.*?</title>')
-    href = field.extract_value(html=HTML)
+    field = RegexField(re_select='<title>.*?</title>')
+    href = field.extract(html=HTML)
     assert href == '<title>ruia</title>'
 
 
 def test_re_field_with_many_groups():
-    field = REField(re_select='<h1><a href="(.*?)">(.*?)</a></h1>')
-    href, text = field.extract_value(html=HTML)
+    field = RegexField(re_select='<h1><a href="(.*?)">(.*?)</a></h1>')
+    href, text = field.extract(html=HTML)
     assert href == 'https://github.com'
     assert text == 'Github'
 
 
 def test_re_field_with_named_groups():
-    field = REField(re_select='<h1><a href="(?P<href>.*?)">(?P<text>.*?)</a></h1>')
-    result = field.extract_value(html=HTML)
+    field = RegexField(re_select='<h1><a href="(?P<href>.*?)">(?P<text>.*?)</a></h1>')
+    result = field.extract(html=HTML)
     assert result['href'] == 'https://github.com'
     assert result['text'] == 'Github'
 
 
 def test_re_field_with_default():
-    field = REField(re_select='nothing to match.', default='default value')
-    result = field.extract_value(html=HTML)
+    field = RegexField(re_select='nothing to match.', default='default value')
+    result = field.extract(html=HTML)
     assert result == 'default value'
 
 
 def test_re_field_get_nothing_with_no_default():
-    field = REField(re_select='nothing to match.')
+    field = RegexField(re_select='nothing to match.')
     try:
-        field.extract_value(html=HTML)
+        field.extract(html=HTML)
         raise AssertionError
     except NothingMatchedError:
         pass
 
 
 def test_re_field_with_many():
-    field = REField(re_select='<a class="test_link" href="(.*?)">(.*?)</a>', many=True)
-    matches = field.extract_value(html=HTML)
+    field = RegexField(re_select='<a class="test_link" href="(.*?)">(.*?)</a>', many=True)
+    matches = field.extract(html=HTML)
     assert len(matches) == 5
     href0, text0 = matches[0]
     href4, text4 = matches[4]
@@ -160,8 +160,8 @@ def test_re_field_with_many():
 
 
 def test_re_field_in_dict_format_with_many():
-    field = REField(re_select='<a class="test_link" href="(?P<href>.*?)">(?P<text>.*?)</a>', many=True)
-    matches = field.extract_value(html=HTML)
+    field = RegexField(re_select='<a class="test_link" href="(?P<href>.*?)">(?P<text>.*?)</a>', many=True)
+    matches = field.extract(html=HTML)
     assert len(matches) == 5
     assert matches[0]['href'] == 'https://github.com/howie6879/'
     assert matches[0]['text'] == 'hello1 github.'
@@ -170,7 +170,7 @@ def test_re_field_in_dict_format_with_many():
 
 
 def test_re_field_with_html_element():
-    field = REField(re_select='<h1><a href="(?P<href>.*?)">(?P<text>.*?)</a></h1>')
-    result = field.extract_value(html=html_etree)
+    field = RegexField(re_select='<h1><a href="(?P<href>.*?)">(?P<text>.*?)</a></h1>')
+    result = field.extract(html=html_etree)
     assert result['href'] == 'https://github.com'
     assert result['text'] == 'Github'

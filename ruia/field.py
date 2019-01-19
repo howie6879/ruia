@@ -1,6 +1,9 @@
 #!/usr/bin/env python
 
 import re
+
+from typing import Union
+
 from lxml import etree
 
 
@@ -13,7 +16,7 @@ class BaseField(object):
     BaseField class
     """
 
-    def __init__(self, default='', many=False):
+    def __init__(self, default: str = '', many: bool = False):
         """
         Init BaseField class
         url: http://lxml.de/index.html
@@ -23,13 +26,13 @@ class BaseField(object):
         self.default = default
         self.many = many
 
-    def extract_value(self, *args, **kwargs):
-        raise NotImplementedError('extract_value is not implemented.')
+    def extract(self, *args, **kwargs):
+        raise NotImplementedError('extract is not implemented.')
 
 
 class _LxmlElementField(BaseField):
 
-    def __init__(self, css_select=None, xpath_select=None, default='', many=False):
+    def __init__(self, css_select=None, xpath_select=None, default: str = '', many: bool = False):
         """
         :param css_select: css select http://lxml.de/cssselect.html
         :param xpath_select: http://www.w3school.com.cn/xpath/index.asp
@@ -73,7 +76,7 @@ class AttrField(_LxmlElementField):
     This field is used to get  attribute.
     """
 
-    def __init__(self, attr, css_select=None, xpath_select=None, default='', many=False):
+    def __init__(self, attr, css_select=None, xpath_select=None, default='', many: bool = False):
         super(AttrField, self).__init__(
             css_select=css_select, xpath_select=xpath_select, default=default, many=many)
         self.attr = attr
@@ -102,15 +105,14 @@ class TextField(_LxmlElementField):
         return string if string else self.default
 
 
-class REField(BaseField):
+class RegexField(BaseField):
     """
     This field is used to get raw html code by regular expression.
-    REField uses standard library `re` inner, that is to say it has a better performance than _LxmlElementField.
+    RegexField uses standard library `re` inner, that is to say it has a better performance than _LxmlElementField.
     """
 
-    def __init__(self, re_select=None, default=None, many=False):
-        super(REField, self).__init__(default=default, many=many)
-        assert isinstance(re_select, str)
+    def __init__(self, re_select: str, default: str = '', many: bool = False):
+        super(RegexField, self).__init__(default=default, many=many)
         self._re_select = re_select
         self._re_object = re.compile(self._re_select)
 
@@ -130,17 +132,17 @@ class REField(BaseField):
                 return self.default
             else:
                 raise NothingMatchedError('Nothing matched: ' + self._re_select)
-        string = match.group()
-        groups = match.groups()
-        group_dict = match.groupdict()
-        if group_dict:
-            return group_dict
-        if groups:
-            return groups[0] if len(groups) == 1 else groups
-        return string
+        else:
+            string = match.group()
+            groups = match.groups()
+            group_dict = match.groupdict()
+            if group_dict:
+                return group_dict
+            if groups:
+                return groups[0] if len(groups) == 1 else groups
+            return string
 
-    def extract_value(self, html):
-        assert isinstance(html, (str, etree._Element))
+    def extract(self, html: Union[str, etree._Element]):
         if isinstance(html, etree._Element):
             html = etree.tostring(html).decode(encoding='utf-8')
         if self.many:

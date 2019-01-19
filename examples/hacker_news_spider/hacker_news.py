@@ -1,7 +1,4 @@
 #!/usr/bin/env python
-"""
- Created by howie.hu at 2018/9/23.
-"""
 
 from ruia import Request, Spider
 

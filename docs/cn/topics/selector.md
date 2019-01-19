@@ -17,7 +17,7 @@
 `AttrField`需要一个额外的参数：
 - attr：目标标签属性
 
-`REField`需要一个额外的参数：
+`RegexField`需要一个额外的参数：
 - re_select: str, 正则表达式字符串
 
 ### Usage
@@ -25,7 +25,7 @@
 ```python
 from lxml import etree
 
-from ruia import AttrField, TextField, HtmlField, REField
+from ruia import AttrField, TextField, HtmlField, RegexField
 
 HTML = """
 <html>
@@ -45,28 +45,28 @@ html = etree.HTML(HTML)
 
 def test_css_select():
     field = TextField(css_select="head title")
-    value = field.extract_value(html_etree=html)
+    value = field.extract(html_etree=html)
     assert value == "ruia"
 
 
 def test_xpath_select():
     field = TextField(xpath_select='/html/head/title')
-    value = field.extract_value(html_etree=html)
+    value = field.extract(html_etree=html)
     assert value == "ruia"
 
 
 def test_attr_field():
     attr_field = AttrField(css_select="p a.test_link", attr='href')
-    value = attr_field.extract_value(html_etree=html)
+    value = attr_field.extract(html_etree=html)
     assert value == "https://github.com/howie6879/ruia"
     
 def test_html_field():
     field = HtmlField(css_select="a.test_link")
-    assert field.extract_value(html_etree=html) == '<a class="test_link" href="https://github.com/howie6879/ruia">hello github.</a>'
+    assert field.extract(html_etree=html) == '<a class="test_link" href="https://github.com/howie6879/ruia">hello github.</a>'
 
 def test_re_field():
-    field = REField(re_select='<title>(.*?)</title>')
-    href = field.extract_value(html=HTML)
+    field = RegexField(re_select='<title>(.*?)</title>')
+    href = field.extract(html=HTML)
     assert href == 'ruia'
 
 ```
@@ -74,7 +74,7 @@ def test_re_field():
 ### How It Works?
 定好`CSS Selector`或`XPath`规则，然后利用`lxml`实现对目标`html`进行目标数据的提取
 
-### 关于`REField`
+### 关于`RegexField`
 
 详细信息请参阅[英文文档][fields_doc_en]。
  
