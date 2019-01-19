@@ -12,7 +12,7 @@ In detail, they are implemented by the following three classes:
 ### Core arguments
 
 Arguments of all `Field` classes:
-- default: default value if no HTML tag founded.
+- default: str, default value, recommended, without which, will raise an Error when trying to get a non exist value.
 - many: bool, the return value will be a list.
 
 

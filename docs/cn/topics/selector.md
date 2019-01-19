@@ -7,7 +7,7 @@
 ### Core arguments
 
 所有的`Field`共有的参数：
-- default: str, 设置默认值
+- default: str, 设置默认值，建议定义，否则找不到字段时会报错
 - many: bool, 返回值将是一个列表
 
 `AttrField`、`TextField`、`HtmlField`共用参数：
