@@ -10,21 +10,19 @@
 - default: str, 设置默认值
 - many: bool, 返回值将是一个列表
 
-对于`AttrField`，主要参数说明如下：
+`AttrField`、`TextField`、`HtmlField`共用参数：
 - css_select：str, 利用`CSS Selector`提取目标数据
 - xpath_select：str, 利用`XPath`提取目标数据
 
-对于`TextField`，主要参数说明如下：
+`AttrField`需要一个额外的参数：
 - attr：目标标签属性
-- css_select：利用`CSS Selector`提取目标数据
-- xpath_select：利用`XPath`提取目标数据
 
 ### Usage
 
 ```python
 from lxml import etree
 
-from ruia import AttrField, TextField
+from ruia import AttrField, TextField, HtmlField
 
 HTML = """
 <html>
@@ -44,20 +42,25 @@ html = etree.HTML(HTML)
 
 def test_css_select():
     field = TextField(css_select="head title")
-    value = field.extract_value(html)
+    value = field.extract_value(html_etree=html)
     assert value == "ruia"
 
 
 def test_xpath_select():
     field = TextField(xpath_select='/html/head/title')
-    value = field.extract_value(html)
+    value = field.extract_value(html_etree=html)
     assert value == "ruia"
 
 
 def test_attr_field():
     attr_field = AttrField(css_select="p a.test_link", attr='href')
-    value = attr_field.extract_value(html)
+    value = attr_field.extract_value(html_etree=html)
     assert value == "https://github.com/howie6879/ruia"
+    
+def test_html_field():
+    field = HtmlField(css_select="a.test_link")
+    assert field.extract_value(html_etree=html) == '<a class="test_link" href="https://github.com/howie6879/ruia">hello github.</a>'
+
 ```
 
 ### How It Works?

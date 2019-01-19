@@ -3,8 +3,7 @@
 import pytest
 
 from lxml import etree
-
-from ruia import AttrField, TextField
+from ruia import AttrField, TextField, HtmlField
 from ruia.field import NothingMatchedError
 
 HTML = """
@@ -30,6 +29,7 @@ HTML = """
         </p>        
         <p>
             <a class="test_link" href="https://github.com/howie6879/">hello5 github.</a>
+            Some text outside.
         </p>
     </body>
 </html>
@@ -65,13 +65,14 @@ def test_text_field_many():
 def test_attr_field_many():
     field = AttrField(css_select="a.test_link", attr="href", many=True)
     values = field.extract_value(html_etree=html_etree)
+    assert len(values) == 5
     assert values[3] == "https://github.com/howie6879/ruia"
 
 
 def test_text_field_not_exist():
     field = TextField(css_select="nothing matched")
     value = field.extract_value(html_etree=html_etree)
-    assert value==''
+    assert value == ''
 
 
 def test_attr_field_not_exist():
@@ -90,6 +91,7 @@ def test_attr_field_many_even_there_is_only_one_in_html():
     field = AttrField(css_select="div.brand a", attr="href", many=True)
     value = field.extract_value(html_etree=html_etree)
     assert value[0] == 'https://github.com'
+    assert len(value) == 1
 
 
 def test_text_field_with_default():
@@ -115,5 +117,16 @@ def test_attr_field_with_default_and_many():
     values = field.extract_value(html_etree=html_etree)
     assert values == ['nothing']
 
-if __name__ == '__main__':
-    test_attr_field_with_default_and_many()
+
+def test_html_field():
+    field = HtmlField(css_select="div.brand a")
+    assert field.extract_value(html_etree=html_etree) == '<a href="https://github.com">Github</a>'
+
+
+def test_html_field_with_many():
+    field = HtmlField(css_select="a.test_link", many=True)
+    values = field.extract_value(html_etree=html_etree)
+    assert len(values) == 5
+    assert values[0] == '<a class="test_link" href="https://github.com/howie6879/">hello1 github.</a>\n        '
+    assert values[4] == '<a class="test_link" href="https://github.com/howie6879/">hello5 github.</a>\n' \
+                        '            Some text outside.\n        '
