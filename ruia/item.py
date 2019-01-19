@@ -54,7 +54,7 @@ class Item(metaclass=ItemMeta):
         items_field = getattr(cls, '__fields', {}).get('target_item', None)
         if items_field:
             items_field.many = True
-            items = items_field.extract_value(html_etree=html_etree, is_source=True)
+            items = items_field.extract(html_etree=html_etree, is_source=True)
             if items:
                 all_items = []
                 for each_html_etree in items:
@@ -73,7 +73,7 @@ class Item(metaclass=ItemMeta):
         for field_name, field_value in getattr(item_ins, '__fields', {}).items():
             if not field_name.startswith('target_'):
                 clean_method = getattr(item_ins, 'clean_%s' % field_name, None)
-                value = field_value.extract_value(html_etree=html_etree)
+                value = field_value.extract(html_etree=html_etree)
                 if clean_method is not None:
                     if iscoroutinefunction(clean_method):
                         value = await clean_method(value)

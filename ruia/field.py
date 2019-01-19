@@ -42,7 +42,7 @@ class _LxmlElementField(BaseField):
     def _parse_element(self, element):
         raise NotImplementedError
 
-    def extract_value(self, *, html_etree: etree._Element, is_source: bool = False):
+    def extract(self, *, html_etree: etree._Element, is_source: bool = False):
         elements = self._get_elements(html_etree=html_etree)
 
         if is_source:
@@ -56,13 +56,6 @@ class _LxmlElementField(BaseField):
         return results if self.many else results[0]
 
 
-class TextField(_LxmlElementField):
-    def _parse_element(self, element):
-        strings = [node.strip() for node in element.itertext()]
-        string = ''.join(strings)
-        return string if string else self.default
-
-
 class AttrField(_LxmlElementField):
     def __init__(self, attr, css_select=None, xpath_select=None, default='', many=False):
         super(AttrField, self).__init__(
@@ -71,6 +64,13 @@ class AttrField(_LxmlElementField):
 
     def _parse_element(self, element):
         return element.get(self.attr, self.default)
+
+
+class TextField(_LxmlElementField):
+    def _parse_element(self, element):
+        strings = [node.strip() for node in element.itertext()]
+        string = ''.join(strings)
+        return string if string else self.default
 
 
 class HtmlField(_LxmlElementField):
