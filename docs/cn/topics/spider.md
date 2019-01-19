@@ -43,5 +43,23 @@ if __name__ == '__main__':
     HackerNewsSpider.start()
 ```
 
+### 控制最大并发数
+
+在`Spider`的子类上，定义属性`concurrency`来控制并发数，如下例：
+
+```python
+import ruia
+
+
+class MySpider(ruia.Spider):
+    
+    start_urls = ['https://news.ycombinator.com']
+    concurrency = 3
+    
+    async def parse(self, res):
+        pass
+
+```
+
 ### How It Works?
 `Spider`会自动读取`start_urls`列表里面的请求链接，然后维护一个异步队列，使用生产消费者模式进行爬取，爬虫程序一直循环直到没有调用函数为止
