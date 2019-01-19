@@ -1,6 +1,7 @@
 ## Ruia
 
 [![travis](https://travis-ci.org/howie6879/ruia.svg?branch=master)](https://travis-ci.org/howie6879/ruia) [![PyPI - Python Version](https://img.shields.io/pypi/pyversions/ruia.svg)](https://pypi.org/project/ruia/) [![PyPI](https://img.shields.io/pypi/v/ruia.svg)](https://pypi.org/project/ruia/) [![license](https://img.shields.io/github/license/howie6879/ruia.svg)](https://github.com/howie6879/ruia)
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fhowie6879%2Fruia.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2Fhowie6879%2Fruia?ref=badge_shield)
 
 ![](./docs/images/demo.png)
 
@@ -185,3 +186,6 @@ if __name__ == '__main__':
 
 - [sanic](https://github.com/huge-success/sanic)
 - [demiurge](https://github.com/matiasb/demiurge)
+
+## License
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fhowie6879%2Fruia.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2Fhowie6879%2Fruia?ref=badge_large)
