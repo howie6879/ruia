@@ -1,9 +1,6 @@
 #!/usr/bin/env python
 
 import asyncio
-
-import pytest
-
 from ruia import AttrField, Item, TextField
 
 HTML = """
