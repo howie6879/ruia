@@ -4,10 +4,6 @@ import re
 from lxml import etree
 
 
-class NothingMatchedError(Exception):
-    pass
-
-
 class BaseField(object):
     """
     BaseField class
@@ -54,7 +50,7 @@ class _LxmlElementField(BaseField):
     def _parse_element(self, element):
         raise NotImplementedError
 
-    def extract_value(self, *, html_etree: etree._Element, is_source: bool = False):
+    def extract(self, *, html_etree: etree._Element, is_source: bool = False):
         elements = self._get_elements(html_etree=html_etree)
 
         if is_source:
@@ -68,14 +64,11 @@ class _LxmlElementField(BaseField):
         return results if self.many else results[0]
 
 
-class TextField(_LxmlElementField):
-    def _parse_element(self, element):
-        strings = [node.strip() for node in element.itertext()]
-        string = ''.join(strings)
-        return string if string else self.default
-
-
 class AttrField(_LxmlElementField):
+    """
+    This field is used to get  attribute.
+    """
+
     def __init__(self, attr, css_select=None, xpath_select=None, default='', many=False):
         super(AttrField, self).__init__(
             css_select=css_select, xpath_select=xpath_select, default=default, many=many)
@@ -87,11 +80,22 @@ class AttrField(_LxmlElementField):
 
 class HtmlField(_LxmlElementField):
     """
-    This field is used to get raw html code.
+    This field is used to get raw html data.
     """
 
     def _parse_element(self, element):
         return etree.tostring(element).decode(encoding='utf-8')
+
+
+class TextField(_LxmlElementField):
+    """
+    This field is used to get text.
+    """
+
+    def _parse_element(self, element):
+        strings = [node.strip() for node in element.itertext()]
+        string = ''.join(strings)
+        return string if string else self.default
 
 
 class REField(BaseField):

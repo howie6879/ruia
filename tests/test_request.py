@@ -16,9 +16,9 @@ def test_request_params():
 
 def test_request_ua():
     headers = {
-        "User-Agent": "Python3.5"
+        "User-Agent": "Python3.6"
     }
     request = Request('http://www.httpbin.org/get', method='GET', res_type='json', headers=headers)
     result = asyncio.get_event_loop().run_until_complete(request.fetch())
-    assert result.html['headers']['User-Agent'] == "Python3.5"
+    assert result.html['headers']['User-Agent'] == "Python3.6"
 
