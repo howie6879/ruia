@@ -187,5 +187,5 @@ if __name__ == '__main__':
 - [sanic](https://github.com/huge-success/sanic)
 - [demiurge](https://github.com/matiasb/demiurge)
 
-## License
+### License
 [![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fhowie6879%2Fruia.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2Fhowie6879%2Fruia?ref=badge_large)
