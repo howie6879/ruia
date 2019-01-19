@@ -12,22 +12,30 @@ class BaseField(object):
     BaseField class
     """
 
-    def __init__(self, css_select=None, xpath_select=None, default='', many=False):
+    def __init__(self, default='', many=False):
         """
         Init BaseField class
         url: http://lxml.de/index.html
-        :param css_select: css select http://lxml.de/cssselect.html
-        :param xpath_select: http://www.w3school.com.cn/xpath/index.asp
         :param default: default value
         :param many: if there are many fields in one page
         """
-        self.css_select = css_select
-        self.xpath_select = xpath_select
         self.default = default
         self.many = many
 
 
 class _LxmlElementField(BaseField):
+
+    def __init__(self, css_select=None, xpath_select=None, default='', many=False):
+        """
+        :param css_select: css select http://lxml.de/cssselect.html
+        :param xpath_select: http://www.w3school.com.cn/xpath/index.asp
+        :param default: inherit
+        :param many: inherit
+        """
+        super(_LxmlElementField, self).__init__(default=default, many=many)
+        self.css_select = css_select
+        self.xpath_select = xpath_select
+
     def _get_elements(self, *, html_etree: etree._Element):
         if self.css_select:
             elements = html_etree.cssselect(self.css_select)
