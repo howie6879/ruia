@@ -1,39 +1,13 @@
 #!/usr/bin/env python
 
-import pytest
-
+import os
 from lxml import etree
 from ruia import AttrField, TextField, HtmlField, REField
 from ruia.field import NothingMatchedError
 
-HTML = """
-<html>
-    <head>
-        <title>ruia</title>
-    </head>
-    <body>¬
-    <div class="brand">
-        <h1><a href="https://github.com">Github</a></h1>
-    </div>
-        <p>
-            <a class="test_link" href="https://github.com/howie6879/">hello1 github.</a>
-        </p>        
-        <p>
-            <a class="test_link" href="https://github.com/howie6879/">hello2 github.</a>
-        </p>        
-        <p>
-            <a class="test_link" href="https://github.com/howie6879/">hello3 github.</a>
-        </p>        
-        <p>
-            <a class="test_link" href="https://github.com/howie6879/ruia">hello4 github.</a>
-        </p>        
-        <p>
-            <a class="test_link" href="https://github.com/howie6879/">hello5 github.</a>
-            Some text outside.
-        </p>
-    </body>
-</html>
-"""
+html_path = os.path.join(os.path.dirname(os.path.realpath(__file__)), 'data', 'for_field_testing.html')
+with open(html_path, mode='r', encoding='utf-8') as file:
+    HTML = file.read()
 
 html_etree = etree.HTML(HTML)
 
@@ -127,9 +101,9 @@ def test_html_field_with_many():
     field = HtmlField(css_select="a.test_link", many=True)
     values = field.extract_value(html_etree=html_etree)
     assert len(values) == 5
-    assert values[0] == '<a class="test_link" href="https://github.com/howie6879/">hello1 github.</a>\n        '
+    assert values[0] == '<a class="test_link" href="https://github.com/howie6879/">hello1 github.</a>\n'
     assert values[4] == '<a class="test_link" href="https://github.com/howie6879/">hello5 github.</a>\n' \
-                        '            Some text outside.\n        '
+                        '    Some text outside.\n'
 
 
 def test_re_field_with_one_group():
