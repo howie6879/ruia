@@ -1,6 +1,11 @@
 #!/usr/bin/env python
 
+import re
 from lxml import etree
+
+
+class NothingMatchedError(Exception):
+    pass
 
 
 class BaseField(object):
@@ -8,22 +13,33 @@ class BaseField(object):
     BaseField class
     """
 
-    def __init__(self, css_select=None, xpath_select=None, default='', many=False):
+    def __init__(self, default='', many=False):
         """
         Init BaseField class
         url: http://lxml.de/index.html
-        :param css_select: css select http://lxml.de/cssselect.html
-        :param xpath_select: http://www.w3school.com.cn/xpath/index.asp
         :param default: default value
         :param many: if there are many fields in one page
         """
-        self.css_select = css_select
-        self.xpath_select = xpath_select
         self.default = default
         self.many = many
 
+    def extract_value(self, *args, **kwargs):
+        raise NotImplementedError('extract_value is not implemented.')
+
 
 class _LxmlElementField(BaseField):
+
+    def __init__(self, css_select=None, xpath_select=None, default='', many=False):
+        """
+        :param css_select: css select http://lxml.de/cssselect.html
+        :param xpath_select: http://www.w3school.com.cn/xpath/index.asp
+        :param default: inherit
+        :param many: inherit
+        """
+        super(_LxmlElementField, self).__init__(default=default, many=many)
+        self.css_select = css_select
+        self.xpath_select = xpath_select
+
     def _get_elements(self, *, html_etree: etree._Element):
         if self.css_select:
             elements = html_etree.cssselect(self.css_select)
@@ -84,3 +100,52 @@ class TextField(_LxmlElementField):
         strings = [node.strip() for node in element.itertext()]
         string = ''.join(strings)
         return string if string else self.default
+
+
+class REField(BaseField):
+    """
+    This field is used to get raw html code by regular expression.
+    REField uses standard library `re` inner, that is to say it has a better performance than _LxmlElementField.
+    """
+
+    def __init__(self, re_select=None, default=None, many=False):
+        super(REField, self).__init__(default=default, many=many)
+        assert isinstance(re_select, str)
+        self._re_select = re_select
+        self._re_object = re.compile(self._re_select)
+
+    def _parse_match(self, match):
+        """
+        If there is a group dict, return the dict;
+            even if there's only one value in the dict, return a dictionary;
+        If there is a group in match, return the group;
+            if there is only one value in the group, return the value;
+        if there has no group, return the whole matched string;
+        if there are many groups, return a tuple;
+        :param match:
+        :return:
+        """
+        if not match:
+            if self.default:
+                return self.default
+            else:
+                raise NothingMatchedError('Nothing matched: ' + self._re_select)
+        string = match.group()
+        groups = match.groups()
+        group_dict = match.groupdict()
+        if group_dict:
+            return group_dict
+        if groups:
+            return groups[0] if len(groups) == 1 else groups
+        return string
+
+    def extract_value(self, html):
+        assert isinstance(html, (str, etree._Element))
+        if isinstance(html, etree._Element):
+            html = etree.tostring(html).decode(encoding='utf-8')
+        if self.many:
+            matches = self._re_object.finditer(html)
+            return [self._parse_match(match) for match in matches]
+        else:
+            match = self._re_object.search(html)
+            return self._parse_match(match)
