@@ -4,6 +4,10 @@ import re
 from lxml import etree
 
 
+class NothingMatchedError(Exception):
+    pass
+
+
 class BaseField(object):
     """
     BaseField class
