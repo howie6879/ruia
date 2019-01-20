@@ -1,3 +1,4 @@
+# Python 3.7 required
 import asyncio
 from ruia import Item, TextField, AttrField
 
