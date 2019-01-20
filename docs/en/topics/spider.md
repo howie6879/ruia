@@ -4,8 +4,8 @@
 It combines `Item`, `Middleware`, `Request` and other models, to build a strong crawler for you.
 You should focus on the following two functions:
 
-- [Spider.start](): the entrypoint
-- [parse](): The first parse function, required for subclass of `Spider`
+- Spider.start(): the entrypoint
+- parse(): The first parse function, required for subclass of `Spider`
 
 ### Core arguments
 

@@ -1,8 +1,8 @@
 ## Spider
 
 `Spider`是爬虫程序的入口，它将Item、Middleware、Request、等模块组合在一起，从而为你构造一个稳健的爬虫程序。你只需要关注以下两个函数：
-- [Spider.start]()：爬虫的启动函数
-- [parse]()：爬虫的第一层解析函数，继承`Spider`的子类必须实现这个函数
+- Spider.start()：爬虫的启动函数
+- parse()：爬虫的第一层解析函数，继承`Spider`的子类必须实现这个函数
 
 ### Core arguments
 

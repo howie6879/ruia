@@ -1,13 +1,23 @@
 ## Ruia documentation
 
-**ruia** is an asynchronous crawler framework, based on `asyncio` and `aiohttp`. *Write less, run faster* is ruia's philosophy.
 
+```eval_rst
+.. toctree::
+    :maxdepth: 3
+    :titlesonly:
+    
+    First Step <first_step/index.md>
+    Topics <topics/index.md>
+    APIs <APIs/index.md>
+```
+
+**ruia** is an asynchronous crawler framework, based on `asyncio` and `aiohttp`. *Write less, run faster* is ruia's philosophy.
 
 ### First steps
 
-- [Introduction](./first_steps/introduction.md)：Introducing Ruia
-- [Tutorials](./first_steps/tutorials.md)：Ruia Tutorial 
-- [Plugins](./first_steps/plugins.md)：Ruia Plugin
+- [Introduction](first_step/introduction.md)：Introducing Ruia
+- [Tutorials](first_step/tutorials.md)：Ruia Tutorial 
+- [Plugins](first_step/plugins.md)：Ruia Plugin
 
 ### Topics
 
