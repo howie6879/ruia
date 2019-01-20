@@ -1,4 +1,4 @@
-## Tutorials
+# Tutorials
 
 This tutorial shows how to scrape [Hacker News](https://news.ycombinator.com/news) in **ruia**.
 
@@ -24,7 +24,7 @@ There are tow methods to get elements from a website supported by **ruia**, [CSS
 
 OK, let's start our jobs. First, open the website [https://news.ycombinator.com/news](https://news.ycombinator.com/news), and then right-click the page and choose Inspect or Inspect Element, you will see something like this:
 
-![tutorials_02](../../images/tutorials_02.png)
+![tutorials_02](../images/tutorials_02.png)
 
 You can find that title's element is a HTML tag `<a></a>` with properties `class=storylink` and `href=https://example.com`, so we can get something like this:
 
@@ -166,7 +166,7 @@ Run `python hacker_news.py` to launch hacker news spider:
 
 After `Spider finished!`, open the database to have a look:
 
-![tutorials_03](../../images/tutorials_03.jpg)
+![tutorials_03](../images/tutorials_03.jpg)
 
 As you can see, this is **ruia**.
 

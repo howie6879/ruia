@@ -1,10 +1,10 @@
-## Ruia
+# Introduction
 
 [![travis](https://travis-ci.org/howie6879/ruia.svg?branch=master)](https://travis-ci.org/howie6879/ruia) [![PyPI - Python Version](https://img.shields.io/pypi/pyversions/ruia.svg)](https://pypi.org/project/ruia/) [![PyPI](https://img.shields.io/pypi/v/ruia.svg)](https://pypi.org/project/ruia/) [![license](https://img.shields.io/github/license/howie6879/ruia.svg)](https://github.com/howie6879/ruia)
 
-![](./docs/images/demo.png)
+![](./images/demo.png)
 
-### Overview
+## Overview
 
 An async web scraping micro-framework, written with `asyncio` and `aiohttp`, aims to make crawling url as convenient as possible.
 
@@ -14,7 +14,7 @@ Write less, run faster:
 - Plugins: [https://github.com/ruia-plugins](https://github.com/ruia-plugins)
 
 
-### Installation
+## Installation
 
 ``` shell
 # For Linux & Mac
@@ -27,9 +27,9 @@ pip install -U ruia
 pip install git+https://github.com/howie6879/ruia
 ```
 
-### Usage
+## Usage
 
-#### Request & Response
+### Request & Response
 
 We provide an easy way to `request` a url and return a friendly `response`:
 
@@ -62,7 +62,7 @@ response = asyncio.get_event_loop().run_until_complete(request.fetch())
 print(response.html)
 ```
 
-#### Item
+### Item
 
 Let's take a look at a quick example of using `Item` to extract target data. Start off by adding the following to your demo.py:
 
@@ -89,7 +89,7 @@ Notorious ‘Hijack Factory’ Shunned from Web https://krebsonsecurity.com/2018
  ......
 ```
 
-#### Spider
+### Spider
 
 For multiple pages, you can solve this with `Spider`
 
@@ -136,7 +136,7 @@ Run `hacker_news_spider.py`:
 [2018-09-21 17:27:16,389]-ruia-INFO  spider::l72: Spider finished!
 ```
 
-#### Custom middleware
+### Custom middleware
 
 `ruia` provides an easy way to customize requests, *as long as it does not return it*. 
 
@@ -166,22 +166,25 @@ if __name__ == '__main__':
     HackerNewsSpider.start(middleware=middleware)
 ```
 
-### Features
+## Features
 
 - Custom middleware
 - JavaScript support
 - Friendly response
 
-### TODO
+## TODO
 
 - [ ] Distributed crawling/scraping
 
-### Contribution
+## Contribution
 
 - Pull Request
 - Open Issue
 
-### Thanks
+## Thanks
 
 - [sanic](https://github.com/huge-success/sanic)
 - [demiurge](https://github.com/matiasb/demiurge)
+
+
+Congrats🎉, you finished your first crawler by using ruia, wanna learn more? [Tutorials](./en/tutorials.md) are available!
