@@ -11,24 +11,34 @@ copyright: Copyright &copy; 2018 - 2019 <a href="https://github.com/howie6879/ru
 theme:
   name: 'material'
 
+use_directory_urls: false
+
 pages:
-- Introduction: index.md
-- Tutorials: ./en/tutorials.md
-- Plugins: ./en/plugins.md
-- Topics:
-  - Item: ./en/topics/item.md
-  - Selector: ./en/topics/selector.md
-  - Request: ./en/topics/request.md
-  - Response: ./en/topics/response.md
-  - Middleware: ./en/topics/middleware.md
-  - Spider: ./en/topics/spider.md
+  - Introduction: index.md
+  - Tutorials:
+      - Overview: ./en/tutorials/overview.md
+      - Field: ./en/tutorials/field.md
+      - Item: ./en/tutorials/item.md
+      - Spider: ./en/tutorials/spider.md
+      - Request: ./en/tutorials/request.md
+      - Response: ./en/tutorials/response.md
+      - Middleware: ./en/tutorials/middleware.md
+      - Plugins: ./en/tutorials/plugins.md
+  - Plugins: ./en/plugins.md
+  - Topics:
+      - Item: ./en/topics/item.md
+      - Selector: ./en/topics/selector.md
+      - Request: ./en/topics/request.md
+      - Response: ./en/topics/response.md
+      - Middleware: ./en/topics/middleware.md
+      - Spider: ./en/topics/spider.md
 
 plugins:
-- search
+  - search
 
 markdown_extensions:
-- toc:
-    permalink: []
-- admonition
-- def_list
-- codehilite
+  - toc:
+      permalink: []
+  - admonition
+  - def_list
+  - codehilite

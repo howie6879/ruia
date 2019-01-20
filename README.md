@@ -33,9 +33,9 @@ pip install git+https://github.com/howie6879/ruia
 
 ## Example
 
-Let's fetch some news from [Hacker News][hacker_news] in four steps:
+Let's fetch some news from [Hacker News][hacker_news] in **four** steps:
 
-### Define Item
+### Step 1: Define Item
 
 After analyzing HTML structure, we define the following data item.
 
@@ -46,7 +46,7 @@ class HackerNewsItem(ruia.Item):
     url = ruia.AttrField(css_select='a.storylink', attr='href')
 ```
 
-### Test Item
+### Step 2: Test Item
 
 ```python
 items = HackerNewsItem.get_items(url='https://news.ycombinator.com/news?p=1')
@@ -61,11 +61,13 @@ for item in items:
 
 ```
 
-### Write Spider
+### Step 3: Write Spider
 
 ```python
 class HackerNewsSpider(ruia.Spider):
-    start_urls = ['https://news.ycombinator.com/news?p=1', 'https://news.ycombinator.com/news?p=2']
+    start_urls = [
+        'https://news.ycombinator.com/news?p=1',
+        'https://news.ycombinator.com/news?p=2']
     
     async def parse(self, res):
         items = await HackerNewsItem.get_items(html=res.html)
@@ -74,7 +76,7 @@ class HackerNewsSpider(ruia.Spider):
                 await f.write(item.title + '\n')
 ```
 
-### Run
+### Step 4: Run
 
 ```python
 if __name__ == '__main__':
@@ -82,7 +84,7 @@ if __name__ == '__main__':
 
 ```
 
-Done!
+### Done!
 
 > Life is short, you need Python!
 
