@@ -13,7 +13,7 @@
         <meta name="description" content="An async web scraping micro-framework based on asyncio.">
       
       
-        <link rel="canonical" href="https://howie6879.github.io/ruia/en/tutorials/">
+        <link rel="canonical" href="https://howie6879.github.io/ruia/cn/tutorials/">
       
       
         <meta name="author" content="howie.hu">
@@ -250,77 +250,11 @@
       
       
 
-  
 
-
-  <li class="md-nav__item md-nav__item--active">
-    
-    <input class="md-toggle md-nav__toggle" data-md-toggle="toc" type="checkbox" id="__toc">
-    
-      
-    
-    
-      <label class="md-nav__link md-nav__link--active" for="__toc">
-        Tutorials
-      </label>
-    
-    <a href="./" title="Tutorials" class="md-nav__link md-nav__link--active">
+  <li class="md-nav__item">
+    <a href="../../en/tutorials/" title="Tutorials" class="md-nav__link">
       Tutorials
     </a>
-    
-      
-<nav class="md-nav md-nav--secondary">
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">Table of contents</label>
-    <ul class="md-nav__list" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#creating-a-project" title="Creating a project" class="md-nav__link">
-    Creating a project
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#item" title="Item" class="md-nav__link">
-    Item
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#middleware" title="Middleware" class="md-nav__link">
-    Middleware
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#data-persistence" title="Data persistence" class="md-nav__link">
-    Data persistence
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#spider" title="Spider" class="md-nav__link">
-    Spider
-  </a>
-  
-</li>
-      
-      
-      
-      
-      
-    </ul>
-  
-</nav>
-    
   </li>
 
     
@@ -330,7 +264,7 @@
 
 
   <li class="md-nav__item">
-    <a href="../plugins/" title="Plugins" class="md-nav__link">
+    <a href="../../en/plugins/" title="Plugins" class="md-nav__link">
       Plugins
     </a>
   </li>
@@ -361,7 +295,7 @@
 
 
   <li class="md-nav__item">
-    <a href="../topics/item/" title="Item" class="md-nav__link">
+    <a href="../../en/topics/item/" title="Item" class="md-nav__link">
       Item
     </a>
   </li>
@@ -373,7 +307,7 @@
 
 
   <li class="md-nav__item">
-    <a href="../topics/selector/" title="Selector" class="md-nav__link">
+    <a href="../../en/topics/selector/" title="Selector" class="md-nav__link">
       Selector
     </a>
   </li>
@@ -385,7 +319,7 @@
 
 
   <li class="md-nav__item">
-    <a href="../topics/request/" title="Request" class="md-nav__link">
+    <a href="../../en/topics/request/" title="Request" class="md-nav__link">
       Request
     </a>
   </li>
@@ -397,7 +331,7 @@
 
 
   <li class="md-nav__item">
-    <a href="../topics/response/" title="Response" class="md-nav__link">
+    <a href="../../en/topics/response/" title="Response" class="md-nav__link">
       Response
     </a>
   </li>
@@ -409,7 +343,7 @@
 
 
   <li class="md-nav__item">
-    <a href="../topics/middleware/" title="Middleware" class="md-nav__link">
+    <a href="../../en/topics/middleware/" title="Middleware" class="md-nav__link">
       Middleware
     </a>
   </li>
@@ -421,7 +355,7 @@
 
 
   <li class="md-nav__item">
-    <a href="../topics/spider/" title="Spider" class="md-nav__link">
+    <a href="../../en/topics/spider/" title="Spider" class="md-nav__link">
       Spider
     </a>
   </li>
@@ -453,13 +387,6 @@
     <ul class="md-nav__list" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#creating-a-project" title="Creating a project" class="md-nav__link">
-    Creating a project
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
   <a href="#item" title="Item" class="md-nav__link">
     Item
   </a>
@@ -474,8 +401,8 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#data-persistence" title="Data persistence" class="md-nav__link">
-    Data persistence
+  <a href="#database" title="Database" class="md-nav__link">
+    Database
   </a>
   
 </li>
@@ -503,14 +430,13 @@
             <article class="md-content__inner md-typeset">
               
                 
-                  <a href="https://github.com/howie6879/ruia/edit/master/docs/en/tutorials.md" title="Edit this page" class="md-icon md-content__icon">&#xE3C9;</a>
+                  <a href="https://github.com/howie6879/ruia/edit/master/docs/cn/tutorials.md" title="Edit this page" class="md-icon md-content__icon">&#xE3C9;</a>
                 
                 
                 <h1 id="tutorials">Tutorials</h1>
-<p>This tutorial shows how to scrape <a href="https://news.ycombinator.com/news">Hacker News</a> in <strong>Ruia</strong>.</p>
+<p>目标：通过对<a href="https://news.ycombinator.com/news">Hacker News</a>的爬取来展示如何使用<strong>ruia</strong>，下图红框中的数据就是我们需要爬取的：</p>
 <p><img alt="tutorials_01" src="../../images/tutorials_01.png" /></p>
-<h2 id="creating-a-project">Creating a project</h2>
-<p>Before all, you will have to set up a new ruia project, create a <code>hacker_news_spider</code> directory with the following contents:</p>
+<p>假设我们将此项目命名为<code>hacker_news_spider</code>，项目结构如下：</p>
 <div class="codehilite"><pre><span></span>hacker_news_spider
 ├── db.py
 ├── hacker_news.py
@@ -520,19 +446,19 @@
 
 
 <h2 id="item">Item</h2>
-<p><code>Item</code> is used to define the elements what you want to scrape from a website, and at this time, our targets are <code>titles</code> and <code>urls</code> from <a href="https://news.ycombinator.com/news">Hacker News</a>.</p>
-<p>There are tow methods to get elements from a website supported by <strong>ruia</strong>, <a href="https://www.w3schools.com/cssref/css_selectors.asp">CSS Selector</a> and <a href="https://www.w3schools.com/xml/xpath_intro.asp">XPath</a>.</p>
-<blockquote>
-<p>PS: <code>CSS Selector</code> is prefered in this tutorial by default.</p>
-</blockquote>
-<p>OK, let's start our jobs. First, open the website <a href="https://news.ycombinator.com/news">https://news.ycombinator.com/news</a>, and then right-click the page and choose Inspect or Inspect Element, you will see something like this:</p>
+<p><code>Item</code>的目的是定义目标网站中你需要爬取的数据，此时，爬虫的目标数据就是页面中的<code>Title</code>和<code>Url</code>，怎么提取数据，<strong>ruia</strong>提供了<a href="https://www.w3schools.com/cssref/css_selectors.asp">CSS Selector</a>和<a href="https://www.w3schools.com/xml/xpath_intro.asp">XPath</a>两种方式提取目标数据</p>
+<div class="codehilite"><pre><span></span>Notice: 后续爬虫例子都默认使用CSS Selector的规则来提取目标数据
+</pre></div>
+
+
+<p>这里我们使用<code>CSS Selector</code>来提取目标数据，用浏览器打开<a href="https://news.ycombinator.com/news">Hacker News</a>，右键审查元素：</p>
 <p><img alt="tutorials_02" src="../../images/tutorials_02.png" /></p>
-<p>You can find that title's element is a HTML tag <code>&lt;a&gt;&lt;/a&gt;</code> with properties <code>class=storylink</code> and <code>href=https://example.com</code>, so we can get something like this:</p>
+<p>显而易见，每页包含<code>30</code>条资讯，那么目标数据的规则可以总结为：</p>
 <table>
 <thead>
 <tr>
 <th align="left">Param</th>
-<th>Selector</th>
+<th>Rule</th>
 <th>Description</th>
 </tr>
 </thead>
@@ -540,21 +466,21 @@
 <tr>
 <td align="left">target_item</td>
 <td>tr.athing</td>
-<td>each news item</td>
+<td>表示每条资讯</td>
 </tr>
 <tr>
 <td align="left">title</td>
 <td>a.storylink</td>
-<td>title of news</td>
+<td>表示每条资讯里的标题</td>
 </tr>
 <tr>
 <td align="left">url</td>
 <td>a.storylink-&gt;href</td>
-<td>url of news</td>
+<td>表示每条资讯里标题的链接</td>
 </tr>
 </tbody>
 </table>
-<p>That's enough, let's define the news item. Edit <code>items.py</code> and input this code:</p>
+<p>规则明确之后，就可以用<code>Item</code>来实现一个针对于目标数据的ORM，创建文件<code>items.py</code>，复制下面代码：</p>
 <div class="codehilite"><pre><span></span><span class="kn">from</span> <span class="nn">ruia</span> <span class="kn">import</span> <span class="n">AttrField</span><span class="p">,</span> <span class="n">TextField</span><span class="p">,</span> <span class="n">Item</span>
 
 
@@ -565,9 +491,14 @@
 </pre></div>
 
 
-<p>Pretty easy, right? Create a class inherit from <code>Item</code> and define some properties, and done😏. There is a special property <code>target_item</code>, is a list of items' element we want to scrape.</p>
+<p>只需要继承<code>Item</code>类，将目标参数定义为一个属性即可，如果目标数据是可以循环提取的，比如此时每一页里面有<code>30</code>条数据，那么就需要定义<code>target_item</code>来循环提取每一条数据里面的<code>Title</code>和<code>Url</code></p>
 <h2 id="middleware">Middleware</h2>
-<p>Each middleware is responsible for doing some specific function before request or after response. If we want to add <code>User-Agent</code> into <code>Headers</code> before each request, middleware is a best way to do the job. Put this code in file <code>middlewares.py</code>:</p>
+<p><code>Middleware</code>的目的是对每次请求前后进行一番处理，分下面两种情况：</p>
+<ul>
+<li>在每次请求之前做一些事</li>
+<li>在每次请求后做一些事</li>
+</ul>
+<p>比如此时爬取<a href="https://news.ycombinator.com/news">Hacker News</a>，你希望在每次请求时候自动添加<code>Headers</code>的<code>User-Agent</code>，可以将下面代码复制到你建立的<code>middlewares.py</code>文件中：</p>
 <div class="codehilite"><pre><span></span><span class="kn">from</span> <span class="nn">ruia</span> <span class="kn">import</span> <span class="n">Middleware</span>
 
 <span class="n">middleware</span> <span class="o">=</span> <span class="n">Middleware</span><span class="p">()</span>
@@ -580,9 +511,9 @@
 </pre></div>
 
 
-<p>If you done, your spider will add <code>User-Agent</code> before each request automatically.</p>
-<h2 id="data-persistence">Data persistence</h2>
-<p>We gonna use <code>MongoDB</code> to store the data what we scrape by ruia. Open <code>db.py</code> and fill it with code:</p>
+<p>这样，程序会在爬虫请求网页资源之前自动加上<code>User-Agent</code></p>
+<h2 id="database">Database</h2>
+<p>对于数据持久化，你可以按照自己喜欢的方式去做，接下来我们将以<code>MongoDB</code>为例对爬取的数据进行存储，创建<code>db.py</code>文件：</p>
 <div class="codehilite"><pre><span></span><span class="kn">import</span> <span class="nn">asyncio</span>
 
 <span class="kn">from</span> <span class="nn">motor.motor_asyncio</span> <span class="kn">import</span> <span class="n">AsyncIOMotorClient</span>
@@ -618,8 +549,8 @@
 
 
 <h2 id="spider">Spider</h2>
-<p><code>Spider</code> is the program's entry, it combines the <code>Item</code>, <code>Middleware</code> and other components togather, to make programs work better.</p>
-<p>In this example, the hacker news spider will scrape the first two pages, put the code in <code>hacker_news.py</code>:</p>
+<p><code>Spider</code>可以说是爬虫程序的入口，它将<code>Item</code>、<code>Middleware</code>、<code>Request</code>、等模块组合在一起，从而为你构造一个稳健的爬虫程序</p>
+<p>这次的目的仅仅是为了演示如何使用<strong>ruia</strong>编写爬虫，所以这个例子仅仅爬取<a href="https://news.ycombinator.com/news">Hacker News</a>的前两页数据，创建<code>hacker_news.py</code>文件：</p>
 <div class="codehilite"><pre><span></span><span class="kn">from</span> <span class="nn">ruia</span> <span class="kn">import</span> <span class="n">Request</span><span class="p">,</span> <span class="n">Spider</span>
 
 <span class="kn">from</span> <span class="nn">items</span> <span class="kn">import</span> <span class="n">HackerNewsItem</span>
@@ -659,24 +590,22 @@
 </pre></div>
 
 
-<p><code>HackerNewsSpider</code> subclasses <code>Spider</code>, and must implement method <code>parse()</code>.</p>
-<p>Run <code>python hacker_news.py</code> to launch hacker news spider:</p>
-<div class="codehilite"><pre><span></span><span class="o">[</span><span class="m">2018</span>-09-24 <span class="m">17</span>:59:19,865<span class="o">]</span>-ruia-INFO  spider : Spider started!
-<span class="o">[</span><span class="m">2018</span>-09-24 <span class="m">17</span>:59:19,866<span class="o">]</span>-Request-INFO  request: &lt;GET: https://news.ycombinator.com&gt;
-<span class="o">[</span><span class="m">2018</span>-09-24 <span class="m">17</span>:59:23,259<span class="o">]</span>-Request-INFO  request: &lt;GET: https://news.ycombinator.com/news?p<span class="o">=</span><span class="m">1</span>&gt;
-<span class="o">[</span><span class="m">2018</span>-09-24 <span class="m">17</span>:59:23,260<span class="o">]</span>-Request-INFO  request: &lt;GET: https://news.ycombinator.com/news?p<span class="o">=</span><span class="m">2</span>&gt;
-<span class="o">[</span><span class="m">2018</span>-09-24 <span class="m">18</span>:03:05,562<span class="o">]</span>-ruia-INFO  spider : Stopping spider: ruia
-<span class="o">[</span><span class="m">2018</span>-09-24 <span class="m">18</span>:03:05,562<span class="o">]</span>-ruia-INFO  spider : Total requests: <span class="m">3</span>
-<span class="o">[</span><span class="m">2018</span>-09-24 <span class="m">18</span>:03:05,562<span class="o">]</span>-ruia-INFO  spider : Time usage: <span class="m">0</span>:00:02.802862
-<span class="o">[</span><span class="m">2018</span>-09-24 <span class="m">18</span>:03:05,562<span class="o">]</span>-ruia-INFO  spider : Spider finished!
+<p><code>HackerNewsSpider</code>继承于<code>Spider</code>类，其中子类必须实现<code>parse()</code>方法，运行<code>python hacker_news.py</code>：</p>
+<div class="codehilite"><pre><span></span>[2018-09-24 17:59:19,865]-ruia-INFO  spider : Spider started!
+[2018-09-24 17:59:19,866]-Request-INFO  request: &lt;GET: https://news.ycombinator.com&gt;
+[2018-09-24 17:59:23,259]-Request-INFO  request: &lt;GET: https://news.ycombinator.com/news?p=1&gt;
+[2018-09-24 17:59:23,260]-Request-INFO  request: &lt;GET: https://news.ycombinator.com/news?p=2&gt;
+[2018-09-24 18:03:05,562]-ruia-INFO  spider : Stopping spider: ruia
+[2018-09-24 18:03:05,562]-ruia-INFO  spider : Total requests: 3
+[2018-09-24 18:03:05,562]-ruia-INFO  spider : Time usage: 0:00:02.802862
+[2018-09-24 18:03:05,562]-ruia-INFO  spider : Spider finished!
 </pre></div>
 
 
-<p>After <code>Spider finished!</code>, open the database to have a look:</p>
+<p>数据库中可以看到：</p>
 <p><img alt="tutorials_03" src="../../images/tutorials_03.jpg" /></p>
-<p>As you can see, this is <strong>ruia</strong>.</p>
-<p>This example's code: <a href="https://github.com/howie6879/ruia/tree/master/examples/hacker_news_spider">hacker_news_spider</a>.</p>
-<p>Next time, we'll learn <a href="../plugins/">how to write a <strong>ruia</strong> plugin</a></p>
+<p>通过这个例子，你已经基本掌握了<strong>ruia</strong>的<code>Item</code>、<code>Middleware</code>、<code>Request</code>等模块的用法，结合自身需求，你可以编写任何爬虫，例子代码见<a href="https://github.com/howie6879/ruia/tree/master/examples/hacker_news_spider">hacker_news_spider</a></p>
+<p>接下来，我们将结合实例，编写一个<strong>ruia</strong>的第三方扩展，详见：<a href="../plugins/">Plugins</a></p>
                 
                   
                 
@@ -693,41 +622,6 @@
       
         
 <footer class="md-footer">
-  
-    <div class="md-footer-nav">
-      <nav class="md-footer-nav__inner md-grid">
-        
-          <a href="../.." title="Introduction" class="md-flex md-footer-nav__link md-footer-nav__link--prev" rel="prev">
-            <div class="md-flex__cell md-flex__cell--shrink">
-              <i class="md-icon md-icon--arrow-back md-footer-nav__button"></i>
-            </div>
-            <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
-              <span class="md-flex__ellipsis">
-                <span class="md-footer-nav__direction">
-                  Previous
-                </span>
-                Introduction
-              </span>
-            </div>
-          </a>
-        
-        
-          <a href="../plugins/" title="Plugins" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel="next">
-            <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
-              <span class="md-flex__ellipsis">
-                <span class="md-footer-nav__direction">
-                  Next
-                </span>
-                Plugins
-              </span>
-            </div>
-            <div class="md-flex__cell md-flex__cell--shrink">
-              <i class="md-icon md-icon--arrow-forward md-footer-nav__button"></i>
-            </div>
-          </a>
-        
-      </nav>
-    </div>
   
   <div class="md-footer-meta md-typeset">
     <div class="md-footer-meta__inner md-grid">
