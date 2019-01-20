@@ -1,4 +1,4 @@
-## Middleware
+# Middleware
 
 `Middleware` is mainly used to process before request and process after response,
 such as listening request and response.
@@ -6,7 +6,7 @@ such as listening request and response.
 - [Middleware().request][middleware.py]: do some operations before request;
 - [Middleware().response][middleware.py]: do some operations after response.
 
-### Usage
+## Usage
 
 Note:
 
@@ -38,7 +38,7 @@ async def print_on_response(request, response):
     print("response: print when a response is received")
 ```
 
-### How It Works?
+## How It Works?
 
 `Middleware` used decorators to implement the callback function, aims at writting middlewares easier for developers.
 

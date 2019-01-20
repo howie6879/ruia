@@ -1,6 +1,6 @@
-## Request
+# Request
 
-`Request is used for operating web requests.
+`Request` is used for operating web requests.
 It returns a [Response][response.md] object.
 
 Methods: 
@@ -8,7 +8,7 @@ Methods:
 - [Request().fetch][request.py]: request a web resource, it can be used standalone.
 - [Request().fetch_callback][request.py]: it is a core method for `Spider` class.
 
-### Core arguments
+## Core arguments
 
 - url: the resource link
 - method: request method, shoud be `GET` or `POST
@@ -21,7 +21,7 @@ Methods:
 - res_type: response type of request, default `str`, optional `bytes` and `json`
 - kwargs: other arguments for request
 
-### Usage
+## Usage
 
 From the arguments above, we can see that `Request` can be used both associated with `Spider` and standalone.
 
@@ -38,7 +38,7 @@ response = asyncio.get_event_loop().run_until_complete(request.fetch())
 # <Response url[text]: https://news.ycombinator.com/ status:200 metadata:{}>
 ```
 
-### How It Works?
+## How It Works?
 
 `Request` class will send asynchronous http request by packaging `aiohttp` and `pyppeteer`.
 

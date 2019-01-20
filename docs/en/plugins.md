@@ -1,4 +1,4 @@
-## Plugins
+# Plugins
 
 Plugins are used to package some commom functions as a third-party model.
 **Ruia** allow developers to implement third-party extensions by `Middleware` class.
@@ -11,7 +11,7 @@ Perhaps any crawler need such a function, to add `User-Agent` randomly, so, let'
 
 Do it!
 
-### Creating a project
+## Creating a project
 
 The project name is [ruia-ua][ruia-ua]. 
 **Ruia** is based on `Python3.6+`, so is `ruia-ua`.
@@ -51,7 +51,7 @@ ruia-ua
 └── setup.py				
 ```
 
-### First extension
+## First plugin
 
 `user_agents.txt` contains all kinds of `UA`,
 then we only need to use `Middleware` of `ruia` to add a random `User-Agent` before every request.
@@ -112,7 +112,7 @@ async def add_random_ua(request):
 Now it's high time to upload `ruia-ua` to community, then all other `ruia` users are able to use your third-party extension.
 Sounds great!
 
-### Usage
+## Usage
 
 All crawlers can use `ruia-ua` to add `User-Agent` automatically.
 
@@ -150,7 +150,7 @@ if __name__ == '__main__':
     HackerNewsSpider.start(middleware=middleware)
 ```
 
-The implementations of third-party extentions will make developing crawlers easier!
-**ruia** do want your developing and uploading your own third-party extensions!
+The implementations of third-party plugins will make developing crawlers easier!
+**ruia** do want your developing and uploading your own third-party plugins!
 
 [ruia-ua]: https://github.com/ruia-plugins/ruia-ua

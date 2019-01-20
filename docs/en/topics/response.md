@@ -1,4 +1,4 @@
-## Response
+# Response
 
 [Response][response.py] is used to return a uniformed and friendly response object.
 

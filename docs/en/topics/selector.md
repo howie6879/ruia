@@ -1,4 +1,4 @@
-## Selector
+# Selector
 
 `Selector` is implemented by `Field` class, and provides two ways for developers to extract data:
 `CSS Selector` and `XPath Selector`.
@@ -9,7 +9,7 @@ In detail, they are implemented by the following three classes:
 - [TextField(BaseField)][field.py]: extract text data of HTML tag
 - [HtmlField(BaseField)][field.py]: extract raw html code from HTML tag
 
-### Core arguments
+## Core arguments
 
 Arguments of all `Field` classes:
 - default: default value if no HTML tag founded.
@@ -26,7 +26,7 @@ Arguments shard by `TextField`, `AttrField` and `HtmlField`:
 `RegexField` requires an extra field:
 - re_select: an regular expression, should be a str object.
 
-### Usage
+## Usage
 
 ```python
 from lxml import etree
@@ -76,7 +76,7 @@ def test_re_field():
 
 ```
 
-### How It Works?
+## How It Works?
 
 Use `lxml` to extract data from HTML source code, in terms of `CSS Selector` or `XPath Selector`.
 
@@ -104,15 +104,19 @@ class MyItem(ruia.Item):
 so there's no `css_select` and `xpath_select` for `RegexField`.
 
 `RegexField` has a complex behaviour:
+
 - if you set many=`False`:
     - if you use **named group** in your regular expression, return a dictionary;
     - else if you use **group** in your regular expression
         - if there's only **one group**, return the group value as a string;
         - if there are **many groups**, return a tuple of the values;
     - else, return the whole match string.
+    
 - if you set many=`True`:
     - return a list of the return values above.
 
-Note: if you use named group, those groups without names will be lost.
+!!! Note
+    if you use named group, those groups without names will be lost.
+
 
 [field.py]: https://github.com/howie6879/ruia/blob/master/ruia/field.py

@@ -5,6 +5,8 @@ url = "https://pypi.python.org/simple"
 
 [dev-packages]
 pytest = "*"
+mkdocs = "*"
+mkdocs-material = "*"
 
 [packages]
 aiohttp = ">=3.3.2"
