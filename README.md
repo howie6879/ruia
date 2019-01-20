@@ -10,7 +10,7 @@ An async web scraping micro-framework, written with `asyncio` and `aiohttp`, aim
 
 Write less, run faster:
 
-- Documentation: [中文文档](https://github.com/howie6879/ruia/blob/master/docs/cn/README.md) |[documentation](https://github.com/howie6879/ruia/blob/master/docs/en/README.md)
+- Documentation: [中文文档](https://github.com/howie6879/ruia/blob/master/docs/cn/README.md) |[documentation](https://howie6879.github.io/ruia/)
 - Plugins: [https://github.com/ruia-plugins](https://github.com/ruia-plugins)
 
 
