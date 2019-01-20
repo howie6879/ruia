@@ -1,10 +1,10 @@
-## Selector
+# Selector
 
 `Selector`通过`Field`类实现，为开发者提供了`CSS Selector`和`XPath`两种方式提取目标数据，具体由下面两个类实现：
 - [AttrField(BaseField)](https://github.com/howie6879/ruia/blob/master/ruia/field.py)：提取网页标签的属性数据
 - [TextField(BaseField)](https://github.com/howie6879/ruia/blob/master/ruia/field.py)：提取网页标签的text数据
 
-### Core arguments
+## Core arguments
 
 所有的`Field`共有的参数：
 - default: str, 设置默认值
@@ -20,7 +20,7 @@
 `RegexField`需要一个额外的参数：
 - re_select: str, 正则表达式字符串
 
-### Usage
+## Usage
 
 ```python
 from lxml import etree
@@ -71,7 +71,8 @@ def test_re_field():
 
 ```
 
-### How It Works?
+## How It Works?
+
 定好`CSS Selector`或`XPath`规则，然后利用`lxml`实现对目标`html`进行目标数据的提取
 
 ### 关于`RegexField`

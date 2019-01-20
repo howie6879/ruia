@@ -1,6 +1,9 @@
 # Tutorials
 
-This tutorial shows how to scrape [Hacker News](https://news.ycombinator.com/news) in **ruia**.
+This tutorial shows how to scrape [Hacker News](https://news.ycombinator.com/news) in **Ruia**.
+
+![tutorials_01](../images/tutorials_01.png)
+
 
 ## Creating a project
 
