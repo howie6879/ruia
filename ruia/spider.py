@@ -21,6 +21,9 @@ except ImportError:
 
 
 class Spider:
+    """
+    The main class of the spider.
+    """
     name = 'ruia'
     request_config = None
 
