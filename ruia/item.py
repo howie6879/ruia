@@ -84,4 +84,4 @@ class Item(metaclass=ItemMeta):
         return item_ins
 
     def __str__(self):
-        return f"<Item {self.results}>"
+        return "<Item {self.results}>"
