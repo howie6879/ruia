@@ -25,6 +25,7 @@ For a simple spider, you may only need to learn [fields](field.md) and [Items](i
 and here is a concise example ([source][concise_hack_news_spider]):
 
 ```python
+# Python 3.7 required
 import asyncio
 from ruia import Item, TextField, AttrField
 
