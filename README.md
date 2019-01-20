@@ -5,7 +5,7 @@
 [![PyPI](https://img.shields.io/pypi/v/ruia.svg)](https://pypi.org/project/ruia/) 
 [![license](https://img.shields.io/github/license/howie6879/ruia.svg)](https://github.com/howie6879/ruia)
 
-![demo](./images/demo.png)
+![](./docs/images/demo.png)
 
 ## Overview
 
@@ -17,6 +17,12 @@ Write less, run faster:
 - Documentation: [中文文档][doc_cn] |[documentation][doc_en]
 - Plugins: [https://github.com/ruia-plugins][ruia_plugins]
 
+## Features
+
+- **Easy**: Declarative programming
+- **Fast**: Powered by asyncio
+- **Flexible**: Custom middleware
+- **Powerful**: JavaScript support
 
 ## Installation
 
@@ -83,17 +89,7 @@ if __name__ == '__main__':
     HackerNewsSpider.start()
 
 ```
-
-### Done!
-
-> Life is short, you need Python!
-
-## Features
-
-- **Easy**: Declarative programming;
-- **Fast**: Powered by asyncio;
-- **Flexible**: Custom middleware;
-- **Powerful**: JavaScript support;
+Done!
 
 ## Learn More
 
