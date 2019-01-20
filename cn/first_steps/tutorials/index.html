@@ -1,0 +1,671 @@
+
+
+
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      <meta http-equiv="x-ua-compatible" content="ie=edge">
+      
+        <meta name="description" content="An async web scraping micro-framework based on asyncio.">
+      
+      
+        <link rel="canonical" href="https://howie6879.github.io/ruia/cn/first_steps/tutorials/">
+      
+      
+        <meta name="author" content="howie.hu">
+      
+      
+        <meta name="lang:clipboard.copy" content="Copy to clipboard">
+      
+        <meta name="lang:clipboard.copied" content="Copied to clipboard">
+      
+        <meta name="lang:search.language" content="en">
+      
+        <meta name="lang:search.pipeline.stopwords" content="True">
+      
+        <meta name="lang:search.pipeline.trimmer" content="True">
+      
+        <meta name="lang:search.result.none" content="No matching documents">
+      
+        <meta name="lang:search.result.one" content="1 matching document">
+      
+        <meta name="lang:search.result.other" content="# matching documents">
+      
+        <meta name="lang:search.tokenizer" content="[\s\-]+">
+      
+      <link rel="shortcut icon" href="../../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.0.4, mkdocs-material-3.2.0">
+    
+    
+      
+        <title>Tutorials - Ruia</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/stylesheets/application.572ca0f0.css">
+      
+      
+    
+    
+      <script src="../../../assets/javascripts/modernizr.8c900955.js"></script>
+    
+    
+      
+        <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700|Roboto+Mono">
+        <style>body,input{font-family:"Roboto","Helvetica Neue",Helvetica,Arial,sans-serif}code,kbd,pre{font-family:"Roboto Mono","Courier New",Courier,monospace}</style>
+      
+    
+    <link rel="stylesheet" href="../../../assets/fonts/material-icons.css">
+    
+    
+    
+  </head>
+  
+    <body dir="ltr">
+  
+    <svg class="md-svg">
+      <defs>
+        
+        
+          <svg xmlns="http://www.w3.org/2000/svg" width="416" height="448"
+    viewBox="0 0 416 448" id="__github">
+  <path fill="currentColor" d="M160 304q0 10-3.125 20.5t-10.75 19-18.125
+        8.5-18.125-8.5-10.75-19-3.125-20.5 3.125-20.5 10.75-19 18.125-8.5
+        18.125 8.5 10.75 19 3.125 20.5zM320 304q0 10-3.125 20.5t-10.75
+        19-18.125 8.5-18.125-8.5-10.75-19-3.125-20.5 3.125-20.5 10.75-19
+        18.125-8.5 18.125 8.5 10.75 19 3.125 20.5zM360
+        304q0-30-17.25-51t-46.75-21q-10.25 0-48.75 5.25-17.75 2.75-39.25
+        2.75t-39.25-2.75q-38-5.25-48.75-5.25-29.5 0-46.75 21t-17.25 51q0 22 8
+        38.375t20.25 25.75 30.5 15 35 7.375 37.25 1.75h42q20.5 0
+        37.25-1.75t35-7.375 30.5-15 20.25-25.75 8-38.375zM416 260q0 51.75-15.25
+        82.75-9.5 19.25-26.375 33.25t-35.25 21.5-42.5 11.875-42.875 5.5-41.75
+        1.125q-19.5 0-35.5-0.75t-36.875-3.125-38.125-7.5-34.25-12.875-30.25-20.25-21.5-28.75q-15.5-30.75-15.5-82.75
+        0-59.25 34-99-6.75-20.5-6.75-42.5 0-29 12.75-54.5 27 0 47.5 9.875t47.25
+        30.875q36.75-8.75 77.25-8.75 37 0 70 8 26.25-20.5
+        46.75-30.25t47.25-9.75q12.75 25.5 12.75 54.5 0 21.75-6.75 42 34 40 34
+        99.5z" />
+</svg>
+        
+      </defs>
+    </svg>
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" data-md-component="overlay" for="__drawer"></label>
+    
+      <a href="#tutorials" tabindex="1" class="md-skip">
+        Skip to content
+      </a>
+    
+    
+      <header class="md-header" data-md-component="header">
+  <nav class="md-header-nav md-grid">
+    <div class="md-flex">
+      <div class="md-flex__cell md-flex__cell--shrink">
+        <a href="https://howie6879.github.io/ruia/" title="Ruia" class="md-header-nav__button md-logo">
+          
+            <i class="md-icon"></i>
+          
+        </a>
+      </div>
+      <div class="md-flex__cell md-flex__cell--shrink">
+        <label class="md-icon md-icon--menu md-header-nav__button" for="__drawer"></label>
+      </div>
+      <div class="md-flex__cell md-flex__cell--stretch">
+        <div class="md-flex__ellipsis md-header-nav__title" data-md-component="title">
+          
+            
+              <span class="md-header-nav__topic">
+                Ruia
+              </span>
+              <span class="md-header-nav__topic">
+                Tutorials
+              </span>
+            
+          
+        </div>
+      </div>
+      <div class="md-flex__cell md-flex__cell--shrink">
+        
+          
+            <label class="md-icon md-icon--search md-header-nav__button" for="__search"></label>
+            
+<div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="query" data-md-state="active">
+      <label class="md-icon md-search__icon" for="__search"></label>
+      <button type="reset" class="md-icon md-search__icon" data-md-component="reset" tabindex="-1">
+        &#xE5CD;
+      </button>
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="result">
+          <div class="md-search-result__meta">
+            Type to start searching
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+          
+        
+      </div>
+      
+        <div class="md-flex__cell md-flex__cell--shrink">
+          <div class="md-header-nav__source">
+            
+
+
+  
+
+
+  <a href="https://github.com/howie6879/ruia/" title="Go to repository" class="md-source" data-md-source="github">
+    
+      <div class="md-source__icon">
+        <svg viewBox="0 0 24 24" width="24" height="24">
+          <use xlink:href="#__github" width="24" height="24"></use>
+        </svg>
+      </div>
+    
+    <div class="md-source__repository">
+      howie6879/ruia
+    </div>
+  </a>
+
+          </div>
+        </div>
+      
+    </div>
+  </nav>
+</header>
+    
+    <div class="md-container">
+      
+        
+      
+      
+      <main class="md-main">
+        <div class="md-main__inner md-grid" data-md-component="container">
+          
+            
+              <div class="md-sidebar md-sidebar--primary" data-md-component="navigation">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    <nav class="md-nav md-nav--primary" data-md-level="0">
+  <label class="md-nav__title md-nav__title--site" for="__drawer">
+    <a href="https://howie6879.github.io/ruia/" title="Ruia" class="md-nav__button md-logo">
+      
+        <i class="md-icon"></i>
+      
+    </a>
+    Ruia
+  </label>
+  
+    <div class="md-nav__source">
+      
+
+
+  
+
+
+  <a href="https://github.com/howie6879/ruia/" title="Go to repository" class="md-source" data-md-source="github">
+    
+      <div class="md-source__icon">
+        <svg viewBox="0 0 24 24" width="24" height="24">
+          <use xlink:href="#__github" width="24" height="24"></use>
+        </svg>
+      </div>
+    
+    <div class="md-source__repository">
+      howie6879/ruia
+    </div>
+  </a>
+
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../../.." title="Introduction" class="md-nav__link">
+      Introduction
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../../../en/tutorials/" title="Tutorials" class="md-nav__link">
+      Tutorials
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../../../en/plugins/" title="Plugins" class="md-nav__link">
+      Plugins
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-4" type="checkbox" id="nav-4">
+    
+    <label class="md-nav__link" for="nav-4">
+      Topics
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-4">
+        Topics
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../en/topics/item/" title="Item" class="md-nav__link">
+      Item
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../en/topics/selector/" title="Selector" class="md-nav__link">
+      Selector
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../en/topics/request/" title="Request" class="md-nav__link">
+      Request
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../en/topics/response/" title="Response" class="md-nav__link">
+      Response
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../en/topics/middleware/" title="Middleware" class="md-nav__link">
+      Middleware
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../en/topics/spider/" title="Spider" class="md-nav__link">
+      Spider
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="toc">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+<nav class="md-nav md-nav--secondary">
+  
+  
+  
+    <label class="md-nav__title" for="__toc">Table of contents</label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#tutorials" title="Tutorials" class="md-nav__link">
+    Tutorials
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#item" title="Item" class="md-nav__link">
+    Item
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#middleware" title="Middleware" class="md-nav__link">
+    Middleware
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#database" title="Database" class="md-nav__link">
+    Database
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#spider" title="Spider" class="md-nav__link">
+    Spider
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+      
+      
+      
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          <div class="md-content">
+            <article class="md-content__inner md-typeset">
+              
+                
+                  <a href="https://github.com/howie6879/ruia/edit/master/docs/cn/first_steps/tutorials.md" title="Edit this page" class="md-icon md-content__icon">&#xE3C9;</a>
+                
+                
+                  <h1>Tutorials</h1>
+                
+                <h2 id="tutorials">Tutorials</h2>
+<p>目标：通过对<a href="https://news.ycombinator.com/news">Hacker News</a>的爬取来展示如何使用<strong>ruia</strong>，下图红框中的数据就是我们需要爬取的：</p>
+<p><img alt="tutorials_01" src="../../../images/tutorials_01.png" /></p>
+<p>假设我们将此项目命名为<code>hacker_news_spider</code>，项目结构如下：</p>
+<div class="codehilite"><pre><span></span>hacker_news_spider
+├── db.py
+├── hacker_news.py
+├── items.py
+└── middlewares.py
+</pre></div>
+
+
+<h3 id="item">Item</h3>
+<p><code>Item</code>的目的是定义目标网站中你需要爬取的数据，此时，爬虫的目标数据就是页面中的<code>Title</code>和<code>Url</code>，怎么提取数据，<strong>ruia</strong>提供了<a href="https://www.w3schools.com/cssref/css_selectors.asp">CSS Selector</a>和<a href="https://www.w3schools.com/xml/xpath_intro.asp">XPath</a>两种方式提取目标数据</p>
+<div class="codehilite"><pre><span></span>Notice: 后续爬虫例子都默认使用CSS Selector的规则来提取目标数据
+</pre></div>
+
+
+<p>这里我们使用<code>CSS Selector</code>来提取目标数据，用浏览器打开<a href="https://news.ycombinator.com/news">Hacker News</a>，右键审查元素：</p>
+<p><img alt="tutorials_02" src="../../../images/tutorials_02.png" /></p>
+<p>显而易见，每页包含<code>30</code>条资讯，那么目标数据的规则可以总结为：</p>
+<table>
+<thead>
+<tr>
+<th align="left">Param</th>
+<th>Rule</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">target_item</td>
+<td>tr.athing</td>
+<td>表示每条资讯</td>
+</tr>
+<tr>
+<td align="left">title</td>
+<td>a.storylink</td>
+<td>表示每条资讯里的标题</td>
+</tr>
+<tr>
+<td align="left">url</td>
+<td>a.storylink-&gt;href</td>
+<td>表示每条资讯里标题的链接</td>
+</tr>
+</tbody>
+</table>
+<p>规则明确之后，就可以用<code>Item</code>来实现一个针对于目标数据的ORM，创建文件<code>items.py</code>，复制下面代码：</p>
+<div class="codehilite"><pre><span></span><span class="kn">from</span> <span class="nn">ruia</span> <span class="kn">import</span> <span class="n">AttrField</span><span class="p">,</span> <span class="n">TextField</span><span class="p">,</span> <span class="n">Item</span>
+
+
+<span class="k">class</span> <span class="nc">HackerNewsItem</span><span class="p">(</span><span class="n">Item</span><span class="p">):</span>
+    <span class="n">target_item</span> <span class="o">=</span> <span class="n">TextField</span><span class="p">(</span><span class="n">css_select</span><span class="o">=</span><span class="s1">&#39;tr.athing&#39;</span><span class="p">)</span>
+    <span class="n">title</span> <span class="o">=</span> <span class="n">TextField</span><span class="p">(</span><span class="n">css_select</span><span class="o">=</span><span class="s1">&#39;a.storylink&#39;</span><span class="p">)</span>
+    <span class="n">url</span> <span class="o">=</span> <span class="n">AttrField</span><span class="p">(</span><span class="n">css_select</span><span class="o">=</span><span class="s1">&#39;a.storylink&#39;</span><span class="p">,</span> <span class="n">attr</span><span class="o">=</span><span class="s1">&#39;href&#39;</span><span class="p">)</span>
+</pre></div>
+
+
+<p>只需要继承<code>Item</code>类，将目标参数定义为一个属性即可，如果目标数据是可以循环提取的，比如此时每一页里面有<code>30</code>条数据，那么就需要定义<code>target_item</code>来循环提取每一条数据里面的<code>Title</code>和<code>Url</code></p>
+<h3 id="middleware">Middleware</h3>
+<p><code>Middleware</code>的目的是对每次请求前后进行一番处理，分下面两种情况：</p>
+<ul>
+<li>在每次请求之前做一些事</li>
+<li>在每次请求后做一些事</li>
+</ul>
+<p>比如此时爬取<a href="https://news.ycombinator.com/news">Hacker News</a>，你希望在每次请求时候自动添加<code>Headers</code>的<code>User-Agent</code>，可以将下面代码复制到你建立的<code>middlewares.py</code>文件中：</p>
+<div class="codehilite"><pre><span></span><span class="kn">from</span> <span class="nn">ruia</span> <span class="kn">import</span> <span class="n">Middleware</span>
+
+<span class="n">middleware</span> <span class="o">=</span> <span class="n">Middleware</span><span class="p">()</span>
+
+
+<span class="nd">@middleware.request</span>
+<span class="n">async</span> <span class="k">def</span> <span class="nf">print_on_request</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
+    <span class="n">ua</span> <span class="o">=</span> <span class="s1">&#39;ruia user-agent&#39;</span>
+    <span class="n">request</span><span class="o">.</span><span class="n">headers</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s1">&#39;User-Agent&#39;</span><span class="p">:</span> <span class="n">ua</span><span class="p">})</span>
+</pre></div>
+
+
+<p>这样，程序会在爬虫请求网页资源之前自动加上<code>User-Agent</code></p>
+<h3 id="database">Database</h3>
+<p>对于数据持久化，你可以按照自己喜欢的方式去做，接下来我们将以<code>MongoDB</code>为例对爬取的数据进行存储，创建<code>db.py</code>文件：</p>
+<div class="codehilite"><pre><span></span><span class="kn">import</span> <span class="nn">asyncio</span>
+
+<span class="kn">from</span> <span class="nn">motor.motor_asyncio</span> <span class="kn">import</span> <span class="n">AsyncIOMotorClient</span>
+
+
+<span class="k">class</span> <span class="nc">MotorBase</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    About motor&#39;s doc: https://github.com/mongodb/motor</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">_db</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="n">_collection</span> <span class="o">=</span> <span class="p">{}</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">loop</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">motor_uri</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">loop</span> <span class="o">=</span> <span class="n">loop</span> <span class="ow">or</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">get_event_loop</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">client</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">db</span><span class="p">):</span>
+        <span class="c1"># motor</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">motor_uri</span> <span class="o">=</span> <span class="n">f</span><span class="s2">&quot;mongodb://localhost:27017/{db}&quot;</span>
+        <span class="k">return</span> <span class="n">AsyncIOMotorClient</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">motor_uri</span><span class="p">,</span> <span class="n">io_loop</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">loop</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">get_db</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">db</span><span class="o">=</span><span class="s1">&#39;test&#39;</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get a db instance</span>
+<span class="sd">        :param db: database name</span>
+<span class="sd">        :return: the motor db instance</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">db</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_db</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_db</span><span class="p">[</span><span class="n">db</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="p">(</span><span class="n">db</span><span class="p">)[</span><span class="n">db</span><span class="p">]</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_db</span><span class="p">[</span><span class="n">db</span><span class="p">]</span>
+</pre></div>
+
+
+<h3 id="spider">Spider</h3>
+<p><code>Spider</code>可以说是爬虫程序的入口，它将<code>Item</code>、<code>Middleware</code>、<code>Request</code>、等模块组合在一起，从而为你构造一个稳健的爬虫程序</p>
+<p>这次的目的仅仅是为了演示如何使用<strong>ruia</strong>编写爬虫，所以这个例子仅仅爬取<a href="https://news.ycombinator.com/news">Hacker News</a>的前两页数据，创建<code>hacker_news.py</code>文件：</p>
+<div class="codehilite"><pre><span></span><span class="kn">from</span> <span class="nn">ruia</span> <span class="kn">import</span> <span class="n">Request</span><span class="p">,</span> <span class="n">Spider</span>
+
+<span class="kn">from</span> <span class="nn">items</span> <span class="kn">import</span> <span class="n">HackerNewsItem</span>
+<span class="kn">from</span> <span class="nn">middlewares</span> <span class="kn">import</span> <span class="n">middleware</span>
+<span class="kn">from</span> <span class="nn">db</span> <span class="kn">import</span> <span class="n">MotorBase</span>
+
+
+<span class="k">class</span> <span class="nc">HackerNewsSpider</span><span class="p">(</span><span class="n">Spider</span><span class="p">):</span>
+    <span class="n">start_urls</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;https://news.ycombinator.com&#39;</span><span class="p">]</span>
+    <span class="n">concurrency</span> <span class="o">=</span> <span class="mi">3</span>
+
+    <span class="n">async</span> <span class="k">def</span> <span class="nf">parse</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">res</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mongo_db</span> <span class="o">=</span> <span class="n">MotorBase</span><span class="p">()</span><span class="o">.</span><span class="n">get_db</span><span class="p">(</span><span class="s1">&#39;ruia_test&#39;</span><span class="p">)</span>
+        <span class="n">urls</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;https://news.ycombinator.com/news?p=1&#39;</span><span class="p">,</span> <span class="s1">&#39;https://news.ycombinator.com/news?p=2&#39;</span><span class="p">]</span>
+        <span class="k">for</span> <span class="n">index</span><span class="p">,</span> <span class="n">url</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">urls</span><span class="p">):</span>
+            <span class="k">yield</span> <span class="n">Request</span><span class="p">(</span>
+                <span class="n">url</span><span class="p">,</span>
+                <span class="n">callback</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">parse_item</span><span class="p">,</span>
+                <span class="n">metadata</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;index&#39;</span><span class="p">:</span> <span class="n">index</span><span class="p">}</span>
+            <span class="p">)</span>
+
+    <span class="n">async</span> <span class="k">def</span> <span class="nf">parse_item</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">res</span><span class="p">):</span>
+        <span class="n">items</span> <span class="o">=</span> <span class="n">await</span> <span class="n">HackerNewsItem</span><span class="o">.</span><span class="n">get_items</span><span class="p">(</span><span class="n">html</span><span class="o">=</span><span class="n">res</span><span class="o">.</span><span class="n">html</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">items</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">mongo_db</span><span class="o">.</span><span class="n">news</span><span class="o">.</span><span class="n">update_one</span><span class="p">({</span>
+                    <span class="s1">&#39;url&#39;</span><span class="p">:</span> <span class="n">item</span><span class="o">.</span><span class="n">url</span><span class="p">},</span>
+                    <span class="p">{</span><span class="s1">&#39;$set&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;url&#39;</span><span class="p">:</span> <span class="n">item</span><span class="o">.</span><span class="n">url</span><span class="p">,</span> <span class="s1">&#39;title&#39;</span><span class="p">:</span> <span class="n">item</span><span class="o">.</span><span class="n">title</span><span class="p">}},</span>
+                    <span class="n">upsert</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+            <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">exception</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
+
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+    <span class="n">HackerNewsSpider</span><span class="o">.</span><span class="n">start</span><span class="p">(</span><span class="n">middleware</span><span class="o">=</span><span class="n">middleware</span><span class="p">)</span>
+</pre></div>
+
+
+<p><code>HackerNewsSpider</code>继承于<code>Spider</code>类，其中子类必须实现<code>parse()</code>方法，运行<code>python hacker_news.py</code>：</p>
+<div class="codehilite"><pre><span></span>[2018-09-24 17:59:19,865]-ruia-INFO  spider : Spider started!
+[2018-09-24 17:59:19,866]-Request-INFO  request: &lt;GET: https://news.ycombinator.com&gt;
+[2018-09-24 17:59:23,259]-Request-INFO  request: &lt;GET: https://news.ycombinator.com/news?p=1&gt;
+[2018-09-24 17:59:23,260]-Request-INFO  request: &lt;GET: https://news.ycombinator.com/news?p=2&gt;
+[2018-09-24 18:03:05,562]-ruia-INFO  spider : Stopping spider: ruia
+[2018-09-24 18:03:05,562]-ruia-INFO  spider : Total requests: 3
+[2018-09-24 18:03:05,562]-ruia-INFO  spider : Time usage: 0:00:02.802862
+[2018-09-24 18:03:05,562]-ruia-INFO  spider : Spider finished!
+</pre></div>
+
+
+<p>数据库中可以看到：</p>
+<p><img alt="tutorials_03" src="../../../images/tutorials_03.jpg" /></p>
+<p>通过这个例子，你已经基本掌握了<strong>ruia</strong>的<code>Item</code>、<code>Middleware</code>、<code>Request</code>等模块的用法，结合自身需求，你可以编写任何爬虫，例子代码见<a href="https://github.com/howie6879/ruia/tree/master/examples/hacker_news_spider">hacker_news_spider</a></p>
+<p>接下来，我们将结合实例，编写一个<strong>ruia</strong>的第三方扩展，详见：<a href="../plugins/">Plugins</a></p>
+                
+                  
+                
+              
+              
+                
+
+
+              
+            </article>
+          </div>
+        </div>
+      </main>
+      
+        
+<footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-footer-copyright">
+        
+          <div class="md-footer-copyright__highlight">
+            Copyright &copy; 2018 - 2019 <a href="https://github.com/howie6879/ruia">howie.hu</a>.
+          </div>
+        
+        powered by
+        <a href="https://www.mkdocs.org">MkDocs</a>
+        and
+        <a href="https://squidfunk.github.io/mkdocs-material/">
+          Material for MkDocs</a>
+      </div>
+      
+        
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    
+      <script src="../../../assets/javascripts/application.b41f3d20.js"></script>
+      
+      <script>app.initialize({version:"1.0.4",url:{base:"../../.."}})</script>
+      
+    
+    
+      
+    
+  </body>
+</html>

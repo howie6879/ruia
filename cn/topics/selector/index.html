@@ -1,0 +1,566 @@
+
+
+
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      <meta http-equiv="x-ua-compatible" content="ie=edge">
+      
+        <meta name="description" content="An async web scraping micro-framework based on asyncio.">
+      
+      
+        <link rel="canonical" href="https://howie6879.github.io/ruia/cn/topics/selector/">
+      
+      
+        <meta name="author" content="howie.hu">
+      
+      
+        <meta name="lang:clipboard.copy" content="Copy to clipboard">
+      
+        <meta name="lang:clipboard.copied" content="Copied to clipboard">
+      
+        <meta name="lang:search.language" content="en">
+      
+        <meta name="lang:search.pipeline.stopwords" content="True">
+      
+        <meta name="lang:search.pipeline.trimmer" content="True">
+      
+        <meta name="lang:search.result.none" content="No matching documents">
+      
+        <meta name="lang:search.result.one" content="1 matching document">
+      
+        <meta name="lang:search.result.other" content="# matching documents">
+      
+        <meta name="lang:search.tokenizer" content="[\s\-]+">
+      
+      <link rel="shortcut icon" href="../../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.0.4, mkdocs-material-3.2.0">
+    
+    
+      
+        <title>Selector - Ruia</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/stylesheets/application.572ca0f0.css">
+      
+      
+    
+    
+      <script src="../../../assets/javascripts/modernizr.8c900955.js"></script>
+    
+    
+      
+        <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700|Roboto+Mono">
+        <style>body,input{font-family:"Roboto","Helvetica Neue",Helvetica,Arial,sans-serif}code,kbd,pre{font-family:"Roboto Mono","Courier New",Courier,monospace}</style>
+      
+    
+    <link rel="stylesheet" href="../../../assets/fonts/material-icons.css">
+    
+    
+    
+  </head>
+  
+    <body dir="ltr">
+  
+    <svg class="md-svg">
+      <defs>
+        
+        
+          <svg xmlns="http://www.w3.org/2000/svg" width="416" height="448"
+    viewBox="0 0 416 448" id="__github">
+  <path fill="currentColor" d="M160 304q0 10-3.125 20.5t-10.75 19-18.125
+        8.5-18.125-8.5-10.75-19-3.125-20.5 3.125-20.5 10.75-19 18.125-8.5
+        18.125 8.5 10.75 19 3.125 20.5zM320 304q0 10-3.125 20.5t-10.75
+        19-18.125 8.5-18.125-8.5-10.75-19-3.125-20.5 3.125-20.5 10.75-19
+        18.125-8.5 18.125 8.5 10.75 19 3.125 20.5zM360
+        304q0-30-17.25-51t-46.75-21q-10.25 0-48.75 5.25-17.75 2.75-39.25
+        2.75t-39.25-2.75q-38-5.25-48.75-5.25-29.5 0-46.75 21t-17.25 51q0 22 8
+        38.375t20.25 25.75 30.5 15 35 7.375 37.25 1.75h42q20.5 0
+        37.25-1.75t35-7.375 30.5-15 20.25-25.75 8-38.375zM416 260q0 51.75-15.25
+        82.75-9.5 19.25-26.375 33.25t-35.25 21.5-42.5 11.875-42.875 5.5-41.75
+        1.125q-19.5 0-35.5-0.75t-36.875-3.125-38.125-7.5-34.25-12.875-30.25-20.25-21.5-28.75q-15.5-30.75-15.5-82.75
+        0-59.25 34-99-6.75-20.5-6.75-42.5 0-29 12.75-54.5 27 0 47.5 9.875t47.25
+        30.875q36.75-8.75 77.25-8.75 37 0 70 8 26.25-20.5
+        46.75-30.25t47.25-9.75q12.75 25.5 12.75 54.5 0 21.75-6.75 42 34 40 34
+        99.5z" />
+</svg>
+        
+      </defs>
+    </svg>
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" data-md-component="overlay" for="__drawer"></label>
+    
+      <a href="#selector" tabindex="1" class="md-skip">
+        Skip to content
+      </a>
+    
+    
+      <header class="md-header" data-md-component="header">
+  <nav class="md-header-nav md-grid">
+    <div class="md-flex">
+      <div class="md-flex__cell md-flex__cell--shrink">
+        <a href="https://howie6879.github.io/ruia/" title="Ruia" class="md-header-nav__button md-logo">
+          
+            <i class="md-icon"></i>
+          
+        </a>
+      </div>
+      <div class="md-flex__cell md-flex__cell--shrink">
+        <label class="md-icon md-icon--menu md-header-nav__button" for="__drawer"></label>
+      </div>
+      <div class="md-flex__cell md-flex__cell--stretch">
+        <div class="md-flex__ellipsis md-header-nav__title" data-md-component="title">
+          
+            
+              <span class="md-header-nav__topic">
+                Ruia
+              </span>
+              <span class="md-header-nav__topic">
+                Selector
+              </span>
+            
+          
+        </div>
+      </div>
+      <div class="md-flex__cell md-flex__cell--shrink">
+        
+          
+            <label class="md-icon md-icon--search md-header-nav__button" for="__search"></label>
+            
+<div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="query" data-md-state="active">
+      <label class="md-icon md-search__icon" for="__search"></label>
+      <button type="reset" class="md-icon md-search__icon" data-md-component="reset" tabindex="-1">
+        &#xE5CD;
+      </button>
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="result">
+          <div class="md-search-result__meta">
+            Type to start searching
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+          
+        
+      </div>
+      
+        <div class="md-flex__cell md-flex__cell--shrink">
+          <div class="md-header-nav__source">
+            
+
+
+  
+
+
+  <a href="https://github.com/howie6879/ruia/" title="Go to repository" class="md-source" data-md-source="github">
+    
+      <div class="md-source__icon">
+        <svg viewBox="0 0 24 24" width="24" height="24">
+          <use xlink:href="#__github" width="24" height="24"></use>
+        </svg>
+      </div>
+    
+    <div class="md-source__repository">
+      howie6879/ruia
+    </div>
+  </a>
+
+          </div>
+        </div>
+      
+    </div>
+  </nav>
+</header>
+    
+    <div class="md-container">
+      
+        
+      
+      
+      <main class="md-main">
+        <div class="md-main__inner md-grid" data-md-component="container">
+          
+            
+              <div class="md-sidebar md-sidebar--primary" data-md-component="navigation">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    <nav class="md-nav md-nav--primary" data-md-level="0">
+  <label class="md-nav__title md-nav__title--site" for="__drawer">
+    <a href="https://howie6879.github.io/ruia/" title="Ruia" class="md-nav__button md-logo">
+      
+        <i class="md-icon"></i>
+      
+    </a>
+    Ruia
+  </label>
+  
+    <div class="md-nav__source">
+      
+
+
+  
+
+
+  <a href="https://github.com/howie6879/ruia/" title="Go to repository" class="md-source" data-md-source="github">
+    
+      <div class="md-source__icon">
+        <svg viewBox="0 0 24 24" width="24" height="24">
+          <use xlink:href="#__github" width="24" height="24"></use>
+        </svg>
+      </div>
+    
+    <div class="md-source__repository">
+      howie6879/ruia
+    </div>
+  </a>
+
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../../.." title="Introduction" class="md-nav__link">
+      Introduction
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../../../en/tutorials/" title="Tutorials" class="md-nav__link">
+      Tutorials
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../../../en/plugins/" title="Plugins" class="md-nav__link">
+      Plugins
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-4" type="checkbox" id="nav-4">
+    
+    <label class="md-nav__link" for="nav-4">
+      Topics
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-4">
+        Topics
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../en/topics/item/" title="Item" class="md-nav__link">
+      Item
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../en/topics/selector/" title="Selector" class="md-nav__link">
+      Selector
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../en/topics/request/" title="Request" class="md-nav__link">
+      Request
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../en/topics/response/" title="Response" class="md-nav__link">
+      Response
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../en/topics/middleware/" title="Middleware" class="md-nav__link">
+      Middleware
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../en/topics/spider/" title="Spider" class="md-nav__link">
+      Spider
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="toc">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+<nav class="md-nav md-nav--secondary">
+  
+  
+  
+    <label class="md-nav__title" for="__toc">Table of contents</label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#selector" title="Selector" class="md-nav__link">
+    Selector
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#core-arguments" title="Core arguments" class="md-nav__link">
+    Core arguments
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#usage" title="Usage" class="md-nav__link">
+    Usage
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#how-it-works" title="How It Works?" class="md-nav__link">
+    How It Works?
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#regexfield" title="关于RegexField" class="md-nav__link">
+    关于RegexField
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+      
+      
+      
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          <div class="md-content">
+            <article class="md-content__inner md-typeset">
+              
+                
+                  <a href="https://github.com/howie6879/ruia/edit/master/docs/cn/topics/selector.md" title="Edit this page" class="md-icon md-content__icon">&#xE3C9;</a>
+                
+                
+                  <h1>Selector</h1>
+                
+                <h2 id="selector">Selector</h2>
+<p><code>Selector</code>通过<code>Field</code>类实现，为开发者提供了<code>CSS Selector</code>和<code>XPath</code>两种方式提取目标数据，具体由下面两个类实现：
+- <a href="https://github.com/howie6879/ruia/blob/master/ruia/field.py">AttrField(BaseField)</a>：提取网页标签的属性数据
+- <a href="https://github.com/howie6879/ruia/blob/master/ruia/field.py">TextField(BaseField)</a>：提取网页标签的text数据</p>
+<h3 id="core-arguments">Core arguments</h3>
+<p>所有的<code>Field</code>共有的参数：
+- default: str, 设置默认值
+- many: bool, 返回值将是一个列表</p>
+<p><code>AttrField</code>、<code>TextField</code>、<code>HtmlField</code>共用参数：
+- css_select：str, 利用<code>CSS Selector</code>提取目标数据
+- xpath_select：str, 利用<code>XPath</code>提取目标数据</p>
+<p><code>AttrField</code>需要一个额外的参数：
+- attr：目标标签属性</p>
+<p><code>RegexField</code>需要一个额外的参数：
+- re_select: str, 正则表达式字符串</p>
+<h3 id="usage">Usage</h3>
+<div class="codehilite"><pre><span></span><span class="kn">from</span> <span class="nn">lxml</span> <span class="kn">import</span> <span class="n">etree</span>
+
+<span class="kn">from</span> <span class="nn">ruia</span> <span class="kn">import</span> <span class="n">AttrField</span><span class="p">,</span> <span class="n">TextField</span><span class="p">,</span> <span class="n">HtmlField</span><span class="p">,</span> <span class="n">RegexField</span>
+
+<span class="n">HTML</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">&lt;html&gt;</span>
+<span class="s2">    &lt;head&gt;</span>
+<span class="s2">        &lt;title&gt;ruia&lt;/title&gt;</span>
+<span class="s2">    &lt;/head&gt;</span>
+<span class="s2">    &lt;body&gt;¬</span>
+<span class="s2">        &lt;p&gt;</span>
+<span class="s2">            &lt;a class=&quot;test_link&quot; href=&quot;https://github.com/howie6879/ruia&quot;&gt;hello github.&lt;/a&gt;</span>
+<span class="s2">        &lt;/p&gt;</span>
+<span class="s2">    &lt;/body&gt;</span>
+<span class="s2">&lt;/html&gt;</span>
+<span class="s2">&quot;&quot;&quot;</span>
+
+<span class="n">html</span> <span class="o">=</span> <span class="n">etree</span><span class="o">.</span><span class="n">HTML</span><span class="p">(</span><span class="n">HTML</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">test_css_select</span><span class="p">():</span>
+    <span class="n">field</span> <span class="o">=</span> <span class="n">TextField</span><span class="p">(</span><span class="n">css_select</span><span class="o">=</span><span class="s2">&quot;head title&quot;</span><span class="p">)</span>
+    <span class="n">value</span> <span class="o">=</span> <span class="n">field</span><span class="o">.</span><span class="n">extract</span><span class="p">(</span><span class="n">html_etree</span><span class="o">=</span><span class="n">html</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">value</span> <span class="o">==</span> <span class="s2">&quot;ruia&quot;</span>
+
+
+<span class="k">def</span> <span class="nf">test_xpath_select</span><span class="p">():</span>
+    <span class="n">field</span> <span class="o">=</span> <span class="n">TextField</span><span class="p">(</span><span class="n">xpath_select</span><span class="o">=</span><span class="s1">&#39;/html/head/title&#39;</span><span class="p">)</span>
+    <span class="n">value</span> <span class="o">=</span> <span class="n">field</span><span class="o">.</span><span class="n">extract</span><span class="p">(</span><span class="n">html_etree</span><span class="o">=</span><span class="n">html</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">value</span> <span class="o">==</span> <span class="s2">&quot;ruia&quot;</span>
+
+
+<span class="k">def</span> <span class="nf">test_attr_field</span><span class="p">():</span>
+    <span class="n">attr_field</span> <span class="o">=</span> <span class="n">AttrField</span><span class="p">(</span><span class="n">css_select</span><span class="o">=</span><span class="s2">&quot;p a.test_link&quot;</span><span class="p">,</span> <span class="n">attr</span><span class="o">=</span><span class="s1">&#39;href&#39;</span><span class="p">)</span>
+    <span class="n">value</span> <span class="o">=</span> <span class="n">attr_field</span><span class="o">.</span><span class="n">extract</span><span class="p">(</span><span class="n">html_etree</span><span class="o">=</span><span class="n">html</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">value</span> <span class="o">==</span> <span class="s2">&quot;https://github.com/howie6879/ruia&quot;</span>
+
+<span class="k">def</span> <span class="nf">test_html_field</span><span class="p">():</span>
+    <span class="n">field</span> <span class="o">=</span> <span class="n">HtmlField</span><span class="p">(</span><span class="n">css_select</span><span class="o">=</span><span class="s2">&quot;a.test_link&quot;</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">field</span><span class="o">.</span><span class="n">extract</span><span class="p">(</span><span class="n">html_etree</span><span class="o">=</span><span class="n">html</span><span class="p">)</span> <span class="o">==</span> <span class="s1">&#39;&lt;a class=&quot;test_link&quot; href=&quot;https://github.com/howie6879/ruia&quot;&gt;hello github.&lt;/a&gt;&#39;</span>
+
+<span class="k">def</span> <span class="nf">test_re_field</span><span class="p">():</span>
+    <span class="n">field</span> <span class="o">=</span> <span class="n">RegexField</span><span class="p">(</span><span class="n">re_select</span><span class="o">=</span><span class="s1">&#39;&lt;title&gt;(.*?)&lt;/title&gt;&#39;</span><span class="p">)</span>
+    <span class="n">href</span> <span class="o">=</span> <span class="n">field</span><span class="o">.</span><span class="n">extract</span><span class="p">(</span><span class="n">html</span><span class="o">=</span><span class="n">HTML</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">href</span> <span class="o">==</span> <span class="s1">&#39;ruia&#39;</span>
+</pre></div>
+
+
+<h3 id="how-it-works">How It Works?</h3>
+<p>定好<code>CSS Selector</code>或<code>XPath</code>规则，然后利用<code>lxml</code>实现对目标<code>html</code>进行目标数据的提取</p>
+<h3 id="regexfield">关于<code>RegexField</code></h3>
+<p>详细信息请参阅<a href="https://github.com/howie6879/ruia/blob/master/docs/en/topics/selector.md">英文文档</a>。</p>
+                
+                  
+                
+              
+              
+                
+
+
+              
+            </article>
+          </div>
+        </div>
+      </main>
+      
+        
+<footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-footer-copyright">
+        
+          <div class="md-footer-copyright__highlight">
+            Copyright &copy; 2018 - 2019 <a href="https://github.com/howie6879/ruia">howie.hu</a>.
+          </div>
+        
+        powered by
+        <a href="https://www.mkdocs.org">MkDocs</a>
+        and
+        <a href="https://squidfunk.github.io/mkdocs-material/">
+          Material for MkDocs</a>
+      </div>
+      
+        
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    
+      <script src="../../../assets/javascripts/application.b41f3d20.js"></script>
+      
+      <script>app.initialize({version:"1.0.4",url:{base:"../../.."}})</script>
+      
+    
+    
+      
+    
+  </body>
+</html>
