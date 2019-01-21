@@ -1,6 +1,6 @@
-# Plugins
+# How to Write a Plugins
 
-Plugins are used to package some commom functions as a third-party model.
+Plugins are used to package some common functions as a third-party model.
 **Ruia** allow developers to implement third-party extensions by `Middleware` class.
 
 In the previous section, we talked about `Middleware`. 

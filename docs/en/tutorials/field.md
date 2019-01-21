@@ -1,6 +1,6 @@
 # Define Data with Fields
 
-## An Overview of Fields
+## Overview
 
 Fields are used to extract value from HTML code.
 
@@ -11,7 +11,8 @@ Ruia supports the following fields:
 * `HtmlField`: extract raw HTML code of the selected HTML element
 * `RegexField`: use standard library `re` for better performance
 
-!!! Note: All the parameters of fields are **keyword arguments**.
+!!! Note
+    All the parameters of fields are **keyword arguments**.
 
 ## TextField
 
@@ -28,8 +29,9 @@ then get the text value of the selected element.
 ### Example
 
 ```python
-from lxml import etree
 import ruia
+
+from lxml import etree
 
 HTML = '''
 <body>
@@ -70,8 +72,9 @@ then get the attribute value of the selected element.
 ### Example
 
 ```python
-from lxml import etree
 import ruia
+
+from lxml import etree
 
 HTML = '''
 <body>
@@ -113,8 +116,9 @@ It's an unstable feature, perhaps in later versions the outside text will be rem
 ### Example
 
 ```python
-from lxml import etree
 import ruia
+
+from lxml import etree
 
 HTML = '''
 <body>
@@ -162,8 +166,9 @@ you will seldom meet performance limitation!
 ### Example
 
 ```python
-from lxml import etree
 import ruia
+
+from lxml import etree
 
 HTML = '''
 <body>
