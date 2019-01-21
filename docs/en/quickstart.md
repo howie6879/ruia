@@ -43,7 +43,7 @@ and there are many news items in one page.
 
 Ruia is a low-coupling spider frame.
 Each class can be used separately in your project.
-You can even write a [simple spider](quick-start.md) with only `ruia.Item`,`ruia.TextField` and `ruia.AttrField`.
+You can even write a [simple spider](examples/simple.md) with only `ruia.Item`,`ruia.TextField` and `ruia.AttrField`.
 This feature provides a convenient way to test `HackerNewsItem`.
 
 ```python
@@ -78,7 +78,7 @@ Waiting for the output in your console.
 
 ## Step 3: Write Spider
 
-In the example [quick start](quick-start.md),
+In the example [quick start](examples/simple.md),
 we talk about such an pity,
 that the simple spider do not have a concurrency control.
 It's important for a spider,

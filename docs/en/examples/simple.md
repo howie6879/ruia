@@ -85,6 +85,3 @@ and the following two lines are the data we want.
 
 Okay, we have already finished our first crawler powered by `ruia`.
 It did nothing, but tells us the basic conception of `ruia`.
-
-Here is a more [useful example](typical.md), crawling data from Hacker News.
-

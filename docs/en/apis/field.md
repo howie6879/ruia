@@ -1,122 +1,216 @@
-# Selector
+# Define Data with Fields
 
-`Selector` is implemented by `Field` class, and provides two ways for developers to extract data:
-`CSS Selector` and `XPath Selector`.
+## Overview
 
-In detail, they are implemented by the following three classes: 
+Fields are used to extract value from HTML code.
 
-- [AttrField(BaseField)][field.py]: extract property of HTML tag
-- [TextField(BaseField)][field.py]: extract text data of HTML tag
-- [HtmlField(BaseField)][field.py]: extract raw html code from HTML tag
+Ruia supports the following fields:
 
-## Core arguments
+* `TextField`: extract text string of the selected HTML element
+* `AttrField`: extract an attribute of the selected HTML element
+* `HtmlField`: extract raw HTML code of the selected HTML element
+* `RegexField`: use standard library `re` for better performance
 
-Arguments of all `Field` classes:
-- default: default value if no HTML tag founded.
-- many: bool, the return value will be a list.
+!!! Note
+    All the parameters of fields are **keyword arguments**.
 
+## TextField
 
-Arguments shard by `TextField`, `AttrField` and `HtmlField`:
-- css_select: locate the HTML tag by css selector.
-- xpath_select: locate the HTML tag by xpath selector.
+`TextField` first select an HTML element by CSS Selector or XPath Selector,
+then get the text value of the selected element.
 
-`AttrField` requires an extra field:
-- attr: the target attribute name of HTML tag.
+### Parameters
 
-`RegexField` requires an extra field:
-- re_select: an regular expression, should be a str object.
+* `css_select`: `str`, alternative, match HTML element(s) with CSS Selector
+* `xpath_select`: `str`, alternative, match HTML element(s) with XPath Selector
+* `default`: `str`, recommended, the default value if nothing matched in HTML element
+* `many`: `bool`, optional, extract a list if True
 
-## Usage
+### Example
 
 ```python
-from lxml import etree
-from ruia import AttrField, TextField, HtmlField, RegexField
+import ruia
 
-HTML = """
-<html>
-    <head>
-        <title>ruia</title>
-    </head>
-    <body>¬
-        <p>
-            <a class="test_link" href="https://github.com/howie6879/ruia">hello github.</a>
-        </p>
-    </body>
-</html>
-"""
+from lxml import etree
+
+HTML = '''
+<body>
+<div class="title">Ruia Documentation</div>
+<ul>
+    <li class="tag" href="./easy.html">easy</li>
+    <li class="tag" href="./fast.html">fast</li>
+    <li class="tag" href="./powerful.html">powerful</li>
+</ul>
+</body>
+'''
+
 
 html = etree.HTML(HTML)
 
-
-def test_css_select():
-    field = TextField(css_select="head title")
-    value = field.extrextractact_value(html_etree=html)
-    assert value == "ruia"
-
-
-def test_xpath_select():
-    field = TextField(xpath_select='/html/head/title')
-    value = field.extract(html_etree=html)
-    assert value == "ruia"
-
-
-def test_attr_field():
-    attr_field = AttrField(css_select="p a.test_link", attr='href')
-    value = attr_field.extract(html_etree=html)
-    assert value == "https://github.com/howie6879/ruia"
-
-def test_html_field():
-    field = HtmlField(css_select="a.test_link")
-    assert field.extract(html_etree=html) == '<a class="test_link" href="https://github.com/howie6879/ruia">hello github.</a>'
-
-def test_re_field():
-    field = RegexField(re_select='<title>(.*?)</title>')
-    href = field.extract(html=HTML)
-    assert href == 'ruia'
+def test_text_field():
+    title_field = ruia.TextField(css_select='.title', default='Untitled')
+    assert title_field.extract(html_etree=html) == 'Ruia Documentation'
+    tag_field = ruia.TextField(css_select='.tag', default='No tag', many=True)
+    assert tag_field.extract(html_etree=html) == ['easy', 'fast', 'powerful']
 
 ```
 
-## How It Works?
 
-Use `lxml` to extract data from HTML source code, in terms of `CSS Selector` or `XPath Selector`.
+## AttrField
 
-### About RegexField
+`TextField` first select an HTML element by CSS Selector or XPath Selector,
+then get the attribute value of the selected element.
 
-`RegexField` is only used for better performance.
-It directly use python standard library `re`,
-so it's significantly faster than other fields implemented on lxml.
-If you only want to use regular expression to clean your crawled string,
-please use `clean_` methods of Item, and here is an example:
+### Parameters
+
+* `attr`: `str`, required, the name of the attribute you want to extract
+* `css_select`: `str`, alternative, match HTML element(s) with CSS Selector
+* `xpath_select`: `str`, alternative, match HTML element(s) with XPath Selector
+* `default`: `str`, recommended, the default value if nothing matched in HTML element
+* `many`: `bool`, optional, extract a list if True
+
+### Example
 
 ```python
-import re
 import ruia
 
-class MyItem(ruia.Item):
-    title = ruia.TextField(css_select='title')
-    
-    def clean_title(self, value):
-        return re.match('Blog: (.*?)', value).group(0)
+from lxml import etree
+
+HTML = '''
+<body>
+<div class="title" href="/">Ruia Documentation</div>
+<ul>
+    <li class="tag" href="./easy.html">easy</li>
+    <li class="tag" href="./fast.html">fast</li>
+    <li class="tag" href="./powerful.html">powerful</li>
+</ul>
+</body>
+'''
+
+html = etree.HTML(HTML)
+
+def test_attr_field():
+    title = ruia.AttrField(css_select='.title', attr='href', default='Untitled')
+    assert title.extract(html_etree=html) == '/'
+    tags = ruia.AttrField(css_select='.tag', attr='href', default='No tag', many=True)
+    assert tags.extract(html_etree=html)[0] == './easy.html'
 
 ```
 
-`RegexField` do not use lxml to parse source code,
-so there's no `css_select` and `xpath_select` for `RegexField`.
+## HtmlField
+
+`TextField` first select an HTML element by CSS Selector or XPath Selector,
+then get the raw HTML code of the selected element.
+
+If there's some spaces or some text outside any HTML elements between this element and next element,
+then this part of text will also inside the return value.
+It's an unstable feature, perhaps in later versions the outside text will be remove by default.
+
+### Parameters
+
+* `css_select`: `str`, alternative, match HTML element(s) with CSS Selector
+* `xpath_select`: `str`, alternative, match HTML element(s) with XPath Selector
+* `default`: `str`, recommended, the default value if nothing matched in HTML element
+* `many`: `bool`, optional, extract a list if True
+
+### Example
+
+```python
+import ruia
+
+from lxml import etree
+
+HTML = '''
+<body>
+<div class="title">Ruia Documentation</div>
+<ul>
+    <li class="tag" href="./easy.html">easy</li>
+    <li class="tag" href="./fast.html">fast</li>
+    <li class="tag" href="./powerful.html">powerful</li>
+</ul>
+</body>
+'''
+
+html = etree.HTML(HTML)
+
+def test_html_field():
+    title = ruia.HtmlField(css_select='.title', default='Untitled')
+    assert title.extract(html_etree=html) == '<div class="title" href="/">Ruia Documentation</div>\n'
+    tags = ruia.HtmlField(css_select='.tag', default='No tag', many=True)
+    assert tags.extract(html_etree=html)[1] == '<li class="tag" href="./fast.html">fast</li>\n    '
+
+```
+
+## RegexField
+
+`TextField` do not parse html structure,
+it directly use python standard library `re`.
+If your spider meets performance limitation, try `RegexField`.
+However, `ruia` is based on `asyncio`,
+you will seldom meet performance limitation!
 
 `RegexField` has a complex behaviour:
 
-- if you set many=`False`:
-    - if you use **named group** in your regular expression, return a dictionary;
-    - else if you use **group** in your regular expression
-        - if there's only **one group**, return the group value as a string;
-        - if there are **many groups**, return a tuple of the values;
-    - else, return the whole match string.
-    
-- if you set many=`True`:
-    - return a list of the return values above.
+* if no group: return the whole matched string
+* if regex has a group: return the group value
+* if regex has multiple groups: return a list a string
+* if regex has named groups, no matter one or more: return a dict, whose key and value are both string
+* if `many=True`, return a list of above values
 
-!!! Note
-    if you use named group, those groups without names will be lost.
+### Parameters
 
+* `re_select`: `str`, required, match HTML element(s) with regular expression
+* `default`: `str`, recommended, the default value if nothing matched in HTML element
+* `many`: `bool`, optional, extract a list if True
 
-[field.py]: https://github.com/howie6879/ruia/blob/master/ruia/field.py
+### Example
+
+```python
+import ruia
+
+from lxml import etree
+
+HTML = '''
+<body>
+<div class="title" href="/">Ruia Documentation</div>
+<ul>
+    <li class="tag" href="./easy.html">easy</li>
+    <li class="tag" href="./fast.html">fast</li>
+    <li class="tag" href="./powerful.html">powerful</li>
+</ul>
+</body>
+'''
+
+html = etree.HTML(HTML)
+
+def test_regex_field():
+    title = ruia.RegexField(re_select='<div class="title" href="(.*?)">(.*?)</div>')
+    assert title.extract(html=HTML)[0] == '/'
+    assert title.extract(html=HTML)[1] == 'Ruia Documentation'
+    tags = ruia.RegexField(re_select='<li class="tag" href="(?P<href>.*?)">(?P<text>.*?)</li>', many=True)
+    result = tags.extract(html=HTML)
+    assert isinstance(result, list)
+    assert len(result) == 3
+    assert isinstance(result[0], dict)
+    assert result[0]['href'] == './easy.html'
+
+```
+
+### About Parameter many
+ 
+ Parameter `many=False` indicates if the field will extract one value or multiple values from HTML source code.
+ 
+ For example, one Github Issue has many tags,
+ We can use `Item.get_items` to get multiple values of tags,
+ but that means an extra class definition.
+ Parameter `many` aims to solve this problem.
+ 
+A field is default by `many=False`,
+that means, for `TextField`, `AttrField` and `HtmlField`,
+`Field.extract(*, **)` will always return a string,
+and `RegexField` will return a string or a list or dict,
+depending on whether there are groups in the regular expression.
+We can consider it with a 'singular number'.
+
+With `many=True`, each field will return a 'plural',
+that is, return a list.

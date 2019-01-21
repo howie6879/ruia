@@ -15,27 +15,24 @@ use_directory_urls: false
 
 nav:
   - Introduction: index.md
+  - Quick Start: ./en/quickstart.md
   - Tutorials:
       - Overview: ./en/tutorials/overview.md
       - Installation: ./en/tutorials/installation.md
-      - Field: ./en/tutorials/field.md
-      - Item: ./en/tutorials/item.md
-      - Spider: ./en/tutorials/spider.md
-      - Request: ./en/tutorials/request.md
-      - Response: ./en/tutorials/response.md
-      - Middleware: ./en/tutorials/middleware.md
-      - Plugins: ./en/tutorials/plugins.md
-  - Plugins: ./en/plugins.md
-  - APIs:
-      - Item: ./en/apis/item.md
+      - Define Data Items: ./en/tutorials/item.md
+      - Concurrency Control: ./en/tutorials/spider.md
+      - Request & Response: ./en/tutorials/request.md
+      - Write & Use Middleware: ./en/tutorials/middleware.md
+      - Write & Use Plugins: ./en/tutorials/plugins.md
+  - API Guide:
       - Field: ./en/apis/field.md
+      - Item: ./en/apis/item.md
+      - Spider: ./en/apis/spider.md
       - Request: ./en/apis/request.md
       - Response: ./en/apis/response.md
       - Middleware: ./en/apis/middleware.md
-      - Spider: ./en/apis/spider.md
   - Examples:
-      - Quick Start: ./en/examples/quick-start.md
-      - Typical spider: ./en/examples/typical.md
+      - A simple spider use only Item: ./en/examples/simple.md
       - Full featured project: ./en/examples/project.md
 
 plugins:
