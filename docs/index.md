@@ -17,20 +17,6 @@ Write less, run faster:
 - Documentation: [中文文档][doc_cn] |[documentation][doc_en]
 - Plugins: [https://github.com/ruia-plugins][ruia_plugins]
 
-
-## Installation
-
-``` shell
-# For Linux & Mac
-pip install -U ruia[uvloop]
-
-# For Windows
-pip install -U ruia
-
-# New features
-pip install git+https://github.com/howie6879/ruia
-```
-
 ## Features
 
 - **Easy**: Declarative programming;
@@ -43,6 +29,8 @@ pip install git+https://github.com/howie6879/ruia
 - [Tutorials][tutorials]
 - [Topics][topics]
 - [Plugins][plugins]
+
+> Links should update after documentation finished.
 
 ## TODO
 
