@@ -35,10 +35,32 @@ class Item(metaclass=ItemMeta):
         if html is None and not url:
             raise ValueError("html(url or html_etree) is expected")
         if not html:
+            sem = kwargs.pop('sem', None)
             request = Request(url, **kwargs)
-            response = await request.fetch()
+            if sem:
+                _, response = await request.fetch_callback(sem=sem)
+            else:
+                response = await request.fetch()
             html = response.html
         return etree.HTML(html)
+
+    @classmethod
+    async def _parse_html(cls, *, html_etree: etree._Element) -> object:
+        if html_etree is None:
+            raise ValueError("html_etree is expected")
+        item_ins = cls()
+        for field_name, field_value in getattr(item_ins, '__fields', {}).items():
+            if not field_name.startswith('target_'):
+                clean_method = getattr(item_ins, 'clean_%s' % field_name, None)
+                value = field_value.extract(html_etree=html_etree)
+                if clean_method is not None:
+                    if iscoroutinefunction(clean_method):
+                        value = await clean_method(value)
+                    else:
+                        value = clean_method(value)
+                setattr(item_ins, field_name, value)
+                item_ins.results[field_name] = value
+        return item_ins
 
     @classmethod
     async def get_item(cls, *, html: str = '', url: str = '', html_etree: etree._Element = None, **kwargs) -> Any:
@@ -64,24 +86,6 @@ class Item(metaclass=ItemMeta):
                 raise ValueError("Get target_item's value error!")
         else:
             raise ValueError("target_item is expected")
-
-    @classmethod
-    async def _parse_html(cls, *, html_etree: etree._Element) -> object:
-        if html_etree is None:
-            raise ValueError("etree._Element is expected")
-        item_ins = cls()
-        for field_name, field_value in getattr(item_ins, '__fields', {}).items():
-            if not field_name.startswith('target_'):
-                clean_method = getattr(item_ins, 'clean_%s' % field_name, None)
-                value = field_value.extract(html_etree=html_etree)
-                if clean_method is not None:
-                    if iscoroutinefunction(clean_method):
-                        value = await clean_method(value)
-                    else:
-                        value = clean_method(value)
-                setattr(item_ins, field_name, value)
-                item_ins.results[field_name] = value
-        return item_ins
 
     def __str__(self):
         return f"<Item {self.results}>"

@@ -9,6 +9,8 @@ from inspect import iscoroutinefunction
 from types import AsyncGeneratorType
 from typing import Optional, Tuple
 
+from asyncio.locks import Semaphore
+
 try:
     import uvloop
 
@@ -149,7 +151,7 @@ class Request(object):
                             status=res_status)
         return response
 
-    async def fetch_callback(self, sem) -> Tuple[AsyncGeneratorType, Response]:
+    async def fetch_callback(self, sem: Semaphore = None) -> Tuple[AsyncGeneratorType, Response]:
         async with sem:
             res = await self.fetch()
         if self.callback is not None:

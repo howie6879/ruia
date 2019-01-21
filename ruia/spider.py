@@ -147,7 +147,6 @@ class Spider:
                                   request_session=getattr(self, 'request_session', None),
                                   res_type=getattr(self, 'res_type', 'text'),
                                   **getattr(self, 'kwargs', {}))
-            # self.request_queue.put_nowait(request_ins.fetch_callback(self.sem))
             self.request_queue.put_nowait(self.handle_request(request_ins))
         workers = [asyncio.ensure_future(self.start_worker()) for i in range(2)]
         await self.request_queue.join()
