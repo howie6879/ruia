@@ -39,23 +39,7 @@ pip install git+https://github.com/howie6879/ruia
 
 ## Usage
 
-### JavaScript Support
-
-You can load js by using [ruia-pyppeteer](https://github.com/ruia-plugins/ruia-pyppeteer).
-
-For example:
-
-```python
-import asyncio
-
-from ruia_pyppeteer import PyppeteerRequest as Request
-
-request = Request("https://www.jianshu.com/", load_js=True)
-response = asyncio.run(request.fetch()) # Python 3.7
-print(response.html)
-```
-
-### Item
+### Declarative Programming
 
 `Item` can be used standalone, for testing, and for tiny crawlers.
 
@@ -82,7 +66,7 @@ Notorious ‘Hijack Factory’ Shunned from Web https://krebsonsecurity.com/2018
  ......
 ```
 
-### Spider
+### Concurrency Control
 
 `Spider` is used for control requests better.
 `Spider` supports concurrency control, which is very important for spiders.
@@ -157,6 +141,22 @@ async def print_on_response(request, response):
 
 if __name__ == '__main__':
     HackerNewsSpider.start(middleware=middleware)
+```
+
+### JavaScript Support
+
+You can load js by using [ruia-pyppeteer](https://github.com/ruia-plugins/ruia-pyppeteer).
+
+For example:
+
+```python
+import asyncio
+
+from ruia_pyppeteer import PyppeteerRequest as Request
+
+request = Request("https://www.jianshu.com/", load_js=True)
+response = asyncio.run(request.fetch()) # Python 3.7
+print(response.html)
 ```
 
 ## Read More
