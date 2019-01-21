@@ -2,10 +2,10 @@
 
 Let's fetch some news from [Hacker News][hacker_news] in **four** steps:
 
-1. Define item;
-1. Test item;
-1. Write spider;
-1. Run.
+- Define item
+- Test item
+- Write spider
+- Run
 
 ## Step 1: Define Item
 
@@ -17,8 +17,7 @@ and won't talk about it here.
 
 
 ```python
-import aiofiles
-from ruia import Item, TextField, AttrField, Spider
+from ruia import Item, TextField, AttrField
 
 
 class HackerNewsItem(Item):
@@ -49,8 +48,8 @@ This feature provides a convenient way to test `HackerNewsItem`.
 
 ```python
 import asyncio
-import aiofiles
-from ruia import Item, TextField, AttrField, Spider
+
+from ruia import Item, TextField, AttrField
 
 
 class HackerNewsItem(Item):
@@ -90,6 +89,7 @@ by default, the concurrency is 3.
 
 ```python
 import aiofiles
+
 from ruia import Item, TextField, AttrField, Spider
 
 
@@ -101,7 +101,7 @@ class HackerNewsItem(Item):
 
 class HackerNewsSpider(Spider):
     concurrency = 2
-    start_urls = [f'https://news.ycombinator.com/news?p={index}' for index in range(10)]
+    start_urls = [f'https://news.ycombinator.com/news?p={index}' for index in range(3)]
 
     async def parse(self, res):
         items = await HackerNewsItem.get_items(html=res.html)
@@ -130,6 +130,7 @@ Run!
 
 ```python
 import aiofiles
+
 from ruia import Item, TextField, AttrField, Spider
 
 
@@ -141,7 +142,7 @@ class HackerNewsItem(Item):
 
 class HackerNewsSpider(Spider):
     concurrency = 2
-    start_urls = [f'https://news.ycombinator.com/news?p={index}' for index in range(10)]
+    start_urls = [f'https://news.ycombinator.com/news?p={index}' for index in range(3)]
 
     async def parse(self, res):
         items = await HackerNewsItem.get_items(html=res.html)
@@ -159,5 +160,3 @@ It's just a **normal function**!
 
 You just create a spider in one python file!
 Amazing!
-
-> Life is short, you need Python!

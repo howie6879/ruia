@@ -1,14 +1,18 @@
-# Python 3.7 required
 import asyncio
+import sys
+
 from ruia import Item, TextField, AttrField
+
+version = sys.version_info[:2]
 
 
 class PythonDocumentationItem(Item):
     title = TextField(css_select='title')
-    tutorial_link = AttrField(xpath_select="//a[text()='Tutorial']", attr='href')
+    tutorial_link = AttrField(
+        xpath_select="//a[text()='Tutorial']", attr='href')
 
 
-async def main():
+async def field_extraction():
     url = 'https://docs.python.org/3/'
     item = await PythonDocumentationItem.get_item(url=url)
     print(item.title)
@@ -16,8 +20,9 @@ async def main():
 
 
 if __name__ == '__main__':
-    asyncio.run(main()) # Python 3.7 required
-
-    # For python 3.6
-    # loop = asyncio.new_event_loop()
-    # loop.run_until_complete(main())
+    if version == (3, 7):
+        # Recommended
+        asyncio.run(field_extraction())
+    else:
+        loop = asyncio.new_event_loop()
+        loop.run_until_complete(field_extraction())

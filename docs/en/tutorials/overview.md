@@ -9,13 +9,13 @@ aims at making crawling url as convenient as possible.
 Ruia spider consists only two **required** parts and three **optional** parts:
 
 * Required:
-    * [Fields](field.md), extract text or attribute from HTML;
-    * [Items](item.md), a collection of fields;
+    * [Fields](field.md), extract text or attribute from HTML
+    * [Items](item.md), a collection of fields
 
 * Optional:
-    * [Spider](spider.md), a manager to make your spider stronger;
-    * [Middleware](middleware.md), used for processing request and response;
-    * [Plugin](plugins.md), used for enhancing ruia functions.
+    * [Spider](spider.md), a manager to make your spider stronger
+    * [Middleware](middleware.md), used for processing request and response
+    * [Plugin](plugins.md), used for enhancing ruia functions
 
 Ruia also provides friendly [Request](request.md) and [Response](response.md) objects.
 

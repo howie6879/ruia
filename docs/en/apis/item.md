@@ -3,15 +3,15 @@
 `item` is mainly used to define data model and extract data from HTML source code.
 It has the following two methods:
 
-- [get_item][get_item]: extract one data from HTML source code;
-- [get_items][get_items]: extract many data from HTML source code.
+- [get_item][get_item]: extract one data from HTML source code
+- [get_items][get_items]: extract many data from HTML source code
 
 ## Core arguments
 
 `get_item` and `get_items` receives same arguments:
-- html: optional, HTML source code;
-- url: optional, HTML href link;
-- html_etree: optional, etree._Element object.
+- html: optional, HTML source code
+- url: optional, HTML href link
+- html_etree: optional, etree._Element object
 
 ## Usage
 
