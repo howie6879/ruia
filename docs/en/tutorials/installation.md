@@ -1,5 +1,7 @@
 # Installation
 
+Make sure: you are using python 3.6+.
+
 ```shell
 # For Linux & Mac
 pip install -U ruia[uvloop]
