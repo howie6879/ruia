@@ -17,9 +17,7 @@ Ruia spider consists only two **required** parts and three **optional** parts:
     * [Middleware](middleware.md), used for processing request and response
     * [Plugin](plugins.md), used for enhancing ruia functions
 
-Ruia also provides friendly [Request](request.md) and [Response](response.md) objects.
-
-Follow the links to learn each part of this tutorial.
+Ruia also provides friendly [Request](request.md) and [Response](response.md) objects, follow the links to learn each part of this tutorial.
 
 For a simple spider, you may only need to learn [fields](field.md) and [Items](item.md),
 and here is a concise example:
@@ -43,16 +41,13 @@ class HackerNewsItem(Item):
         return value
 
 
-async def multiple_page_demo():
-    start_urls = [f'https://news.ycombinator.com/news?p={page}' for page in range(1, 3)]
-    tasks = [HackerNewsItem.get_items(url=url) for url in start_urls]
-    results = await asyncio.gather(*tasks)
-    for items in results:
-        for item in items:
-            print(item.title, item.url)
+async def single_page_demo():
+    items = await HackerNewsItem.get_items(url="https://news.ycombinator.com/")
+    for item in items:
+        print(item.title, item.url)
             
 if __name__ == '__main__':
-    asyncio.get_event_loop().run_until_complete(multiple_page_demo())
+    asyncio.get_event_loop().run_until_complete(single_page_demo())
 
 ```
 
