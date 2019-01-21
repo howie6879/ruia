@@ -152,7 +152,7 @@ We hope you have already know python asyncio library,
 and know its basic usage.
 If not, remember the following tips:
 
-* Functions with async keyword are now named coroutine;
+* Functions defined with async keyword are now named coroutine;
 * Define coroutine with async keyword;
 * Call coroutine with await keyword;
 * Start coroutine use `asyncio.run` function like the example.
