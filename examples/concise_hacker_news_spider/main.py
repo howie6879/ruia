@@ -3,26 +3,21 @@ import asyncio
 from ruia import Item, TextField, AttrField
 
 
-class HackerNewsItem(Item):
-    target_item = TextField(css_select='tr.athing')
-    title = TextField(css_select='a.storylink')
-    url = AttrField(css_select='a.storylink', attr='href')
-
-
-async def parse_one_page(page):
-    url = f'https://news.ycombinator.com/news?p={page}'
-    return await HackerNewsItem.get_items(url=url)
+class PythonDocumentationItem(Item):
+    title = TextField(css_select='title')
+    tutorial_link = AttrField(xpath_select="//a[text()='Tutorial']", attr='href')
 
 
 async def main():
-    coroutine_list = [parse_one_page(page) for page in range(1, 3)]
-    result = await asyncio.gather(*coroutine_list)
-    news_list = list()
-    for one_page_list in result:
-        news_list.extend(one_page_list)
-    for news in news_list:
-        print(news.title, news.url)
+    url = 'https://docs.python.org/3/'
+    item = await PythonDocumentationItem.get_item(url=url)
+    print(item.title)
+    print(item.tutorial_link)
 
 
 if __name__ == '__main__':
-    asyncio.run(main())
+    asyncio.run(main()) # Python 3.7 required
+
+    # For python 3.6
+    # loop = asyncio.new_event_loop()
+    # loop.run_until_complete(main())
