@@ -13,5 +13,4 @@ Ruia spider consists the following four parts:
 * [Middleware](middleware.md), optional, used for processing request and response
 * [Plugin](plugins.md), optional, used to enhance ruia functions.
 
-Ruia also provides friendly [Request & Response](request.md) objects,
-follow the links to learn each part of this tutorial.
+Ruia also provides friendly [Request & Response](request.md) objects.
