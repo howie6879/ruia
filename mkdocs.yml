@@ -17,13 +17,13 @@ nav:
   - Introduction: index.md
   - Quick Start: ./en/quickstart.md
   - Tutorials:
-      - Overview: ./en/tutorials/overview.md
-      - Installation: ./en/tutorials/installation.md
-      - Define Data Items: ./en/tutorials/item.md
-      - Concurrency Control: ./en/tutorials/spider.md
-      - Request & Response: ./en/tutorials/request.md
-      - Write & Use Middleware: ./en/tutorials/middleware.md
-      - Write & Use Plugins: ./en/tutorials/plugins.md
+      - 1. Overview: ./en/tutorials/overview.md
+      - 2. Installation: ./en/tutorials/installation.md
+      - 3. Define Data Items: ./en/tutorials/item.md
+      - 4. Concurrency Control: ./en/tutorials/spider.md
+      - 5. Request & Response: ./en/tutorials/request.md
+      - 6. Write & Use Middleware: ./en/tutorials/middleware.md
+      - 7. Write & Use Plugins: ./en/tutorials/plugins.md
   - API Guide:
       - Field: ./en/apis/field.md
       - Item: ./en/apis/item.md
@@ -32,7 +32,6 @@ nav:
       - Response: ./en/apis/response.md
       - Middleware: ./en/apis/middleware.md
   - Examples:
-      - A simple spider use only Item: ./en/examples/simple.md
       - Full featured project: ./en/examples/project.md
 
 plugins:
