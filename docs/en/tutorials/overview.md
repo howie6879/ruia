@@ -43,12 +43,6 @@ class HackerNewsItem(Item):
         return value
 
 
-async def single_page_demo():
-    items = await HackerNewsItem.get_items(url="https://news.ycombinator.com/")
-    for item in items:
-        print(item.title, item.url)
-
-
 async def multiple_page_demo():
     start_urls = [f'https://news.ycombinator.com/news?p={page}' for page in range(1, 3)]
     tasks = [HackerNewsItem.get_items(url=url) for url in start_urls]
@@ -56,6 +50,9 @@ async def multiple_page_demo():
     for items in results:
         for item in items:
             print(item.title, item.url)
+            
+if __name__ == '__main__':
+    asyncio.get_event_loop().run_until_complete(multiple_page_demo())
 
 ```
 
