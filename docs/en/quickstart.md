@@ -78,7 +78,7 @@ Waiting for the output in your console.
 
 ## Step 3: Write Spider
 
-`Ruia.spider` is used to control requests an responses,
+`Ruia.spider` is used to control requests and responses,
 such as concurrency control.
 It's important for a spider,
 or you will be banned by the server in one minute.
