@@ -190,3 +190,22 @@ def test_regex_field():
     assert result[0]['href'] == './easy.html'
 
 ```
+
+### About Parameter many
+ 
+ Parameter `many=False` indicates if the field will extract one value or multiple values from HTML source code.
+ 
+ For example, one Github Issue has many tags,
+ We can use `Item.get_items` to get multiple values of tags,
+ but that means an extra class definition.
+ Parameter `many` aims to solve this problem.
+ 
+A field is default by `many=False`,
+that means, for `TextField`, `AttrField` and `HtmlField`,
+`Field.extract(*, **)` will always return a string,
+and `RegexField` will return a string or a list or dict,
+depending on whether there are groups in the regular expression.
+We can consider it with a 'singular number'.
+
+With `many=True`, each field will return a 'plural',
+that is, return a list.
