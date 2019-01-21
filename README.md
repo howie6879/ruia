@@ -106,6 +106,7 @@ Notorious ‘Hijack Factory’ Shunned from Web https://krebsonsecurity.com/2018
 
 ```python
 import aiofiles
+
 from ruia import AttrField, TextField, Item, Spider
 
 
@@ -120,7 +121,7 @@ class HackerNewsItem(Item):
 
 
 class HackerNewsSpider(Spider):
-    start_urls = [f'https://news.ycombinator.com/news?p={index}' for index in range(1, 10)]
+    start_urls = [f'https://news.ycombinator.com/news?p={index}' for index in range(1, 3)]
 
     async def parse(self, response):
         items = await HackerNewsItem.get_items(html=response.html)
