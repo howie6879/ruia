@@ -22,12 +22,16 @@ Ruia also provides friendly [Request](request.md) and [Response](response.md) ob
 Follow the links to learn each part of this tutorial.
 
 For a simple spider, you may only need to learn [fields](field.md) and [Items](item.md),
-and here is a concise example ([source][concise_hack_news_spider]):
+and here is a concise example:
 
 ```python
-# Python 3.7 required
+#!/usr/bin/env python
+"""
+ Target: https://news.ycombinator.com/
+"""
 import asyncio
-from ruia import Item, TextField, AttrField
+
+from ruia import AttrField, TextField, Item
 
 
 class HackerNewsItem(Item):
@@ -35,25 +39,24 @@ class HackerNewsItem(Item):
     title = TextField(css_select='a.storylink')
     url = AttrField(css_select='a.storylink', attr='href')
 
-
-async def parse_one_page(page):
-    url = f'https://news.ycombinator.com/news?p={page}'
-    return await HackerNewsItem.get_items(url=url)
+    async def clean_title(self, value):
+        return value
 
 
-async def main():
-    coroutine_list = [parse_one_page(page) for page in range(1, 3)]
-    result = await asyncio.gather(*coroutine_list)
-    news_list = list()
-    for one_page_list in result:
-        news_list.extend(one_page_list)
-    for news in news_list:
-        print(news.title, news.url)
+async def single_page_demo():
+    items = await HackerNewsItem.get_items(url="https://news.ycombinator.com/")
+    for item in items:
+        print(item.title, item.url)
 
 
-if __name__ == '__main__':
-    asyncio.run(main())
+async def multiple_page_demo():
+    start_urls = [f'https://news.ycombinator.com/news?p={page}' for page in range(1, 3)]
+    tasks = [HackerNewsItem.get_items(url=url) for url in start_urls]
+    results = await asyncio.gather(*tasks)
+    for items in results:
+        for item in items:
+            print(item.title, item.url)
 
 ```
 
-[concise_hack_news_spider]: https://github.com/howie6879/ruia/blob/master/examples/concise_hacker_news_spider/main.py
+More details: [hacker_news_item](https://github.com/howie6879/ruia/blob/master/examples/topics_examples/hacker_news_item.py)
