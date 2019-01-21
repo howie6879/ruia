@@ -160,3 +160,5 @@ It's just a **normal function**!
 
 You just create a spider in one python file!
 Amazing!
+
+[hacker_news]: https://news.ycombinator.com/news?p=1
