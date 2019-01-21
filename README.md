@@ -146,6 +146,7 @@ async def print_on_request(request):
         'index': request.url.split('=')[-1]
     }
     print(f"request: {request.metadata}")
+    # Just operate request object, and do not return anything.
 
 
 @middleware.response
