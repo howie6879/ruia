@@ -35,8 +35,12 @@ class Item(metaclass=ItemMeta):
         if html is None and not url:
             raise ValueError("html(url or html_etree) is expected")
         if not html:
+            sem = kwargs.pop('sem', None)
             request = Request(url, **kwargs)
-            response = await request.fetch()
+            if sem:
+                _, response = await request.fetch_callback(sem=sem)
+            else:
+                response = await request.fetch()
             html = response.html
         return etree.HTML(html)
 
