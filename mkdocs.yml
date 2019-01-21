@@ -13,7 +13,7 @@ theme:
 
 use_directory_urls: false
 
-pages:
+nav:
   - Introduction: index.md
   - Tutorials:
       - Overview: ./en/tutorials/overview.md
@@ -25,13 +25,17 @@ pages:
       - Middleware: ./en/tutorials/middleware.md
       - Plugins: ./en/tutorials/plugins.md
   - Plugins: ./en/plugins.md
-  - Topics:
-      - Item: ./en/topics/item.md
-      - Selector: ./en/topics/selector.md
-      - Request: ./en/topics/request.md
-      - Response: ./en/topics/response.md
-      - Middleware: ./en/topics/middleware.md
-      - Spider: ./en/topics/spider.md
+  - APIs:
+      - Item: ./en/apis/item.md
+      - Field: ./en/apis/field.md
+      - Request: ./en/apis/request.md
+      - Response: ./en/apis/response.md
+      - Middleware: ./en/apis/middleware.md
+      - Spider: ./en/apis/spider.md
+  - Examples:
+      - Quick Start: ./en/examples/quick-start.md
+      - Typical spider: ./en/examples/typical.md
+      - Full featured project: ./en/examples/project.md
 
 plugins:
   - search
