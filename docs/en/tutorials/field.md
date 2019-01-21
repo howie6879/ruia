@@ -6,12 +6,12 @@ Fields are used to extract value from HTML code.
 
 Ruia supports the following fields:
 
-* `TextField`, extract text string of the selected HTML element;
-* `AttrField`, extract an attribute of the selected HTML element;
-* `HtmlField`, extract raw HTML code of the selected HTML element;
-* `RegexField`, use standard library `re` for better performance.
+* `TextField`: extract text string of the selected HTML element
+* `AttrField`: extract an attribute of the selected HTML element
+* `HtmlField`: extract raw HTML code of the selected HTML element
+* `RegexField`: use standard library `re` for better performance
 
-Note: All the parameters of fields are **keyword arguments**.
+!!! Note: All the parameters of fields are **keyword arguments**.
 
 ## TextField
 
@@ -20,10 +20,10 @@ then get the text value of the selected element.
 
 ### Parameters
 
-* `css_select`: `str`, alternative, match HTML element(s) with CSS Selector;
-* `xpath_select`: `str`, alternative, match HTML element(s) with XPath Selector;
-* `default`: `str`, recommended, the default value if nothing matched in HTML element;
-* `many`: `bool`, optional, extract a list if True;
+* `css_select`: `str`, alternative, match HTML element(s) with CSS Selector
+* `xpath_select`: `str`, alternative, match HTML element(s) with XPath Selector
+* `default`: `str`, recommended, the default value if nothing matched in HTML element
+* `many`: `bool`, optional, extract a list if True
 
 ### Example
 
@@ -61,11 +61,11 @@ then get the attribute value of the selected element.
 
 ### Parameters
 
-* `attr`: `str`, required, the name of the attribute you want to extract;
-* `css_select`: `str`, alternative, match HTML element(s) with CSS Selector;
-* `xpath_select`: `str`, alternative, match HTML element(s) with XPath Selector;
-* `default`: `str`, recommended, the default value if nothing matched in HTML element;
-* `many`: `bool`, optional, extract a list if True;
+* `attr`: `str`, required, the name of the attribute you want to extract
+* `css_select`: `str`, alternative, match HTML element(s) with CSS Selector
+* `xpath_select`: `str`, alternative, match HTML element(s) with XPath Selector
+* `default`: `str`, recommended, the default value if nothing matched in HTML element
+* `many`: `bool`, optional, extract a list if True
 
 ### Example
 
@@ -105,10 +105,10 @@ It's an unstable feature, perhaps in later versions the outside text will be rem
 
 ### Parameters
 
-* `css_select`: `str`, alternative, match HTML element(s) with CSS Selector;
-* `xpath_select`: `str`, alternative, match HTML element(s) with XPath Selector;
-* `default`: `str`, recommended, the default value if nothing matched in HTML element;
-* `many`: `bool`, optional, extract a list if True;
+* `css_select`: `str`, alternative, match HTML element(s) with CSS Selector
+* `xpath_select`: `str`, alternative, match HTML element(s) with XPath Selector
+* `default`: `str`, recommended, the default value if nothing matched in HTML element
+* `many`: `bool`, optional, extract a list if True
 
 ### Example
 
@@ -147,17 +147,17 @@ you will seldom meet performance limitation!
 
 `RegexField` has a complex behaviour:
 
-* if no group: return the whole matched string;
-* if regex has a group: return the group value;
-* if regex has multiple groups: return a list a string;
-* if regex has named groups, no matter one or more: return a dict, whose key and value are both string;
-* if `many=True`, return a list of above values.
+* if no group: return the whole matched string
+* if regex has a group: return the group value
+* if regex has multiple groups: return a list a string
+* if regex has named groups, no matter one or more: return a dict, whose key and value are both string
+* if `many=True`, return a list of above values
 
 ### Parameters
 
-* `re_select`: `str`, required, match HTML element(s) with regular expression;
-* `default`: `str`, recommended, the default value if nothing matched in HTML element;
-* `many`: `bool`, optional, extract a list if True;
+* `re_select`: `str`, required, match HTML element(s) with regular expression
+* `default`: `str`, recommended, the default value if nothing matched in HTML element
+* `many`: `bool`, optional, extract a list if True
 
 ### Example
 

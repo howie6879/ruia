@@ -5,8 +5,8 @@ It returns a [Response][response.md] object.
 
 Methods: 
 
-- [Request().fetch][request.py]: request a web resource, it can be used standalone.
-- [Request().fetch_callback][request.py]: it is a core method for `Spider` class.
+- [Request().fetch][request.py]: request a web resource, it can be used standalone
+- [Request().fetch_callback][request.py]: it is a core method for `Spider` class
 
 ## Core arguments
 

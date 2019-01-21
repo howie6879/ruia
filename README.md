@@ -39,6 +39,23 @@ pip install git+https://github.com/howie6879/ruia
 
 ## Usage
 
+### Request & Response
+
+We provide an easy way to request a url and return a friendly response:
+
+```python
+import asyncio
+
+from ruia import Request
+
+request = Request("https://news.ycombinator.com/")
+response = asyncio.get_event_loop().run_until_complete(request.fetch())
+
+# Output
+# [2018-07-25 11:23:42,620]-Request-INFO  <GET: https://news.ycombinator.com/>
+# <Response url[text]: https://news.ycombinator.com/ status:200 metadata:{}>
+```
+
 ### JavaScript Support
 
 You can load js by using [ruia-pyppeteer](https://github.com/ruia-plugins/ruia-pyppeteer).
