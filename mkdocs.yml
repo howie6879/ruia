@@ -17,6 +17,7 @@ nav:
   - Introduction: index.md
   - Tutorials:
       - Overview: ./en/tutorials/overview.md
+      - Installation: ./en/tutorials/installation.md
       - Field: ./en/tutorials/field.md
       - Item: ./en/tutorials/item.md
       - Spider: ./en/tutorials/spider.md
