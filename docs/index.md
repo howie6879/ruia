@@ -24,55 +24,19 @@ Write less, run faster:
 - **Extensible**: Middlewares and plugins
 - **Powerful**: JavaScript support
 
-## Installation
+## Tutorials
 
-``` shell
-# For Linux & Mac
-pip install -U ruia[uvloop]
-
-# For Windows
-pip install -U ruia
-
-# New features
-pip install git+https://github.com/howie6879/ruia
-```
+1. [Overview](./en/tutorials/overview.md)
+1. [Installation](./en/tutorials/installation.md)
+1. [Define Data Items](./en/tutorials/item.md)
+1. [Concurrency Control](./en/tutorials/spider.md)
+1. [Request & Response](./en/tutorials/request.md)
+1. [Write & Use Middleware](./en/tutorials/middleware.md)
+1. [Write & Use Plugins](en/tutorials/plugins.md)
 
 ## Usage
 
-### Request & Response
-
-We provide an easy way to request a url and return a friendly response:
-
-```python
-import asyncio
-
-from ruia import Request
-
-request = Request("https://news.ycombinator.com/")
-response = asyncio.get_event_loop().run_until_complete(request.fetch())
-
-# Output
-# [2018-07-25 11:23:42,620]-Request-INFO  <GET: https://news.ycombinator.com/>
-# <Response url[text]: https://news.ycombinator.com/ status:200 metadata:{}>
-```
-
-### JavaScript Support
-
-You can load js by using [ruia-pyppeteer](https://github.com/ruia-plugins/ruia-pyppeteer).
-
-For example:
-
-```python
-import asyncio
-
-from ruia_pyppeteer import PyppeteerRequest as Request
-
-request = Request("https://www.jianshu.com/", load_js=True)
-response = asyncio.run(request.fetch()) # Python 3.7
-print(response.html)
-```
-
-### Item
+### Declarative Programming
 
 `Item` can be used standalone, for testing, and for tiny crawlers.
 
@@ -99,7 +63,7 @@ Notorious ‘Hijack Factory’ Shunned from Web https://krebsonsecurity.com/2018
  ......
 ```
 
-### Spider
+### Concurrency Control
 
 `Spider` is used for control requests better.
 `Spider` supports concurrency control, which is very important for spiders.
@@ -164,6 +128,7 @@ async def print_on_request(request):
         'index': request.url.split('=')[-1]
     }
     print(f"request: {request.metadata}")
+    # Just operate request object, and do not return anything.
 
 
 @middleware.response
@@ -174,6 +139,22 @@ async def print_on_response(request, response):
 
 if __name__ == '__main__':
     HackerNewsSpider.start(middleware=middleware)
+```
+
+### JavaScript Support
+
+You can load js by using [ruia-pyppeteer](https://github.com/ruia-plugins/ruia-pyppeteer).
+
+For example:
+
+```python
+import asyncio
+
+from ruia_pyppeteer import PyppeteerRequest as Request
+
+request = Request("https://www.jianshu.com/", load_js=True)
+response = asyncio.run(request.fetch()) # Python 3.7
+print(response.html)
 ```
 
 ## Read More
