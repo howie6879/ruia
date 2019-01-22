@@ -45,18 +45,18 @@ Installation
 Tutorials
 ---------
 
-1. `Overview <https://howie6879.github.io/ruia/en/tutorials/overview.md>`__
-2. `Installation <https://howie6879.github.io/ruia/en/tutorials/installation.md>`__
+1. `Overview <https://howie6879.github.io/ruia/en/tutorials/overview.html>`__
+2. `Installation <https://howie6879.github.io/ruia/en/tutorials/installation.html>`__
 3. `Define Data
-   Items <https://howie6879.github.io/ruia/en/tutorials/item.md>`__
+   Items <https://howie6879.github.io/ruia/en/tutorials/item.html>`__
 4. `Spider
-   Control <https://howie6879.github.io/ruia/en/tutorials/spider.md>`__
+   Control <https://howie6879.github.io/ruia/en/tutorials/spider.html>`__
 5. `Request &
-   Response <https://howie6879.github.io/ruia/en/tutorials/request.md>`__
+   Response <https://howie6879.github.io/ruia/en/tutorials/request.html>`__
 6. `Customize
-   Middleware <https://howie6879.github.io/ruia/en/tutorials/middleware.md>`__
+   Middleware <https://howie6879.github.io/ruia/en/tutorials/middleware.html>`__
 7. `Write a
-   Plugins <https://howie6879.github.io/ruia/en/tutorials/plugins.md>`__
+   Plugins <https://howie6879.github.io/ruia/en/tutorials/plugins.html>`__
 
 Usage
 -----
