@@ -10,6 +10,7 @@ from types import AsyncGeneratorType
 
 from ruia.middleware import Middleware
 from ruia.request import Request
+from ruia.response import Response
 from ruia.utils import get_logger
 
 try:
@@ -46,7 +47,7 @@ class Spider:
         # semaphore
         self.sem = asyncio.Semaphore(self.concurrency)
 
-    async def parse(self, res):
+    async def parse(self, res: Response):
         raise NotImplementedError
 
     @classmethod
@@ -130,7 +131,7 @@ class Spider:
             if close_event_loop:
                 spider_ins.loop.close()
 
-    async def handle_request(self, request):
+    async def handle_request(self, request: Request):
         # request middleware
         await self._run_request_middleware(request)
         # make a request

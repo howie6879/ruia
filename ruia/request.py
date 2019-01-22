@@ -121,9 +121,6 @@ class Request(object):
                         res_data = await resp.json()
                     else:
                         res_data = await resp.text(encoding=self.encoding)
-                        # content = await resp.read()
-                        # charset = cchardet.detect(content)
-                        # res_data = content.decode(charset['encoding'])
                     res_cookies, res_headers, res_history = resp.cookies, resp.headers, resp.history
         except Exception as e:
             self.logger.error(f"<Error: {self.url} {res_status} {str(e)}>")
