@@ -392,8 +392,22 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#target_item-field" title="target_item field." class="md-nav__link">
-    target_item field.
+  <a href="#get-many-items-from-one-page" title="Get Many Items from One Page" class="md-nav__link">
+    Get Many Items from One Page
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#get-many-value-by-one-field" title="Get Many Value by One Field" class="md-nav__link">
+    Get Many Value by One Field
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#more-fields" title="More Fields" class="md-nav__link">
+    More Fields
   </a>
   
 </li>
@@ -671,8 +685,22 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#target_item-field" title="target_item field." class="md-nav__link">
-    target_item field.
+  <a href="#get-many-items-from-one-page" title="Get Many Items from One Page" class="md-nav__link">
+    Get Many Items from One Page
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#get-many-value-by-one-field" title="Get Many Value by One Field" class="md-nav__link">
+    Get Many Value by One Field
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#more-fields" title="More Fields" class="md-nav__link">
+    More Fields
   </a>
   
 </li>
@@ -830,7 +858,304 @@ The first line is the log of <code>Ruia</code>,
 and the following two lines are the data we want.</p>
 <p>Okay, we have already finished the construction of our first Item.</p>
 <h2 id="data-cleaning">Data Cleaning</h2>
-<h2 id="target_item-field">target_item field.</h2>
+<p>Now we get the version string: <code>3.7.2 Documentation</code>.
+However, the <code>Documentation</code> is unnecessary.
+Certainly we can solve this problem in such a way:</p>
+<div class="codehilite"><pre><span></span><span class="kn">import</span> <span class="nn">asyncio</span>
+<span class="kn">from</span> <span class="nn">ruia</span> <span class="kn">import</span> <span class="n">Item</span><span class="p">,</span> <span class="n">TextField</span><span class="p">,</span> <span class="n">AttrField</span>
+
+
+<span class="k">class</span> <span class="nc">PythonDocumentationItem</span><span class="p">(</span><span class="n">Item</span><span class="p">):</span>
+    <span class="n">title</span> <span class="o">=</span> <span class="n">TextField</span><span class="p">(</span><span class="n">css_select</span><span class="o">=</span><span class="s1">&#39;title&#39;</span><span class="p">)</span>
+    <span class="n">tutorial_link</span> <span class="o">=</span> <span class="n">AttrField</span><span class="p">(</span><span class="n">xpath_select</span><span class="o">=</span><span class="s2">&quot;//a[text()=&#39;Tutorial&#39;]&quot;</span><span class="p">,</span> <span class="n">attr</span><span class="o">=</span><span class="s1">&#39;href&#39;</span><span class="p">)</span>
+
+
+<span class="n">async</span> <span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
+    <span class="n">url</span> <span class="o">=</span> <span class="s1">&#39;https://docs.python.org/3/&#39;</span>
+    <span class="n">item</span> <span class="o">=</span> <span class="n">await</span> <span class="n">PythonDocumentationItem</span><span class="o">.</span><span class="n">get_item</span><span class="p">(</span><span class="n">url</span><span class="o">=</span><span class="n">url</span><span class="p">)</span>
+    <span class="n">title</span> <span class="o">=</span> <span class="n">item</span><span class="o">.</span><span class="n">title</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">title</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">item</span><span class="o">.</span><span class="n">tutorial_link</span><span class="p">)</span>
+
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+    <span class="c1"># Python 3.7 required</span>
+    <span class="n">asyncio</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">main</span><span class="p">())</span>  
+
+    <span class="c1"># For python 3.6</span>
+    <span class="c1"># loop = asyncio.new_event_loop()</span>
+    <span class="c1"># loop.run_until_complete(main())</span>
+
+<span class="c1"># Output:</span>
+<span class="c1"># [2019:01:21 18:19:02]-Request-INFO  request: &lt;GET: https://docs.python.org/3/&gt;</span>
+<span class="c1"># 3.7.2</span>
+<span class="c1"># tutorial/index.html</span>
+</pre></div>
+
+
+<p>It works well, and it's okay if you like it.</p>
+<p>Now consider such a way:</p>
+<div class="codehilite"><pre><span></span><span class="kn">import</span> <span class="nn">asyncio</span>
+<span class="kn">from</span> <span class="nn">ruia</span> <span class="kn">import</span> <span class="n">Item</span><span class="p">,</span> <span class="n">TextField</span><span class="p">,</span> <span class="n">AttrField</span>
+
+
+<span class="k">class</span> <span class="nc">PythonDocumentationItem</span><span class="p">(</span><span class="n">Item</span><span class="p">):</span>
+    <span class="n">title</span> <span class="o">=</span> <span class="n">TextField</span><span class="p">(</span><span class="n">css_select</span><span class="o">=</span><span class="s1">&#39;title&#39;</span><span class="p">)</span>
+    <span class="n">tutorial_link</span> <span class="o">=</span> <span class="n">AttrField</span><span class="p">(</span><span class="n">xpath_select</span><span class="o">=</span><span class="s2">&quot;//a[text()=&#39;Tutorial&#39;]&quot;</span><span class="p">,</span> <span class="n">attr</span><span class="o">=</span><span class="s1">&#39;href&#39;</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">clean_title</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">value</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+
+
+<span class="n">async</span> <span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
+    <span class="n">url</span> <span class="o">=</span> <span class="s1">&#39;https://docs.python.org/3/&#39;</span>
+    <span class="n">item</span> <span class="o">=</span> <span class="n">await</span> <span class="n">PythonDocumentationItem</span><span class="o">.</span><span class="n">get_item</span><span class="p">(</span><span class="n">url</span><span class="o">=</span><span class="n">url</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">item</span><span class="o">.</span><span class="n">title</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">item</span><span class="o">.</span><span class="n">tutorial_link</span><span class="p">)</span>
+
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+    <span class="c1"># Python 3.7 required</span>
+    <span class="n">asyncio</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">main</span><span class="p">())</span>  
+
+    <span class="c1"># For python 3.6</span>
+    <span class="c1"># loop = asyncio.new_event_loop()</span>
+    <span class="c1"># loop.run_until_complete(main())</span>
+
+<span class="c1"># Output:</span>
+<span class="c1"># [2019:01:21 18:19:02]-Request-INFO  request: &lt;GET: https://docs.python.org/3/&gt;</span>
+<span class="c1"># 3.7.2</span>
+<span class="c1"># tutorial/index.html</span>
+</pre></div>
+
+
+<p>Wow!
+Now we directly get a pure version string from <code>item.title</code>.</p>
+<p><code>ruia</code> will automatically recognize methods starts with <code>clean_</code>.
+If there's a field named <code>the_field</code>,
+then its corresponding data cleaning method is <code>clean_the_field</code>.
+Just add a prefix <code>clean_</code> is okay.</p>
+<p>The default clean method of each field is just return the string itself.
+Before data cleaning, fields are all pure python strings (sometimes a list or a dict of pure python strings).
+If you want <code>item.index</code> to return a python integer,
+please define <code>clean_index</code> method to <code>return int(value)</code>.</p>
+<p>In <code>ruia</code>,
+we tend to separate a crawler into two main parts:</p>
+<ul>
+<li>Data acquisition, for parsing HTML and create structured data;</li>
+<li>Data processing, for data persistence or some other operations.</li>
+</ul>
+<p>Data acquisition is all in <code>Item</code> object,
+including data cleaning.
+And data processing will be introduced later,
+in <code>ruia.Spider.parse</code> functions.
+At data processing, we hope <code>item.field</code> return quite the value you want.
+<code>ruia.Item</code> tries to avoid such operations:</p>
+<div class="codehilite"><pre><span></span><span class="k">class</span> <span class="nc">MySpider</span><span class="p">(</span><span class="n">Spider</span><span class="p">):</span>
+    <span class="n">async</span> <span class="k">def</span> <span class="nf">parse</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">response</span><span class="p">):</span>
+        <span class="n">item</span> <span class="o">=</span> <span class="n">MyItem</span><span class="o">.</span><span class="n">get_item</span><span class="p">(</span><span class="n">response</span><span class="p">)</span>
+        <span class="n">title</span> <span class="o">=</span> <span class="n">item</span><span class="o">.</span><span class="n">title</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">index</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">item</span><span class="o">.</span><span class="n">index</span><span class="p">)</span>
+        <span class="n">tags</span> <span class="o">=</span> <span class="p">[</span><span class="n">tag</span> <span class="k">for</span> <span class="n">tag</span> <span class="ow">in</span> <span class="n">index</span><span class="o">.</span><span class="n">tags</span> <span class="k">if</span> <span class="n">tag</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">(</span><span class="s1">&#39;not&#39;</span><span class="p">,</span><span class="s1">&#39;wanted&#39;</span><span class="p">,</span><span class="s1">&#39;tags&#39;</span><span class="p">)]</span>
+        <span class="k">print</span><span class="p">(</span><span class="n">title</span><span class="p">)</span>
+        <span class="k">print</span><span class="p">(</span><span class="s1">&#39;The square of index: &#39;</span><span class="p">,</span> <span class="n">index</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span>
+        <span class="k">print</span><span class="p">(</span><span class="s1">&#39;Tags: &#39;</span><span class="p">,</span> <span class="o">*</span><span class="n">tags</span><span class="p">)</span>
+</pre></div>
+
+
+<p>We want to write such a clean code:</p>
+<div class="codehilite"><pre><span></span><span class="k">class</span> <span class="nc">MySpider</span><span class="p">(</span><span class="n">Spider</span><span class="p">):</span>
+    <span class="n">async</span> <span class="k">def</span> <span class="nf">parse</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">response</span><span class="p">):</span>
+        <span class="n">item</span> <span class="o">=</span> <span class="n">MyItem</span><span class="o">.</span><span class="n">get_item</span><span class="p">(</span><span class="n">response</span><span class="p">)</span>
+        <span class="k">print</span><span class="p">(</span><span class="n">item</span><span class="o">.</span><span class="n">title</span><span class="p">)</span>
+        <span class="k">print</span><span class="p">(</span><span class="s1">&#39;The square of index: &#39;</span><span class="p">,</span> <span class="n">item</span><span class="o">.</span><span class="n">index</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span>
+        <span class="k">print</span><span class="p">(</span><span class="s1">&#39;Tags: &#39;</span><span class="p">,</span> <span class="o">*</span><span class="n">item</span><span class="o">.</span><span class="n">tags</span><span class="p">)</span>
+</pre></div>
+
+
+<p>It's more beautiful, isn't it?</p>
+<h2 id="get-many-items-from-one-page">Get Many Items from One Page</h2>
+<p>Here's a HTML document.
+It's simple and readable.</p>
+<div class="codehilite"><pre><span></span><span class="cp">&lt;!DOCTYPE html&gt;</span>
+<span class="p">&lt;</span><span class="nt">html</span> <span class="na">lang</span><span class="o">=</span><span class="s">&quot;en&quot;</span><span class="p">&gt;</span>
+<span class="p">&lt;</span><span class="nt">head</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">meta</span> <span class="na">charset</span><span class="o">=</span><span class="s">&quot;UTF-8&quot;</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">title</span><span class="p">&gt;</span>Title<span class="p">&lt;/</span><span class="nt">title</span><span class="p">&gt;</span>
+<span class="p">&lt;/</span><span class="nt">head</span><span class="p">&gt;</span>
+<span class="p">&lt;</span><span class="nt">body</span><span class="p">&gt;</span>
+<span class="p">&lt;</span><span class="nt">div</span> <span class="na">class</span><span class="o">=</span><span class="s">&quot;container&quot;</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">div</span> <span class="na">class</span><span class="o">=</span><span class="s">&quot;movie&quot;</span><span class="p">&gt;&lt;</span><span class="nt">a</span> <span class="na">class</span><span class="o">=</span><span class="s">&quot;title&quot;</span><span class="p">&gt;</span>Movie 1<span class="p">&lt;/</span><span class="nt">a</span><span class="p">&gt;&lt;</span><span class="nt">span</span> <span class="na">class</span><span class="o">=</span><span class="s">&quot;star&quot;</span><span class="p">&gt;</span>3<span class="p">&lt;/</span><span class="nt">span</span><span class="p">&gt;&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">div</span> <span class="na">class</span><span class="o">=</span><span class="s">&quot;movie&quot;</span><span class="p">&gt;&lt;</span><span class="nt">a</span> <span class="na">class</span><span class="o">=</span><span class="s">&quot;title&quot;</span><span class="p">&gt;</span>Movie 2<span class="p">&lt;/</span><span class="nt">a</span><span class="p">&gt;&lt;</span><span class="nt">span</span> <span class="na">class</span><span class="o">=</span><span class="s">&quot;star&quot;</span><span class="p">&gt;</span>5<span class="p">&lt;/</span><span class="nt">span</span><span class="p">&gt;&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">div</span> <span class="na">class</span><span class="o">=</span><span class="s">&quot;movie&quot;</span><span class="p">&gt;&lt;</span><span class="nt">a</span> <span class="na">class</span><span class="o">=</span><span class="s">&quot;title&quot;</span><span class="p">&gt;</span>Movie 3<span class="p">&lt;/</span><span class="nt">a</span><span class="p">&gt;&lt;</span><span class="nt">span</span> <span class="na">class</span><span class="o">=</span><span class="s">&quot;star&quot;</span><span class="p">&gt;</span>2<span class="p">&lt;/</span><span class="nt">span</span><span class="p">&gt;&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">div</span> <span class="na">class</span><span class="o">=</span><span class="s">&quot;movie&quot;</span><span class="p">&gt;&lt;</span><span class="nt">a</span> <span class="na">class</span><span class="o">=</span><span class="s">&quot;title&quot;</span><span class="p">&gt;</span>Movie 4<span class="p">&lt;/</span><span class="nt">a</span><span class="p">&gt;&lt;</span><span class="nt">span</span> <span class="na">class</span><span class="o">=</span><span class="s">&quot;star&quot;</span><span class="p">&gt;</span>1<span class="p">&lt;/</span><span class="nt">span</span><span class="p">&gt;&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">div</span> <span class="na">class</span><span class="o">=</span><span class="s">&quot;movie&quot;</span><span class="p">&gt;&lt;</span><span class="nt">a</span> <span class="na">class</span><span class="o">=</span><span class="s">&quot;title&quot;</span><span class="p">&gt;</span>Movie 5<span class="p">&lt;/</span><span class="nt">a</span><span class="p">&gt;&lt;</span><span class="nt">span</span> <span class="na">class</span><span class="o">=</span><span class="s">&quot;star&quot;</span><span class="p">&gt;</span>5<span class="p">&lt;/</span><span class="nt">span</span><span class="p">&gt;&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+<span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+<span class="p">&lt;/</span><span class="nt">body</span><span class="p">&gt;</span>
+<span class="p">&lt;/</span><span class="nt">html</span><span class="p">&gt;</span>
+</pre></div>
+
+
+<p>It's a catalogue of movies.
+We want to get the name of movies and their stars.</p>
+<p>After analyzing document structure, we find that each movie is in a class <code>div.movie</code>.
+Then we can navigate to the container element by a CSS Selector: <code>css_select='div.movie'</code>.
+Then we can get our fields as before.</p>
+<p><code>ruia.Item</code> has a convenient way to finish this task.
+If you define a <code>target_item</code> field to an Item,
+then it stands for the container.
+Here's an example.</p>
+<div class="codehilite"><pre><span></span><span class="kn">import</span> <span class="nn">asyncio</span>
+<span class="kn">from</span> <span class="nn">ruia</span> <span class="kn">import</span> <span class="n">Item</span><span class="p">,</span> <span class="n">AttrField</span><span class="p">,</span> <span class="n">TextField</span>
+
+<span class="n">HTML</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">&lt;!DOCTYPE html&gt;</span>
+<span class="s2">&lt;html lang=&quot;en&quot;&gt;</span>
+<span class="s2">&lt;head&gt;</span>
+<span class="s2">    &lt;meta charset=&quot;UTF-8&quot;&gt;</span>
+<span class="s2">    &lt;title&gt;Title&lt;/title&gt;</span>
+<span class="s2">&lt;/head&gt;</span>
+<span class="s2">&lt;body&gt;</span>
+<span class="s2">&lt;div class=&quot;container&quot;&gt;</span>
+<span class="s2">    &lt;div class=&quot;movie&quot;&gt;&lt;a class=&quot;title&quot;&gt;Movie 1&lt;/a&gt;&lt;span class=&quot;star&quot;&gt;3&lt;/span&gt;&lt;/div&gt;</span>
+<span class="s2">    &lt;div class=&quot;movie&quot;&gt;&lt;a class=&quot;title&quot;&gt;Movie 2&lt;/a&gt;&lt;span class=&quot;star&quot;&gt;5&lt;/span&gt;&lt;/div&gt;</span>
+<span class="s2">    &lt;div class=&quot;movie&quot;&gt;&lt;a class=&quot;title&quot;&gt;Movie 3&lt;/a&gt;&lt;span class=&quot;star&quot;&gt;2&lt;/span&gt;&lt;/div&gt;</span>
+<span class="s2">    &lt;div class=&quot;movie&quot;&gt;&lt;a class=&quot;title&quot;&gt;Movie 4&lt;/a&gt;&lt;span class=&quot;star&quot;&gt;1&lt;/span&gt;&lt;/div&gt;</span>
+<span class="s2">    &lt;div class=&quot;movie&quot;&gt;&lt;a class=&quot;title&quot;&gt;Movie 5&lt;/a&gt;&lt;span class=&quot;star&quot;&gt;5&lt;/span&gt;&lt;/div&gt;</span>
+<span class="s2">&lt;/div&gt;</span>
+<span class="s2">&lt;/body&gt;</span>
+<span class="s2">&lt;/html&gt;</span>
+<span class="s2">&quot;&quot;&quot;</span>
+
+
+<span class="k">class</span> <span class="nc">MyItem</span><span class="p">(</span><span class="n">Item</span><span class="p">):</span>
+    <span class="n">target_item</span> <span class="o">=</span> <span class="n">TextField</span><span class="p">(</span><span class="n">css_select</span><span class="o">=</span><span class="s1">&#39;.movie&#39;</span><span class="p">)</span>
+    <span class="n">title</span> <span class="o">=</span> <span class="n">TextField</span><span class="p">(</span><span class="n">css_select</span><span class="o">=</span><span class="s1">&#39;.title&#39;</span><span class="p">)</span>
+    <span class="n">star</span> <span class="o">=</span> <span class="n">TextField</span><span class="p">(</span><span class="n">css_select</span><span class="o">=</span><span class="s1">&#39;.star&#39;</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">clean_star</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">int</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+
+
+<span class="n">async</span> <span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
+    <span class="n">items</span> <span class="o">=</span> <span class="n">await</span> <span class="n">MyItem</span><span class="o">.</span><span class="n">get_items</span><span class="p">(</span><span class="n">html</span><span class="o">=</span><span class="n">HTML</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">items</span><span class="p">:</span>
+        <span class="k">print</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;Title={item.title}, Star={item.star}&#39;</span><span class="p">)</span>
+
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+    <span class="n">asyncio</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">main</span><span class="p">())</span>  <span class="c1"># Python 3.7 required</span>
+
+    <span class="c1"># For python 3.6</span>
+    <span class="c1"># loop = asyncio.new_event_loop()</span>
+    <span class="c1"># loop.run_until_complete(main())</span>
+</pre></div>
+
+
+<p>Previously, we call <code>Item.get_item(html=HTML)</code> to get an item.
+Here, we call <code>Item.get_items(html=HTML)</code> to get a list of items.</p>
+<p>The data cleaning methods still process a string, it has no difference.</p>
+<div class="codehilite"><pre><span></span>Output: 
+Title=Movie 1, Star=3
+Title=Movie 2, Star=5
+Title=Movie 3, Star=2
+Title=Movie 4, Star=1
+Title=Movie 5, Star=5
+</pre></div>
+
+
+<h2 id="get-many-value-by-one-field">Get Many Value by One Field</h2>
+<p>Here is another example.
+Consider that we are now at a movie detail page.
+The HTML document shows like:</p>
+<div class="codehilite"><pre><span></span><span class="cp">&lt;!DOCTYPE html&gt;</span>
+<span class="p">&lt;</span><span class="nt">html</span> <span class="na">lang</span><span class="o">=</span><span class="s">&quot;en&quot;</span><span class="p">&gt;</span>
+<span class="p">&lt;</span><span class="nt">head</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">meta</span> <span class="na">charset</span><span class="o">=</span><span class="s">&quot;UTF-8&quot;</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">title</span><span class="p">&gt;</span>Title<span class="p">&lt;/</span><span class="nt">title</span><span class="p">&gt;</span>
+<span class="p">&lt;/</span><span class="nt">head</span><span class="p">&gt;</span>
+<span class="p">&lt;</span><span class="nt">body</span><span class="p">&gt;</span>
+<span class="p">&lt;</span><span class="nt">div</span> <span class="na">class</span><span class="o">=</span><span class="s">&quot;movie&quot;</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">div</span> <span class="na">class</span><span class="o">=</span><span class="s">&quot;title&quot;</span><span class="p">&gt;</span>Movie Title<span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">div</span> <span class="na">class</span><span class="o">=</span><span class="s">&quot;star&quot;</span><span class="p">&gt;</span>5<span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">div</span> <span class="na">class</span><span class="o">=</span><span class="s">&quot;tags&quot;</span><span class="p">&gt;</span>
+        <span class="p">&lt;</span><span class="nt">div</span> <span class="na">class</span><span class="o">=</span><span class="s">&quot;tag&quot;</span><span class="p">&gt;</span>Comedy<span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+        <span class="p">&lt;</span><span class="nt">div</span> <span class="na">class</span><span class="o">=</span><span class="s">&quot;tag&quot;</span><span class="p">&gt;</span>2019<span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+        <span class="p">&lt;</span><span class="nt">div</span> <span class="na">class</span><span class="o">=</span><span class="s">&quot;tag&quot;</span><span class="p">&gt;</span>China<span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+    <span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+<span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+<span class="p">&lt;/</span><span class="nt">body</span><span class="p">&gt;</span>
+<span class="p">&lt;/</span><span class="nt">html</span><span class="p">&gt;</span>
+</pre></div>
+
+
+<p>We want to get the title, star, and tags of this movie.
+Previously, we only pure strings from <code>Field</code>.
+Here we want to get a list a pure strings from <code>tag</code> field.
+<code>ruia.Item</code> provides an easy way, that is the <code>many=True</code> parameter of <code>Fields</code>.</p>
+<p>Here is the implementation:</p>
+<div class="codehilite"><pre><span></span><span class="kn">import</span> <span class="nn">asyncio</span>
+<span class="kn">from</span> <span class="nn">ruia</span> <span class="kn">import</span> <span class="n">Item</span><span class="p">,</span> <span class="n">TextField</span>
+
+
+<span class="n">HTML</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">&lt;!DOCTYPE html&gt;</span>
+<span class="s2">&lt;html lang=&quot;en&quot;&gt;</span>
+<span class="s2">&lt;head&gt;</span>
+<span class="s2">    &lt;meta charset=&quot;UTF-8&quot;&gt;</span>
+<span class="s2">    &lt;title&gt;Title&lt;/title&gt;</span>
+<span class="s2">&lt;/head&gt;</span>
+<span class="s2">&lt;body&gt;</span>
+<span class="s2">&lt;div class=&quot;movie&quot;&gt;</span>
+<span class="s2">    &lt;div class=&quot;title&quot;&gt;Movie Title&lt;/div&gt;</span>
+<span class="s2">    &lt;div class=&quot;star&quot;&gt;5&lt;/div&gt;</span>
+<span class="s2">    &lt;div class=&quot;tags&quot;&gt;</span>
+<span class="s2">        &lt;div class=&quot;tag&quot;&gt;Comedy&lt;/div&gt;</span>
+<span class="s2">        &lt;div class=&quot;tag&quot;&gt;2019&lt;/div&gt;</span>
+<span class="s2">        &lt;div class=&quot;tag&quot;&gt;China&lt;/div&gt;</span>
+<span class="s2">    &lt;/div&gt;</span>
+<span class="s2">&lt;/div&gt;</span>
+<span class="s2">&lt;/body&gt;</span>
+<span class="s2">&lt;/html&gt;</span>
+<span class="s2">&quot;&quot;&quot;</span>
+
+
+<span class="k">class</span> <span class="nc">MyItem</span><span class="p">(</span><span class="n">Item</span><span class="p">):</span>
+    <span class="n">title</span> <span class="o">=</span> <span class="n">TextField</span><span class="p">(</span><span class="n">css_select</span><span class="o">=</span><span class="s1">&#39;.title&#39;</span><span class="p">)</span>
+    <span class="n">star</span> <span class="o">=</span> <span class="n">TextField</span><span class="p">(</span><span class="n">css_select</span><span class="o">=</span><span class="s1">&#39;.star&#39;</span><span class="p">)</span>
+    <span class="n">tags</span> <span class="o">=</span> <span class="n">TextField</span><span class="p">(</span><span class="n">css_select</span><span class="o">=</span><span class="s1">&#39;.tag&#39;</span><span class="p">,</span> <span class="n">many</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">clean_star</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">int</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+
+
+<span class="n">async</span> <span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
+    <span class="n">item</span> <span class="o">=</span> <span class="n">await</span> <span class="n">MyItem</span><span class="o">.</span><span class="n">get_item</span><span class="p">(</span><span class="n">html</span><span class="o">=</span><span class="n">HTML</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="s1">&#39;Title: &#39;</span><span class="p">,</span> <span class="n">item</span><span class="o">.</span><span class="n">title</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="s1">&#39;Star: &#39;</span><span class="p">,</span> <span class="n">item</span><span class="o">.</span><span class="n">star</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">tag</span> <span class="ow">in</span> <span class="n">item</span><span class="o">.</span><span class="n">tags</span><span class="p">:</span>
+        <span class="k">print</span><span class="p">(</span><span class="s1">&#39;Tag: &#39;</span><span class="p">,</span> <span class="n">tag</span><span class="p">)</span>
+
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+    <span class="n">asyncio</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">main</span><span class="p">())</span>  <span class="c1"># Python 3.7 required</span>
+
+    <span class="c1"># For python 3.6</span>
+    <span class="c1"># loop = asyncio.new_event_loop()</span>
+    <span class="c1"># loop.run_until_complete(main())</span>
+</pre></div>
+
+
+<p>As we can see, <code>tags</code> field return a list of tags.
+All fields have this parameter.</p>
+<h2 id="more-fields">More Fields</h2>
+<p>Ruia supports more fields than <code>TextField</code> and <code>AttrField</code>.
+However, they are the two fields that mostly used.</p>
+<p>Ruia also supports <code>RegexField</code> for extract data from HTML document directly by regular expression.
+It is only used for performance limitation, however, because of ruia's fast,
+we seldom meet performance limitation.</p>
+<p>There is a <code>HtmlField</code> to extract pure HTML source of a HTML element.</p>
+<p>Read <a href="../apis/field.html">Field API</a> to get more information.</p>
                 
                   
                 
