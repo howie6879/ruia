@@ -44,8 +44,8 @@ pip install git+https://github.com/howie6879/ruia
 1. [Define Data Items](https://howie6879.github.io/ruia/en/tutorials/item.md)
 1. [Spider Control](https://howie6879.github.io/ruia/en/tutorials/spider.md)
 1. [Request & Response](https://howie6879.github.io/ruia/en/tutorials/request.md)
-1. [Write & Use Middleware](https://howie6879.github.io/ruia/en/tutorials/middleware.md)
-1. [Write & Use Plugins](https://howie6879.github.io/ruia/en/tutorials/plugins.md)
+1. [Customize Middleware](https://howie6879.github.io/ruia/en/tutorials/middleware.md)
+1. [Write a Plugins](https://howie6879.github.io/ruia/en/tutorials/plugins.md)
 
 ## Usage
 

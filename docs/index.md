@@ -31,8 +31,8 @@ Write less, run faster:
 1. [Define Data Items](./en/tutorials/item.md)
 1. [Spider Control](./en/tutorials/spider.md)
 1. [Request & Response](./en/tutorials/request.md)
-1. [Write & Use Middleware](./en/tutorials/middleware.md)
-1. [Write & Use Plugins](en/tutorials/plugins.md)
+1. [Customize Middleware](./en/tutorials/middleware.md)
+1. [Write a Plugin](en/tutorials/plugins.md)
 
 ## Usage
 

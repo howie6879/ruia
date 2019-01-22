@@ -22,8 +22,8 @@ nav:
       - 3. Define Data Items: ./en/tutorials/item.md
       - 4. Spider Control: ./en/tutorials/spider.md
       - 5. Request & Response: ./en/tutorials/request.md
-      - 6. Write & Use Middleware: ./en/tutorials/middleware.md
-      - 7. Write & Use Plugins: ./en/tutorials/plugins.md
+      - 6. Customize Middleware: ./en/tutorials/middleware.md
+      - 7. Write a Plugins: ./en/tutorials/plugins.md
   - API Guide:
       - Field: ./en/apis/field.md
       - Item: ./en/apis/item.md
