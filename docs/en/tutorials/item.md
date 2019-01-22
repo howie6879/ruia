@@ -165,3 +165,7 @@ and the following two lines are the data we want.
 
 Okay, we have already finished the construction of our first Item.
 
+## Data Cleaning
+
+## target_item field.
+

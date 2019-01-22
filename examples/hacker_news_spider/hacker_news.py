@@ -8,7 +8,6 @@ from db import MotorBase
 
 
 class HackerNewsSpider(Spider):
-    start_urls = ['https://news.ycombinator.com']
     request_config = {
         'RETRIES': 3,
         'DELAY': 0,
