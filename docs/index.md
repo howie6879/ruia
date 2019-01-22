@@ -24,19 +24,32 @@ Write less, run faster:
 - **Extensible**: Middlewares and plugins
 - **Powerful**: JavaScript support
 
+## Installation
+
+``` shell
+# For Linux & Mac
+pip install -U ruia[uvloop]
+
+# For Windows
+pip install -U ruia
+
+# New features
+pip install git+https://github.com/howie6879/ruia
+```
+
 ## Tutorials
 
-1. [Overview](./en/tutorials/overview.md)
-1. [Installation](./en/tutorials/installation.md)
-1. [Define Data Items](./en/tutorials/item.md)
-1. [Spider Control](./en/tutorials/spider.md)
-1. [Request & Response](./en/tutorials/request.md)
-1. [Customize Middleware](./en/tutorials/middleware.md)
-1. [Write a Plugin](en/tutorials/plugins.md)
+1. [Overview](https://howie6879.github.io/ruia/en/tutorials/overview.md)
+1. [Installation](https://howie6879.github.io/ruia/en/tutorials/installation.md)
+1. [Define Data Items](https://howie6879.github.io/ruia/en/tutorials/item.md)
+1. [Spider Control](https://howie6879.github.io/ruia/en/tutorials/spider.md)
+1. [Request & Response](https://howie6879.github.io/ruia/en/tutorials/request.md)
+1. [Customize Middleware](https://howie6879.github.io/ruia/en/tutorials/middleware.md)
+1. [Write a Plugins](https://howie6879.github.io/ruia/en/tutorials/plugins.md)
 
 ## Usage
 
-### Declarative Programming
+### Item
 
 `Item` can be used standalone, for testing, and for tiny crawlers.
 
@@ -156,10 +169,6 @@ request = Request("https://www.jianshu.com/", load_js=True)
 response = asyncio.run(request.fetch()) # Python 3.7
 print(response.html)
 ```
-
-## Read More
-
-Visit [Ruia Documentation][doc_en] for more information.
 
 ## TODO
 

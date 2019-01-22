@@ -3,11 +3,11 @@
 `ruia.Spider` is used to control the whole spider,
 it provides the following functions:
 
-* Normalize your code;
-* Maintain a event loop;
-* Manage requests and responses;
-* Concurrency control;
-* Manage middlewares and plugins.
+* Normalize your code
+* Maintain a event loop
+* Manage requests and responses
+* Concurrency control
+* Manage middlewares and plugins
 
 Although it works well,
 to use only `ruia.Item` to create a spider,

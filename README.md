@@ -49,7 +49,7 @@ pip install git+https://github.com/howie6879/ruia
 
 ## Usage
 
-### Declarative Programming
+### Item
 
 `Item` can be used standalone, for testing, and for tiny crawlers.
 
@@ -169,10 +169,6 @@ request = Request("https://www.jianshu.com/", load_js=True)
 response = asyncio.run(request.fetch()) # Python 3.7
 print(response.html)
 ```
-
-## Read More
-
-Visit [Ruia Documentation][doc_en] for more information.
 
 ## TODO
 
