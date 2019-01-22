@@ -150,20 +150,20 @@ class Request(object):
 
     async def fetch_callback(self, sem: Semaphore = None) -> Tuple[AsyncGeneratorType, Response]:
         async with sem:
-            res = await self.fetch()
+            response = await self.fetch()
         if self.callback is not None:
             try:
                 if iscoroutinefunction(self.callback):
-                    callback_res = await self.callback(res)
-                    res.callback_result = callback_res
+                    callback_result = await self.callback(response)
+                    response.callback_result = callback_result
                 else:
-                    callback_res = self.callback(res)
+                    callback_result = self.callback(response)
             except Exception as e:
                 self.logger.error(e)
-                callback_res = None
+                callback_result = None
         else:
-            callback_res = None
-        return callback_res, res
+            callback_result = None
+        return callback_result, response
 
     def __str__(self):
         return "<%s %s>" % (self.method, self.url)
