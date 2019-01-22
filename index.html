@@ -310,8 +310,8 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#spider" title="Spider" class="md-nav__link">
-    Spider
+  <a href="#spider-control" title="Spider Control" class="md-nav__link">
+    Spider Control
   </a>
   
 </li>
@@ -440,8 +440,8 @@
 
 
   <li class="md-nav__item">
-    <a href="en/tutorials/spider.html" title="4. Concurrency Control" class="md-nav__link">
-      4. Concurrency Control
+    <a href="en/tutorials/spider.html" title="4. Spider Control" class="md-nav__link">
+      4. Spider Control
     </a>
   </li>
 
@@ -464,8 +464,8 @@
 
 
   <li class="md-nav__item">
-    <a href="en/tutorials/middleware.html" title="6. Write & Use Middleware" class="md-nav__link">
-      6. Write & Use Middleware
+    <a href="en/tutorials/middleware.html" title="6. Customize Middleware" class="md-nav__link">
+      6. Customize Middleware
     </a>
   </li>
 
@@ -476,8 +476,8 @@
 
 
   <li class="md-nav__item">
-    <a href="en/tutorials/plugins.html" title="7. Write & Use Plugins" class="md-nav__link">
-      7. Write & Use Plugins
+    <a href="en/tutorials/plugins.html" title="7. Write a Plugins" class="md-nav__link">
+      7. Write a Plugins
     </a>
   </li>
 
@@ -683,8 +683,8 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#spider" title="Spider" class="md-nav__link">
-    Spider
+  <a href="#spider-control" title="Spider Control" class="md-nav__link">
+    Spider Control
   </a>
   
 </li>
@@ -786,10 +786,10 @@ pip install git+https://github.com/howie6879/ruia
 <li><a href="https://howie6879.github.io/ruia/en/tutorials/overview.md">Overview</a></li>
 <li><a href="https://howie6879.github.io/ruia/en/tutorials/installation.md">Installation</a></li>
 <li><a href="https://howie6879.github.io/ruia/en/tutorials/item.md">Define Data Items</a></li>
-<li><a href="https://howie6879.github.io/ruia/en/tutorials/spider.md">Concurrency Control</a></li>
+<li><a href="https://howie6879.github.io/ruia/en/tutorials/spider.md">Spider Control</a></li>
 <li><a href="https://howie6879.github.io/ruia/en/tutorials/request.md">Request &amp; Response</a></li>
-<li><a href="https://howie6879.github.io/ruia/en/tutorials/middleware.md">Write &amp; Use Middleware</a></li>
-<li><a href="https://howie6879.github.io/ruia/en/tutorials/plugins.md">Write &amp; Use Plugins</a></li>
+<li><a href="https://howie6879.github.io/ruia/en/tutorials/middleware.md">Customize Middleware</a></li>
+<li><a href="https://howie6879.github.io/ruia/en/tutorials/plugins.md">Write a Plugins</a></li>
 </ol>
 <h2 id="usage">Usage</h2>
 <h3 id="item">Item</h3>
@@ -816,8 +816,9 @@ pip install git+https://github.com/howie6879/ruia
 </pre></div>
 
 
-<h3 id="spider">Spider</h3>
-<p><code>Spider</code> is used for control requests better.</p>
+<h3 id="spider-control">Spider Control</h3>
+<p><code>Spider</code> is used for control requests better.
+<code>Spider</code> supports concurrency control, which is very important for spiders.</p>
 <div class="codehilite"><pre><span></span><span class="kn">import</span> <span class="nn">aiofiles</span>
 
 <span class="kn">from</span> <span class="nn">ruia</span> <span class="kn">import</span> <span class="n">AttrField</span><span class="p">,</span> <span class="n">TextField</span><span class="p">,</span> <span class="n">Item</span><span class="p">,</span> <span class="n">Spider</span>
@@ -860,7 +861,7 @@ pip install git+https://github.com/howie6879/ruia
 
 
 <h3 id="custom-middleware">Custom middleware</h3>
-<p><code>ruia</code> provides an easy way to customize requests, as long as it does not return it.</p>
+<p><code>ruia</code> provides an easy way to customize requests.</p>
 <p>The following middleware is based on the above example:</p>
 <div class="codehilite"><pre><span></span><span class="kn">from</span> <span class="nn">ruia</span> <span class="kn">import</span> <span class="n">Middleware</span>
 
@@ -895,7 +896,7 @@ pip install git+https://github.com/howie6879/ruia
 <span class="kn">from</span> <span class="nn">ruia_pyppeteer</span> <span class="kn">import</span> <span class="n">PyppeteerRequest</span> <span class="k">as</span> <span class="n">Request</span>
 
 <span class="n">request</span> <span class="o">=</span> <span class="n">Request</span><span class="p">(</span><span class="s2">&quot;https://www.jianshu.com/&quot;</span><span class="p">,</span> <span class="n">load_js</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
-<span class="n">response</span> <span class="o">=</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">fetch</span><span class="p">())</span>
+<span class="n">response</span> <span class="o">=</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">fetch</span><span class="p">())</span> <span class="c1"># Python 3.7</span>
 <span class="k">print</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">html</span><span class="p">)</span>
 </pre></div>
 
