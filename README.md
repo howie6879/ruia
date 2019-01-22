@@ -42,7 +42,7 @@ pip install git+https://github.com/howie6879/ruia
 1. [Overview](https://howie6879.github.io/ruia/en/tutorials/overview.md)
 1. [Installation](https://howie6879.github.io/ruia/en/tutorials/installation.md)
 1. [Define Data Items](https://howie6879.github.io/ruia/en/tutorials/item.md)
-1. [Concurrency Control](https://howie6879.github.io/ruia/en/tutorials/spider.md)
+1. [Spider Control](https://howie6879.github.io/ruia/en/tutorials/spider.md)
 1. [Request & Response](https://howie6879.github.io/ruia/en/tutorials/request.md)
 1. [Write & Use Middleware](https://howie6879.github.io/ruia/en/tutorials/middleware.md)
 1. [Write & Use Plugins](https://howie6879.github.io/ruia/en/tutorials/plugins.md)

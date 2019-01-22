@@ -20,7 +20,7 @@ nav:
       - 1. Overview: ./en/tutorials/overview.md
       - 2. Installation: ./en/tutorials/installation.md
       - 3. Define Data Items: ./en/tutorials/item.md
-      - 4. Concurrency Control: ./en/tutorials/spider.md
+      - 4. Spider Control: ./en/tutorials/spider.md
       - 5. Request & Response: ./en/tutorials/request.md
       - 6. Write & Use Middleware: ./en/tutorials/middleware.md
       - 7. Write & Use Plugins: ./en/tutorials/plugins.md
