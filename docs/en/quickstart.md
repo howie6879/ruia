@@ -66,7 +66,8 @@ async def test_item():
 
 
 if __name__ == '__main__':
-    asyncio.run(test_item()) # Python 3.7 Required.
+    # Python 3.7 Required.
+    asyncio.run(test_item()) 
 
     # For Python 3.6
     # loop = asyncio.get_event_loop()
@@ -85,6 +86,10 @@ or you will be banned by the server in one minute.
 By default, the concurrency is 3.
 
 ```python
+"""
+ Target: https://news.ycombinator.com/
+ pip install aiofiles
+"""
 import aiofiles
 
 from ruia import Item, TextField, AttrField, Spider

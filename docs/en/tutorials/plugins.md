@@ -151,6 +151,6 @@ if __name__ == '__main__':
 ```
 
 The implementations of third-party plugins will make developing crawlers easier!
-**ruia** do want your developing and uploading your own third-party plugins!
+**Ruia** do want your developing and uploading your own third-party plugins!
 
 [ruia-ua]: https://github.com/ruia-plugins/ruia-ua

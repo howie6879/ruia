@@ -135,7 +135,8 @@ async def main():
 
 
 if __name__ == '__main__':
-    asyncio.run(main())  # Python 3.7 required
+    # Python 3.7 required
+    asyncio.run(main())  
 
     # For python 3.6
     # loop = asyncio.new_event_loop()
@@ -148,7 +149,7 @@ if __name__ == '__main__':
 
 ```
 
-We hope you have already know python asyncio library,
+We hope you have already know python [asyncio](https://docs.python.org/3/library/asyncio.html) library,
 and know its basic usage.
 If not, remember the following tips:
 
@@ -159,7 +160,7 @@ If not, remember the following tips:
 
 
 Now focus on the screen output.
-The first line is the log of `ruia`,
+The first line is the log of `Ruia`,
 and the following two lines are the data we want.
 
 Okay, we have already finished the construction of our first Item.

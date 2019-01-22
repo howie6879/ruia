@@ -49,7 +49,7 @@ pip install git+https://github.com/howie6879/ruia
 
 ## Usage
 
-### Declarative Programming
+### Item
 
 `Item` can be used standalone, for testing, and for tiny crawlers.
 
@@ -76,10 +76,9 @@ Notorious ‘Hijack Factory’ Shunned from Web https://krebsonsecurity.com/2018
  ......
 ```
 
-### Concurrency Control
+### Spider
 
 `Spider` is used for control requests better.
-`Spider` supports concurrency control, which is very important for spiders.
 
 ```python
 import aiofiles
@@ -94,7 +93,7 @@ class HackerNewsItem(Item):
 
     async def clean_title(self, value):
         """Define clean_* functions for data cleaning"""
-        return value
+        return value.strip()
 
 
 class HackerNewsSpider(Spider):
@@ -125,7 +124,7 @@ Run `hacker_news_spider.py`:
 
 ### Custom middleware
 
-`ruia` provides an easy way to customize requests.
+`ruia` provides an easy way to customize requests, as long as it does not return it.
 
 The following middleware is based on the above example:
 
@@ -166,13 +165,9 @@ import asyncio
 from ruia_pyppeteer import PyppeteerRequest as Request
 
 request = Request("https://www.jianshu.com/", load_js=True)
-response = asyncio.run(request.fetch()) # Python 3.7
+response = asyncio.run(request.fetch())
 print(response.html)
 ```
-
-## Read More
-
-Visit [Ruia Documentation][doc_en] for more information.
 
 ## TODO
 

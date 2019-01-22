@@ -24,19 +24,32 @@ Write less, run faster:
 - **Extensible**: Middlewares and plugins
 - **Powerful**: JavaScript support
 
+## Installation
+
+``` shell
+# For Linux & Mac
+pip install -U ruia[uvloop]
+
+# For Windows
+pip install -U ruia
+
+# New features
+pip install git+https://github.com/howie6879/ruia
+```
+
 ## Tutorials
 
-1. [Overview](./en/tutorials/overview.md)
-1. [Installation](./en/tutorials/installation.md)
-1. [Define Data Items](./en/tutorials/item.md)
-1. [Concurrency Control](./en/tutorials/spider.md)
-1. [Request & Response](./en/tutorials/request.md)
-1. [Write & Use Middleware](./en/tutorials/middleware.md)
-1. [Write & Use Plugins](en/tutorials/plugins.md)
+1. [Overview](https://howie6879.github.io/ruia/en/tutorials/overview.md)
+1. [Installation](https://howie6879.github.io/ruia/en/tutorials/installation.md)
+1. [Define Data Items](https://howie6879.github.io/ruia/en/tutorials/item.md)
+1. [Concurrency Control](https://howie6879.github.io/ruia/en/tutorials/spider.md)
+1. [Request & Response](https://howie6879.github.io/ruia/en/tutorials/request.md)
+1. [Write & Use Middleware](https://howie6879.github.io/ruia/en/tutorials/middleware.md)
+1. [Write & Use Plugins](https://howie6879.github.io/ruia/en/tutorials/plugins.md)
 
 ## Usage
 
-### Declarative Programming
+### Item
 
 `Item` can be used standalone, for testing, and for tiny crawlers.
 
@@ -63,10 +76,9 @@ Notorious ‘Hijack Factory’ Shunned from Web https://krebsonsecurity.com/2018
  ......
 ```
 
-### Concurrency Control
+### Spider
 
 `Spider` is used for control requests better.
-`Spider` supports concurrency control, which is very important for spiders.
 
 ```python
 import aiofiles
@@ -81,7 +93,7 @@ class HackerNewsItem(Item):
 
     async def clean_title(self, value):
         """Define clean_* functions for data cleaning"""
-        return value
+        return value.strip()
 
 
 class HackerNewsSpider(Spider):
@@ -112,7 +124,7 @@ Run `hacker_news_spider.py`:
 
 ### Custom middleware
 
-`ruia` provides an easy way to customize requests.
+`ruia` provides an easy way to customize requests, as long as it does not return it.
 
 The following middleware is based on the above example:
 
@@ -153,13 +165,9 @@ import asyncio
 from ruia_pyppeteer import PyppeteerRequest as Request
 
 request = Request("https://www.jianshu.com/", load_js=True)
-response = asyncio.run(request.fetch()) # Python 3.7
+response = asyncio.run(request.fetch())
 print(response.html)
 ```
-
-## Read More
-
-Visit [Ruia Documentation][doc_en] for more information.
 
 ## TODO
 
