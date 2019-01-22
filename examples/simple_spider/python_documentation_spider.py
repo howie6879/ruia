@@ -3,8 +3,6 @@ import sys
 
 from ruia import Item, TextField, AttrField
 
-version = sys.version_info[:2]
-
 
 class PythonDocumentationItem(Item):
     title = TextField(css_select='title')
@@ -20,8 +18,8 @@ async def field_extraction():
 
 
 if __name__ == '__main__':
-    if version == (3, 7):
-        # Recommended
+    if sys.version_info[:2] == (3, 7):
+        # Recommended for Python 3.7
         asyncio.run(field_extraction())
     else:
         loop = asyncio.new_event_loop()

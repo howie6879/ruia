@@ -2,9 +2,11 @@
 # with using target_item field.
 
 
-import os
 import asyncio
-from ruia import Item, AttrField, TextField
+import os
+import sys
+
+from ruia import Item, TextField
 
 with open(os.path.join(os.path.dirname(__file__), 'target_item.html'), mode='r', encoding='utf-8') as file:
     HTML = file.read()
@@ -26,8 +28,9 @@ async def main():
 
 
 def test_main():
-    asyncio.run(main())  # Python 3.7 required
-
-    # For python 3.6
-    # loop = asyncio.new_event_loop()
-    # loop.run_until_complete(main())
+    if sys.version_info[:2] == (3, 7):
+        # Recommended for Python 3.7
+        asyncio.run(main())
+    else:
+        loop = asyncio.new_event_loop()
+        loop.run_until_complete(main())

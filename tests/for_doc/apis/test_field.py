@@ -1,5 +1,6 @@
-from lxml import etree
 import ruia
+
+from lxml import etree
 
 HTML = '''
 <body>
