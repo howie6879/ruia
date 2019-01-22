@@ -30,8 +30,8 @@ setup(
     long_description=read('README.rst'),
     author_email='xiaozizayang@gmail.com',
     python_requires='>=3.6',
-    install_requires=['aiohttp', 'cssselect', 'lxml'],
-    url="https://github.com/howie6879/ruia/blob/master/README.md",
+    install_requires=['aiohttp>=3.5.4', 'cssselect', 'lxml'],
+    url="https://github.com/howie6879/ruia",
     packages=find_packages(),
     license='MIT',
     classifiers=[
@@ -44,7 +44,7 @@ setup(
         'Topic :: Software Development :: Libraries :: Python Modules',
     ],
     project_urls={
-        'Documentation': 'https://github.com/howie6879/ruia',
+        'Documentation': 'https://github.com/howie6879/ruia/blob/master/docs/index.md',
         'Source': 'https://github.com/howie6879/ruia',
     },
     extras_require={
