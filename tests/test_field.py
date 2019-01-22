@@ -1,7 +1,11 @@
 #!/usr/bin/env python
 
 import os
+
+import pytest
+
 from lxml import etree
+
 from ruia import AttrField, TextField, HtmlField, RegexField
 from ruia.field import NothingMatchedError
 
