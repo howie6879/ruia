@@ -172,8 +172,8 @@ print(response.html)
 
 ## TODO
 
-- [ ] Cache for debug, to decreasing request limitation
-- [ ] Distributed crawling/scraping
+- Cache for debug, to decreasing request limitation
+- Distributed crawling/scraping
 
 ## Contribution
 

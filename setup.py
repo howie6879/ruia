@@ -35,7 +35,6 @@ setup(
     packages=find_packages(),
     license='MIT',
     classifiers=[
-        'Framework :: Ruia',
         'Intended Audience :: Developers',
         "License :: OSI Approved :: MIT License",
         'Programming Language :: Python :: 3.6',
