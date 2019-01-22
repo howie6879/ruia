@@ -21,7 +21,7 @@ Supposing that you're now in `Python 3.6+`.
 ```shell
 # Install package management tool: pipenv
 pip install pipenv
-# Create projecet directory
+# Create project directory
 mkdir ruia-ua
 cd ruia-ua
 # Install virtual environment
