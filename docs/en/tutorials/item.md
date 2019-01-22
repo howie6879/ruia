@@ -204,7 +204,7 @@ if __name__ == '__main__':
 
 ```
 
-It works well, though with a little mass.
+It works well, and it's okay if you like it.
 
 Now consider such a way:
 
