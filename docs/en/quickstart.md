@@ -41,7 +41,7 @@ and there are many news items in one page.
 
 ## Step 2: Test Item
 
-Ruia is a low-coupling spider frame.
+Ruia is a low-coupling web crawling framework.
 Each class can be used separately in your project.
 You can even write a simple spider with only `ruia.Item`,`ruia.TextField` and `ruia.AttrField`.
 This feature provides a convenient way to test `HackerNewsItem`.
