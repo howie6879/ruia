@@ -25,11 +25,12 @@ except ImportError:
 class Spider:
     name = 'ruia'  # Used for log
     request_config = None
+    request_session = None
 
     # Default values passing to each request object. Not implemented yet.
-    headers: dict = {}
-    metadata: dict = {}
-    kwargs: dict = {}
+    headers: dict = None
+    metadata: dict = None
+    kwargs: dict = None
 
     res_type: str = 'text'
 
@@ -41,7 +42,7 @@ class Spider:
     concurrency: int = 3
 
     # Spider entry
-    start_urls: list = []
+    start_urls: list = None
 
     # A queue to save coroutines
     worker_tasks: list = []
@@ -56,6 +57,18 @@ class Spider:
         :param loop:
         :param is_async_start:
         """
+        # Init object-level properties
+        if self.request_config is None:
+            self.request_config = dict()
+        if self.headers is None:
+            self.headers = dict()
+        if self.metadata is None:
+            self.metadata = dict()
+        if self.kwargs is None:
+            self.kwargs = dict()
+        if self.start_urls is None:
+            self.start_urls = list()
+
         if not self.start_urls or not isinstance(self.start_urls, list):
             raise ValueError("Spider must have a param named start_urls, eg: start_urls = ['https://www.github.com']")
         self.is_async_start = is_async_start
@@ -199,12 +212,12 @@ class Spider:
         for url in self.start_urls:
             request_ins = Request(url=url,
                                   callback=self.parse,
-                                  headers=getattr(self, 'headers', {}),
-                                  metadata=getattr(self, 'metadata', {}),
-                                  request_config=getattr(self, 'request_config'),
-                                  request_session=getattr(self, 'request_session', None),
-                                  res_type=getattr(self, 'res_type', 'text'),
-                                  **getattr(self, 'kwargs', {}))
+                                  headers=self.headers.copy(),
+                                  metadata=self.metadata.copy(),
+                                  request_config=self.request_config.copy(),
+                                  request_session=self.request_session,
+                                  res_type=self.res_type,
+                                  **self.kwargs.copy())
             self.request_queue.put_nowait(self.handle_request(request_ins))
         tasks = [asyncio.ensure_future(self.start_worker()) for i in range(2)]
         await self.request_queue.join()
