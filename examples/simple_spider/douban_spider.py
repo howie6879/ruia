@@ -24,7 +24,6 @@ class DoubanSpider(Spider):
         'TIMEOUT': 20
     }
     concurrency = 10
-
     # proxy config
     # kwargs = {"proxy": "http://0.0.0.0:8118"}
     kwargs = {}

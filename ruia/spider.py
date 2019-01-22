@@ -24,8 +24,10 @@ class Spider:
     name = 'ruia'
     request_config = None
 
-    failed_counts, success_counts = 0, 0
+    headers, metadata, kwargs = {}, {}, {}
+    failed_counts, success_counts, concurrency = 0, 0, 3
     start_urls, worker_tasks = [], []
+    res_type = 'text'
 
     def __init__(self, middleware=None, loop=None, is_async_start=False):
         if not self.start_urls or not isinstance(self.start_urls, list):
@@ -42,7 +44,7 @@ class Spider:
         # async queue
         self.request_queue = asyncio.Queue()
         # semaphore
-        self.sem = asyncio.Semaphore(getattr(self, 'concurrency', 3))
+        self.sem = asyncio.Semaphore(self.concurrency)
 
     async def parse(self, res):
         raise NotImplementedError
