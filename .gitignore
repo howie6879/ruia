@@ -2,3 +2,5 @@
 .DS_Store
 site/
 tests/
+ruia/
+*.pyc
