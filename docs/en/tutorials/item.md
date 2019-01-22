@@ -167,5 +167,135 @@ Okay, we have already finished the construction of our first Item.
 
 ## Data Cleaning
 
+Now we get the version string: `3.7.2 Documentation`.
+However, the `Documentation` is unnecessary.
+Certainly we can solve this problem in such a way:
+
+```python
+import asyncio
+from ruia import Item, TextField, AttrField
+
+
+class PythonDocumentationItem(Item):
+    title = TextField(css_select='title')
+    tutorial_link = AttrField(xpath_select="//a[text()='Tutorial']", attr='href')
+
+
+async def main():
+    url = 'https://docs.python.org/3/'
+    item = await PythonDocumentationItem.get_item(url=url)
+    title = item.title.split(' ')[0]
+    print(title)
+    print(item.tutorial_link)
+
+
+if __name__ == '__main__':
+    # Python 3.7 required
+    asyncio.run(main())  
+
+    # For python 3.6
+    # loop = asyncio.new_event_loop()
+    # loop.run_until_complete(main())
+
+# Output:
+# [2019:01:21 18:19:02]-Request-INFO  request: <GET: https://docs.python.org/3/>
+# 3.7.2
+# tutorial/index.html
+
+```
+
+It works well, and it's okay if you like it.
+
+Now consider such a way:
+
+```python
+import asyncio
+from ruia import Item, TextField, AttrField
+
+
+class PythonDocumentationItem(Item):
+    title = TextField(css_select='title')
+    tutorial_link = AttrField(xpath_select="//a[text()='Tutorial']", attr='href')
+    
+    def clean_title(self, value):
+        return value.split(' ')[0]
+
+
+async def main():
+    url = 'https://docs.python.org/3/'
+    item = await PythonDocumentationItem.get_item(url=url)
+    print(item.title)
+    print(item.tutorial_link)
+
+
+if __name__ == '__main__':
+    # Python 3.7 required
+    asyncio.run(main())  
+
+    # For python 3.6
+    # loop = asyncio.new_event_loop()
+    # loop.run_until_complete(main())
+
+# Output:
+# [2019:01:21 18:19:02]-Request-INFO  request: <GET: https://docs.python.org/3/>
+# 3.7.2
+# tutorial/index.html
+
+```
+
+Wow!
+Now we directly get a pure version string from `item.title`.
+
+`ruia` will automatically recognize methods starts with `clean_`.
+If there's a field named `the_field`,
+then its corresponding data cleaning method is `clean_the_field`.
+Just add a prefix `clean_` is okay.
+
+The default clean method of each field is just return the string itself.
+Before data cleaning, fields are all pure python strings (sometimes a list or a dict of pure python strings).
+If you want `item.index` to return a python integer,
+please define `clean_index` method to `return int(value)`.
+
+In `ruia`,
+we tend to separate a crawler into two main parts:
+
+* Data acquisition, for parsing HTML and create structured data;
+* Data processing, for data persistence or some other operations.
+
+Data acquisition is all in `Item` object,
+including data cleaning.
+And data processing will be introduced later,
+in `ruia.Spider.parse` functions.
+At data processing, we hope `item.field` return quite the value you want.
+`ruia.Item` tries to avoid such operations:
+
+```python
+class MySpider(Spider):
+    async def parse(self, response):
+        item = MyItem.get_item(response)
+        title = item.title.split(' ')[0]
+        index = int(item.index)
+        tags = [tag for tag in index.tags if tag not in ('not','wanted','tags')]
+        print(title)
+        print('The square of index: ', index ** 2)
+        print('Tags: ', *tags)
+
+```
+
+We want to write such a clean code:
+
+```python
+class MySpider(Spider):
+    async def parse(self, response):
+        item = MyItem.get_item(response)
+        print(item.title)
+        print('The square of index: ', item.index ** 2)
+        print('Tags: ', *item.tags)
+
+```
+
+It's more beautiful, isn't it?
+
 ## target_item field.
 
+## Get Many Value by One Field
