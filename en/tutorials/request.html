@@ -13,6 +13,8 @@
         <meta name="description" content="An async web scraping micro-framework based on asyncio.">
       
       
+        <link rel="canonical" href="https://howie6879.github.io/ruia/en/tutorials/request.html">
+      
       
         <meta name="author" content="howie.hu">
       
@@ -35,21 +37,21 @@
       
         <meta name="lang:search.tokenizer" content="[\s\-]+">
       
-      <link rel="shortcut icon" href="/ruia/assets/images/favicon.png">
+      <link rel="shortcut icon" href="../../assets/images/favicon.png">
       <meta name="generator" content="mkdocs-1.0.4, mkdocs-material-3.2.0">
     
     
       
-        <title>Ruia</title>
+        <title>5. Request & Response - Ruia</title>
       
     
     
-      <link rel="stylesheet" href="/ruia/assets/stylesheets/application.572ca0f0.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/application.572ca0f0.css">
       
       
     
     
-      <script src="/ruia/assets/javascripts/modernizr.8c900955.js"></script>
+      <script src="../../assets/javascripts/modernizr.8c900955.js"></script>
     
     
       
@@ -58,7 +60,7 @@
         <style>body,input{font-family:"Roboto","Helvetica Neue",Helvetica,Arial,sans-serif}code,kbd,pre{font-family:"Roboto Mono","Courier New",Courier,monospace}</style>
       
     
-    <link rel="stylesheet" href="/ruia/assets/fonts/material-icons.css">
+    <link rel="stylesheet" href="../../assets/fonts/material-icons.css">
     
     
     
@@ -117,7 +119,7 @@
                 Ruia
               </span>
               <span class="md-header-nav__topic">
-                
+                5. Request & Response
               </span>
             
           
@@ -234,7 +236,7 @@
 
 
   <li class="md-nav__item">
-    <a href="/ruia/index.html" title="Introduction" class="md-nav__link">
+    <a href="../../index.html" title="Introduction" class="md-nav__link">
       Introduction
     </a>
   </li>
@@ -246,7 +248,7 @@
 
 
   <li class="md-nav__item">
-    <a href="/ruia/en/quickstart.html" title="Quick Start" class="md-nav__link">
+    <a href="../quickstart.html" title="Quick Start" class="md-nav__link">
       Quick Start
     </a>
   </li>
@@ -256,10 +258,12 @@
       
       
 
+  
 
-  <li class="md-nav__item md-nav__item--nested">
+
+  <li class="md-nav__item md-nav__item--active md-nav__item--nested">
     
-      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-3" type="checkbox" id="nav-3">
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-3" type="checkbox" id="nav-3" checked>
     
     <label class="md-nav__link" for="nav-3">
       Tutorials
@@ -277,7 +281,7 @@
 
 
   <li class="md-nav__item">
-    <a href="/ruia/en/tutorials/overview.html" title="1. Overview" class="md-nav__link">
+    <a href="overview.html" title="1. Overview" class="md-nav__link">
       1. Overview
     </a>
   </li>
@@ -289,7 +293,7 @@
 
 
   <li class="md-nav__item">
-    <a href="/ruia/en/tutorials/installation.html" title="2. Installation" class="md-nav__link">
+    <a href="installation.html" title="2. Installation" class="md-nav__link">
       2. Installation
     </a>
   </li>
@@ -301,7 +305,7 @@
 
 
   <li class="md-nav__item">
-    <a href="/ruia/en/tutorials/item.html" title="3. Define Data Items" class="md-nav__link">
+    <a href="item.html" title="3. Define Data Items" class="md-nav__link">
       3. Define Data Items
     </a>
   </li>
@@ -313,7 +317,7 @@
 
 
   <li class="md-nav__item">
-    <a href="/ruia/en/tutorials/spider.html" title="4. Concurrency Control" class="md-nav__link">
+    <a href="spider.html" title="4. Concurrency Control" class="md-nav__link">
       4. Concurrency Control
     </a>
   </li>
@@ -323,11 +327,18 @@
           
           
 
+  
 
-  <li class="md-nav__item">
-    <a href="/ruia/en/tutorials/request.html" title="5. Request & Response" class="md-nav__link">
+
+  <li class="md-nav__item md-nav__item--active">
+    
+    <input class="md-toggle md-nav__toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+    
+    
+    <a href="request.html" title="5. Request & Response" class="md-nav__link md-nav__link--active">
       5. Request & Response
     </a>
+    
   </li>
 
         
@@ -337,7 +348,7 @@
 
 
   <li class="md-nav__item">
-    <a href="/ruia/en/tutorials/middleware.html" title="6. Write & Use Middleware" class="md-nav__link">
+    <a href="middleware.html" title="6. Write & Use Middleware" class="md-nav__link">
       6. Write & Use Middleware
     </a>
   </li>
@@ -349,7 +360,7 @@
 
 
   <li class="md-nav__item">
-    <a href="/ruia/en/tutorials/plugins.html" title="7. Write & Use Plugins" class="md-nav__link">
+    <a href="plugins.html" title="7. Write & Use Plugins" class="md-nav__link">
       7. Write & Use Plugins
     </a>
   </li>
@@ -385,7 +396,7 @@
 
 
   <li class="md-nav__item">
-    <a href="/ruia/en/apis/field.html" title="Field" class="md-nav__link">
+    <a href="../apis/field.html" title="Field" class="md-nav__link">
       Field
     </a>
   </li>
@@ -397,7 +408,7 @@
 
 
   <li class="md-nav__item">
-    <a href="/ruia/en/apis/item.html" title="Item" class="md-nav__link">
+    <a href="../apis/item.html" title="Item" class="md-nav__link">
       Item
     </a>
   </li>
@@ -409,7 +420,7 @@
 
 
   <li class="md-nav__item">
-    <a href="/ruia/en/apis/spider.html" title="Spider" class="md-nav__link">
+    <a href="../apis/spider.html" title="Spider" class="md-nav__link">
       Spider
     </a>
   </li>
@@ -421,7 +432,7 @@
 
 
   <li class="md-nav__item">
-    <a href="/ruia/en/apis/request.html" title="Request" class="md-nav__link">
+    <a href="../apis/request.html" title="Request" class="md-nav__link">
       Request
     </a>
   </li>
@@ -433,7 +444,7 @@
 
 
   <li class="md-nav__item">
-    <a href="/ruia/en/apis/response.html" title="Response" class="md-nav__link">
+    <a href="../apis/response.html" title="Response" class="md-nav__link">
       Response
     </a>
   </li>
@@ -445,7 +456,7 @@
 
 
   <li class="md-nav__item">
-    <a href="/ruia/en/apis/middleware.html" title="Middleware" class="md-nav__link">
+    <a href="../apis/middleware.html" title="Middleware" class="md-nav__link">
       Middleware
     </a>
   </li>
@@ -481,7 +492,7 @@
 
 
   <li class="md-nav__item">
-    <a href="/ruia/en/examples/project.html" title="Full featured project" class="md-nav__link">
+    <a href="../examples/project.html" title="Full featured project" class="md-nav__link">
       Full featured project
     </a>
   </li>
@@ -503,8 +514,17 @@
           <div class="md-content">
             <article class="md-content__inner md-typeset">
               
-  <h1>404 - Not found</h1>
-
+                
+                  <a href="https://github.com/howie6879/ruia/edit/master/docs/en/tutorials/request.md" title="Edit this page" class="md-icon md-content__icon">&#xE3C9;</a>
+                
+                
+                  <h1>5. Request & Response</h1>
+                
+                
+                
+                  
+                
+              
               
                 
 
@@ -517,6 +537,41 @@
       
         
 <footer class="md-footer">
+  
+    <div class="md-footer-nav">
+      <nav class="md-footer-nav__inner md-grid">
+        
+          <a href="spider.html" title="4. Concurrency Control" class="md-flex md-footer-nav__link md-footer-nav__link--prev" rel="prev">
+            <div class="md-flex__cell md-flex__cell--shrink">
+              <i class="md-icon md-icon--arrow-back md-footer-nav__button"></i>
+            </div>
+            <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
+              <span class="md-flex__ellipsis">
+                <span class="md-footer-nav__direction">
+                  Previous
+                </span>
+                4. Concurrency Control
+              </span>
+            </div>
+          </a>
+        
+        
+          <a href="middleware.html" title="6. Write & Use Middleware" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel="next">
+            <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
+              <span class="md-flex__ellipsis">
+                <span class="md-footer-nav__direction">
+                  Next
+                </span>
+                6. Write & Use Middleware
+              </span>
+            </div>
+            <div class="md-flex__cell md-flex__cell--shrink">
+              <i class="md-icon md-icon--arrow-forward md-footer-nav__button"></i>
+            </div>
+          </a>
+        
+      </nav>
+    </div>
   
   <div class="md-footer-meta md-typeset">
     <div class="md-footer-meta__inner md-grid">
@@ -541,9 +596,9 @@
       
     </div>
     
-      <script src="/ruia/assets/javascripts/application.b41f3d20.js"></script>
+      <script src="../../assets/javascripts/application.b41f3d20.js"></script>
       
-      <script>app.initialize({version:"1.0.4",url:{base:"/ruia/"}})</script>
+      <script>app.initialize({version:"1.0.4",url:{base:"../.."}})</script>
       
     
     
