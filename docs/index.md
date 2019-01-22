@@ -81,7 +81,7 @@ class HackerNewsItem(Item):
 
     async def clean_title(self, value):
         """Define clean_* functions for data cleaning"""
-        return value
+        return value.strip()
 
 
 class HackerNewsSpider(Spider):
