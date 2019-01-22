@@ -76,7 +76,7 @@ Notorious ‘Hijack Factory’ Shunned from Web https://krebsonsecurity.com/2018
  ......
 ```
 
-### Concurrency Control
+### Spider Control
 
 `Spider` is used for control requests better.
 `Spider` supports concurrency control, which is very important for spiders.
