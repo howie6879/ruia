@@ -373,6 +373,19 @@
     Use Middleware and Plugin
   </a>
   
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#not-finished" title="Not finished." class="md-nav__link">
+    Not finished.
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
       
@@ -605,6 +618,19 @@
     Use Middleware and Plugin
   </a>
   
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#not-finished" title="Not finished." class="md-nav__link">
+    Not finished.
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
       
@@ -662,8 +688,8 @@ and implement a <code>parst</code> method.</p>
 <span class="k">class</span> <span class="nc">HackerNewsSpider</span><span class="p">(</span><span class="n">Spider</span><span class="p">):</span>
     <span class="n">start_urls</span> <span class="o">=</span> <span class="p">[</span><span class="n">f</span><span class="s1">&#39;https://news.ycombinator.com/news?p={index}&#39;</span> <span class="k">for</span> <span class="n">index</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">)]</span>
 
-    <span class="n">async</span> <span class="k">def</span> <span class="nf">parse</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">res</span><span class="p">):</span>
-        <span class="n">items</span> <span class="o">=</span> <span class="n">await</span> <span class="n">HackerNewsItem</span><span class="o">.</span><span class="n">get_items</span><span class="p">(</span><span class="n">html</span><span class="o">=</span><span class="n">res</span><span class="o">.</span><span class="n">html</span><span class="p">)</span>
+    <span class="n">async</span> <span class="k">def</span> <span class="nf">parse</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">response</span><span class="p">):</span>
+        <span class="n">items</span> <span class="o">=</span> <span class="n">await</span> <span class="n">HackerNewsItem</span><span class="o">.</span><span class="n">get_items</span><span class="p">(</span><span class="n">html</span><span class="o">=</span><span class="n">response</span><span class="o">.</span><span class="n">html</span><span class="p">)</span>
         <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">items</span><span class="p">:</span>
             <span class="n">async</span> <span class="k">with</span> <span class="n">aiofiles</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s1">&#39;./hacker_news.txt&#39;</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;a&#39;</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s1">&#39;utf-8&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
                 <span class="n">await</span> <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">item</span><span class="o">.</span><span class="n">title</span> <span class="o">+</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
@@ -687,8 +713,8 @@ and time to start crawling.</p>
 <span class="k">class</span> <span class="nc">HackerNewsSpider</span><span class="p">(</span><span class="n">Spider</span><span class="p">):</span>
     <span class="n">start_urls</span> <span class="o">=</span> <span class="p">[</span><span class="n">f</span><span class="s1">&#39;https://news.ycombinator.com/news?p={index}&#39;</span> <span class="k">for</span> <span class="n">index</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">)]</span>
 
-    <span class="n">async</span> <span class="k">def</span> <span class="nf">parse</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">res</span><span class="p">):</span>
-        <span class="n">items</span> <span class="o">=</span> <span class="n">await</span> <span class="n">HackerNewsItem</span><span class="o">.</span><span class="n">get_items</span><span class="p">(</span><span class="n">html</span><span class="o">=</span><span class="n">res</span><span class="o">.</span><span class="n">html</span><span class="p">)</span>
+    <span class="n">async</span> <span class="k">def</span> <span class="nf">parse</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">response</span><span class="p">):</span>
+        <span class="n">items</span> <span class="o">=</span> <span class="n">await</span> <span class="n">HackerNewsItem</span><span class="o">.</span><span class="n">get_items</span><span class="p">(</span><span class="n">html</span><span class="o">=</span><span class="n">response</span><span class="o">.</span><span class="n">html</span><span class="p">)</span>
         <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">items</span><span class="p">:</span>
             <span class="n">async</span> <span class="k">with</span> <span class="n">aiofiles</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s1">&#39;./hacker_news.txt&#39;</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;a&#39;</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s1">&#39;utf-8&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
                 <span class="n">await</span> <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">item</span><span class="o">.</span><span class="n">title</span> <span class="o">+</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
@@ -698,10 +724,223 @@ and time to start crawling.</p>
 </pre></div>
 
 
-<p>Done.</p>
+<p>Done.
+Now your code is more readable and maintainable.</p>
 <h2 id="send-further-requests">Send Further Requests</h2>
+<p>I don't think that just crawling the catalogue of news satisfied you.
+Next we will crawl news itself.
+Hacker news gathers news from many websites,
+it's not easy to parse each article of it.
+For this example, we'll crawl <a href="https://developer.github.com/v3/">Github Developer Documentation</a>.</p>
+<div class="codehilite"><pre><span></span><span class="c1"># Target: https://developer.github.com/v3/</span>
+<span class="kn">from</span> <span class="nn">ruia</span> <span class="kn">import</span> <span class="o">*</span>
+
+
+<span class="k">class</span> <span class="nc">CatalogueItem</span><span class="p">(</span><span class="n">Item</span><span class="p">):</span>
+    <span class="n">target_item</span> <span class="o">=</span> <span class="n">TextField</span><span class="p">(</span><span class="n">css_select</span><span class="o">=</span><span class="s1">&#39;.sidebar-menu a&#39;</span><span class="p">)</span>
+    <span class="n">title</span> <span class="o">=</span> <span class="n">TextField</span><span class="p">(</span><span class="n">css_select</span><span class="o">=</span><span class="s1">&#39;a&#39;</span><span class="p">)</span>
+    <span class="n">link</span> <span class="o">=</span> <span class="n">AttrField</span><span class="p">(</span><span class="n">css_select</span><span class="o">=</span><span class="s1">&#39;a&#39;</span><span class="p">,</span> <span class="n">attr</span><span class="o">=</span><span class="s1">&#39;href&#39;</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">clean_link</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">f</span><span class="s1">&#39;https://developer.github.com{value}&#39;</span>
+
+
+<span class="k">class</span> <span class="nc">PageItem</span><span class="p">(</span><span class="n">Item</span><span class="p">):</span>
+    <span class="n">content</span> <span class="o">=</span> <span class="n">HtmlField</span><span class="p">(</span><span class="n">css_select</span><span class="o">=</span><span class="s1">&#39;.content&#39;</span><span class="p">)</span>
+
+
+<span class="k">class</span> <span class="nc">GithubDeveloperSpider</span><span class="p">(</span><span class="n">Spider</span><span class="p">):</span>
+    <span class="n">start_urls</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;https://developer.github.com/v3/&#39;</span><span class="p">]</span>
+
+    <span class="n">async</span> <span class="k">def</span> <span class="nf">parse</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">response</span><span class="p">:</span> <span class="n">Response</span><span class="p">):</span>
+        <span class="n">catalogue</span> <span class="o">=</span> <span class="n">await</span> <span class="n">CatalogueItem</span><span class="o">.</span><span class="n">get_items</span><span class="p">(</span><span class="n">html</span><span class="o">=</span><span class="n">response</span><span class="o">.</span><span class="n">html</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">page</span> <span class="ow">in</span> <span class="n">catalogue</span><span class="p">[:</span><span class="mi">6</span><span class="p">]:</span>
+            <span class="k">if</span> <span class="s1">&#39;#&#39;</span> <span class="ow">in</span> <span class="n">page</span><span class="o">.</span><span class="n">link</span><span class="p">:</span>
+                <span class="k">continue</span>
+            <span class="k">yield</span> <span class="n">Request</span><span class="p">(</span><span class="n">url</span><span class="o">=</span><span class="n">page</span><span class="o">.</span><span class="n">link</span><span class="p">,</span> <span class="n">metadata</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;title&#39;</span><span class="p">:</span> <span class="n">page</span><span class="o">.</span><span class="n">title</span><span class="p">},</span> <span class="n">callback</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">parse_page</span><span class="p">)</span>
+
+    <span class="n">async</span> <span class="k">def</span> <span class="nf">parse_page</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">response</span><span class="p">:</span> <span class="n">Response</span><span class="p">):</span>
+        <span class="n">item</span> <span class="o">=</span> <span class="n">await</span> <span class="n">PageItem</span><span class="o">.</span><span class="n">get_item</span><span class="p">(</span><span class="n">html</span><span class="o">=</span><span class="n">response</span><span class="o">.</span><span class="n">html</span><span class="p">)</span>
+        <span class="n">title</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">metadata</span><span class="p">[</span><span class="s1">&#39;title&#39;</span><span class="p">]</span>
+        <span class="k">print</span><span class="p">(</span><span class="n">title</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">item</span><span class="o">.</span><span class="n">content</span><span class="p">))</span>
+
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+    <span class="n">GithubDeveloperSpider</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+</pre></div>
+
+
+<p>See the <code>GithubDeveloperSpider.parse</code> method.
+After extracting titles and urls,
+it <code>yield</code> a request.</p>
+<p>About <code>yield</code>,
+you should learn from python documentation.
+Here we can regard it as sending a task to background process.</p>
+<p>Okay, now that we have already send the request to background process,
+we have loss the control of the request.
+Nothing serious,
+after the request finished,
+the response will send to its <code>callback</code> parameter.
+<code>callback</code> parameter should be a function, or something callable.
+In <code>parse_page</code> method,
+we accept the response.
+Then it comes with another problem:
+we have already get the page title from catalogue in method <code>parse</code>,
+but they are not in the context of <code>parse_page</code>.
+That's why we need a <code>metadata</code> argument.
+we put data into <code>metadata</code> in the previous method,
+and get data from it in the following method.</p>
+<p>Now, run the spider.</p>
+<div class="codehilite"><pre><span></span>output:
+Media Types 8652
+Overview 38490
+OAuth Authorizations API 66565
+Other Authentication Methods 6651
+Troubleshooting 2551
+</pre></div>
+
+
 <h2 id="concurrency-control">Concurrency Control</h2>
+<p>Let's repeat the Github Developer spider.</p>
+<div class="codehilite"><pre><span></span><span class="c1"># Target: https://developer.github.com/v3/</span>
+<span class="kn">from</span> <span class="nn">ruia</span> <span class="kn">import</span> <span class="o">*</span>
+
+
+<span class="k">class</span> <span class="nc">CatalogueItem</span><span class="p">(</span><span class="n">Item</span><span class="p">):</span>
+    <span class="n">target_item</span> <span class="o">=</span> <span class="n">TextField</span><span class="p">(</span><span class="n">css_select</span><span class="o">=</span><span class="s1">&#39;.sidebar-menu a&#39;</span><span class="p">)</span>
+    <span class="n">title</span> <span class="o">=</span> <span class="n">TextField</span><span class="p">(</span><span class="n">css_select</span><span class="o">=</span><span class="s1">&#39;a&#39;</span><span class="p">)</span>
+    <span class="n">link</span> <span class="o">=</span> <span class="n">AttrField</span><span class="p">(</span><span class="n">css_select</span><span class="o">=</span><span class="s1">&#39;a&#39;</span><span class="p">,</span> <span class="n">attr</span><span class="o">=</span><span class="s1">&#39;href&#39;</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">clean_link</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">f</span><span class="s1">&#39;https://developer.github.com{value}&#39;</span>
+
+
+<span class="k">class</span> <span class="nc">PageItem</span><span class="p">(</span><span class="n">Item</span><span class="p">):</span>
+    <span class="n">content</span> <span class="o">=</span> <span class="n">HtmlField</span><span class="p">(</span><span class="n">css_select</span><span class="o">=</span><span class="s1">&#39;.content&#39;</span><span class="p">)</span>
+
+
+<span class="k">class</span> <span class="nc">GithubDeveloperSpider</span><span class="p">(</span><span class="n">Spider</span><span class="p">):</span>
+    <span class="n">start_urls</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;https://developer.github.com/v3/&#39;</span><span class="p">]</span>
+    <span class="n">concurrency</span> <span class="o">=</span> <span class="mi">5</span>
+
+    <span class="n">async</span> <span class="k">def</span> <span class="nf">parse</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">response</span><span class="p">:</span> <span class="n">Response</span><span class="p">):</span>
+        <span class="n">catalogue</span> <span class="o">=</span> <span class="n">await</span> <span class="n">CatalogueItem</span><span class="o">.</span><span class="n">get_items</span><span class="p">(</span><span class="n">html</span><span class="o">=</span><span class="n">response</span><span class="o">.</span><span class="n">html</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">page</span> <span class="ow">in</span> <span class="n">catalogue</span><span class="p">[:</span><span class="mi">20</span><span class="p">]:</span>
+            <span class="k">if</span> <span class="s1">&#39;#&#39;</span> <span class="ow">in</span> <span class="n">page</span><span class="o">.</span><span class="n">link</span><span class="p">:</span>
+                <span class="k">continue</span>
+            <span class="k">yield</span> <span class="n">Request</span><span class="p">(</span><span class="n">url</span><span class="o">=</span><span class="n">page</span><span class="o">.</span><span class="n">link</span><span class="p">,</span> <span class="n">metadata</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;title&#39;</span><span class="p">:</span> <span class="n">page</span><span class="o">.</span><span class="n">title</span><span class="p">},</span> <span class="n">callback</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">parse_page</span><span class="p">)</span>
+
+    <span class="n">async</span> <span class="k">def</span> <span class="nf">parse_page</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">response</span><span class="p">:</span> <span class="n">Response</span><span class="p">):</span>
+        <span class="n">item</span> <span class="o">=</span> <span class="n">await</span> <span class="n">PageItem</span><span class="o">.</span><span class="n">get_item</span><span class="p">(</span><span class="n">html</span><span class="o">=</span><span class="n">response</span><span class="o">.</span><span class="n">html</span><span class="p">)</span>
+        <span class="n">title</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">metadata</span><span class="p">[</span><span class="s1">&#39;title&#39;</span><span class="p">]</span>
+        <span class="k">print</span><span class="p">(</span><span class="n">title</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">item</span><span class="o">.</span><span class="n">content</span><span class="p">))</span>
+
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+    <span class="n">GithubDeveloperSpider</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+</pre></div>
+
+
+<p>This time, there's a line added:</p>
+<div class="codehilite"><pre><span></span>    <span class="n">concurrency</span> <span class="o">=</span> <span class="mi">5</span>
+</pre></div>
+
+
+<p>Here's a brief introduction about concurrency.
+Some websites are friendly to crawlers,
+while some are not.
+If you visit a website too frequently,
+you will be banned from the server.
+Besides, to be a good crawler,
+we should protect the server,
+rather than making it crash.
+Not every server can burden a huge spider.</p>
+<p>To protect both, we have to control our concurrency.
+Concurrency means the connection numbers in a time.
+In this case, we set it to 5.</p>
+<p>Let's have a short look on the log.</p>
+<div class="codehilite"><pre><span></span>Output:
+[2019:01:23 00:01:59]-ruia-INFO  spider : Spider started!
+[2019:01:23 00:01:59]-ruia-WARNINGspider : ruia tried to use loop.add_signal_handler but it is not implemented on this platform.
+[2019:01:23 00:01:59]-ruia-WARNINGspider : ruia tried to use loop.add_signal_handler but it is not implemented on this platform.
+[2019:01:23 00:01:59]-Request-INFO  request: &lt;GET: https://developer.github.com/v3/&gt;
+[2019:01:23 00:02:00]-Request-INFO  request: &lt;GET: https://developer.github.com/v3/&gt;
+[2019:01:23 00:02:00]-Request-INFO  request: &lt;GET: https://developer.github.com/v3/media/&gt;
+[2019:01:23 00:02:00]-Request-INFO  request: &lt;GET: https://developer.github.com/v3/oauth_authorizations/&gt;
+[2019:01:23 00:02:00]-Request-INFO  request: &lt;GET: https://developer.github.com/v3/auth/&gt;
+[2019:01:23 00:02:00]-Request-INFO  request: &lt;GET: https://developer.github.com/v3/troubleshooting/&gt;
+[2019:01:23 00:02:01]-Request-INFO  request: &lt;GET: https://developer.github.com/v3/previews/&gt;
+Overview 38490
+[2019:01:23 00:02:02]-Request-INFO  request: &lt;GET: https://developer.github.com/v3/versions/&gt;
+OAuth Authorizations API 66565
+[2019:01:23 00:02:02]-Request-INFO  request: &lt;GET: https://developer.github.com/v3/activity/&gt;
+Media Types 8652
+[2019:01:23 00:02:02]-Request-INFO  request: &lt;GET: https://developer.github.com/v3/activity/events/&gt;
+Troubleshooting 2551
+[2019:01:23 00:02:02]-Request-INFO  request: &lt;GET: https://developer.github.com/v3/activity/events/types/&gt;
+API Previews 19537
+[2019:01:23 00:02:02]-Request-INFO  request: &lt;GET: https://developer.github.com/v3/activity/feeds/&gt;
+Other Authentication Methods 6651
+[2019:01:23 00:02:03]-Request-INFO  request: &lt;GET: https://developer.github.com/v3/activity/notifications/&gt;
+Versions 1344
+Feeds 14090
+[2019:01:23 00:02:03]-Request-INFO  request: &lt;GET: https://developer.github.com/v3/activity/starring/&gt;
+Activity 2178
+[2019:01:23 00:02:04]-Request-INFO  request: &lt;GET: https://developer.github.com/v3/activity/watching/&gt;
+[2019:01:23 00:02:05]-Request-INFO  request: &lt;GET: https://developer.github.com/v3/checks/&gt;
+Events 11844
+Starring 55228
+[2019:01:23 00:02:05]-Request-INFO  request: &lt;GET: https://developer.github.com/v3/checks/runs/&gt;
+[2019:01:23 00:02:05]-Request-INFO  request: &lt;GET: https://developer.github.com/v3/checks/suites/&gt;
+Event Types &amp; Payloads 1225037
+Notifications 65679
+Watching 35775
+Checks 7379
+Check Runs 116607
+[2019:01:23 00:02:06]-ruia-INFO  spider : Stopping spider: ruia
+Check Suites 115330
+[2019:01:23 00:02:06]-ruia-INFO  spider : Total requests: 18
+[2019:01:23 00:02:06]-ruia-INFO  spider : Time usage: 0:00:07.342048
+[2019:01:23 00:02:06]-ruia-INFO  spider : Spider finished!
+</pre></div>
+
+
+<p>Focus on the first several lines.</p>
+<div class="codehilite"><pre><span></span>[2019:01:23 00:01:54]-Request-INFO  request: &lt;GET: https://developer.github.com/v3/&gt;
+[2019:01:23 00:02:00]-Request-INFO  request: &lt;GET: https://developer.github.com/v3/&gt;
+[2019:01:23 00:02:00]-Request-INFO  request: &lt;GET: https://developer.github.com/v3/media/&gt;
+[2019:01:23 00:02:00]-Request-INFO  request: &lt;GET: https://developer.github.com/v3/oauth_authorizations/&gt;
+[2019:01:23 00:02:00]-Request-INFO  request: &lt;GET: https://developer.github.com/v3/auth/&gt;
+[2019:01:23 00:02:00]-Request-INFO  request: &lt;GET: https://developer.github.com/v3/troubleshooting/&gt;
+[2019:01:23 00:02:05]-Request-INFO  request: &lt;GET: https://developer.github.com/v3/previews/&gt;
+Overview 38490
+[2019:01:23 00:02:07]-Request-INFO  request: &lt;GET: https://developer.github.com/v3/versions/&gt;
+OAuth Authorizations API 66565
+</pre></div>
+
+
+<p>The first request is at our requesting the catalogue page.
+Then, our spider send 5 requests at almost same time, at <code>[00:02:00]</code>.
+5 seconds later, at <code>[00:02:05]</code>, our spider receives a response, and then sent another request.
+The response was parsed immediately.
+2 seconds later, at <code>[00:02:07]</code>, our spider receives another response,
+and sent another request.
+Then, it parsed the response immediately.</p>
+<p>That is to say,
+at any time,
+there are 5 connections between spider and server.
+That is concurrency control.</p>
+<p>Hey, notice that our spider sent 5 requests at same time!
+Thanks to python's <code>asyncio</code> library,
+we can write asynchronous crawler easier and faster.
+Coroutines runs faster than multi-threadings.</p>
 <h2 id="use-middleware-and-plugin">Use Middleware and Plugin</h2>
+<p><code>Ruia</code> provides mainly two ways to enhance itself.</p>
+<p>Firstly let's talk about middlewares.
+Middlewares are used to process a request before it's sending
+and to process a response after it's receiving
+In a word, it is something between your spider and server.</p>
+<h3 id="not-finished">Not finished.</h3>
                 
                   
                 

@@ -626,7 +626,7 @@ Then, we implemeneted a function, that is to add <code>User-Agent</code> in requ
 <p>Supposing that you're now in <code>Python 3.6+</code>.</p>
 <div class="codehilite"><pre><span></span><span class="c1"># Install package management tool: pipenv</span>
 pip install pipenv
-<span class="c1"># Create projecet directory</span>
+<span class="c1"># Create project directory</span>
 mkdir ruia-ua
 <span class="nb">cd</span> ruia-ua
 <span class="c1"># Install virtual environment</span>
@@ -737,8 +737,8 @@ Sounds great!</p>
     <span class="n">start_urls</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;https://news.ycombinator.com/news?p=1&#39;</span><span class="p">,</span> <span class="s1">&#39;https://news.ycombinator.com/news?p=2&#39;</span><span class="p">]</span>
     <span class="n">concurrency</span> <span class="o">=</span> <span class="mi">10</span>
 
-    <span class="n">async</span> <span class="k">def</span> <span class="nf">parse</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">res</span><span class="p">):</span>
-        <span class="n">items</span> <span class="o">=</span> <span class="n">await</span> <span class="n">HackerNewsItem</span><span class="o">.</span><span class="n">get_items</span><span class="p">(</span><span class="n">html</span><span class="o">=</span><span class="n">res</span><span class="o">.</span><span class="n">html</span><span class="p">)</span>
+    <span class="n">async</span> <span class="k">def</span> <span class="nf">parse</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">response</span><span class="p">):</span>
+        <span class="n">items</span> <span class="o">=</span> <span class="n">await</span> <span class="n">HackerNewsItem</span><span class="o">.</span><span class="n">get_items</span><span class="p">(</span><span class="n">html</span><span class="o">=</span><span class="n">response</span><span class="o">.</span><span class="n">html</span><span class="p">)</span>
         <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">items</span><span class="p">:</span>
             <span class="k">print</span><span class="p">(</span><span class="n">item</span><span class="o">.</span><span class="n">title</span><span class="p">)</span>
 
