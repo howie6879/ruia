@@ -205,6 +205,37 @@ class Spider:
         await self._run_response_middleware(request, response)
         return callback_result, response
 
+    async def request(self, url: str, method: str = 'GET', *,
+                      callback=None,
+                      encoding: typing.Optional[str] = None,
+                      headers: dict = None,
+                      metadata: dict = None,
+                      request_config: dict = None,
+                      request_session=None,
+                      res_type: str = None,
+                      **kwargs):
+        """Init a Request class for crawling html"""
+        headers = headers or {}
+        metadata = metadata or {}
+        request_config = request_config or {}
+        request_session = request_session or self.request_session
+        res_type = res_type or self.res_type
+
+        headers.update(self.headers.copy())
+        request_config.update(self.request_config.copy())
+        kwargs.update(self.kwargs.copy())
+
+        return Request(url=url,
+                       method=method,
+                       callback=callback,
+                       encoding=encoding,
+                       headers=headers,
+                       metadata=metadata,
+                       request_config=request_config,
+                       request_session=request_session,
+                       res_type=res_type,
+                       **kwargs)
+
     async def start_master(self, workers: int = 2):
         """Actually start crawling."""
         for url in self.start_urls:

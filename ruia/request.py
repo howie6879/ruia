@@ -41,9 +41,9 @@ class Request(object):
     def __init__(self, url: str, method: str = 'GET', *,
                  callback=None,
                  encoding: Optional[str] = None,
-                 headers: dict = {},
-                 metadata: dict = {},
-                 request_config: dict = {},
+                 headers: dict = None,
+                 metadata: dict = None,
+                 request_config: dict = None,
                  request_session=None,
                  res_type: str = 'text',
                  **kwargs):
@@ -57,10 +57,10 @@ class Request(object):
 
         self.callback = callback
         self.encoding = encoding
-        self.headers = headers
-        self.metadata = metadata if metadata is not None else {}
+        self.headers = headers or {}
+        self.metadata = metadata or {}
         self.request_session = request_session
-        self.request_config = request_config or self.REQUEST_CONFIG
+        self.request_config = self.REQUEST_CONFIG if request_config is None else request_config
         self.res_type = res_type
         self.kwargs = kwargs
 
