@@ -164,9 +164,9 @@ class Spider:
             if isawaitable(func_after_start):
                 spider_ins.loop.run_until_complete(func_after_start)
 
-        for _signal in (SIGINT, SIGTERM):
+        for signal in (SIGINT, SIGTERM):
             try:
-                spider_ins.loop.add_signal_handler(_signal, lambda: asyncio.ensure_future(spider_ins.stop(_signal)))
+                spider_ins.loop.add_signal_handler(signal, lambda: asyncio.ensure_future(spider_ins.stop(signal)))
             except NotImplementedError:
                 spider_ins.logger.warning(f'{spider_ins.name} tried to use loop.add_signal_handler '
                                           'but it is not implemented on this platform.')
@@ -246,7 +246,7 @@ class Spider:
         if not self.is_async_start:
             await self.stop(SIGINT)
 
-    async def start_worker(self):
+    async def _worker(self):
         while True:
             request_item = await self.request_queue.get()
             self.worker_tasks.append(request_item)
