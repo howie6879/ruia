@@ -309,7 +309,7 @@ Thanks to python's `asyncio` library,
 we can write asynchronous crawler easier and faster.
 Coroutines runs faster than multi-threadings.
 
-## Use Middleware and Plugin
+## Use Middleware
 
 `Ruia` provides mainly two ways to enhance itself.
 
@@ -318,4 +318,116 @@ Middlewares are used to process a request before it's sending
 and to process a response after it's receiving
 In a word, it is something between your spider and server.
 
-### Not finished.
+[Here](https://github.com/ruia-plugins/ruia-ua) is a simple middleware named `ruia-ua`,
+it is used to automatically add random User-Agent to your requests.
+
+Firstly, install `ruia-ua`.
+
+```shell
+pip install ruia-ua
+```
+
+Then, add it to your spider.
+
+```python
+from ruia import AttrField, TextField, Item, Spider
+from ruia_ua import middleware
+
+
+class HackerNewsItem(Item):
+    target_item = TextField(css_select='tr.athing')
+    title = TextField(css_select='a.storylink')
+    url = AttrField(css_select='a.storylink', attr='href')
+
+    async def clean_title(self, value):
+        return value
+
+
+class HackerNewsSpider(Spider):
+    start_urls = ['https://news.ycombinator.com/news?p=1', 'https://news.ycombinator.com/news?p=2']
+    concurrency = 10
+
+    async def parse(self, res):
+        items = await HackerNewsItem.get_items(html=res.html)
+        for item in items:
+            print(item.title)
+
+
+if __name__ == '__main__':
+    HackerNewsSpider.start(middleware=middleware)
+
+```
+
+`ruia.Spider` has an argument `middleware`.
+It receives a list or a single middleware.
+
+## Use Plugin
+
+If you want better control of your spider,
+try to use some plugins.
+
+[ruia-pyppeteer](https://github.com/ruia-plugins/ruia-pyppeteer) is a `ruia` plugin used for loading JavaScript.
+
+Firstly, install `ruia-pyppeteer`.
+
+```shell
+pip install ruia_pyppeteer
+# New features
+pip install git+https://github.com/ruia-plugins/ruia-pyppeteer
+```
+
+!!!Note
+    When you use load_js, it will download a recent version of Chromium (~100MB). This only happens once.
+
+
+Here is a simple example to show how to load JavaScript.
+
+```python
+import asyncio
+
+from ruia_pyppeteer import PyppeteerRequest as Request
+
+request = Request("https://www.jianshu.com/", load_js=True)
+response = asyncio.get_event_loop().run_until_complete(request.fetch())
+print(response.html)
+```
+
+Here is an example to use it in your spider:
+
+```python
+from ruia import AttrField, TextField, Item
+
+from ruia_pyppeteer import PyppeteerSpider as Spider
+from ruia_pyppeteer import PyppeteerRequest as Request
+
+
+class JianshuItem(Item):
+    target_item = TextField(css_select='ul.list>li')
+    author_name = TextField(css_select='a.name')
+    author_url = AttrField(attr='href', css_select='a.name')
+
+    async def clean_author_url(self, author_url):
+        return f"https://www.jianshu.com{author_url}"
+
+
+class JianshuSpider(Spider):
+    start_urls = ['https://www.jianshu.com/']
+    concurrency = 10
+    # Load js on the first request
+    load_js = True
+
+    async def parse(self, res):
+        items = await JianshuItem.get_items(html=res.html)
+        for item in items:
+            print(item)
+        # Loading js by using PyppeteerRequest
+        yield Request(url=items[0].author_url, load_js=self.load_js, callback=self.parse_item)
+
+    async def parse_item(self, res):
+        print(res)
+
+
+if __name__ == '__main__':
+    JianshuSpider.start()
+```
+
