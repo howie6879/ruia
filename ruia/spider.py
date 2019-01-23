@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 
+import collections
 import asyncio
 import typing
 
@@ -57,6 +58,8 @@ class Spider:
         :param loop:
         :param is_async_start:
         """
+        if not self.start_urls or not isinstance(self.start_urls, collections.Iterable):
+            raise ValueError("Spider must have a param named start_urls, eg: start_urls = ['https://www.github.com']")
         # Init object-level properties
         if self.request_config is None:
             self.request_config = dict()
@@ -69,8 +72,6 @@ class Spider:
         if self.start_urls is None:
             self.start_urls = list()
 
-        if not self.start_urls or not isinstance(self.start_urls, list):
-            raise ValueError("Spider must have a param named start_urls, eg: start_urls = ['https://www.github.com']")
         self.is_async_start = is_async_start
         self.logger = get_logger(name=self.name)
         self.loop = loop
