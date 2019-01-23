@@ -253,17 +253,6 @@ class Spider:
         await asyncio.gather(*tasks, return_exceptions=True)
         self.loop.stop()
 
-    async def _run_spider_hook(self, hook_fuc):
-        if callable(hook_fuc):
-            aws_hook_fuc = hook_fuc(self)
-            if isawaitable(aws_hook_fuc):
-                try:
-                    await aws_hook_fuc
-                except Exception as e:
-                    self.logger.exception(e)
-            else:
-                self.logger.error("Spider's hook must be a coroutine function")
-
     async def _run_request_middleware(self, request):
         if self.middleware.request_middleware:
             for middleware in self.middleware.request_middleware:
@@ -287,3 +276,14 @@ class Spider:
                         self.logger.exception(e)
                 else:
                     self.logger.error('Middleware must be a coroutine function')
+
+    async def _run_spider_hook(self, hook_fuc):
+        if callable(hook_fuc):
+            aws_hook_fuc = hook_fuc(self)
+            if isawaitable(aws_hook_fuc):
+                try:
+                    await aws_hook_fuc
+                except Exception as e:
+                    self.logger.exception(e)
+            else:
+                self.logger.error("Spider's hook must be a coroutine function")
