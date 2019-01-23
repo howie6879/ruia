@@ -40,6 +40,7 @@ class Spider:
     success_counts: int = 0
 
     # Concurrency control
+    worker_numbers: int = 2
     concurrency: int = 3
 
     # Spider entry
@@ -47,6 +48,10 @@ class Spider:
 
     # A queue to save coroutines
     worker_tasks: list = []
+
+    # hooks
+    _hook_after_start = None
+    _hook_before_stop = None
 
     def __init__(self,
                  middleware: typing.Union[typing.Iterable, Middleware] = None,
@@ -93,11 +98,42 @@ class Spider:
         """
         raise NotImplementedError
 
+    async def _start(self):
+        self.logger.info('Spider started!')
+        start_time = datetime.now()
+
+        # Run hook before spider start crawling
+        await self._hook(self._hook_after_start)
+
+        # Actually run crawling
+        try:
+            await self.start_master()
+        finally:
+
+            # Run hook after spider finished crawling
+            await self._hook(self._hook_before_stop)
+
+            # Display logs about this crawl task
+            end_time = datetime.now()
+            self.logger.info(f'Total requests: {self.failed_counts + self.success_counts}')
+            if self.failed_counts:
+                self.logger.info(f'Failed requests: {self.failed_counts}')
+            self.logger.info(f'Time usage: {end_time - start_time}')
+            self.logger.info('Spider finished!')
+
+    async def _hook(self, func):
+        """
+        func is a hook function or coroutine, receives an positional argument: spider
+        :param func:
+        :return:
+        """
+        coroutine = callable(func) and func(self)
+        isawaitable(coroutine) and await coroutine
+
     @classmethod
     async def async_start(cls,
                           middleware: typing.Union[typing.Iterable, Middleware] = None,
                           loop=None,
-                          workers: int = 2,
                           after_start=None,
                           before_stop=None):
         """
@@ -110,35 +146,16 @@ class Spider:
         """
         loop = loop or asyncio.get_event_loop()
         spider_ins = cls(middleware=middleware, loop=loop, is_async_start=True)
-        spider_ins.logger.info('Spider started!')
-        start_time = datetime.now()
-
-        # Run hook before spider start crawling
-        if callable(after_start):
-            await spider_ins._run_after_start(after_start)
-
-        # Actually run crawling
-        try:
-            await spider_ins.start_master(workers=workers)
-        finally:
-
-            # Run hook after spider finished crawling
-            if callable(before_stop):
-                await spider_ins._run_before_stop(before_stop)
-
-            # Display logs about this crawl task
-            end_time = datetime.now()
-            spider_ins.logger.info(f'Total requests: {spider_ins.failed_counts + spider_ins.success_counts}')
-            if spider_ins.failed_counts:
-                spider_ins.logger.info(f'Failed requests: {spider_ins.failed_counts}')
-            spider_ins.logger.info(f'Time usage: {end_time - start_time}')
-            spider_ins.logger.info('Spider finished!')
+        if after_start is not None:
+            spider_ins._hook_after_start = after_start
+        if before_stop is not None:
+            spider_ins._hook_before_stop = before_stop
+        await spider_ins._start()
 
     @classmethod
     def start(cls,
               middleware: typing.Union[typing.Iterable, Middleware] = None,
               loop=None,
-              workers: int = 2,
               after_start=None,
               before_stop=None,
               close_event_loop=True
@@ -154,15 +171,6 @@ class Spider:
         """
         loop = loop or asyncio.new_event_loop()
         spider_ins = cls(middleware=middleware, loop=loop)
-        spider_ins.is_async_start = False
-        spider_ins.logger.info('Spider started!')
-        start_time = datetime.now()
-
-        # Hook
-        if after_start:
-            func_after_start = after_start(spider_ins)
-            if isawaitable(func_after_start):
-                spider_ins.loop.run_until_complete(func_after_start)
 
         for signal in (SIGINT, SIGTERM):
             try:
@@ -171,27 +179,10 @@ class Spider:
                 spider_ins.logger.warning(f'{spider_ins.name} tried to use loop.add_signal_handler '
                                           'but it is not implemented on this platform.')
         # Actually start crawling
-        asyncio.ensure_future(spider_ins.start_master(workers=workers))
-
-        try:
-            spider_ins.loop.run_forever()
-        finally:
-            # hook
-            if callable(before_stop):
-                coroutine_before_stop = before_stop(spider_ins)
-                if isawaitable(coroutine_before_stop):
-                    spider_ins.loop.run_until_complete(coroutine_before_stop)
-
-            # Log for this crawling task
-            end_time = datetime.now()
-            spider_ins.logger.info(f'Total requests: {spider_ins.failed_counts + spider_ins.success_counts}')
-            if spider_ins.failed_counts:
-                spider_ins.logger.info(f'Failed requests: {spider_ins.failed_counts}')
-            spider_ins.logger.info(f'Time usage: {end_time - start_time}')
-            spider_ins.logger.info('Spider finished!')
-            spider_ins.loop.run_until_complete(spider_ins.loop.shutdown_asyncgens())
-            if close_event_loop:
-                spider_ins.loop.close()
+        spider_ins.loop.run_until_complete(spider_ins._start())
+        spider_ins.loop.run_until_complete(spider_ins.loop.shutdown_asyncgens())
+        if close_event_loop:
+            spider_ins.loop.close()
 
     async def handle_request(self, request: Request) -> typing.Tuple[AsyncGeneratorType, Response]:
         """
@@ -236,12 +227,12 @@ class Spider:
                        res_type=res_type,
                        **kwargs)
 
-    async def start_master(self, workers: int = 2):
+    async def start_master(self):
         """Actually start crawling."""
         for url in self.start_urls:
             request_ins = self.request(url=url, callback=self.parse, metadata=self.metadata)
             self.request_queue.put_nowait(self.handle_request(request_ins))
-        [asyncio.ensure_future(self.start_worker()) for i in range(workers)]
+        [asyncio.ensure_future(self._worker()) for i in range(self.worker_numbers)]
         await self.request_queue.join()
         if not self.is_async_start:
             await self.stop(SIGINT)
