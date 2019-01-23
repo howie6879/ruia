@@ -168,6 +168,10 @@ class Spider:
         if close_event_loop:
             spider_ins.loop.close()
 
+    async def handle_callback(self, callback_func, response):
+        callback_result = await callback_func
+        return callback_result, response
+
     async def handle_request(self, request: Request) -> typing.Tuple[AsyncGeneratorType, Response]:
         """
         Wrap request with middlewares.
@@ -179,6 +183,14 @@ class Spider:
         callback_result, response = await request.fetch_callback(self.sem)
         await self._run_response_middleware(request, response)
         return callback_result, response
+
+    async def multiple_request(self, url_config_list):
+        """For crawling multiple urls"""
+        results = await asyncio.gather(*[self.request(**url_config).fetch() for url_config in url_config_list],
+                                       return_exceptions=True)
+        for task_result in results:
+            if not isinstance(task_result, RuntimeError) and task_result:
+                yield task_result
 
     def request(self, url: str, method: str = 'GET', *,
                 callback=None,
@@ -216,23 +228,26 @@ class Spider:
         for url in self.start_urls:
             request_ins = self.request(url=url, callback=self.parse, metadata=self.metadata)
             self.request_queue.put_nowait(self.handle_request(request_ins))
-        [asyncio.ensure_future(self._worker()) for i in range(self.worker_numbers)]
+        [asyncio.ensure_future(self.start_worker()) for i in range(self.worker_numbers)]
         await self.request_queue.join()
         if not self.is_async_start:
             await self.stop(SIGINT)
 
-    async def _worker(self):
+    async def start_worker(self):
         while True:
             request_item = await self.request_queue.get()
             self.worker_tasks.append(request_item)
             if self.request_queue.empty():
                 results = await asyncio.gather(*self.worker_tasks, return_exceptions=True)
                 for task_result in results:
-                    if not isinstance(task_result, RuntimeError):
+                    if not isinstance(task_result, RuntimeError) and task_result:
                         callback_result, response = task_result
                         if isinstance(callback_result, AsyncGeneratorType):
-                            async for request_ins in callback_result:
-                                self.request_queue.put_nowait(self.handle_request(request_ins))
+                            async for callback_ins in callback_result:
+                                if isinstance(callback_ins, Request):
+                                    self.request_queue.put_nowait(self.handle_request(callback_ins))
+                                else:
+                                    self.request_queue.put_nowait(self.handle_callback(callback_ins, response))
                         if response.html is None:
                             self.failed_counts += 1
                         else:
