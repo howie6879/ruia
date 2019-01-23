@@ -239,14 +239,7 @@ class Spider:
     async def start_master(self, workers: int = 2):
         """Actually start crawling."""
         for url in self.start_urls:
-            request_ins = Request(url=url,
-                                  callback=self.parse,
-                                  headers=self.headers.copy(),
-                                  metadata=self.metadata.copy(),
-                                  request_config=self.request_config.copy(),
-                                  request_session=self.request_session,
-                                  res_type=self.res_type,
-                                  **self.kwargs.copy())
+            request_ins = self.request(url=url, callback=self.parse, metadata=self.metadata)
             self.request_queue.put_nowait(self.handle_request(request_ins))
         [asyncio.ensure_future(self.start_worker()) for i in range(workers)]
         await self.request_queue.join()
