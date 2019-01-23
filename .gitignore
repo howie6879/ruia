@@ -108,3 +108,4 @@ venv.bak/
 .idea/
 /examples/hacker_news.txt
 .DS_Store
+examples/topics_examples/hacker_news.txt

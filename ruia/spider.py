@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
-import collections
 import asyncio
+import collections
 import typing
 
 from datetime import datetime
@@ -60,17 +60,13 @@ class Spider:
         """
         if not self.start_urls or not isinstance(self.start_urls, collections.Iterable):
             raise ValueError("Spider must have a param named start_urls, eg: start_urls = ['https://www.github.com']")
+
         # Init object-level properties
-        if self.request_config is None:
-            self.request_config = dict()
-        if self.headers is None:
-            self.headers = dict()
-        if self.metadata is None:
-            self.metadata = dict()
-        if self.kwargs is None:
-            self.kwargs = dict()
-        if self.start_urls is None:
-            self.start_urls = list()
+        self.request_config = self.request_config or {}
+        self.headers = self.headers or {}
+        self.metadata = self.metadata or {}
+        self.kwargs = self.kwargs or {}
+        self.request_config = self.request_config or {}
 
         self.is_async_start = is_async_start
         self.logger = get_logger(name=self.name)
@@ -89,18 +85,19 @@ class Spider:
         # semaphore, used for concurrency control
         self.sem = asyncio.Semaphore(self.concurrency)
 
-    async def parse(self, res: Response):
+    async def parse(self, response: Response):
         """
         Used for subclasses, directly parse the responses corresponding with start_urls
-        :param res: Response
+        :param response: Response
         :return:
         """
         raise NotImplementedError
 
     @classmethod
     async def async_start(cls,
-                          middleware: Middleware = None,
+                          middleware: typing.Union[typing.Iterable, Middleware] = None,
                           loop=None,
+                          workers: int = 2,
                           after_start=None,
                           before_stop=None):
         """
@@ -117,23 +114,17 @@ class Spider:
         start_time = datetime.now()
 
         # Run hook before spider start crawling
-        if after_start:
-            assert callable(after_start)
-            coroutine_after_start = after_start(spider_ins)
-            assert isawaitable(coroutine_after_start)
-            await coroutine_after_start
+        if callable(after_start):
+            await spider_ins._run_after_start(after_start)
 
         # Actually run crawling
         try:
-            await spider_ins.start_master()
+            await spider_ins.start_master(workers=workers)
         finally:
 
             # Run hook after spider finished crawling
-            if before_stop:
-                assert callable(before_stop)
-                coroutine_before_stop = before_stop(spider_ins)
-                assert isawaitable(coroutine_before_stop)
-                await coroutine_before_stop
+            if callable(before_stop):
+                await spider_ins._run_before_stop(before_stop)
 
             # Display logs about this crawl task
             end_time = datetime.now()
@@ -144,7 +135,14 @@ class Spider:
             spider_ins.logger.info('Spider finished!')
 
     @classmethod
-    def start(cls, middleware=None, loop=None, after_start=None, before_stop=None, close_event_loop=True):
+    def start(cls,
+              middleware: typing.Union[typing.Iterable, Middleware] = None,
+              loop=None,
+              workers: int = 2,
+              after_start=None,
+              before_stop=None,
+              close_event_loop=True
+              ):
         """
         Start a spider
         :param after_start: hook
@@ -173,18 +171,16 @@ class Spider:
                 spider_ins.logger.warning(f'{spider_ins.name} tried to use loop.add_signal_handler '
                                           'but it is not implemented on this platform.')
         # Actually start crawling
-        asyncio.ensure_future(spider_ins.start_master())
+        asyncio.ensure_future(spider_ins.start_master(workers=workers))
 
         try:
             spider_ins.loop.run_forever()
         finally:
-
             # hook
-            if before_stop:
-                assert callable(before_stop)
+            if callable(before_stop):
                 coroutine_before_stop = before_stop(spider_ins)
-                assert isawaitable(coroutine_before_stop)
-                spider_ins.loop.run_until_complete(coroutine_before_stop)
+                if isawaitable(coroutine_before_stop):
+                    spider_ins.loop.run_until_complete(coroutine_before_stop)
 
             # Log for this crawling task
             end_time = datetime.now()
@@ -204,11 +200,12 @@ class Spider:
         :return:
         """
         await self._run_request_middleware(request)
-        callback_result, response = await request.fetch_callback(self.sem)  # sem is used for concurrency control
+        # sem is used for concurrency control
+        callback_result, response = await request.fetch_callback(self.sem)
         await self._run_response_middleware(request, response)
         return callback_result, response
 
-    async def start_master(self):
+    async def start_master(self, workers: int = 2):
         """Actually start crawling."""
         for url in self.start_urls:
             request_ins = Request(url=url,
@@ -220,7 +217,7 @@ class Spider:
                                   res_type=self.res_type,
                                   **self.kwargs.copy())
             self.request_queue.put_nowait(self.handle_request(request_ins))
-        tasks = [asyncio.ensure_future(self.start_worker()) for i in range(2)]
+        [asyncio.ensure_future(self.start_worker()) for i in range(workers)]
         await self.request_queue.join()
         if not self.is_async_start:
             await self.stop(SIGINT)
@@ -233,11 +230,11 @@ class Spider:
                 results = await asyncio.gather(*self.worker_tasks, return_exceptions=True)
                 for task_result in results:
                     if not isinstance(task_result, RuntimeError):
-                        callback_res, res = task_result
-                        if isinstance(callback_res, AsyncGeneratorType):
-                            async for request_ins in callback_res:
+                        callback_result, response = task_result
+                        if isinstance(callback_result, AsyncGeneratorType):
+                            async for request_ins in callback_result:
                                 self.request_queue.put_nowait(self.handle_request(request_ins))
-                        if res.html is None:
+                        if response.html is None:
                             self.failed_counts += 1
                         else:
                             self.success_counts += 1
@@ -256,6 +253,26 @@ class Spider:
         [task.cancel() for task in tasks]
         await asyncio.gather(*tasks, return_exceptions=True)
         self.loop.stop()
+
+    async def _run_after_start(self, after_start):
+        coroutine_after_start = after_start(self)
+        if isawaitable(coroutine_after_start):
+            try:
+                await coroutine_after_start
+            except Exception as e:
+                self.logger.exception(e)
+        else:
+            self.logger.error('after_start must be a coroutine function')
+
+    async def _run_before_stop(self, before_stop):
+        coroutine_before_stop = before_stop(self)
+        if isawaitable(coroutine_before_stop):
+            try:
+                await coroutine_before_stop
+            except Exception as e:
+                self.logger.exception(e)
+        else:
+            self.logger.error('before_stop must be a coroutine function')
 
     async def _run_request_middleware(self, request):
         if self.middleware.request_middleware:

@@ -15,8 +15,8 @@ class SpiderDemo(Spider):
     res_type = 'json'
     result = {}
 
-    async def parse(self, res):
-        SpiderDemo.result = res.html
+    async def parse(self, response):
+        SpiderDemo.result = response.html
 
 
 async def after_start_func(spider_ins):

@@ -127,7 +127,7 @@ class HackerNewsSpider(Spider):
     start_urls = ['https://news.ycombinator.com']
     concurrency = 3
 
-    async def parse(self, res):
+    async def parse(self, response):
         self.mongo_db = MotorBase().get_db('ruia_test')
         urls = ['https://news.ycombinator.com/news?p=1', 'https://news.ycombinator.com/news?p=2']
         for index, url in enumerate(urls):
@@ -137,8 +137,8 @@ class HackerNewsSpider(Spider):
                 metadata={'index': index}
             )
 
-    async def parse_item(self, res):
-        items = await HackerNewsItem.get_items(html=res.html)
+    async def parse_item(self, response):
+        items = await HackerNewsItem.get_items(html=response.html)
 
         for item in items:
             try:

@@ -1,5 +1,4 @@
 # Target: https://developer.github.com/v3/
-import asyncio
 from ruia import *
 
 
@@ -20,16 +19,16 @@ class GithubDeveloperSpider(Spider):
     start_urls = ['https://developer.github.com/v3/']
     concurrency = 5
 
-    async def parse(self, res: Response):
-        catalogue = await CatalogueItem.get_items(html=res.html)
+    async def parse(self, response: Response):
+        catalogue = await CatalogueItem.get_items(html=response.html)
         for page in catalogue[:20]:
             if '#' in page.link:
                 continue
             yield Request(url=page.link, metadata={'title': page.title}, callback=self.parse_page)
 
-    async def parse_page(self, res: Response):
-        item = await PageItem.get_item(html=res.html)
-        title = res.metadata['title']
+    async def parse_page(self, response: Response):
+        item = await PageItem.get_item(html=response.html)
+        title = response.metadata['title']
         print(title, len(item.content))
 
 

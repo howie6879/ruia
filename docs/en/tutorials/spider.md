@@ -40,8 +40,8 @@ class HackerNewsItem(Item):
 class HackerNewsSpider(Spider):
     start_urls = [f'https://news.ycombinator.com/news?p={index}' for index in range(3)]
 
-    async def parse(self, res):
-        items = await HackerNewsItem.get_items(html=res.html)
+    async def parse(self, response):
+        items = await HackerNewsItem.get_items(html=response.html)
         for item in items:
             async with aiofiles.open('./hacker_news.txt', mode='a', encoding='utf-8') as f:
                 await f.write(item.title + '\n')
@@ -68,8 +68,8 @@ class HackerNewsItem(Item):
 class HackerNewsSpider(Spider):
     start_urls = [f'https://news.ycombinator.com/news?p={index}' for index in range(3)]
 
-    async def parse(self, res):
-        items = await HackerNewsItem.get_items(html=res.html)
+    async def parse(self, response):
+        items = await HackerNewsItem.get_items(html=response.html)
         for item in items:
             async with aiofiles.open('./hacker_news.txt', mode='a', encoding='utf-8') as f:
                 await f.write(item.title + '\n')
@@ -92,7 +92,6 @@ For this example, we'll crawl [Github Developer Documentation](https://developer
 
 ```python
 # Target: https://developer.github.com/v3/
-import asyncio
 from ruia import *
 
 
@@ -112,16 +111,16 @@ class PageItem(Item):
 class GithubDeveloperSpider(Spider):
     start_urls = ['https://developer.github.com/v3/']
 
-    async def parse(self, res: Response):
-        catalogue = await CatalogueItem.get_items(html=res.html)
+    async def parse(self, response: Response):
+        catalogue = await CatalogueItem.get_items(html=response.html)
         for page in catalogue[:6]:
             if '#' in page.link:
                 continue
             yield Request(url=page.link, metadata={'title': page.title}, callback=self.parse_page)
 
-    async def parse_page(self, res: Response):
-        item = await PageItem.get_item(html=res.html)
-        title = res.metadata['title']
+    async def parse_page(self, response: Response):
+        item = await PageItem.get_item(html=response.html)
+        title = response.metadata['title']
         print(title, len(item.content))
 
 
@@ -170,7 +169,6 @@ Let's repeat the Github Developer spider.
 
 ```python
 # Target: https://developer.github.com/v3/
-import asyncio
 from ruia import *
 
 
@@ -191,16 +189,16 @@ class GithubDeveloperSpider(Spider):
     start_urls = ['https://developer.github.com/v3/']
     concurrency = 5
 
-    async def parse(self, res: Response):
-        catalogue = await CatalogueItem.get_items(html=res.html)
+    async def parse(self, response: Response):
+        catalogue = await CatalogueItem.get_items(html=response.html)
         for page in catalogue[:20]:
             if '#' in page.link:
                 continue
             yield Request(url=page.link, metadata={'title': page.title}, callback=self.parse_page)
 
-    async def parse_page(self, res: Response):
-        item = await PageItem.get_item(html=res.html)
-        title = res.metadata['title']
+    async def parse_page(self, response: Response):
+        item = await PageItem.get_item(html=response.html)
+        title = response.metadata['title']
         print(title, len(item.content))
 
 

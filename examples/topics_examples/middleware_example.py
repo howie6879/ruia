@@ -6,7 +6,7 @@ from ruia import Request, Spider, Middleware
 class TestSpider(Spider):
     start_urls = ['http://www.httpbin.org/get']
 
-    async def parse(self, res):
+    async def parse(self, response):
         pages = ['http://www.httpbin.org/get', 'http://www.httpbin.org/get']
         for index, page in enumerate(pages):
             yield Request(
@@ -15,8 +15,8 @@ class TestSpider(Spider):
                 metadata={'index': index}
             )
 
-    async def parse_item(self, res):
-        item_data = res.html
+    async def parse_item(self, response):
+        item_data = response.html
         return item_data
 
 

@@ -24,15 +24,15 @@ class JianshuSpider(Spider):
     # Load js on the first request
     load_js = True
 
-    async def parse(self, res):
-        items = await JianshuItem.get_items(html=res.html)
+    async def parse(self, response):
+        items = await JianshuItem.get_items(html=response.html)
         for item in items:
             print(item)
         # Loading js by using PyppeteerRequest
         yield Request(url=items[0].author_url, load_js=self.load_js, callback=self.parse_item)
 
-    async def parse_item(self, res):
-        print(res)
+    async def parse_item(self, response):
+        print(response)
 
 
 if __name__ == '__main__':

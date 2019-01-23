@@ -105,8 +105,8 @@ class HackerNewsSpider(Spider):
     concurrency = 2
     start_urls = [f'https://news.ycombinator.com/news?p={index}' for index in range(3)]
 
-    async def parse(self, res):
-        items = await HackerNewsItem.get_items(html=res.html)
+    async def parse(self, response):
+        items = await HackerNewsItem.get_items(html=response.html)
         for item in items:
             async with aiofiles.open('./hacker_news.txt', mode='a', encoding='utf-8') as f:
                 await f.write(item.title + '\n')
@@ -146,8 +146,8 @@ class HackerNewsSpider(Spider):
     concurrency = 2
     start_urls = [f'https://news.ycombinator.com/news?p={index}' for index in range(3)]
 
-    async def parse(self, res):
-        items = await HackerNewsItem.get_items(html=res.html)
+    async def parse(self, response):
+        items = await HackerNewsItem.get_items(html=response.html)
         for item in items:
             async with aiofiles.open('./hacker_news.txt', mode='a', encoding='utf-8') as f:
                 await f.write(item.title + '\n')
