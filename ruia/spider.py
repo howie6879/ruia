@@ -205,15 +205,15 @@ class Spider:
         await self._run_response_middleware(request, response)
         return callback_result, response
 
-    async def request(self, url: str, method: str = 'GET', *,
-                      callback=None,
-                      encoding: typing.Optional[str] = None,
-                      headers: dict = None,
-                      metadata: dict = None,
-                      request_config: dict = None,
-                      request_session=None,
-                      res_type: str = None,
-                      **kwargs):
+    def request(self, url: str, method: str = 'GET', *,
+                callback=None,
+                encoding: typing.Optional[str] = None,
+                headers: dict = None,
+                metadata: dict = None,
+                request_config: dict = None,
+                request_session=None,
+                res_type: str = None,
+                **kwargs):
         """Init a Request class for crawling html"""
         headers = headers or {}
         metadata = metadata or {}

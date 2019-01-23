@@ -33,7 +33,7 @@ class DoubanSpider(Spider):
         pages = ['?start=0&filter='] + [i.get('href') for i in etree.cssselect('.paginator>a')]
         for index, page in enumerate(pages):
             url = self.start_urls[0] + page
-            yield Request(
+            yield self.request(
                 url,
                 callback=self.parse_item,
                 metadata={'index': index},
