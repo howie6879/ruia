@@ -277,12 +277,12 @@ class Spider:
                 else:
                     self.logger.error('Middleware must be a coroutine function')
 
-    async def _run_spider_hook(self, hook_fuc):
-        if callable(hook_fuc):
-            aws_hook_fuc = hook_fuc(self)
-            if isawaitable(aws_hook_fuc):
+    async def _run_spider_hook(self, hook_func):
+        if callable(hook_func):
+            aws_hook_func = hook_func(self)
+            if isawaitable(aws_hook_func):
                 try:
-                    await aws_hook_fuc
+                    await aws_hook_func
                 except Exception as e:
                     self.logger.exception(e)
             else:
