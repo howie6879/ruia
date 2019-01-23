@@ -98,27 +98,6 @@ class Spider:
         """
         raise NotImplementedError
 
-    async def _start(self, after_start=None, before_stop=None):
-        self.logger.info('Spider started!')
-        start_time = datetime.now()
-
-        # Run hook before spider start crawling
-        await self._run_spider_hook(after_start)
-
-        # Actually run crawling
-        try:
-            await self.start_master()
-        finally:
-            # Run hook after spider finished crawling
-            await self._run_spider_hook(before_stop)
-            # Display logs about this crawl task
-            end_time = datetime.now()
-            self.logger.info(f'Total requests: {self.failed_counts + self.success_counts}')
-            if self.failed_counts:
-                self.logger.info(f'Failed requests: {self.failed_counts}')
-            self.logger.info(f'Time usage: {end_time - start_time}')
-            self.logger.info('Spider finished!')
-
     @classmethod
     async def async_start(cls,
                           middleware: typing.Union[typing.Iterable, Middleware] = None,
@@ -199,21 +178,19 @@ class Spider:
                        res_type=res_type,
                        **kwargs)
 
-    async def _start(self):
+    async def _start(self, after_start=None, before_stop=None):
         self.logger.info('Spider started!')
         start_time = datetime.now()
 
         # Run hook before spider start crawling
-        await self._hook(self._hook_after_start)
+        await self._run_spider_hook(after_start)
 
         # Actually run crawling
         try:
             await self._start_master()
         finally:
-
             # Run hook after spider finished crawling
-            await self._hook(self._hook_before_stop)
-
+            await self._run_spider_hook(before_stop)
             # Display logs about this crawl task
             end_time = datetime.now()
             self.logger.info(f'Total requests: {self.failed_counts + self.success_counts}')
