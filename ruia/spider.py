@@ -14,6 +14,7 @@ from ruia.middleware import Middleware
 from ruia.request import Request
 from ruia.response import Response
 from ruia.utils import get_logger
+from concurrent.futures import CancelledError
 
 try:
     import uvloop
@@ -52,6 +53,7 @@ class Spider:
 
     # A queue to save coroutines
     _coroutine_queue: asyncio.Queue = None
+    _coroutine_queue_put_finished = False
 
     def __init__(self,
                  middleware: typing.Union[typing.Iterable, Middleware] = None,
@@ -142,7 +144,10 @@ class Spider:
                 spider_ins.logger.warning(f'{spider_ins.name} tried to use loop.add_signal_handler '
                                           'but it is not implemented on this platform.')
         # Actually start crawling
-        spider_ins.loop.run_until_complete(spider_ins._start(after_start=after_start, before_stop=before_stop))
+        try:
+            spider_ins.loop.run_until_complete(spider_ins._start(after_start=after_start, before_stop=before_stop))
+        except CancelledError:
+            pass
         spider_ins.loop.run_until_complete(spider_ins.loop.shutdown_asyncgens())
         if close_event_loop:
             spider_ins.loop.close()
@@ -201,19 +206,21 @@ class Spider:
 
     async def _start_master(self):
         """Actually start crawling."""
-        self._coroutine_queue = asyncio.Queue(maxsize=20)
+        self._coroutine_queue = asyncio.Queue(maxsize=self.concurrency * 10)
         producer = self._producer()
-        consumers = [self._consumer() for i in range(self.consumer_numbers)]
-        stop = self._wait_to_stop(consumers)
-        await asyncio.gather(producer, *consumers, stop)
-
-        if not self.is_async_start:
-            await self.stop(SIGINT)
+        if self.consumer_numbers < self.concurrency * 5:
+            self.consumer_numbers = self.concurrency * 5
+        consumer = [self._consumer() for i in range(self.consumer_numbers)]
+        consumer = asyncio.gather(*consumer)
+        stop = self._wait_to_stop(consumer)
+        await asyncio.gather(producer, consumer, stop)
 
     async def _producer(self):
         for url in self.start_urls:
-            coroutine = self.request(url=url, callback=self.parse)
+            request = self.request(url=url, callback=self.parse)
+            coroutine = self._handle_request(request)
             await self._coroutine_queue.put(coroutine)
+        self._coroutine_queue_put_finished = True
 
     async def _consumer(self):
         while True:
@@ -221,9 +228,12 @@ class Spider:
             await coroutine
             self._coroutine_queue.task_done()
 
-    async def _wait_to_stop(self, consumers):
+    async def _wait_to_stop(self, consumer):
         await self._coroutine_queue.join()
-        [consumer.cancel() for consumer in consumers]
+        if self._coroutine_queue_put_finished:
+            consumer.cancel()
+        else:
+            await self._wait_to_stop(consumer)
 
     async def _handle_request(self, request: Request):
         callback_result, response = await request.fetch_callback(self.sem)
