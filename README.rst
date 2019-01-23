@@ -18,7 +18,7 @@ Write less, run faster:
    `中文文档 <https://github.com/howie6879/ruia/blob/master/docs/cn/README.md>`__
    \|\ `documentation <https://howie6879.github.io/ruia/>`__
 -  Plugins:
-   `https://github.com/ruia-plugins <http://howie6879.github.io/ruia/en/plugins/>`__
+   `https://github.com/ruia-plugins <https://github.com/ruia-plugins>`__
 
 Features
 --------
