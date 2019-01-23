@@ -40,14 +40,14 @@ class Spider:
     success_counts: int = 0
 
     # Concurrency control
-    worker_numbers: int = 2
+    consumer_numbers: int = 30
     concurrency: int = 3
 
     # Spider entry
     start_urls: list = None
 
     # A queue to save coroutines
-    worker_tasks: list = []
+    _coroutine_queue: asyncio.Queue = None
 
     # hooks
     _hook_after_start = None
@@ -97,38 +97,6 @@ class Spider:
         :return:
         """
         raise NotImplementedError
-
-    async def _start(self):
-        self.logger.info('Spider started!')
-        start_time = datetime.now()
-
-        # Run hook before spider start crawling
-        await self._hook(self._hook_after_start)
-
-        # Actually run crawling
-        try:
-            await self.start_master()
-        finally:
-
-            # Run hook after spider finished crawling
-            await self._hook(self._hook_before_stop)
-
-            # Display logs about this crawl task
-            end_time = datetime.now()
-            self.logger.info(f'Total requests: {self.failed_counts + self.success_counts}')
-            if self.failed_counts:
-                self.logger.info(f'Failed requests: {self.failed_counts}')
-            self.logger.info(f'Time usage: {end_time - start_time}')
-            self.logger.info('Spider finished!')
-
-    async def _hook(self, func):
-        """
-        func is a hook function or coroutine, receives an positional argument: spider
-        :param func:
-        :return:
-        """
-        coroutine = callable(func) and func(self)
-        isawaitable(coroutine) and await coroutine
 
     @classmethod
     async def async_start(cls,
@@ -184,18 +152,6 @@ class Spider:
         if close_event_loop:
             spider_ins.loop.close()
 
-    async def handle_request(self, request: Request) -> typing.Tuple[AsyncGeneratorType, Response]:
-        """
-        Wrap request with middlewares.
-        :param request:
-        :return:
-        """
-        await self._run_request_middleware(request)
-        # sem is used for concurrency control
-        callback_result, response = await request.fetch_callback(self.sem)
-        await self._run_response_middleware(request, response)
-        return callback_result, response
-
     def request(self, url: str, method: str = 'GET', *,
                 callback=None,
                 encoding: typing.Optional[str] = None,
@@ -227,34 +183,65 @@ class Spider:
                        res_type=res_type,
                        **kwargs)
 
-    async def start_master(self):
+    async def _start(self):
+        self.logger.info('Spider started!')
+        start_time = datetime.now()
+
+        # Run hook before spider start crawling
+        await self._hook(self._hook_after_start)
+
+        # Actually run crawling
+        try:
+            await self._start_master()
+        finally:
+
+            # Run hook after spider finished crawling
+            await self._hook(self._hook_before_stop)
+
+            # Display logs about this crawl task
+            end_time = datetime.now()
+            self.logger.info(f'Total requests: {self.failed_counts + self.success_counts}')
+            if self.failed_counts:
+                self.logger.info(f'Failed requests: {self.failed_counts}')
+            self.logger.info(f'Time usage: {end_time - start_time}')
+            self.logger.info('Spider finished!')
+
+    async def _start_master(self):
         """Actually start crawling."""
-        for url in self.start_urls:
-            request_ins = self.request(url=url, callback=self.parse, metadata=self.metadata)
-            self.request_queue.put_nowait(self.handle_request(request_ins))
-        [asyncio.ensure_future(self._worker()) for i in range(self.worker_numbers)]
-        await self.request_queue.join()
+        self._coroutine_queue = asyncio.Queue(maxsize=20)
+        producer = self._producer()
+        consumers = [self._consumer() for i in range(self.consumer_numbers)]
+        stop = self._wait_to_stop(consumers)
+        await asyncio.gather(producer, *consumers, stop)
+
         if not self.is_async_start:
             await self.stop(SIGINT)
 
-    async def _worker(self):
+    async def _producer(self):
+        for url in self.start_urls:
+            coroutine = self.request(url=url, callback=self.parse)
+            await self._coroutine_queue.put(coroutine)
+
+    async def _consumer(self):
         while True:
-            request_item = await self.request_queue.get()
-            self.worker_tasks.append(request_item)
-            if self.request_queue.empty():
-                results = await asyncio.gather(*self.worker_tasks, return_exceptions=True)
-                for task_result in results:
-                    if not isinstance(task_result, RuntimeError):
-                        callback_result, response = task_result
-                        if isinstance(callback_result, AsyncGeneratorType):
-                            async for request_ins in callback_result:
-                                self.request_queue.put_nowait(self.handle_request(request_ins))
-                        if response.html is None:
-                            self.failed_counts += 1
-                        else:
-                            self.success_counts += 1
-                self.worker_tasks = []
-            self.request_queue.task_done()
+            coroutine = await self._coroutine_queue.get()
+            await coroutine
+            self._coroutine_queue.task_done()
+
+    async def _wait_to_stop(self, consumers):
+        await self._coroutine_queue.join()
+        [consumer.cancel() for consumer in consumers]
+
+    async def _handle_request(self, request: Request):
+        callback_result, response = await request.fetch_callback(self.sem)
+        if response.html is None:
+            self.failed_counts += 1
+        else:
+            self.success_counts += 1
+        if isinstance(callback_result, AsyncGeneratorType):
+            async for request in callback_result:
+                coroutine = self._handle_request(request)
+                await self._coroutine_queue.put(coroutine)
 
     async def stop(self, _signal):
         """
@@ -312,3 +299,12 @@ class Spider:
                         self.logger.exception(e)
                 else:
                     self.logger.error('Middleware must be a coroutine function')
+
+    async def _hook(self, func):
+        """
+        func is a hook function or coroutine, receives an positional argument: spider
+        :param func:
+        :return:
+        """
+        coroutine = callable(func) and func(self)
+        isawaitable(coroutine) and await coroutine
