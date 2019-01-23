@@ -24,7 +24,11 @@ except ImportError:
 
 
 class Spider:
-    name = 'ruia'  # Used for log
+    """
+    Spider is used for control requests better
+    """
+
+    name = 'ruia'
     request_config = None
     request_session = None
 
@@ -48,10 +52,6 @@ class Spider:
 
     # A queue to save coroutines
     worker_tasks: list = []
-
-    # hooks
-    _hook_after_start = None
-    _hook_before_stop = None
 
     def __init__(self,
                  middleware: typing.Union[typing.Iterable, Middleware] = None,
@@ -98,21 +98,19 @@ class Spider:
         """
         raise NotImplementedError
 
-    async def _start(self):
+    async def _start(self, after_start=None, before_stop=None):
         self.logger.info('Spider started!')
         start_time = datetime.now()
 
         # Run hook before spider start crawling
-        await self._hook(self._hook_after_start)
+        await self._run_spider_hook(after_start)
 
         # Actually run crawling
         try:
             await self.start_master()
         finally:
-
             # Run hook after spider finished crawling
-            await self._hook(self._hook_before_stop)
-
+            await self._run_spider_hook(before_stop)
             # Display logs about this crawl task
             end_time = datetime.now()
             self.logger.info(f'Total requests: {self.failed_counts + self.success_counts}')
@@ -120,15 +118,6 @@ class Spider:
                 self.logger.info(f'Failed requests: {self.failed_counts}')
             self.logger.info(f'Time usage: {end_time - start_time}')
             self.logger.info('Spider finished!')
-
-    async def _hook(self, func):
-        """
-        func is a hook function or coroutine, receives an positional argument: spider
-        :param func:
-        :return:
-        """
-        coroutine = callable(func) and func(self)
-        isawaitable(coroutine) and await coroutine
 
     @classmethod
     async def async_start(cls,
@@ -146,11 +135,7 @@ class Spider:
         """
         loop = loop or asyncio.get_event_loop()
         spider_ins = cls(middleware=middleware, loop=loop, is_async_start=True)
-        if after_start is not None:
-            spider_ins._hook_after_start = after_start
-        if before_stop is not None:
-            spider_ins._hook_before_stop = before_stop
-        await spider_ins._start()
+        await spider_ins._start(after_start=after_start, before_stop=before_stop)
 
     @classmethod
     def start(cls,
@@ -158,8 +143,7 @@ class Spider:
               loop=None,
               after_start=None,
               before_stop=None,
-              close_event_loop=True
-              ):
+              close_event_loop=True):
         """
         Start a spider
         :param after_start: hook
@@ -179,7 +163,7 @@ class Spider:
                 spider_ins.logger.warning(f'{spider_ins.name} tried to use loop.add_signal_handler '
                                           'but it is not implemented on this platform.')
         # Actually start crawling
-        spider_ins.loop.run_until_complete(spider_ins._start())
+        spider_ins.loop.run_until_complete(spider_ins._start(after_start=after_start, before_stop=before_stop))
         spider_ins.loop.run_until_complete(spider_ins.loop.shutdown_asyncgens())
         if close_event_loop:
             spider_ins.loop.close()
@@ -269,33 +253,24 @@ class Spider:
         await asyncio.gather(*tasks, return_exceptions=True)
         self.loop.stop()
 
-    async def _run_after_start(self, after_start):
-        coroutine_after_start = after_start(self)
-        if isawaitable(coroutine_after_start):
-            try:
-                await coroutine_after_start
-            except Exception as e:
-                self.logger.exception(e)
-        else:
-            self.logger.error('after_start must be a coroutine function')
-
-    async def _run_before_stop(self, before_stop):
-        coroutine_before_stop = before_stop(self)
-        if isawaitable(coroutine_before_stop):
-            try:
-                await coroutine_before_stop
-            except Exception as e:
-                self.logger.exception(e)
-        else:
-            self.logger.error('before_stop must be a coroutine function')
+    async def _run_spider_hook(self, hook_fuc):
+        if callable(hook_fuc):
+            aws_hook_fuc = hook_fuc(self)
+            if isawaitable(aws_hook_fuc):
+                try:
+                    await aws_hook_fuc
+                except Exception as e:
+                    self.logger.exception(e)
+            else:
+                self.logger.error("Spider's hook must be a coroutine function")
 
     async def _run_request_middleware(self, request):
         if self.middleware.request_middleware:
             for middleware in self.middleware.request_middleware:
-                middleware_coroutine = middleware(request)
-                if isawaitable(middleware_coroutine):
+                middleware_aws = middleware(request)
+                if isawaitable(middleware_aws):
                     try:
-                        await middleware_coroutine
+                        await middleware_aws
                     except Exception as e:
                         self.logger.exception(e)
                 else:
@@ -304,10 +279,10 @@ class Spider:
     async def _run_response_middleware(self, request, response):
         if self.middleware.response_middleware:
             for middleware in self.middleware.response_middleware:
-                middleware_coroutine = middleware(request, response)
-                if isawaitable(middleware_coroutine):
+                middleware_aws = middleware(request, response)
+                if isawaitable(middleware_aws):
                     try:
-                        await middleware_coroutine
+                        await middleware_aws
                     except Exception as e:
                         self.logger.exception(e)
                 else:
