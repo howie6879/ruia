@@ -369,22 +369,16 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#use-middleware-and-plugin" title="Use Middleware and Plugin" class="md-nav__link">
-    Use Middleware and Plugin
-  </a>
-  
-    <nav class="md-nav">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#not-finished" title="Not finished." class="md-nav__link">
-    Not finished.
+  <a href="#use-middleware" title="Use Middleware" class="md-nav__link">
+    Use Middleware
   </a>
   
 </li>
-        
-      </ul>
-    </nav>
+      
+        <li class="md-nav__item">
+  <a href="#use-plugin" title="Use Plugin" class="md-nav__link">
+    Use Plugin
+  </a>
   
 </li>
       
@@ -614,22 +608,16 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#use-middleware-and-plugin" title="Use Middleware and Plugin" class="md-nav__link">
-    Use Middleware and Plugin
-  </a>
-  
-    <nav class="md-nav">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#not-finished" title="Not finished." class="md-nav__link">
-    Not finished.
+  <a href="#use-middleware" title="Use Middleware" class="md-nav__link">
+    Use Middleware
   </a>
   
 </li>
-        
-      </ul>
-    </nav>
+      
+        <li class="md-nav__item">
+  <a href="#use-plugin" title="Use Plugin" class="md-nav__link">
+    Use Plugin
+  </a>
   
 </li>
       
@@ -934,13 +922,112 @@ That is concurrency control.</p>
 Thanks to python's <code>asyncio</code> library,
 we can write asynchronous crawler easier and faster.
 Coroutines runs faster than multi-threadings.</p>
-<h2 id="use-middleware-and-plugin">Use Middleware and Plugin</h2>
+<h2 id="use-middleware">Use Middleware</h2>
 <p><code>Ruia</code> provides mainly two ways to enhance itself.</p>
 <p>Firstly let's talk about middlewares.
 Middlewares are used to process a request before it's sending
 and to process a response after it's receiving
 In a word, it is something between your spider and server.</p>
-<h3 id="not-finished">Not finished.</h3>
+<p><a href="https://github.com/ruia-plugins/ruia-ua">Here</a> is a simple middleware named <code>ruia-ua</code>,
+it is used to automatically add random User-Agent to your requests.</p>
+<p>Firstly, install <code>ruia-ua</code>.</p>
+<div class="codehilite"><pre><span></span>pip install ruia-ua
+</pre></div>
+
+
+<p>Then, add it to your spider.</p>
+<div class="codehilite"><pre><span></span><span class="kn">from</span> <span class="nn">ruia</span> <span class="kn">import</span> <span class="n">AttrField</span><span class="p">,</span> <span class="n">TextField</span><span class="p">,</span> <span class="n">Item</span><span class="p">,</span> <span class="n">Spider</span>
+<span class="kn">from</span> <span class="nn">ruia_ua</span> <span class="kn">import</span> <span class="n">middleware</span>
+
+
+<span class="k">class</span> <span class="nc">HackerNewsItem</span><span class="p">(</span><span class="n">Item</span><span class="p">):</span>
+    <span class="n">target_item</span> <span class="o">=</span> <span class="n">TextField</span><span class="p">(</span><span class="n">css_select</span><span class="o">=</span><span class="s1">&#39;tr.athing&#39;</span><span class="p">)</span>
+    <span class="n">title</span> <span class="o">=</span> <span class="n">TextField</span><span class="p">(</span><span class="n">css_select</span><span class="o">=</span><span class="s1">&#39;a.storylink&#39;</span><span class="p">)</span>
+    <span class="n">url</span> <span class="o">=</span> <span class="n">AttrField</span><span class="p">(</span><span class="n">css_select</span><span class="o">=</span><span class="s1">&#39;a.storylink&#39;</span><span class="p">,</span> <span class="n">attr</span><span class="o">=</span><span class="s1">&#39;href&#39;</span><span class="p">)</span>
+
+    <span class="n">async</span> <span class="k">def</span> <span class="nf">clean_title</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">value</span>
+
+
+<span class="k">class</span> <span class="nc">HackerNewsSpider</span><span class="p">(</span><span class="n">Spider</span><span class="p">):</span>
+    <span class="n">start_urls</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;https://news.ycombinator.com/news?p=1&#39;</span><span class="p">,</span> <span class="s1">&#39;https://news.ycombinator.com/news?p=2&#39;</span><span class="p">]</span>
+    <span class="n">concurrency</span> <span class="o">=</span> <span class="mi">10</span>
+
+    <span class="n">async</span> <span class="k">def</span> <span class="nf">parse</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">res</span><span class="p">):</span>
+        <span class="n">items</span> <span class="o">=</span> <span class="n">await</span> <span class="n">HackerNewsItem</span><span class="o">.</span><span class="n">get_items</span><span class="p">(</span><span class="n">html</span><span class="o">=</span><span class="n">res</span><span class="o">.</span><span class="n">html</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">items</span><span class="p">:</span>
+            <span class="k">print</span><span class="p">(</span><span class="n">item</span><span class="o">.</span><span class="n">title</span><span class="p">)</span>
+
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+    <span class="n">HackerNewsSpider</span><span class="o">.</span><span class="n">start</span><span class="p">(</span><span class="n">middleware</span><span class="o">=</span><span class="n">middleware</span><span class="p">)</span>
+</pre></div>
+
+
+<p><code>ruia.Spider</code> has an argument <code>middleware</code>.
+It receives a list or a single middleware.</p>
+<h2 id="use-plugin">Use Plugin</h2>
+<p>If you want better control of your spider,
+try to use some plugins.</p>
+<p><a href="https://github.com/ruia-plugins/ruia-pyppeteer">ruia-pyppeteer</a> is a <code>ruia</code> plugin used for loading JavaScript.</p>
+<p>Firstly, install <code>ruia-pyppeteer</code>.</p>
+<div class="codehilite"><pre><span></span>pip install ruia_pyppeteer
+<span class="c1"># New features</span>
+pip install git+https://github.com/ruia-plugins/ruia-pyppeteer
+</pre></div>
+
+
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>When you use load_js, it will download a recent version of Chromium (~100MB). This only happens once.</p>
+</div>
+<p>Here is a simple example to show how to load JavaScript.</p>
+<div class="codehilite"><pre><span></span><span class="kn">import</span> <span class="nn">asyncio</span>
+
+<span class="kn">from</span> <span class="nn">ruia_pyppeteer</span> <span class="kn">import</span> <span class="n">PyppeteerRequest</span> <span class="k">as</span> <span class="n">Request</span>
+
+<span class="n">request</span> <span class="o">=</span> <span class="n">Request</span><span class="p">(</span><span class="s2">&quot;https://www.jianshu.com/&quot;</span><span class="p">,</span> <span class="n">load_js</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+<span class="n">response</span> <span class="o">=</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">get_event_loop</span><span class="p">()</span><span class="o">.</span><span class="n">run_until_complete</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">fetch</span><span class="p">())</span>
+<span class="k">print</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">html</span><span class="p">)</span>
+</pre></div>
+
+
+<p>Here is an example to use it in your spider:</p>
+<div class="codehilite"><pre><span></span><span class="kn">from</span> <span class="nn">ruia</span> <span class="kn">import</span> <span class="n">AttrField</span><span class="p">,</span> <span class="n">TextField</span><span class="p">,</span> <span class="n">Item</span>
+
+<span class="kn">from</span> <span class="nn">ruia_pyppeteer</span> <span class="kn">import</span> <span class="n">PyppeteerSpider</span> <span class="k">as</span> <span class="n">Spider</span>
+<span class="kn">from</span> <span class="nn">ruia_pyppeteer</span> <span class="kn">import</span> <span class="n">PyppeteerRequest</span> <span class="k">as</span> <span class="n">Request</span>
+
+
+<span class="k">class</span> <span class="nc">JianshuItem</span><span class="p">(</span><span class="n">Item</span><span class="p">):</span>
+    <span class="n">target_item</span> <span class="o">=</span> <span class="n">TextField</span><span class="p">(</span><span class="n">css_select</span><span class="o">=</span><span class="s1">&#39;ul.list&gt;li&#39;</span><span class="p">)</span>
+    <span class="n">author_name</span> <span class="o">=</span> <span class="n">TextField</span><span class="p">(</span><span class="n">css_select</span><span class="o">=</span><span class="s1">&#39;a.name&#39;</span><span class="p">)</span>
+    <span class="n">author_url</span> <span class="o">=</span> <span class="n">AttrField</span><span class="p">(</span><span class="n">attr</span><span class="o">=</span><span class="s1">&#39;href&#39;</span><span class="p">,</span> <span class="n">css_select</span><span class="o">=</span><span class="s1">&#39;a.name&#39;</span><span class="p">)</span>
+
+    <span class="n">async</span> <span class="k">def</span> <span class="nf">clean_author_url</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">author_url</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">f</span><span class="s2">&quot;https://www.jianshu.com{author_url}&quot;</span>
+
+
+<span class="k">class</span> <span class="nc">JianshuSpider</span><span class="p">(</span><span class="n">Spider</span><span class="p">):</span>
+    <span class="n">start_urls</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;https://www.jianshu.com/&#39;</span><span class="p">]</span>
+    <span class="n">concurrency</span> <span class="o">=</span> <span class="mi">10</span>
+    <span class="c1"># Load js on the first request</span>
+    <span class="n">load_js</span> <span class="o">=</span> <span class="bp">True</span>
+
+    <span class="n">async</span> <span class="k">def</span> <span class="nf">parse</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">res</span><span class="p">):</span>
+        <span class="n">items</span> <span class="o">=</span> <span class="n">await</span> <span class="n">JianshuItem</span><span class="o">.</span><span class="n">get_items</span><span class="p">(</span><span class="n">html</span><span class="o">=</span><span class="n">res</span><span class="o">.</span><span class="n">html</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">items</span><span class="p">:</span>
+            <span class="k">print</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
+        <span class="c1"># Loading js by using PyppeteerRequest</span>
+        <span class="k">yield</span> <span class="n">Request</span><span class="p">(</span><span class="n">url</span><span class="o">=</span><span class="n">items</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">author_url</span><span class="p">,</span> <span class="n">load_js</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">load_js</span><span class="p">,</span> <span class="n">callback</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">parse_item</span><span class="p">)</span>
+
+    <span class="n">async</span> <span class="k">def</span> <span class="nf">parse_item</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">res</span><span class="p">):</span>
+        <span class="k">print</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
+
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+    <span class="n">JianshuSpider</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+</pre></div>
                 
                   
                 
