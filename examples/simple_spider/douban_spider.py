@@ -31,14 +31,12 @@ class DoubanSpider(Spider):
     async def parse(self, response):
         etree = response.html_etree
         pages = ['?start=0&filter='] + [i.get('href') for i in etree.cssselect('.paginator>a')]
-        url_config_list = []
         for index, page in enumerate(pages):
             url = self.start_urls[0] + page
-            url_config = {'url': url, 'metadata': {'index': index}}
-            url_config_list.append(url_config)
-
-        async for resp in self.multiple_request(url_config_list):
-            yield self.parse_item(resp)
+            yield self.request(
+                url=url,
+                metadata={'index': index}
+            )
 
     async def parse_item(self, response):
         items_data = await DoubanItem.get_items(html=response.html)

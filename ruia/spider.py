@@ -168,8 +168,8 @@ class Spider:
         if close_event_loop:
             spider_ins.loop.close()
 
-    async def handle_callback(self, callback_func, response):
-        callback_result = await callback_func
+    async def handle_callback(self, aws_callback: typing.Coroutine, response):
+        callback_result = await aws_callback
         return callback_result, response
 
     async def handle_request(self, request: Request) -> typing.Tuple[AsyncGeneratorType, Response]:
@@ -181,16 +181,21 @@ class Spider:
         await self._run_request_middleware(request)
         # sem is used for concurrency control
         callback_result, response = await request.fetch_callback(self.sem)
+        if response:
+            await self._process_request_count(response=response)
         await self._run_response_middleware(request, response)
         return callback_result, response
 
     async def multiple_request(self, url_config_list):
         """For crawling multiple urls"""
-        results = await asyncio.gather(*[self.request(**url_config).fetch() for url_config in url_config_list],
-                                       return_exceptions=True)
-        for task_result in results:
-            if not isinstance(task_result, RuntimeError) and task_result:
-                yield task_result
+        # TODO
+        resp_results = await asyncio.gather(*[self.request(**url_config).fetch() for url_config in url_config_list],
+                                            return_exceptions=True)
+        for response in resp_results:
+            if not isinstance(response, RuntimeError) and response:
+                if response:
+                    await self._process_request_count(response=response)
+                yield response
 
     def request(self, url: str, method: str = 'GET', *,
                 callback=None,
@@ -243,32 +248,31 @@ class Spider:
                     if not isinstance(task_result, RuntimeError) and task_result:
                         callback_result, response = task_result
                         if isinstance(callback_result, AsyncGeneratorType):
-                            async for callback_ins in callback_result:
-                                if isinstance(callback_ins, Request):
-                                    self.request_queue.put_nowait(self.handle_request(callback_ins))
-                                else:
-                                    self.request_queue.put_nowait(self.handle_callback(callback_ins, response))
-                        if response.html is None:
-                            self.failed_counts += 1
-                        else:
-                            self.success_counts += 1
+                            await self._process_async_callback(callback_result, response)
                 self.worker_tasks = []
             self.request_queue.task_done()
 
-    async def stop(self, _signal):
-        """
-        Finish all running tasks, cancel remaining tasks, then stop loop.
-        :param _signal:
-        :return:
-        """
-        self.logger.info(f'Stopping spider: {self.name}')
-        tasks = [task for task in asyncio.Task.all_tasks() if task is not
-                 asyncio.tasks.Task.current_task()]
-        [task.cancel() for task in tasks]
-        await asyncio.gather(*tasks, return_exceptions=True)
-        self.loop.stop()
+    async def _process_async_callback(self, callback_result: AsyncGeneratorType, response: Response = None):
+        async for each in callback_result:
+            if isinstance(each, AsyncGeneratorType):
+                await self._process_async_callback(each)
+            else:
+                if isinstance(each, Request):
+                    self.request_queue.put_nowait(
+                        self.handle_request(request=each)
+                    )
+                else:
+                    self.request_queue.put_nowait(
+                        self.handle_callback(aws_callback=each, response=response)
+                    )
 
-    async def _run_request_middleware(self, request):
+    async def _process_request_count(self, response: Response):
+        if response.html is None:
+            self.failed_counts += 1
+        else:
+            self.success_counts += 1
+
+    async def _run_request_middleware(self, request: Request):
         if self.middleware.request_middleware:
             for middleware in self.middleware.request_middleware:
                 middleware_aws = middleware(request)
@@ -280,7 +284,7 @@ class Spider:
                 else:
                     self.logger.error('Middleware must be a coroutine function')
 
-    async def _run_response_middleware(self, request, response):
+    async def _run_response_middleware(self, request: Request, response: Response):
         if self.middleware.response_middleware:
             for middleware in self.middleware.response_middleware:
                 middleware_aws = middleware(request, response)
@@ -302,3 +306,16 @@ class Spider:
                     self.logger.exception(e)
             else:
                 self.logger.error("Spider's hook must be a coroutine function")
+
+    async def stop(self, _signal):
+        """
+        Finish all running tasks, cancel remaining tasks, then stop loop.
+        :param _signal:
+        :return:
+        """
+        self.logger.info(f'Stopping spider: {self.name}')
+        tasks = [task for task in asyncio.Task.all_tasks() if task is not
+                 asyncio.tasks.Task.current_task()]
+        [task.cancel() for task in tasks]
+        await asyncio.gather(*tasks, return_exceptions=True)
+        self.loop.stop()

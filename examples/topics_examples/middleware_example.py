@@ -1,23 +1,25 @@
 #!/usr/bin/env python
 
-from ruia import Request, Spider, Middleware
+from ruia import Spider, Middleware
 
 
 class TestSpider(Spider):
     start_urls = ['http://www.httpbin.org/get']
 
     async def parse(self, response):
-        pages = ['http://www.httpbin.org/get', 'http://www.httpbin.org/get']
-        for index, page in enumerate(pages):
-            yield Request(
-                page,
-                callback=self.parse_item,
-                metadata={'index': index}
-            )
+        pages = [{'url': f'http://www.httpbin.org/get?p={i}'} for i in range(1, 9)]
+        async for resp in self.multiple_request(pages):
+            yield self.parse_next(resp, any_param='hello')
+
+    async def parse_next(self, response, any_param):
+        yield self.request(
+            url=response.url,
+            callback=self.parse_item
+        )
 
     async def parse_item(self, response):
         item_data = response.html
-        return item_data
+        # print(item_data)
 
 
 middleware = Middleware()
