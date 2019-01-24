@@ -181,8 +181,7 @@ class Spider:
         await self._run_request_middleware(request)
         # sem is used for concurrency control
         callback_result, response = await request.fetch_callback(self.sem)
-        if response:
-            await self._process_request_count(response=response)
+        await self._process_request_count(response=response)
         await self._run_response_middleware(request, response)
         return callback_result, response
 
@@ -193,8 +192,7 @@ class Spider:
                                             return_exceptions=True)
         for response in resp_results:
             if not isinstance(response, RuntimeError) and response:
-                if response:
-                    await self._process_request_count(response=response)
+                await self._process_request_count(response=response)
                 yield response
 
     def request(self, url: str, method: str = 'GET', *,
@@ -267,10 +265,11 @@ class Spider:
                     )
 
     async def _process_request_count(self, response: Response):
-        if response.html is None:
-            self.failed_counts += 1
-        else:
-            self.success_counts += 1
+        if Response:
+            if response.html is None:
+                self.failed_counts += 1
+            else:
+                self.success_counts += 1
 
     async def _run_request_middleware(self, request: Request):
         if self.middleware.request_middleware:
