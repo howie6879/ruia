@@ -181,18 +181,33 @@ class Spider:
         await self._run_request_middleware(request)
         # sem is used for concurrency control
         callback_result, response = await request.fetch_callback(self.sem)
-        await self._process_request_count(response=response)
         await self._run_response_middleware(request, response)
+        await self._process_request_count(response=response)
         return callback_result, response
 
-    async def multiple_request(self, url_config_list):
+    async def multiple_request(self, url_config_list, is_gather=False):
         """For crawling multiple urls"""
         # TODO
-        resp_results = await asyncio.gather(*[self.request(**url_config).fetch() for url_config in url_config_list],
-                                            return_exceptions=True)
-        for response in resp_results:
-            if not isinstance(response, RuntimeError) and response:
-                await self._process_request_count(response=response)
+        if is_gather:
+            # resp_results = await asyncio.gather(
+            #     *[self.handle_request(self.request(**url_config)) for url_config in url_config_list],
+            #     return_exceptions=True)
+            # for index, response in enumerate(resp_results):
+            #     if not isinstance(response, RuntimeError) and response:
+            #         # response.index = index
+            #         yield response
+            resp_results = await asyncio.gather(
+                *[self.request(**url_config).fetch() for url_config in url_config_list],
+                return_exceptions=True)
+            for index, response in enumerate(resp_results):
+                if not isinstance(response, RuntimeError) and response:
+                    await self._process_request_count(response=response)
+                    response.index = index
+                    yield response
+        else:
+            for index, url_config in enumerate(url_config_list):
+                _, response = await self.handle_request(self.request(**url_config))
+                response.index = index
                 yield response
 
     def request(self, url: str, method: str = 'GET', *,

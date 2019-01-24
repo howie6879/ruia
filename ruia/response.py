@@ -21,6 +21,7 @@ class Response(object):
         self._metadata = metadata
         self._res_type = res_type
         self._html = html
+        self._index = None
         self._cookies = cookies
         self._history = history
         self._headers = headers
@@ -33,6 +34,14 @@ class Response(object):
     @callback_result.setter
     def callback_result(self, value):
         self._callback_result = value
+
+    @property
+    def index(self):
+        return self._index
+
+    @index.setter
+    def index(self, value):
+        self._index = value
 
     @property
     def url(self):
