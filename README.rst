@@ -3,7 +3,7 @@ Ruia
 
 |travis| |PyPI - Python Version| |PyPI| |license|
 
-.. figure:: .doc/images/ruia_demo.png
+.. figure:: docs/images/ruia_demo.png
    :alt: 
 
 Overview
