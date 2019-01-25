@@ -705,16 +705,17 @@
             <span class="p">)</span>
 
     <span class="n">async</span> <span class="k">def</span> <span class="nf">parse_item</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">response</span><span class="p">):</span>
-        <span class="n">items</span> <span class="o">=</span> <span class="n">await</span> <span class="n">HackerNewsItem</span><span class="o">.</span><span class="n">get_items</span><span class="p">(</span><span class="n">html</span><span class="o">=</span><span class="n">response</span><span class="o">.</span><span class="n">html</span><span class="p">)</span>
+        <span class="n">async</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">HackerNewsItem</span><span class="o">.</span><span class="n">get_items</span><span class="p">(</span><span class="n">html</span><span class="o">=</span><span class="n">response</span><span class="o">.</span><span class="n">html</span><span class="p">):</span>
+            <span class="k">yield</span> <span class="n">item</span>
 
-        <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">items</span><span class="p">:</span>
-            <span class="k">try</span><span class="p">:</span>
-                <span class="n">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">mongo_db</span><span class="o">.</span><span class="n">news</span><span class="o">.</span><span class="n">update_one</span><span class="p">({</span>
-                    <span class="s1">&#39;url&#39;</span><span class="p">:</span> <span class="n">item</span><span class="o">.</span><span class="n">url</span><span class="p">},</span>
-                    <span class="p">{</span><span class="s1">&#39;$set&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;url&#39;</span><span class="p">:</span> <span class="n">item</span><span class="o">.</span><span class="n">url</span><span class="p">,</span> <span class="s1">&#39;title&#39;</span><span class="p">:</span> <span class="n">item</span><span class="o">.</span><span class="n">title</span><span class="p">}},</span>
-                    <span class="n">upsert</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
-            <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">exception</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
+    <span class="n">async</span> <span class="k">def</span> <span class="nf">save_item</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">item</span><span class="p">):</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">mongo_db</span><span class="o">.</span><span class="n">news</span><span class="o">.</span><span class="n">update_one</span><span class="p">({</span>
+                <span class="s1">&#39;url&#39;</span><span class="p">:</span> <span class="n">item</span><span class="o">.</span><span class="n">url</span><span class="p">},</span>
+                <span class="p">{</span><span class="s1">&#39;$set&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;url&#39;</span><span class="p">:</span> <span class="n">item</span><span class="o">.</span><span class="n">url</span><span class="p">,</span> <span class="s1">&#39;title&#39;</span><span class="p">:</span> <span class="n">item</span><span class="o">.</span><span class="n">title</span><span class="p">}},</span>
+                <span class="n">upsert</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">exception</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
 
 
 <span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
