@@ -20,7 +20,9 @@ class GithubDeveloperSpider(Spider):
     concurrency = 5
 
     async def parse(self, response: Response):
-        catalogue = await CatalogueItem.get_items(html=response.html)
+        catalogue = []
+        async for cat in CatalogueItem.get_items(html=response.html):
+            catalogue.append(cat)
         for page in catalogue[:20]:
             if '#' in page.link:
                 continue

@@ -16,19 +16,14 @@ class HackerNewsItem(Item):
         return value
 
 
-async def single_page_demo():
-    items = await HackerNewsItem.get_items(url="https://news.ycombinator.com/")
-    for item in items:
+async def single_page_demo(url="https://news.ycombinator.com/"):
+    async for item in HackerNewsItem.get_items(url=url):
         print(item.title, item.url)
 
 
 async def multiple_page_demo():
-    start_urls = [f'https://news.ycombinator.com/news?p={page}' for page in range(1, 3)]
-    tasks = [HackerNewsItem.get_items(url=url) for url in start_urls]
-    results = await asyncio.gather(*tasks)
-    for items in results:
-        for item in items:
-            print(item.title, item.url)
+    pages = [single_page_demo(f'https://news.ycombinator.com/news?p={page}') for page in range(1, 3)]
+    await asyncio.gather(*pages)
 
 
 if __name__ == '__main__':

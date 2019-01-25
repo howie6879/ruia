@@ -3,7 +3,7 @@ Ruia
 
 |travis| |PyPI - Python Version| |PyPI| |license|
 
-.. figure:: ./docs/images/demo.png
+.. figure:: .doc/images/ruia_demo.png
    :alt: 
 
 Overview
@@ -18,7 +18,7 @@ Write less, run faster:
    `中文文档 <https://github.com/howie6879/ruia/blob/master/docs/cn/README.md>`__
    \|\ `documentation <https://howie6879.github.io/ruia/>`__
 -  Plugins:
-   `https://github.com/ruia-plugins <https://github.com/ruia-plugins>`__
+   `https://github.com/ruia-plugins <http://howie6879.github.io/ruia/en/plugins/>`__
 
 Features
 --------
@@ -78,9 +78,12 @@ Item
         title = TextField(css_select='a.storylink')
         url = AttrField(css_select='a.storylink', attr='href')
 
-    items = asyncio.run(HackerNewsItem.get_items(url="https://news.ycombinator.com/"))
-    for item in items:
-        print(item.title, item.url)
+    async def main():
+        async for item in HackerNewsItem.get_items(url="https://news.ycombinator.com/"):
+            print(item.title, item.url)
+
+    if __name__ == '__main__':
+         items = asyncio.run(main())
 
 Run: ``python demo.py``
 
@@ -116,10 +119,13 @@ concurrency control, which is very important for spiders.
         start_urls = [f'https://news.ycombinator.com/news?p={index}' for index in range(1, 3)]
 
         async def parse(self, response):
-            items = await HackerNewsItem.get_items(html=response.html)
-            for item in items:
-                async with aiofiles.open('./hacker_news.txt', mode='a', encoding='utf-8') as f:
-                    await f.write(item.title + '\n')
+            async for item in HackerNewsItem.get_items(html=response.html):
+                yield item
+
+        async def save_item(self, item: HackerNewsItem):
+            """Ruia build-in method"""
+            async with aiofiles.open('./hacker_news.txt', 'a') as f:
+                await f.write(str(item.title) + '\n')
 
 
     if __name__ == '__main__':

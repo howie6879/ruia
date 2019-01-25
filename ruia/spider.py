@@ -10,6 +10,8 @@ from inspect import isawaitable
 from signal import SIGINT, SIGTERM
 from types import AsyncGeneratorType
 
+from ruia.exceptions import InvalidParseType
+from ruia.item import Item
 from ruia.middleware import Middleware
 from ruia.request import Request
 from ruia.response import Response
@@ -28,7 +30,7 @@ class Spider:
     Spider is used for control requests better
     """
 
-    name = 'ruia'
+    name = 'Ruia'
     request_config = None
     request_session = None
 
@@ -98,27 +100,6 @@ class Spider:
         """
         raise NotImplementedError
 
-    async def _start(self, after_start=None, before_stop=None):
-        self.logger.info('Spider started!')
-        start_time = datetime.now()
-
-        # Run hook before spider start crawling
-        await self._run_spider_hook(after_start)
-
-        # Actually run crawling
-        try:
-            await self.start_master()
-        finally:
-            # Run hook after spider finished crawling
-            await self._run_spider_hook(before_stop)
-            # Display logs about this crawl task
-            end_time = datetime.now()
-            self.logger.info(f'Total requests: {self.failed_counts + self.success_counts}')
-            if self.failed_counts:
-                self.logger.info(f'Failed requests: {self.failed_counts}')
-            self.logger.info(f'Time usage: {end_time - start_time}')
-            self.logger.info('Spider finished!')
-
     @classmethod
     async def async_start(cls,
                           middleware: typing.Union[typing.Iterable, Middleware] = None,
@@ -169,6 +150,7 @@ class Spider:
             spider_ins.loop.close()
 
     async def handle_callback(self, aws_callback: typing.Coroutine, response):
+        # print(aws_callback)
         callback_result = await aws_callback
         return callback_result, response
 
@@ -233,6 +215,10 @@ class Spider:
                        res_type=res_type,
                        **kwargs)
 
+    async def save_item(self, item):
+        """Process target Item"""
+        pass
+
     async def start_master(self):
         """Actually start crawling."""
         for url in self.start_urls:
@@ -257,19 +243,40 @@ class Spider:
                 self.worker_tasks = []
             self.request_queue.task_done()
 
+    async def stop(self, _signal):
+        """
+        Finish all running tasks, cancel remaining tasks, then stop loop.
+        :param _signal:
+        :return:
+        """
+        self.logger.info(f'Stopping spider: {self.name}')
+        tasks = [task for task in asyncio.Task.all_tasks() if task is not
+                 asyncio.tasks.Task.current_task()]
+        [task.cancel() for task in tasks]
+        await asyncio.gather(*tasks, return_exceptions=True)
+        self.loop.stop()
+
     async def _process_async_callback(self, callback_result: AsyncGeneratorType, response: Response = None):
-        async for each in callback_result:
-            if isinstance(each, AsyncGeneratorType):
-                await self._process_async_callback(each)
-            else:
-                if isinstance(each, Request):
-                    self.request_queue.put_nowait(
-                        self.handle_request(request=each)
-                    )
+        try:
+            async for each in callback_result:
+                if isinstance(each, AsyncGeneratorType):
+                    await self._process_async_callback(each)
                 else:
-                    self.request_queue.put_nowait(
-                        self.handle_callback(aws_callback=each, response=response)
-                    )
+                    if isinstance(each, Request):
+                        self.request_queue.put_nowait(
+                            self.handle_request(request=each)
+                        )
+                    elif isinstance(each, typing.Coroutine):
+                        self.request_queue.put_nowait(
+                            self.handle_callback(aws_callback=each, response=response)
+                        )
+                    elif isinstance(each, Item):
+                        """Process target item"""
+                        await self.save_item(each)
+                    else:
+                        raise InvalidParseType(f'Invalid parse type: {type(each)}')
+        except Exception as e:
+            self.logger.error(str(e))
 
     async def _process_request_count(self, response: Response):
         if Response:
@@ -313,15 +320,23 @@ class Spider:
             else:
                 self.logger.error("Spider's hook must be a coroutine function")
 
-    async def stop(self, _signal):
-        """
-        Finish all running tasks, cancel remaining tasks, then stop loop.
-        :param _signal:
-        :return:
-        """
-        self.logger.info(f'Stopping spider: {self.name}')
-        tasks = [task for task in asyncio.Task.all_tasks() if task is not
-                 asyncio.tasks.Task.current_task()]
-        [task.cancel() for task in tasks]
-        await asyncio.gather(*tasks, return_exceptions=True)
-        self.loop.stop()
+    async def _start(self, after_start=None, before_stop=None):
+        self.logger.info('Spider started!')
+        start_time = datetime.now()
+
+        # Run hook before spider start crawling
+        await self._run_spider_hook(after_start)
+
+        # Actually run crawling
+        try:
+            await self.start_master()
+        finally:
+            # Run hook after spider finished crawling
+            await self._run_spider_hook(before_stop)
+            # Display logs about this crawl task
+            end_time = datetime.now()
+            self.logger.info(f'Total requests: {self.failed_counts + self.success_counts}')
+            if self.failed_counts:
+                self.logger.info(f'Failed requests: {self.failed_counts}')
+            self.logger.info(f'Time usage: {end_time - start_time}')
+            self.logger.info('Spider finished!')

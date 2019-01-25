@@ -60,8 +60,7 @@ class HackerNewsItem(Item):
 
 async def test_item():
     url = 'https://news.ycombinator.com/news?p=1'
-    items = await HackerNewsItem.get_items(url=url)
-    for item in items:
+    async for item in HackerNewsItem.get_items(url=url):
         print('{}: {}'.format(item.title, item.url))
 
 
@@ -106,10 +105,13 @@ class HackerNewsSpider(Spider):
     start_urls = [f'https://news.ycombinator.com/news?p={index}' for index in range(3)]
 
     async def parse(self, response):
-        items = await HackerNewsItem.get_items(html=response.html)
-        for item in items:
-            async with aiofiles.open('./hacker_news.txt', mode='a', encoding='utf-8') as f:
-                await f.write(item.title + '\n')
+        async for item in HackerNewsItem.get_items(html=response.html):
+            yield item
+
+    async def save_item(self, item: HackerNewsItem):
+        """Ruia build-in method"""
+        async with aiofiles.open('./hacker_news.txt', 'a') as f:
+            await f.write(str(item.title) + '\n')
 
 ```
 
@@ -147,10 +149,13 @@ class HackerNewsSpider(Spider):
     start_urls = [f'https://news.ycombinator.com/news?p={index}' for index in range(3)]
 
     async def parse(self, response):
-        items = await HackerNewsItem.get_items(html=response.html)
-        for item in items:
-            async with aiofiles.open('./hacker_news.txt', mode='a', encoding='utf-8') as f:
-                await f.write(item.title + '\n')
+        async for item in HackerNewsItem.get_items(html=response.html):
+            yield item
+
+    async def save_item(self, item: HackerNewsItem):
+        """Ruia build-in method"""
+        async with aiofiles.open('./hacker_news.txt', 'a') as f:
+            await f.write(str(item.title) + '\n')
 
 
 if __name__ == '__main__':

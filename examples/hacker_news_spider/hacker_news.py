@@ -14,6 +14,7 @@ class HackerNewsSpider(Spider):
         'TIMEOUT': 20
     }
     concurrency = 3
+    start_urls = ['https://news.ycombinator.com']
 
     async def parse(self, response):
         self.mongo_db = MotorBase().get_db('ruia_test')
@@ -26,16 +27,17 @@ class HackerNewsSpider(Spider):
             )
 
     async def parse_item(self, response):
-        items = await HackerNewsItem.get_items(html=response.html)
+        async for item in HackerNewsItem.get_items(html=response.html):
+            yield item
 
-        for item in items:
-            try:
-                await self.mongo_db.news.update_one({
-                    'url': item.url},
-                    {'$set': {'url': item.url, 'title': item.title}},
-                    upsert=True)
-            except Exception as e:
-                self.logger.exception(e)
+    async def save_item(self, item):
+        try:
+            await self.mongo_db.news.update_one({
+                'url': item.url},
+                {'$set': {'url': item.url, 'title': item.title}},
+                upsert=True)
+        except Exception as e:
+            self.logger.exception(e)
 
 
 if __name__ == '__main__':

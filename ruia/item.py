@@ -3,7 +3,7 @@
 from inspect import iscoroutinefunction
 
 from lxml import etree
-from typing import Any
+from typing import Any, AsyncGenerator
 
 from ruia.field import BaseField
 from ruia.request import Request
@@ -63,25 +63,36 @@ class Item(metaclass=ItemMeta):
         return item_ins
 
     @classmethod
-    async def get_item(cls, *, html: str = '', url: str = '', html_etree: etree._Element = None, **kwargs) -> Any:
+    async def get_item(cls, *,
+                       html: str = '',
+                       url: str = '',
+                       html_etree: etree._Element = None,
+                       **kwargs) -> Any:
         if html_etree is None:
             html_etree = await cls._get_html(html, url, **kwargs)
 
         return await cls._parse_html(html_etree=html_etree)
 
     @classmethod
-    async def get_items(cls, *, html: str = '', url: str = '', html_etree: etree._Element = None, **kwargs) -> list:
+    async def get_items(cls, *,
+                        html: str = '',
+                        url: str = '',
+                        html_etree: etree._Element = None,
+                        **kwargs) -> AsyncGenerator:
         if html_etree is None:
             html_etree = await cls._get_html(html, url, **kwargs)
         items_field = getattr(cls, '__fields', {}).get('target_item', None)
         if items_field:
             items_field.many = True
-            items = items_field.extract(html_etree=html_etree, is_source=True)
-            if items:
-                all_items = []
-                for each_html_etree in items:
-                    all_items.append(await cls._parse_html(html_etree=each_html_etree))
-                return all_items
+            items_html_etree = items_field.extract(html_etree=html_etree, is_source=True)
+            if items_html_etree:
+                for each_html_etree in items_html_etree:
+                    item = await cls._parse_html(html_etree=each_html_etree)
+                    yield item
+                # all_items = []
+                # for each_html_etree in items:
+                #     all_items.append(await cls._parse_html(html_etree=each_html_etree))
+                # return all_items
             else:
                 raise ValueError("Get target_item's value error!")
         else:

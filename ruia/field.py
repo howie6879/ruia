@@ -6,9 +6,7 @@ from typing import Union
 
 from lxml import etree
 
-
-class NothingMatchedError(Exception):
-    pass
+from ruia.exceptions import NothingMatchedError
 
 
 class BaseField(object):

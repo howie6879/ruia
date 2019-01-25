@@ -366,8 +366,7 @@ class MyItem(Item):
 
 
 async def main():
-    items = await MyItem.get_items(html=HTML)
-    for item in items:
+    async for item in MyItem.get_items(html=HTML):
         print(f'Title={item.title}, Star={item.star}')
 
 

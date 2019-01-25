@@ -55,10 +55,13 @@ class HackerNewsSpider(Spider):
     concurrency = 10
 
     async def parse(self, response):
-        items = await HackerNewsItem.get_items(html=response.html)
-        for item in items:
-            async with aiofiles.open('./hacker_news.txt', 'a') as f:
-                await f.write(item.title + '\n')
+        async for item in HackerNewsItem.get_items(html=response.html):
+            yield item
+
+    async def save_item(self, item: HackerNewsItem):
+        """Ruia build-in method"""
+        async with aiofiles.open('./hacker_news.txt', 'a') as f:
+            await f.write(str(item.title) + '\n')
 
 
 if __name__ == '__main__':

@@ -31,10 +31,12 @@ class HackerNewsItem(Item):
     async def clean_title(self, value):
         return value
 
-async_func = HackerNewsItem.get_items(url="https://news.ycombinator.com/")
-items = asyncio.get_event_loop().run_until_complete(async_func)
-for item in items:
-    print(item.title, item.url)
+async def main():
+    async for item in HackerNewsItem.get_items(url="https://news.ycombinator.com/"):
+        print(item.title, item.url)
+
+if __name__ == '__main__':
+     items = asyncio.run(main())
 
 ```
 

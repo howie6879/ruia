@@ -32,13 +32,19 @@ class DoubanItem(Item):
         return 'Title: ' + title
 
 
+async def parse_item(html):
+    items = []
+    async for item in DoubanItems.get_items(html=html):
+        items.append(item)
+    return items
+
 def test_item():
     item = asyncio.get_event_loop().run_until_complete(DoubanItem.get_item(html=HTML))
     assert item.title == 'Title: 豆瓣电影TOP250'
 
 
 def test_items():
-    items = asyncio.get_event_loop().run_until_complete(DoubanItems.get_items(html=HTML))
+    items = asyncio.get_event_loop().run_until_complete(parse_item(html=HTML))
     print(items[0].results)
     assert items[0].abstract == '希望让人自由。'
 
@@ -49,5 +55,5 @@ def test_item_results():
 
 
 def test_items_results():
-    items = asyncio.get_event_loop().run_until_complete(DoubanItems.get_items(html=HTML))
+    items = asyncio.get_event_loop().run_until_complete(parse_item(html=HTML))
     assert items[0].results['title'] == '肖申克的救赎'

@@ -5,7 +5,7 @@
 [![PyPI](https://img.shields.io/pypi/v/ruia.svg)](https://pypi.org/project/ruia/) 
 [![license](https://img.shields.io/github/license/howie6879/ruia.svg)](https://github.com/howie6879/ruia)
 
-![](./images/demo.png)
+![](./images/ruia_demo.png)
 
 ## Overview
 
@@ -64,9 +64,12 @@ class HackerNewsItem(Item):
     title = TextField(css_select='a.storylink')
     url = AttrField(css_select='a.storylink', attr='href')
 
-items = asyncio.run(HackerNewsItem.get_items(url="https://news.ycombinator.com/"))
-for item in items:
-    print(item.title, item.url)
+async def main():
+    async for item in HackerNewsItem.get_items(url="https://news.ycombinator.com/"):
+        print(item.title, item.url)
+
+if __name__ == '__main__':
+     items = asyncio.run(main())
 ```
 
 Run: `python demo.py`
@@ -101,10 +104,13 @@ class HackerNewsSpider(Spider):
     start_urls = [f'https://news.ycombinator.com/news?p={index}' for index in range(1, 3)]
 
     async def parse(self, response):
-        items = await HackerNewsItem.get_items(html=response.html)
-        for item in items:
-            async with aiofiles.open('./hacker_news.txt', mode='a', encoding='utf-8') as f:
-                await f.write(item.title + '\n')
+        async for item in HackerNewsItem.get_items(html=response.html):
+            yield item
+
+    async def save_item(self, item: HackerNewsItem):
+        """Ruia build-in method"""
+        async with aiofiles.open('./hacker_news.txt', 'a') as f:
+            await f.write(str(item.title) + '\n')
 
 
 if __name__ == '__main__':

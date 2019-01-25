@@ -20,7 +20,6 @@ class TestSpider(Spider):
 
     async def parse_item(self, response):
         item_data = response.html
-        # print(item_data)
 
 
 middleware = Middleware()

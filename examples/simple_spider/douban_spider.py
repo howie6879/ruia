@@ -35,13 +35,16 @@ class DoubanSpider(Spider):
             url = self.start_urls[0] + page
             yield self.request(
                 url=url,
-                metadata={'index': index}
+                metadata={'index': index},
+                callback=self.parse_item
             )
 
     async def parse_item(self, response):
-        items_data = await DoubanItem.get_items(html=response.html)
-        for item in items_data:
-            print(item.title)
+        async for item in DoubanItem.get_items(html=response.html):
+            yield item
+
+    async def save_item(self, item: DoubanItem):
+        print(item)
 
 
 if __name__ == '__main__':
