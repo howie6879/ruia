@@ -161,7 +161,6 @@ class Spider:
         :return:
         """
         await self._run_request_middleware(request)
-        # sem is used for concurrency control
         callback_result, response = await request.fetch_callback(self.sem)
         await self._run_response_middleware(request, response)
         await self._process_request_count(response=response)
@@ -261,25 +260,20 @@ class Spider:
             async for each in callback_result:
                 if isinstance(each, AsyncGeneratorType):
                     await self._process_async_callback(each)
+                elif isinstance(each, Request):
+                    self.request_queue.put_nowait(self.handle_request(request=each))
+                elif isinstance(each, typing.Coroutine):
+                    self.request_queue.put_nowait(self.handle_callback(aws_callback=each, response=response))
+                elif isinstance(each, Item):
+                    """Process target item"""
+                    await self.save_item(each)
                 else:
-                    if isinstance(each, Request):
-                        self.request_queue.put_nowait(
-                            self.handle_request(request=each)
-                        )
-                    elif isinstance(each, typing.Coroutine):
-                        self.request_queue.put_nowait(
-                            self.handle_callback(aws_callback=each, response=response)
-                        )
-                    elif isinstance(each, Item):
-                        """Process target item"""
-                        await self.save_item(each)
-                    else:
-                        raise InvalidParseType(f'Invalid parse type: {type(each)}')
+                    raise InvalidParseType(f'Invalid parse type: {type(each)}')
         except Exception as e:
             self.logger.error(str(e))
 
     async def _process_request_count(self, response: Response):
-        if Response:
+        if response:
             if response.html is None:
                 self.failed_counts += 1
             else:
