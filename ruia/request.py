@@ -67,7 +67,6 @@ class Request(object):
         self.close_request_session = False
         self.logger = get_logger(name=self.name)
         self.retry_times = self.request_config.get('RETRIES', 3)
-        # self.setting = SettingsWrapper()
 
     @property
     def current_request_func(self):

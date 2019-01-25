@@ -2,6 +2,8 @@
 
 import asyncio
 
+import pytest
+
 from ruia import Request
 
 

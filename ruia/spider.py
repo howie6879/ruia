@@ -187,21 +187,13 @@ class Spider:
 
     async def multiple_request(self, url_config_list, is_gather=False):
         """For crawling multiple urls"""
-        # TODO
         if is_gather:
-            # resp_results = await asyncio.gather(
-            #     *[self.handle_request(self.request(**url_config)) for url_config in url_config_list],
-            #     return_exceptions=True)
-            # for index, response in enumerate(resp_results):
-            #     if not isinstance(response, RuntimeError) and response:
-            #         # response.index = index
-            #         yield response
             resp_results = await asyncio.gather(
-                *[self.request(**url_config).fetch() for url_config in url_config_list],
+                *[self.handle_request(self.request(**url_config)) for url_config in url_config_list],
                 return_exceptions=True)
-            for index, response in enumerate(resp_results):
-                if not isinstance(response, RuntimeError) and response:
-                    await self._process_request_count(response=response)
+            for index, task_result in enumerate(resp_results):
+                if not isinstance(task_result, RuntimeError) and task_result:
+                    _, response = task_result
                     response.index = index
                     yield response
         else:

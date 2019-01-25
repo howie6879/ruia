@@ -3,5 +3,6 @@
 REQUEST_CONFIG = {
     'RETRIES': 3,
     'DELAY': 0,
-    'TIMEOUT': 10
+    'TIMEOUT': 10,
+    'RETRY_FUNC': None
 }
