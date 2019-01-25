@@ -15,6 +15,7 @@ aims to make crawling url as convenient as possible.
 Write less, run faster:
 
 - Documentation: [中文文档][doc_cn] |[documentation][doc_en]
+- Awesome: [https://github.com/ruia-plugins/awesome-ruia][Awesome]
 - Organization: [https://github.com/ruia-plugins][Organization]
 
 ## Features
@@ -197,4 +198,5 @@ Ruia is still under developing, feel free to open issues and pull requests:
 
 [doc_cn]: https://github.com/howie6879/ruia/blob/master/docs/cn/README.md
 [doc_en]: https://howie6879.github.io/ruia/
+[Awesome]: https://github.com/ruia-plugins/awesome-ruia
 [Organization]: https://github.com/ruia-plugins
