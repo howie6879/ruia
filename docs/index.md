@@ -5,7 +5,7 @@
 [![PyPI](https://img.shields.io/pypi/v/ruia.svg)](https://pypi.org/project/ruia/) 
 [![license](https://img.shields.io/github/license/howie6879/ruia.svg)](https://github.com/howie6879/ruia)
 
-![](./images/ruia_demo.png)
+![](https://raw.githubusercontent.com/howie6879/ruia/master/docs/images/ruia_demo.png)
 
 ## Overview
 
