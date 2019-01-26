@@ -753,14 +753,15 @@
 <a href="https://pypi.org/project/ruia/"><img alt="PyPI - Python Version" src="https://img.shields.io/pypi/pyversions/ruia.svg" /></a> 
 <a href="https://pypi.org/project/ruia/"><img alt="PyPI" src="https://img.shields.io/pypi/v/ruia.svg" /></a> 
 <a href="https://github.com/howie6879/ruia"><img alt="license" src="https://img.shields.io/github/license/howie6879/ruia.svg" /></a></p>
-<p><img alt="" src="images/ruia_demo.png" /></p>
+<p><img alt="" src="https://raw.githubusercontent.com/howie6879/ruia/master/docs/images/ruia_demo.png" /></p>
 <h2 id="overview">Overview</h2>
 <p>An async web scraping micro-framework, written with <code>asyncio</code> and <code>aiohttp</code>, 
 aims to make crawling url as convenient as possible.</p>
 <p>Write less, run faster:</p>
 <ul>
 <li>Documentation: <a href="https://github.com/howie6879/ruia/blob/master/docs/cn/README.md">中文文档</a> |<a href="https://howie6879.github.io/ruia/">documentation</a></li>
-<li>Plugins: <a href="http://howie6879.github.io/ruia/en/plugins/">https://github.com/ruia-plugins</a></li>
+<li>Awesome: <a href="https://github.com/ruia-plugins/awesome-ruia">https://github.com/ruia-plugins/awesome-ruia</a></li>
+<li>Organization: <a href="https://github.com/ruia-plugins">https://github.com/ruia-plugins</a></li>
 </ul>
 <h2 id="features">Features</h2>
 <ul>
@@ -844,7 +845,7 @@ pip install git+https://github.com/howie6879/ruia
         <span class="n">async</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">HackerNewsItem</span><span class="o">.</span><span class="n">get_items</span><span class="p">(</span><span class="n">html</span><span class="o">=</span><span class="n">response</span><span class="o">.</span><span class="n">html</span><span class="p">):</span>
             <span class="k">yield</span> <span class="n">item</span>
 
-    <span class="n">async</span> <span class="k">def</span> <span class="nf">save_item</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">item</span><span class="p">:</span> <span class="n">HackerNewsItem</span><span class="p">):</span>
+    <span class="n">async</span> <span class="k">def</span> <span class="nf">process_item</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">item</span><span class="p">:</span> <span class="n">HackerNewsItem</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Ruia build-in method&quot;&quot;&quot;</span>
         <span class="n">async</span> <span class="k">with</span> <span class="n">aiofiles</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s1">&#39;./hacker_news.txt&#39;</span><span class="p">,</span> <span class="s1">&#39;a&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
             <span class="n">await</span> <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">item</span><span class="o">.</span><span class="n">title</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
