@@ -43,7 +43,7 @@ class DoubanSpider(Spider):
         async for item in DoubanItem.get_items(html=response.html):
             yield item
 
-    async def save_item(self, item: DoubanItem):
+    async def process_item(self, item: DoubanItem):
         print(item)
 
 

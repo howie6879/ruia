@@ -36,7 +36,7 @@ class HackerNewsSpider(Spider):
         async for item in HackerNewsItem.get_items(html=response.html):
             yield item
 
-    async def save_item(self, item: HackerNewsItem):
+    async def process_item(self, item: HackerNewsItem):
         """Ruia build-in method"""
         async with aiofiles.open('./hacker_news.txt', 'a') as f:
             await f.write(str(item.title) + '\n')

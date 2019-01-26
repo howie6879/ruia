@@ -214,7 +214,7 @@ class Spider:
                        res_type=res_type,
                        **kwargs)
 
-    async def save_item(self, item):
+    async def process_item(self, item):
         """Process target Item"""
         pass
 
@@ -266,7 +266,7 @@ class Spider:
                     self.request_queue.put_nowait(self.handle_callback(aws_callback=each, response=response))
                 elif isinstance(each, Item):
                     """Process target item"""
-                    await self.save_item(each)
+                    await self.process_item(each)
                 else:
                     raise InvalidParseType(f'Invalid parse type: {type(each)}')
         except Exception as e:

@@ -30,7 +30,7 @@ class HackerNewsSpider(Spider):
         async for item in HackerNewsItem.get_items(html=response.html):
             yield item
 
-    async def save_item(self, item):
+    async def process_item(self, item):
         try:
             await self.mongo_db.news.update_one({
                 'url': item.url},
