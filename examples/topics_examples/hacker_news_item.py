@@ -18,6 +18,7 @@ class HackerNewsItem(Item):
 
 async def single_page_demo(url="https://news.ycombinator.com/"):
     async for item in HackerNewsItem.get_items(url=url):
+        print(item)
         print(item.title, item.url)
 
 

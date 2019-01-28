@@ -1,7 +1,7 @@
 Ruia
 ====
 
-|travis| |PyPI - Python Version| |PyPI| |license|
+|travis| |codecov| |PyPI - Python Version| |PyPI| |license|
 
 .. figure:: https://raw.githubusercontent.com/howie6879/ruia/master/docs/images/ruia_demo.png
    :alt: 
@@ -17,10 +17,8 @@ Write less, run faster:
 -  Documentation:
    `中文文档 <https://github.com/howie6879/ruia/blob/master/docs/cn/README.md>`__
    \|\ `documentation <https://howie6879.github.io/ruia/>`__
--  Awesome:
-   `https://github.com/ruia-plugins/awesome-ruia <https://github.com/ruia-plugins/awesome-ruia>`__
--  Organization:
-   `https://github.com/ruia-plugins <https://github.com/ruia-plugins>`__
+-  Awesome: https://github.com/ruia-plugins/awesome-ruia
+-  Organization: https://github.com/ruia-plugins
 
 Features
 --------
@@ -220,6 +218,8 @@ Thanks
 
 .. |travis| image:: https://travis-ci.org/howie6879/ruia.svg?branch=master
    :target: https://travis-ci.org/howie6879/ruia
+.. |codecov| image:: https://codecov.io/gh/howie6879/ruia/branch/master/graph/badge.svg
+   :target: https://codecov.io/gh/howie6879/ruia
 .. |PyPI - Python Version| image:: https://img.shields.io/pypi/pyversions/ruia.svg
    :target: https://pypi.org/project/ruia/
 .. |PyPI| image:: https://img.shields.io/pypi/v/ruia.svg

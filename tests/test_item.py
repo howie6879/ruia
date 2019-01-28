@@ -32,21 +32,57 @@ class DoubanItem(Item):
         return 'Title: ' + title
 
 
+class HackerNewsItem(Item):
+    target_item = TextField(css_select='tr.athing')
+    title = TextField(css_select='a.storylink')
+    url = AttrField(css_select='a.storylink', attr='href')
+
+
 async def parse_item(html):
     items = []
     async for item in DoubanItems.get_items(html=html):
         items.append(item)
     return items
 
+
+async def error_parse_item(html):
+    items = []
+    async for item in DoubanItem.get_items(html=html):
+        items.append(item)
+    return items
+
+
+async def single_page_demo(url="https://news.ycombinator.com/"):
+    items = []
+    async for item in HackerNewsItem.get_items(url=url, sem=asyncio.Semaphore(3)):
+        items.append(item)
+    return items
+
+
 def test_item():
     item = asyncio.get_event_loop().run_until_complete(DoubanItem.get_item(html=HTML))
     assert item.title == 'Title: 豆瓣电影TOP250'
+
+    try:
+        item = asyncio.get_event_loop().run_until_complete(DoubanItem.get_item(html=''))
+    except Exception as e:
+        assert type(e) == ValueError
+
+    try:
+        item = asyncio.get_event_loop().run_until_complete(DoubanItem.get_item(html_etree='test'))
+    except Exception as e:
+        assert type(e) == AttributeError
 
 
 def test_items():
     items = asyncio.get_event_loop().run_until_complete(parse_item(html=HTML))
     print(items[0].results)
     assert items[0].abstract == '希望让人自由。'
+
+    try:
+        items = asyncio.get_event_loop().run_until_complete(error_parse_item(html=HTML))
+    except Exception as e:
+        assert type(e) == ValueError
 
 
 def test_item_results():
@@ -57,3 +93,10 @@ def test_item_results():
 def test_items_results():
     items = asyncio.get_event_loop().run_until_complete(parse_item(html=HTML))
     assert items[0].results['title'] == '肖申克的救赎'
+
+
+def test_request_url():
+    items = asyncio.get_event_loop().run_until_complete(single_page_demo())
+    assert type(items) == list
+    assert len(items) > 1
+    assert 'Item' in str(items[0])

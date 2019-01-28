@@ -95,8 +95,6 @@ class Request(object):
         return self.request_session
 
     async def close(self):
-        if hasattr(self, "browser"):
-            await self.browser.close()
         if self.close_request_session:
             await self.request_session.close()
             self.request_session = None
@@ -138,6 +136,7 @@ class Request(object):
         await self.close()
 
         response = Response(url=self.url,
+                            method = self.method,
                             html=res_data,
                             metadata=self.metadata,
                             res_type=self.res_type,
