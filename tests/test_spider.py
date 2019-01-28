@@ -3,7 +3,9 @@ import asyncio
 
 import pytest
 
-from ruia import Spider
+from ruia import Middleware, Spider
+
+middleware = Middleware()
 
 
 class SpiderDemo(Spider):
@@ -15,36 +17,57 @@ class SpiderDemo(Spider):
     }
     concurrency = 1
     res_type = 'json'
-    result = {}
+    result = {
+        'after_start': False,
+        'before_stop': False,
+    }
     call_nums = 0
 
     async def parse(self, response):
-        SpiderDemo.result = response.html
         SpiderDemo.call_nums += 1
 
 
 async def after_start_func(spider_ins):
     print("after_start_func")
+    spider_ins.result['after_start'] = True
     assert type(spider_ins.result) == dict
 
 
 async def before_stop_func(spider_ins):
     print("before_stop_func")
-    assert spider_ins.result['url'] == 'http://www.httpbin.org/get'
+    spider_ins.result['before_stop'] = True
 
 
-async def multiple_spider():
-    await SpiderDemo.async_start(after_start=after_start_func, before_stop=before_stop_func)
-    await SpiderDemo.async_start(after_start=after_start_func, before_stop=before_stop_func)
-    await SpiderDemo.async_start(after_start=after_start_func, before_stop=before_stop_func)
+@middleware.request
+async def print_on_request(request):
+    request.headers = {
+        'User-Agent': 'ruia ua'
+    }
 
 
-def test_multiple_spider():
-    loop = asyncio.get_event_loop()
-    loop.run_until_complete(multiple_spider())
-    assert SpiderDemo.call_nums == 3
+@middleware.response
+async def print_on_response(request, response):
+    assert type(response.html) == dict
+    assert request.headers == {
+        'User-Agent': 'ruia ua'
+    }
 
 
 def test_spider():
-    SpiderDemo.start(after_start=after_start_func, before_stop=before_stop_func)
+    loop = asyncio.new_event_loop()
+    SpiderDemo.start(loop=loop, middleware=middleware, after_start=after_start_func, before_stop=before_stop_func)
     assert type(SpiderDemo.result) == dict
+    assert SpiderDemo.result['after_start'] == True
+    assert SpiderDemo.result['before_stop'] == True
+
+
+async def multiple_spider(loop):
+    await SpiderDemo.async_start(loop=loop, after_start=after_start_func, before_stop=before_stop_func)
+    await SpiderDemo.async_start(loop=loop, after_start=after_start_func, before_stop=before_stop_func)
+    return SpiderDemo
+
+
+def test_multiple_spider():
+    loop = asyncio.new_event_loop()
+    SpiderDemo = loop.run_until_complete(multiple_spider(loop=loop))
+    assert SpiderDemo.call_nums == 3

@@ -9,8 +9,8 @@ _version_re = re.compile(r'__version__\s+=\s+(.*)')
 
 PY_VER = sys.version_info
 
-if PY_VER < (3, 5):
-    raise RuntimeError("ruia doesn't support Python version prior 3.5")
+if PY_VER < (3, 6):
+    raise RuntimeError("ruia doesn't support Python version prior 3.6")
 
 
 def read_version():
