@@ -48,7 +48,7 @@ def test_response():
     assert type(html) == str
     assert type(cookies) == SimpleCookie
     assert history == ()
-    assert response.headers['Content-Type'] == 'application/json'
+    assert headers['Content-Type'] == 'application/json'
     assert status == 200
     assert type(html_etree) == etree._Element
 

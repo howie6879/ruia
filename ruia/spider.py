@@ -66,7 +66,7 @@ class Spider:
         :param is_async_start:
         """
         if not self.start_urls or not isinstance(self.start_urls, collections.Iterable):
-            raise ValueError("Spider must have a param named start_urls, eg: start_urls = ['https://www.github.com']")
+            raise ValueError("Ruia spider must have a param named start_urls, eg: start_urls = ['https://www.github.com']")
 
         # Init object-level properties
         self.request_config = self.request_config or {}
@@ -98,7 +98,7 @@ class Spider:
         :param response: Response
         :return:
         """
-        raise NotImplementedError
+        raise NotImplementedError('bbb')
 
     @classmethod
     async def async_start(cls,
@@ -150,7 +150,6 @@ class Spider:
             spider_ins.loop.close()
 
     async def handle_callback(self, aws_callback: typing.Coroutine, response):
-        # print(aws_callback)
         callback_result = await aws_callback
         return callback_result, response
 

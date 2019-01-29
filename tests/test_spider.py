@@ -3,28 +3,9 @@ import asyncio
 
 import pytest
 
-from ruia import Middleware, Spider, Item, TextField, AttrField
+from ruia import AttrField, Item, Middleware, Request, Spider, TextField
 
 middleware = Middleware()
-
-
-class SpiderDemo(Spider):
-    start_urls = ['http://www.httpbin.org/get']
-    request_config = {
-        'RETRIES': 3,
-        'DELAY': 0,
-        'TIMEOUT': 20
-    }
-    concurrency = 1
-    res_type = 'json'
-    result = {
-        'after_start': False,
-        'before_stop': False,
-    }
-    call_nums = 0
-
-    async def parse(self, response):
-        SpiderDemo.call_nums += 1
 
 
 async def after_start_func(spider_ins):
@@ -53,6 +34,43 @@ async def print_on_response(request, response):
     }
 
 
+class SpiderDemo(Spider):
+    start_urls = ['http://www.httpbin.org/get']
+    request_config = {
+        'RETRIES': 3,
+        'DELAY': 0,
+        'TIMEOUT': 20
+    }
+    headers = {
+        "User-Agent": "Python3.6"
+    }
+    concurrency = 1
+    res_type = 'json'
+    result = {
+        'after_start': False,
+        'before_stop': False,
+    }
+    call_nums = 0
+    kwargs = {}
+
+    async def parse(self, response):
+        yield Request(
+            url=response.url,
+            callback=self.parse_item,
+            headers=self.headers,
+            request_config=self.request_config,
+            **self.kwargs
+        )
+
+    async def parse_item(self, response):
+        pages = [{'url': f'http://www.httpbin.org/get?p={i}'} for i in range(1, 2)]
+        async for resp in self.multiple_request(pages):
+            yield self.parse_next(resp, any_param='hello')
+
+    async def parse_next(self, response, any_param):
+        SpiderDemo.call_nums += 1
+
+
 class HackerNewsItem(Item):
     target_item = TextField(css_select='tr.athing')
     title = TextField(css_select='a.storylink')
@@ -63,7 +81,8 @@ class HackerNewsItem(Item):
 
 
 class HackerNewsSpider(Spider):
-    start_urls = ['https://news.ycombinator.com/news?p=1', 'https://news.ycombinator.com/news?p=2']
+    name = 'test_spider'
+    start_urls = ['https://news.ycombinator.com/news?p=1']
     concurrency = 10
 
     async def parse(self, response):
@@ -72,14 +91,27 @@ class HackerNewsSpider(Spider):
 
     async def process_item(self, item: HackerNewsItem):
         assert type(item) == HackerNewsItem
-        yield self.request(url='http://www.httpbin.org/get', res_type='json', callback=self.parse_httpbin_item)
+        pages = [{'url': f'http://www.httpbin.org/get?p={i}'} for i in range(1, 2)]
+        async for resp in self.multiple_request(pages, is_gather=True):
+            yield self.parse_httpbin_item(resp)
 
     async def parse_httpbin_item(self, response):
-        assert type(response.html) == dict
+        assert type(response.html) == str
 
 
 class NoStartUrlSpider(Spider):
     pass
+
+
+class NoParseSpider(Spider):
+    start_urls = ['http://www.httpbin.org/get']
+
+
+class InvalidParseTypeSpider(Spider):
+    start_urls = ['http://www.httpbin.org/get']
+
+    async def parse(self, response):
+        yield 2
 
 
 def test_spider():
@@ -97,6 +129,11 @@ def test_no_start_url_spider():
         NoStartUrlSpider.start()
     except Exception as e:
         assert type(e) == ValueError
+
+
+def test_invalid_parse_type_spider():
+    InvalidParseTypeSpider.start()
+    NoParseSpider.start()
 
 
 async def multiple_spider(loop):

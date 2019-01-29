@@ -136,7 +136,7 @@ class Request(object):
         await self.close()
 
         response = Response(url=self.url,
-                            method = self.method,
+                            method=self.method,
                             html=res_data,
                             metadata=self.metadata,
                             res_type=self.res_type,
