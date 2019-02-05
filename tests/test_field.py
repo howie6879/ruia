@@ -49,14 +49,20 @@ def test_attr_field_many():
 
 def test_text_field_not_exist():
     field = TextField(css_select="nothing matched")
-    value = field.extract(html_etree=html_etree)
-    assert value == ''
+    try:
+        value = field.extract(html_etree=html_etree)
+        raise AssertionError
+    except NothingMatchedError:
+        pass
 
 
 def test_attr_field_not_exist():
     field = TextField(css_select="nothing matched")
-    value = field.extract(html_etree=html_etree)
-    assert value == ''
+    try:
+        value = field.extract(html_etree=html_etree)
+        assert AssertionError
+    except NothingMatchedError:
+        pass
 
 
 def test_text_field_many_even_there_is_only_one_in_html():

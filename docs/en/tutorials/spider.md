@@ -96,6 +96,50 @@ Hacker news gathers news from many websites,
 it's not easy to parse each article of it.
 For this example, we'll crawl [Github Developer Documentation](https://developer.github.com/v3/).
 
+If you are a user of `scrapy`, perhaps you'd like this essay for migration:
+[Write Spiders like Scrapy](../topics/write_spiders_like_scrapy.md).
+
+`Ruia` provides a better way to send further requests by new asynchronous syntax async/await.
+It provides more readability and is more flexible.
+In any parse method, just `yield` a coroutine, and the coroutine will be processed by `ruia`.
+
+Here is a simple pseudo-code.
+
+```python
+from ruia import Spider
+
+
+class MySpider(Spider):
+    async def parse(self, response):
+        next_response = await self.request(f'{response.url}/next')
+        yield self.parse_next_page(next_response, metadata='nothing')
+        
+    async def parse_next_page(self, response, metadata):
+        print(response.html)
+```
+
+It works well, except you want to yield many coroutines in a for loop.
+Look at the following pseudo-code:
+
+```python
+from ruia import Spider
+
+
+class MySpider(Spider):
+    async def parse(self, response):
+        for i in range(10):
+            response = await self.request(f'https://some.site/{i}')
+            yield self.parse_next(response)
+
+    async def parse_next(self, response):
+        print(response.html)
+
+```
+
+You will find the requests in the for loop runs in a synchronous way!
+Oh, awful. To solve this problem, `ruia` provides a `multiple_request` method.
+Here is an example for Github Developer Documentation.
+
 ```python
 # Target: https://developer.github.com/v3/
 from ruia import *
@@ -116,19 +160,21 @@ class PageItem(Item):
 
 class GithubDeveloperSpider(Spider):
     start_urls = ['https://developer.github.com/v3/']
+    concurrency = 5
 
     async def parse(self, response: Response):
         catalogue = []
         async for cat in CatalogueItem.get_items(html=response.html):
-            catalogue.append(cat)
-        for page in catalogue[:6]:
-            if '#' in page.link:
+            if '#' in cat.link:
                 continue
-            yield Request(url=page.link, metadata={'title': page.title}, callback=self.parse_page)
+            catalogue.append(cat)
+        urls = [page.link for page in catalogue][:10]
+        async for response in self.multiple_request(urls, is_gather=True):
+            title = catalogue[response.index].title
+            yield self.parse_page(response, title)
 
-    async def parse_page(self, response: Response):
+    async def parse_page(self, response, title):
         item = await PageItem.get_item(html=response.html)
-        title = response.metadata['title']
         print(title, len(item.content))
 
 
@@ -137,39 +183,43 @@ if __name__ == '__main__':
 
 ```
 
-See the `GithubDeveloperSpider.parse` method.
-After extracting titles and urls,
-it `yield` a request.
+Our crawler starts with `start_urls` and `parse` method as usual.
+We get a list of urls.
+Then we call `self.multiple_request` method to send further requests.
 
-About `yield`,
-you should learn from python documentation.
-Here we can regard it as sending a task to background process.
+`multiple_request(urls, **kwargs)` method requires a positional argument `urls`.
+It is a list of string.
+It also accept any other arguments like `ruia.Request`.
+Pay attention to use `async for` statement.
 
-Okay, now that we have already send the request to background process,
-we have loss the control of the request.
-Nothing serious,
-after the request finished,
-the response will send to its `callback` parameter.
-`callback` parameter should be a function, or something callable.
-In `parse_page` method,
-we accept the response.
-Then it comes with another problem:
-we have already get the page title from catalogue in method `parse`,
-but they are not in the context of `parse_page`.
-That's why we need a `metadata` argument.
-we put data into `metadata` in the previous method,
-and get data from it in the following method.
+`multiple_request` method returns an asynchronous generator.
+It yields responses.
+You may want to use enumerate to get the index of responses like this:
 
-Now, run the spider.
+```python
+async def parse(self, response):
+    urls = [f'https://site.com/{page}' for page in range(10)]
+    async for response in enumerate(self.multiple_request(urls)):
+        pass
 
-```text
-output:
-Media Types 8652
-Overview 38490
-OAuth Authorizations API 66565
-Other Authentication Methods 6651
-Troubleshooting 2551
 ```
+
+Then you will get an Exception, telling you that enumerate cannot process asynchronous generator.
+`ruia` provides a property for every response object: `response.index`.
+It is useful when you want to pass some context to the next parsing method.
+The order of responses currently is just the same as urls,
+but it's an unstable feature.
+Use `response.index` to get its position.
+
+`multiple_request` has another argument `is_gather`,
+which indicates whether ruia should run the requests together or not.
+If `is_gather=True`, then the requests will run together.
+If not, the requests will run one by one.
+
+`is_gather=True` is usually better, except one condition:
+we have a catalogue contains 1000 pages.
+If we use `gather=True`, we will get the response after 1000 requests.
+It may take too long before parsing.
 
 ## Concurrency Control
 

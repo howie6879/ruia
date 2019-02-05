@@ -50,6 +50,24 @@ if __name__ == '__main__':
     HackerNewsSpider.start()
 ```
 
+### Controlling the max number of concurrency
+
+Define an attribute `concurrency` at the subclass of `Spider`. Here is an example:
+
+```python
+import ruia
+
+
+class MySpider(ruia.Spider):
+    
+    start_urls = ['https://news.ycombinator.com']
+    concurrency = 3
+    
+    async def parse(self, res):
+        pass
+
+```
+
 ## How It Works?
 
 `Spider` will read links in `start_urls`, and maintains a asynchronous queue.

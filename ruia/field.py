@@ -1,9 +1,7 @@
 #!/usr/bin/env python
 
 import re
-
 from typing import Union
-
 from lxml import etree
 
 from ruia.exceptions import NothingMatchedError
@@ -29,8 +27,7 @@ class BaseField(object):
 
 
 class _LxmlElementField(BaseField):
-
-    def __init__(self, css_select=None, xpath_select=None, default: str = '', many: bool = False):
+    def __init__(self, css_select=None, xpath_select=None, default: str = None, many: bool = False):
         """
         :param css_select: css select http://lxml.de/cssselect.html
         :param xpath_select: http://www.w3school.com.cn/xpath/index.asp
@@ -63,6 +60,8 @@ class _LxmlElementField(BaseField):
 
         if elements:
             results = [self._parse_element(element) for element in elements]
+        elif self.default is None:
+            raise NothingMatchedError(self.css_select or self.xpath_select)
         else:
             results = [self.default]
 
