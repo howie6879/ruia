@@ -29,8 +29,6 @@ class HackerNewsSpider(Spider):
         async with aiofiles.open('./hacker_news.txt', 'a') as f:
             await f.write(str(item.title) + '\n')
 
-    async def process_item1(self):
-        print(222)
 
 if __name__ == '__main__':
     HackerNewsSpider.start(middleware=None)
