@@ -48,19 +48,17 @@ def test_attr_field_many():
 def test_text_field_not_exist():
     field = TextField(css_select="nothing matched")
     try:
-        value = field.extract(html_etree=html_etree)
-        raise AssertionError
-    except NothingMatchedError:
-        pass
+        field.extract(html_etree=html_etree)
+    except Exception as e:
+        assert isinstance(e, NothingMatchedError)
 
 
 def test_attr_field_not_exist():
     field = TextField(css_select="nothing matched")
     try:
-        value = field.extract(html_etree=html_etree)
-        assert AssertionError
-    except NothingMatchedError:
-        pass
+        field.extract(html_etree=html_etree)
+    except Exception as e:
+        assert isinstance(e, NothingMatchedError)
 
 
 def test_text_field_many_even_there_is_only_one_in_html():
@@ -152,6 +150,7 @@ def test_re_field_get_nothing_with_no_default():
         field.extract(html=HTML)
     except Exception as e:
         assert isinstance(e, NothingMatchedError)
+
 
 def test_re_field_with_many():
     field = RegexField(re_select='<a class="test_link" href="(.*?)">(.*?)</a>', many=True)

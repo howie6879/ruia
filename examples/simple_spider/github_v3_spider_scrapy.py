@@ -7,7 +7,7 @@ class CatalogueItem(Item):
     title = TextField(css_select='a')
     link = AttrField(css_select='a', attr='href')
 
-    def clean_link(self, value):
+    async def clean_link(self, value):
         return f'https://developer.github.com{value}'
 
 

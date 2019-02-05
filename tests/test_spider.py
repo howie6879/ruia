@@ -9,7 +9,7 @@ middleware = Middleware()
 async def after_start_func(spider_ins):
     print("after_start_func")
     spider_ins.result['after_start'] = True
-    assert type(spider_ins.result) == dict
+    assert isinstance(spider_ins.result, dict)
 
 
 async def before_stop_func(spider_ins):
@@ -26,7 +26,7 @@ async def print_on_request(request):
 
 @middleware.response
 async def print_on_response(request, response):
-    assert isinstance(type(response.html), dict)
+    assert isinstance(response.html, dict)
     assert request.headers == {
         'User-Agent': 'ruia ua'
     }
@@ -88,7 +88,7 @@ class HackerNewsSpider(Spider):
             yield item
 
     async def process_item(self, item: HackerNewsItem):
-        assert type(item) == HackerNewsItem
+        assert isinstance(item, HackerNewsItem)
         pages = [{'url': f'http://www.httpbin.org/get?p={i}'} for i in range(1, 2)]
         async for resp in self.multiple_request(pages, is_gather=True):
             yield self.parse_httpbin_item(resp)
