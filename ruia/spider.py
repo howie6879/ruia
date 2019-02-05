@@ -66,7 +66,8 @@ class Spider:
         :param is_async_start:
         """
         if not self.start_urls or not isinstance(self.start_urls, collections.Iterable):
-            raise ValueError("Ruia spider must have a param named start_urls, eg: start_urls = ['https://www.github.com']")
+            raise ValueError(
+                "Ruia spider must have a param named start_urls, eg: start_urls = ['https://www.github.com']")
 
         # Init object-level properties
         self.request_config = self.request_config or {}
@@ -162,7 +163,7 @@ class Spider:
         await self._run_request_middleware(request)
         callback_result, response = await request.fetch_callback(self.sem)
         await self._run_response_middleware(request, response)
-        await self._process_request_count(response=response)
+        await self._process_response(request=request, response=response)
         return callback_result, response
 
     async def multiple_request(self, url_config_list, is_gather=False):
@@ -213,10 +214,6 @@ class Spider:
                        res_type=res_type,
                        **kwargs)
 
-    async def process_item(self, item):
-        """Process target Item"""
-        pass
-
     async def start_master(self):
         """Actually start crawling."""
         for url in self.start_urls:
@@ -265,18 +262,28 @@ class Spider:
                     self.request_queue.put_nowait(self.handle_callback(aws_callback=each, response=response))
                 elif isinstance(each, Item):
                     """Process target item"""
-                    await self.process_item(each)
+                    process_item = getattr(self, 'process_item', None)
+                    if process_item:
+                        await process_item(each)
                 else:
                     raise InvalidParseType(f'Invalid parse type: {type(each)}')
         except Exception as e:
             self.logger.error(str(e))
 
-    async def _process_request_count(self, response: Response):
+    async def _process_response(self, request: Request, response: Response):
         if response:
             if response.html is None:
+                """Process failed response"""
                 self.failed_counts += 1
+                process_failed_response = getattr(self, 'process_failed_response', None)
+                if process_failed_response:
+                    await process_failed_response(request,response)
             else:
+                """Process succeed request"""
                 self.success_counts += 1
+                process_succeed_response = getattr(self, 'process_succeed_response', None)
+                if process_succeed_response:
+                    await process_succeed_response(request, response)
 
     async def _run_request_middleware(self, request: Request):
         if self.middleware.request_middleware:
