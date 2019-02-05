@@ -1,6 +1,10 @@
 Ruia
 ====
 
+.. image:: https://api.codacy.com/project/badge/Grade/918edc96604648be96e2a4b58e0f7c87
+   :alt: Codacy Badge
+   :target: https://app.codacy.com/app/howie6879/ruia?utm_source=github.com&utm_medium=referral&utm_content=howie6879/ruia&utm_campaign=Badge_Grade_Dashboard
+
 |travis| |codecov| |PyPI - Python Version| |PyPI| |license|
 
 .. figure:: https://raw.githubusercontent.com/howie6879/ruia/master/docs/images/ruia_demo.png
