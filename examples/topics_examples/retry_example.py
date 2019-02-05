@@ -34,7 +34,7 @@ class TestSpider(Spider):
         'RETRY_FUNC': retry_func
     }
 
-    async def parse(self, res):
+    async def parse(self, response):
         pages = ['http://www.httpbin.org/get', 'http://www.httpbin.org/get']
         for index, page in enumerate(pages):
             yield Request(
@@ -44,8 +44,8 @@ class TestSpider(Spider):
                 request_config=self.request_config,
             )
 
-    async def parse_item(self, res):
-        item_data = res.html
+    async def parse_item(self, response):
+        item_data = response.html
         return item_data
 
 

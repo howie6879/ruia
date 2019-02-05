@@ -3,15 +3,15 @@
 `item` is mainly used to define data model and extract data from HTML source code.
 It has the following two methods:
 
-- [get_item][get_item]: extract one data from HTML source code;
-- [get_items][get_items]: extract many data from HTML source code.
+- [get_item][get_item]: extract one data from HTML source code
+- [get_items][get_items]: extract many data from HTML source code
 
 ## Core arguments
 
 `get_item` and `get_items` receives same arguments:
-- html: optional, HTML source code;
-- url: optional, HTML href link;
-- html_etree: optional, etree._Element object.
+- html: optional, HTML source code
+- url: optional, HTML href link
+- html_etree: optional, etree._Element object
 
 ## Usage
 
@@ -31,10 +31,12 @@ class HackerNewsItem(Item):
     async def clean_title(self, value):
         return value
 
-async_func = HackerNewsItem.get_items(url="https://news.ycombinator.com/")
-items = asyncio.get_event_loop().run_until_complete(async_func)
-for item in items:
-    print(item.title, item.url)
+async def main():
+    async for item in HackerNewsItem.get_items(url="https://news.ycombinator.com/"):
+        print(item.title, item.url)
+
+if __name__ == '__main__':
+     items = asyncio.run(main())
 
 ```
 

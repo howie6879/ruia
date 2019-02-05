@@ -8,7 +8,7 @@ class Response(object):
     Return a friendly response
     """
 
-    def __init__(self, url: str, *,
+    def __init__(self, url: str, method: str, *,
                  metadata: dict,
                  res_type: str,
                  html: str = '',
@@ -18,9 +18,11 @@ class Response(object):
                  status: int):
         self._callback_result = None
         self._url = url
+        self._method = method
         self._metadata = metadata
         self._res_type = res_type
         self._html = html
+        self._index = None
         self._cookies = cookies
         self._history = history
         self._headers = headers
@@ -35,8 +37,20 @@ class Response(object):
         self._callback_result = value
 
     @property
+    def index(self):
+        return self._index
+
+    @index.setter
+    def index(self, value):
+        self._index = value
+
+    @property
     def url(self):
         return self._url
+
+    @property
+    def method(self):
+        return self._method
 
     @property
     def metadata(self):
@@ -74,4 +88,4 @@ class Response(object):
         return html_etree
 
     def __str__(self):
-        return f'<Response url[{self._res_type}]: {self._url} status:{self._status} metadata:{self._metadata}>'
+        return f'<Response url[{self._method}]: {self._url} status:{self._status} html_type:{self._res_type}>'

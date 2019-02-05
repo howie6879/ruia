@@ -9,6 +9,8 @@ from inspect import iscoroutinefunction
 from types import AsyncGeneratorType
 from typing import Optional, Tuple
 
+from asyncio.locks import Semaphore
+
 try:
     import uvloop
 
@@ -39,9 +41,9 @@ class Request(object):
     def __init__(self, url: str, method: str = 'GET', *,
                  callback=None,
                  encoding: Optional[str] = None,
-                 headers: dict = {},
-                 metadata: dict = {},
-                 request_config: dict = {},
+                 headers: dict = None,
+                 metadata: dict = None,
+                 request_config: dict = None,
                  request_session=None,
                  res_type: str = 'text',
                  **kwargs):
@@ -55,17 +57,16 @@ class Request(object):
 
         self.callback = callback
         self.encoding = encoding
-        self.headers = headers
-        self.metadata = metadata if metadata is not None else {}
+        self.headers = headers or {}
+        self.metadata = metadata or {}
         self.request_session = request_session
-        self.request_config = request_config or self.REQUEST_CONFIG
+        self.request_config = self.REQUEST_CONFIG if request_config is None else request_config
         self.res_type = res_type
         self.kwargs = kwargs
 
         self.close_request_session = False
         self.logger = get_logger(name=self.name)
         self.retry_times = self.request_config.get('RETRIES', 3)
-        # self.setting = SettingsWrapper()
 
     @property
     def current_request_func(self):
@@ -94,8 +95,6 @@ class Request(object):
         return self.request_session
 
     async def close(self):
-        if hasattr(self, "browser"):
-            await self.browser.close()
         if self.close_request_session:
             await self.request_session.close()
             self.request_session = None
@@ -119,9 +118,6 @@ class Request(object):
                         res_data = await resp.json()
                     else:
                         res_data = await resp.text(encoding=self.encoding)
-                        # content = await resp.read()
-                        # charset = cchardet.detect(content)
-                        # res_data = content.decode(charset['encoding'])
                     res_cookies, res_headers, res_history = resp.cookies, resp.headers, resp.history
         except Exception as e:
             self.logger.error(f"<Error: {self.url} {res_status} {str(e)}>")
@@ -140,6 +136,7 @@ class Request(object):
         await self.close()
 
         response = Response(url=self.url,
+                            method=self.method,
                             html=res_data,
                             metadata=self.metadata,
                             res_type=self.res_type,
@@ -149,22 +146,22 @@ class Request(object):
                             status=res_status)
         return response
 
-    async def fetch_callback(self, sem) -> Tuple[AsyncGeneratorType, Response]:
+    async def fetch_callback(self, sem: Semaphore = None) -> Tuple[AsyncGeneratorType, Response]:
         async with sem:
-            res = await self.fetch()
+            response = await self.fetch()
         if self.callback is not None:
             try:
                 if iscoroutinefunction(self.callback):
-                    callback_res = await self.callback(res)
-                    res.callback_result = callback_res
+                    callback_result = await self.callback(response)
+                    response.callback_result = callback_result
                 else:
-                    callback_res = self.callback(res)
+                    callback_result = self.callback(response)
             except Exception as e:
                 self.logger.error(e)
-                callback_res = None
+                callback_result = None
         else:
-            callback_res = None
-        return callback_res, res
+            callback_result = None
+        return callback_result, response
 
     def __str__(self):
         return "<%s %s>" % (self.method, self.url)

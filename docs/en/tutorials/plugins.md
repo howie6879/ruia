@@ -1,6 +1,6 @@
-# Plugins
+# How to Write a Plugins
 
-Plugins are used to package some commom functions as a third-party model.
+Plugins are used to package some common functions as a third-party model.
 **Ruia** allow developers to implement third-party extensions by `Middleware` class.
 
 In the previous section, we talked about `Middleware`. 
@@ -21,7 +21,7 @@ Supposing that you're now in `Python 3.6+`.
 ```shell
 # Install package management tool: pipenv
 pip install pipenv
-# Create projecet directory
+# Create project directory
 mkdir ruia-ua
 cd ruia-ua
 # Install virtual environment
@@ -140,9 +140,8 @@ class HackerNewsSpider(Spider):
     start_urls = ['https://news.ycombinator.com/news?p=1', 'https://news.ycombinator.com/news?p=2']
     concurrency = 10
 
-    async def parse(self, res):
-        items = await HackerNewsItem.get_items(html=res.html)
-        for item in items:
+    async def parse(self, response):
+        async for item in HackerNewsItem.get_items(html=response.html):
             print(item.title)
 
 
@@ -151,6 +150,6 @@ if __name__ == '__main__':
 ```
 
 The implementations of third-party plugins will make developing crawlers easier!
-**ruia** do want your developing and uploading your own third-party plugins!
+**Ruia** do want your developing and uploading your own third-party plugins!
 
 [ruia-ua]: https://github.com/ruia-plugins/ruia-ua

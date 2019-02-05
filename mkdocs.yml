@@ -11,24 +11,35 @@ copyright: Copyright &copy; 2018 - 2019 <a href="https://github.com/howie6879/ru
 theme:
   name: 'material'
 
-pages:
-- Introduction: index.md
-- Tutorials: ./en/tutorials.md
-- Plugins: ./en/plugins.md
-- Topics:
-  - Item: ./en/topics/item.md
-  - Selector: ./en/topics/selector.md
-  - Request: ./en/topics/request.md
-  - Response: ./en/topics/response.md
-  - Middleware: ./en/topics/middleware.md
-  - Spider: ./en/topics/spider.md
+use_directory_urls: false
+
+nav:
+  - Introduction: index.md
+  - Quick Start: ./en/quickstart.md
+  - Tutorials:
+      - 1. Overview: ./en/tutorials/overview.md
+      - 2. Installation: ./en/tutorials/installation.md
+      - 3. Define Data Items: ./en/tutorials/item.md
+      - 4. Spider Control: ./en/tutorials/spider.md
+      - 5. Request & Response: ./en/tutorials/request.md
+      - 6. Customize Middleware: ./en/tutorials/middleware.md
+      - 7. Write a Plugins: ./en/tutorials/plugins.md
+  - API Guide:
+      - Field: ./en/apis/field.md
+      - Item: ./en/apis/item.md
+      - Spider: ./en/apis/spider.md
+      - Request: ./en/apis/request.md
+      - Response: ./en/apis/response.md
+      - Middleware: ./en/apis/middleware.md
+  - Examples:
+      - Full featured project: ./en/examples/project.md
 
 plugins:
-- search
+  - search
 
 markdown_extensions:
-- toc:
-    permalink: []
-- admonition
-- def_list
-- codehilite
+  - toc:
+      permalink: []
+  - admonition
+  - def_list
+  - codehilite

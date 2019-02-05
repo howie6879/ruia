@@ -24,28 +24,27 @@ class DoubanSpider(Spider):
         'TIMEOUT': 20
     }
     concurrency = 10
-
     # proxy config
-    # kwargs = {"proxy": "http://0.0.0.0:8118"}
+    # kwargs = {"proxy": "http://0.0.0.0:1087"}
     kwargs = {}
 
-    async def parse(self, res):
-        etree = res.html_etree
+    async def parse(self, response):
+        etree = response.html_etree
         pages = ['?start=0&filter='] + [i.get('href') for i in etree.cssselect('.paginator>a')]
         for index, page in enumerate(pages):
             url = self.start_urls[0] + page
-            yield Request(
-                url,
-                callback=self.parse_item,
+            yield self.request(
+                url=url,
                 metadata={'index': index},
-                request_config=self.request_config,
-                **self.kwargs
+                callback=self.parse_item
             )
 
-    async def parse_item(self, res):
-        items_data = await DoubanItem.get_items(html=res.html)
-        for item in items_data:
-            print(item.title)
+    async def parse_item(self, response):
+        async for item in DoubanItem.get_items(html=response.html):
+            yield item
+
+    async def process_item(self, item: DoubanItem):
+        print(item)
 
 
 if __name__ == '__main__':

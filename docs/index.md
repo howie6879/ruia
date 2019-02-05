@@ -1,18 +1,30 @@
-# Introduction
+# Ruia
 
-[![travis](https://travis-ci.org/howie6879/ruia.svg?branch=master)](https://travis-ci.org/howie6879/ruia) [![PyPI - Python Version](https://img.shields.io/pypi/pyversions/ruia.svg)](https://pypi.org/project/ruia/) [![PyPI](https://img.shields.io/pypi/v/ruia.svg)](https://pypi.org/project/ruia/) [![license](https://img.shields.io/github/license/howie6879/ruia.svg)](https://github.com/howie6879/ruia)
+[![travis](https://travis-ci.org/howie6879/ruia.svg?branch=master)](https://travis-ci.org/howie6879/ruia) 
+[![codecov](https://codecov.io/gh/howie6879/ruia/branch/master/graph/badge.svg)](https://codecov.io/gh/howie6879/ruia)
+[![PyPI - Python Version](https://img.shields.io/pypi/pyversions/ruia.svg)](https://pypi.org/project/ruia/) 
+[![PyPI](https://img.shields.io/pypi/v/ruia.svg)](https://pypi.org/project/ruia/) 
+[![license](https://img.shields.io/github/license/howie6879/ruia.svg)](https://github.com/howie6879/ruia)
 
-![](./images/demo.png)
+![](https://raw.githubusercontent.com/howie6879/ruia/master/docs/images/ruia_demo.png)
 
 ## Overview
 
-An async web scraping micro-framework, written with `asyncio` and `aiohttp`, aims to make crawling url as convenient as possible.
+An async web scraping micro-framework, written with `asyncio` and `aiohttp`, 
+aims to make crawling url as convenient as possible.
 
 Write less, run faster:
 
-- Documentation: [中文文档](https://github.com/howie6879/ruia/blob/master/docs/cn/README.md) |[documentation](https://github.com/howie6879/ruia/blob/master/docs/en/README.md)
-- Plugins: [https://github.com/ruia-plugins](https://github.com/ruia-plugins)
+- Documentation: [中文文档][doc_cn] |[documentation][doc_en]
+- Awesome: [https://github.com/ruia-plugins/awesome-ruia][Awesome]
+- Organization: [https://github.com/ruia-plugins][Organization]
 
+## Features
+
+- **Easy**: Declarative programming
+- **Fast**: Powered by asyncio
+- **Extensible**: Middlewares and plugins
+- **Powerful**: JavaScript support
 
 ## Installation
 
@@ -27,46 +39,23 @@ pip install -U ruia
 pip install git+https://github.com/howie6879/ruia
 ```
 
+## Tutorials
+
+1. [Overview](https://howie6879.github.io/ruia/en/tutorials/overview.html)
+1. [Installation](https://howie6879.github.io/ruia/en/tutorials/installation.html)
+1. [Define Data Items](https://howie6879.github.io/ruia/en/tutorials/item.html)
+1. [Spider Control](https://howie6879.github.io/ruia/en/tutorials/spider.html)
+1. [Request & Response](https://howie6879.github.io/ruia/en/tutorials/request.html)
+1. [Customize Middleware](https://howie6879.github.io/ruia/en/tutorials/middleware.html)
+1. [Write a Plugins](https://howie6879.github.io/ruia/en/tutorials/plugins.html)
+
 ## Usage
-
-### Request & Response
-
-We provide an easy way to `request` a url and return a friendly `response`:
-
-``` python
-import asyncio
-
-from ruia import Request
-
-request = Request("https://news.ycombinator.com/")
-response = asyncio.get_event_loop().run_until_complete(request.fetch())
-
-# Output
-# [2018-07-25 11:23:42,620]-Request-INFO  <GET: https://news.ycombinator.com/>
-# <Response url[text]: https://news.ycombinator.com/ status:200 metadata:{}>
-```
-
-**JavaScript Support**:
-
-You can load js by using [ruia-pyppeteer](https://github.com/ruia-plugins/ruia-pyppeteer).
-
-For example:
-
-```python
-import asyncio
-
-from ruia_pyppeteer import PyppeteerRequest as Request
-
-request = Request("https://www.jianshu.com/", load_js=True)
-response = asyncio.get_event_loop().run_until_complete(request.fetch())
-print(response.html)
-```
 
 ### Item
 
-Let's take a look at a quick example of using `Item` to extract target data. Start off by adding the following to your demo.py:
+`Item` can be used standalone, for testing, and for tiny crawlers.
 
-``` python
+```python
 import asyncio
 
 from ruia import AttrField, TextField, Item
@@ -77,25 +66,27 @@ class HackerNewsItem(Item):
     title = TextField(css_select='a.storylink')
     url = AttrField(css_select='a.storylink', attr='href')
 
-items = asyncio.get_event_loop().run_until_complete(HackerNewsItem.get_items(url="https://news.ycombinator.com/"))
-for item in items:
-    print(item.title, item.url)
+async def main():
+    async for item in HackerNewsItem.get_items(url="https://news.ycombinator.com/"):
+        print(item.title, item.url)
+
+if __name__ == '__main__':
+     items = asyncio.run(main())
 ```
 
 Run: `python demo.py`
 
-``` shell
+```shell
 Notorious ‘Hijack Factory’ Shunned from Web https://krebsonsecurity.com/2018/07/notorious-hijack-factory-shunned-from-web/
  ......
 ```
 
-### Spider
+### Spider Control
 
-For multiple pages, you can solve this with `Spider`
+`Spider` is used for control requests better.
+`Spider` supports concurrency control, which is very important for spiders.
 
-Create `hacker_news_spider.py`:
-
-``` python
+```python
 import aiofiles
 
 from ruia import AttrField, TextField, Item, Spider
@@ -107,17 +98,21 @@ class HackerNewsItem(Item):
     url = AttrField(css_select='a.storylink', attr='href')
 
     async def clean_title(self, value):
-        return value
+        """Define clean_* functions for data cleaning"""
+        return value.strip()
 
 
 class HackerNewsSpider(Spider):
-    start_urls = ['https://news.ycombinator.com/news?p=1', 'https://news.ycombinator.com/news?p=2']
+    start_urls = [f'https://news.ycombinator.com/news?p={index}' for index in range(1, 3)]
 
-    async def parse(self, res):
-        items = await HackerNewsItem.get_items(html=res.html)
-        for item in items:
-            async with aiofiles.open('./hacker_news.txt', 'a') as f:
-                await f.write(item.title + '\n')
+    async def parse(self, response):
+        async for item in HackerNewsItem.get_items(html=response.html):
+            yield item
+
+    async def process_item(self, item: HackerNewsItem):
+        """Ruia build-in method"""
+        async with aiofiles.open('./hacker_news.txt', 'a') as f:
+            await f.write(str(item.title) + '\n')
 
 
 if __name__ == '__main__':
@@ -138,11 +133,11 @@ Run `hacker_news_spider.py`:
 
 ### Custom middleware
 
-`ruia` provides an easy way to customize requests, *as long as it does not return it*. 
+`ruia` provides an easy way to customize requests.
 
-The following middleware code is based on the above example:
+The following middleware is based on the above example:
 
-``` python
+```python
 from ruia import Middleware
 
 middleware = Middleware()
@@ -154,6 +149,7 @@ async def print_on_request(request):
         'index': request.url.split('=')[-1]
     }
     print(f"request: {request.metadata}")
+    # Just operate request object, and do not return anything.
 
 
 @middleware.response
@@ -166,25 +162,42 @@ if __name__ == '__main__':
     HackerNewsSpider.start(middleware=middleware)
 ```
 
-## Features
+### JavaScript Support
 
-- Custom middleware
-- JavaScript support
-- Friendly response
+You can load js by using [ruia-pyppeteer](https://github.com/ruia-plugins/ruia-pyppeteer).
+
+For example:
+
+```python
+import asyncio
+
+from ruia_pyppeteer import PyppeteerRequest as Request
+
+request = Request("https://www.jianshu.com/", load_js=True)
+response = asyncio.run(request.fetch()) # Python 3.7
+print(response.html)
+```
 
 ## TODO
 
-- [ ] Distributed crawling/scraping
+- Cache for debug, to decreasing request limitation
+- Distributed crawling/scraping
 
 ## Contribution
 
-- Pull Request
-- Open Issue
+Ruia is still under developing, feel free to open issues and pull requests:
+
+- Report or fix bugs
+- Require or publish plugins
+- Write or fix documentation
+- Add test cases
 
 ## Thanks
 
 - [sanic](https://github.com/huge-success/sanic)
 - [demiurge](https://github.com/matiasb/demiurge)
 
-
-Congrats🎉, you finished your first crawler by using ruia, wanna learn more? [Tutorials](./en/tutorials.md) are available!
+[doc_cn]: https://github.com/howie6879/ruia/blob/master/docs/cn/README.md
+[doc_en]: https://howie6879.github.io/ruia/
+[Awesome]: https://github.com/ruia-plugins/awesome-ruia
+[Organization]: https://github.com/ruia-plugins

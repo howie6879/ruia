@@ -7,6 +7,7 @@ url = "https://pypi.python.org/simple"
 pytest = "*"
 mkdocs = "*"
 mkdocs-material = "*"
+codecov = "*"
 
 [packages]
 aiohttp = ">=3.3.2"

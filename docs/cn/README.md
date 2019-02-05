@@ -6,11 +6,11 @@
 
 ### First steps
 
-- [Introduction](./first_steps/introduction.md)：介绍Ruia
-- [Tutorials](./first_steps/tutorials.md)：使用Ruia快速编写一个稳健的爬虫
-- [Plugins](./first_steps/plugins.md)：编写Ruia扩展
+- [Introduction](./introduction.md)：介绍Ruia
+- [Tutorials](./tutorials.md)：使用Ruia快速编写一个稳健的爬虫
+- [Plugins](./plugins.md)：编写Ruia扩展
 
-### Topics
+## Topics
 
 - [Item](./topics/item.md)：定义爬虫的目标字段
 - [Selector](./topics/selector.md)：从HTML中提取出目标字段
@@ -19,7 +19,7 @@
 - [Middleware](./topics/middleware.md)：使爬虫支持第三方扩展
 - [Spider](./topics/spider.md)：爬虫程序的入口
 
-### Getting help
+## Getting help
 
 如果在使用过程中遇到了困难，随时欢迎提[Issue](https://github.com/howie6879/Ruia/issues)
 

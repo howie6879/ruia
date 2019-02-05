@@ -1,20 +1,28 @@
 #!/usr/bin/env python
 import os
 import re
+import sys
 
 from setuptools import find_packages, setup
 
 _version_re = re.compile(r'__version__\s+=\s+(.*)')
 
-with open(
-        os.path.join(
-            os.path.abspath(os.path.dirname(__file__)),
-            'ruia/__init__.py')) as fp:
-    try:
-        version = re.findall(
-            r"^__version__ = \"([^']+)\"\r?$", fp.read(), re.M)[0]
-    except IndexError:
-        raise RuntimeError('Unable to determine version.')
+PY_VER = sys.version_info
+
+if PY_VER < (3, 6):
+    raise RuntimeError("ruia doesn't support Python version prior 3.6")
+
+
+def read_version():
+    regexp = re.compile(r"^__version__\W*=\W*'([\d.abrc]+)'")
+    init_py = os.path.join(os.path.dirname(__file__), 'ruia', '__init__.py')
+    with open(init_py) as f:
+        for line in f:
+            match = regexp.match(line)
+            if match is not None:
+                return match.group(1)
+        else:
+            raise RuntimeError('Cannot find version in ruia/__init__.py')
 
 
 def read(file_name):
@@ -24,24 +32,33 @@ def read(file_name):
 
 setup(
     name='ruia',
-    version=version,
+    version=read_version(),
     author='Howie Hu',
-    description="Ruia - An async web scraping micro-framework based on asyncio.",
-    long_description=read('README.md'),
+    description="An async web scraping micro-framework based on asyncio.",
+    long_description=read('README.rst'),
     author_email='xiaozizayang@gmail.com',
-    install_requires=['aiohttp', 'cssselect', 'lxml'],
-    url="https://github.com/howie6879/ruia/blob/master/README.md",
+    python_requires='>=3.6',
+    install_requires=['aiohttp>=3.5.4', 'cssselect', 'lxml'],
+    url="https://github.com/howie6879/ruia",
     packages=find_packages(),
     license='MIT',
     classifiers=[
+        'Framework :: AsyncIO',
         'Intended Audience :: Developers',
+        "Development Status :: 4 - Beta",
         "License :: OSI Approved :: MIT License",
+        "Operating System :: POSIX :: Linux",
+        "Operating System :: MacOS :: MacOS X",
+        "Operating System :: POSIX :: BSD",
+        "Operating System :: Microsoft :: Windows",
         'Programming Language :: Python :: 3.6',
         'Programming Language :: Python :: 3.7',
+        'Topic :: Internet :: WWW/HTTP',
+        'Topic :: Software Development :: Libraries :: Application Frameworks',
         'Topic :: Software Development :: Libraries :: Python Modules',
     ],
     project_urls={
-        'Documentation': 'https://github.com/howie6879/ruia',
+        'Documentation': 'https://github.com/howie6879/ruia/blob/master/docs/index.md',
         'Source': 'https://github.com/howie6879/ruia',
     },
     extras_require={

@@ -1,4 +1,4 @@
-## Plugins
+# Plugins
 
 扩展的目的是将一些在爬虫程序中频繁使用的功能封装起来作为一个模块供第三方调用，**Ruia**通过`Middleware`来让开发者快速地实现第三方扩展
 
@@ -6,7 +6,7 @@
 
 可能任意一个爬虫都会需要自动添加随机`User-Agent`的功能，让我将这个功能封装下，使其成为**Ruia**的一个第三方扩展吧，让我们现在就开始吧
 
-### Creating a project
+## Creating a project
 
 项目名称为：[ruia-ua](https://github.com/ruia-plugins/ruia-ua)，因为**Ruia**基于`Python3.6+`，所以扩展`ruia-ua`也亦然，假设你此时使用的是`Python3.6+`，请按照如下操作：
 
@@ -128,9 +128,8 @@ class HackerNewsSpider(Spider):
     start_urls = ['https://news.ycombinator.com/news?p=1', 'https://news.ycombinator.com/news?p=2']
     concurrency = 10
 
-    async def parse(self, res):
-        items = await HackerNewsItem.get_items(html=res.html)
-        for item in items:
+    async def parse(self, response):
+        async for item in HackerNewsItem.get_items(html=response.html):
             print(item.title)
 
 

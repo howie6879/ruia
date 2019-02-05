@@ -1,4 +1,4 @@
-## Introduction
+# Introduction
 
 **Ruia**是一个基于`asyncio`和`aiohttp`的异步爬虫框架，它具有编写快速，非阻塞，扩展性强等特点，
 让你写更少的代码，收获更快的运行速度。
@@ -9,7 +9,7 @@
 - 友好地数据响应类
 - 异步无阻塞
 
-### Installation
+## Installation
 
 安装**Ruia**之前请先确保你使用的是`Python3.6+`
 
@@ -24,7 +24,7 @@ pip install -U ruia
 pip install git+https://github.com/howie6879/ruia
 ```
 
-### Code Snippets
+## Code Snippets
 
 下面我将举个例子简单介绍下**Ruia**的使用方式以及框架运行流程，创建文件`hacker_news_spider.py`，然后拷贝下面代码到文件中：
 
@@ -55,11 +55,14 @@ class HackerNewsSpider(Spider):
     start_urls = ['https://news.ycombinator.com/news?p=1', 'https://news.ycombinator.com/news?p=2']
     concurrency = 10
 
-    async def parse(self, res):
-        items = await HackerNewsItem.get_items(html=res.html)
-        for item in items:
-            async with aiofiles.open('./hacker_news.txt', 'a') as f:
-                await f.write(item.title + '\n')
+    async def parse(self, response):
+        async for item in HackerNewsItem.get_items(html=response.html):
+            yield item
+
+    async def process_item(self, item: HackerNewsItem):
+        """Ruia build-in method"""
+        async with aiofiles.open('./hacker_news.txt', 'a') as f:
+            await f.write(str(item.title) + '\n')
 
 
 if __name__ == '__main__':
@@ -78,7 +81,7 @@ if __name__ == '__main__':
 [2018-09-24 11:02:09,821]-ruia-INFO  spider : Spider finished!
 ```
 
-### Getting help
+## Getting help
 
 如果程序运行地不够顺利，请总结问题日志，并给我们提交[Issue](https://github.com/howie6879/ruia/issues)
 

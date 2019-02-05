@@ -1,7 +1,11 @@
 #!/usr/bin/env python
 
 import os
+
+import pytest
+
 from lxml import etree
+
 from ruia import AttrField, TextField, HtmlField, RegexField
 from ruia.field import NothingMatchedError
 
@@ -148,9 +152,8 @@ def test_re_field_get_nothing_with_no_default():
     field = RegexField(re_select='nothing to match.')
     try:
         field.extract(html=HTML)
-        raise AssertionError
-    except NothingMatchedError:
-        pass
+    except Exception as e:
+        assert type(e) == NothingMatchedError
 
 
 def test_re_field_with_many():

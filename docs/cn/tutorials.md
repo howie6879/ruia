@@ -1,8 +1,8 @@
-## Tutorials
+# Tutorials
 
 目标：通过对[Hacker News](https://news.ycombinator.com/news)的爬取来展示如何使用**ruia**，下图红框中的数据就是我们需要爬取的：
 
-![tutorials_01](../../images/tutorials_01.png)
+![tutorials_01](../images/tutorials_01.png)
 
 假设我们将此项目命名为`hacker_news_spider`，项目结构如下：
 
@@ -14,7 +14,7 @@ hacker_news_spider
 └── middlewares.py
 ```
 
-### Item
+## Item
 
 `Item`的目的是定义目标网站中你需要爬取的数据，此时，爬虫的目标数据就是页面中的`Title`和`Url`，怎么提取数据，**ruia**提供了[CSS Selector](https://www.w3schools.com/cssref/css_selectors.asp)和[XPath](https://www.w3schools.com/xml/xpath_intro.asp)两种方式提取目标数据
 
@@ -24,7 +24,7 @@ Notice: 后续爬虫例子都默认使用CSS Selector的规则来提取目标数
 
 这里我们使用`CSS Selector`来提取目标数据，用浏览器打开[Hacker News](https://news.ycombinator.com/news)，右键审查元素：
 
-![tutorials_02](../../images/tutorials_02.png)
+![tutorials_02](../images/tutorials_02.png)
 
 显而易见，每页包含`30`条资讯，那么目标数据的规则可以总结为：
 
@@ -48,7 +48,7 @@ class HackerNewsItem(Item):
 
 只需要继承`Item`类，将目标参数定义为一个属性即可，如果目标数据是可以循环提取的，比如此时每一页里面有`30`条数据，那么就需要定义`target_item`来循环提取每一条数据里面的`Title`和`Url`
 
-### Middleware
+## Middleware
 
 `Middleware`的目的是对每次请求前后进行一番处理，分下面两种情况：
 
@@ -71,7 +71,7 @@ async def print_on_request(request):
 
 这样，程序会在爬虫请求网页资源之前自动加上`User-Agent`
 
-### Database
+## Database
 
 对于数据持久化，你可以按照自己喜欢的方式去做，接下来我们将以`MongoDB`为例对爬取的数据进行存储，创建`db.py`文件：
 
@@ -109,7 +109,7 @@ class MotorBase:
         return self._db[db]
 ```
 
-### Spider
+## Spider
 
 `Spider`可以说是爬虫程序的入口，它将`Item`、`Middleware`、`Request`、等模块组合在一起，从而为你构造一个稳健的爬虫程序
 
@@ -127,7 +127,7 @@ class HackerNewsSpider(Spider):
     start_urls = ['https://news.ycombinator.com']
     concurrency = 3
 
-    async def parse(self, res):
+    async def parse(self, response):
         self.mongo_db = MotorBase().get_db('ruia_test')
         urls = ['https://news.ycombinator.com/news?p=1', 'https://news.ycombinator.com/news?p=2']
         for index, url in enumerate(urls):
@@ -137,17 +137,18 @@ class HackerNewsSpider(Spider):
                 metadata={'index': index}
             )
 
-    async def parse_item(self, res):
-        items = await HackerNewsItem.get_items(html=res.html)
+    async def parse_item(self, response):
+        async for item in HackerNewsItem.get_items(html=response.html):
+            yield item
 
-        for item in items:
-            try:
-                await self.mongo_db.news.update_one({
-                    'url': item.url},
-                    {'$set': {'url': item.url, 'title': item.title}},
-                    upsert=True)
-            except Exception as e:
-                self.logger.exception(e)
+    async def process_item(self, item):
+        try:
+            await self.mongo_db.news.update_one({
+                'url': item.url},
+                {'$set': {'url': item.url, 'title': item.title}},
+                upsert=True)
+        except Exception as e:
+            self.logger.exception(e)
 
 
 if __name__ == '__main__':
@@ -169,7 +170,7 @@ if __name__ == '__main__':
 
 数据库中可以看到：
 
-![tutorials_03](../../images/tutorials_03.jpg)
+![tutorials_03](../images/tutorials_03.jpg)
 
 通过这个例子，你已经基本掌握了**ruia**的`Item`、`Middleware`、`Request`等模块的用法，结合自身需求，你可以编写任何爬虫，例子代码见[hacker_news_spider](https://github.com/howie6879/ruia/tree/master/examples/hacker_news_spider)
 

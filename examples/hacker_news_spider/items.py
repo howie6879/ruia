@@ -17,4 +17,4 @@ class HackerNewsItem(Item):
         :param value: 初始目标数据
         :return:
         """
-        return value
+        return str(value).strip()

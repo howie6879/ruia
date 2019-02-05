@@ -1,17 +1,17 @@
-## Item
+# Item
 
 `Item`的主要作用是定义以及通过一定的规则提取源网页中的目标数据，它主要提供一下两个方法：
 - [get_item](https://github.com/howie6879/ruia/blob/master/ruia/item.py)：针对页面单目标数据进行提取
 - [get_items](https://github.com/howie6879/ruia/blob/master/ruia/item.py)：针对页面多目标数据进行提取
 
-### Core arguments
+## Core arguments
 
 `get_item`和`get_items`方法接收的参数是一致的：
 - html：网页源码
 - url：网页链接
 - html_etree：etree._Element对象
 
-### Usage
+## Usage
 
 通过上面的参数介绍可以知道，不论是源网站链接或者网站`HTML`源码，甚至是经过`lxml`处理过的`etree._Element`对象，`Item`能接收这三种类型的输入并进行处理
 
