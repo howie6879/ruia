@@ -300,7 +300,7 @@ class Spider:
                     except Exception as e:
                         self.logger.exception(e)
                 else:
-                    self.logger.error('Middleware must be a coroutine function')
+                    self.logger.error("Middleware's func must be a coroutine function")
 
     async def _run_spider_hook(self, hook_func):
         if callable(hook_func):
