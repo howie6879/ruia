@@ -31,6 +31,8 @@ nav:
       - Request: ./en/apis/request.md
       - Response: ./en/apis/response.md
       - Middleware: ./en/apis/middleware.md
+  - Topics:
+      - Write Spiders like Scrapy: ./en/topics/write_spiders_like_scrapy.md
   - Examples:
       - Full featured project: ./en/examples/project.md
 

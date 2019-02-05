@@ -66,7 +66,8 @@ class Spider:
         :param is_async_start:
         """
         if not self.start_urls or not isinstance(self.start_urls, collections.Iterable):
-            raise ValueError("Ruia spider must have a param named start_urls, eg: start_urls = ['https://www.github.com']")
+            raise ValueError(
+                "Ruia spider must have a param named start_urls, eg: start_urls = ['https://www.github.com']")
 
         # Init object-level properties
         self.request_config = self.request_config or {}
@@ -165,11 +166,11 @@ class Spider:
         await self._process_request_count(response=response)
         return callback_result, response
 
-    async def multiple_request(self, url_config_list, is_gather=False):
+    async def multiple_request(self, urls, is_gather=False, **kwargs):
         """For crawling multiple urls"""
         if is_gather:
             resp_results = await asyncio.gather(
-                *[self.handle_request(self.request(**url_config)) for url_config in url_config_list],
+                *[self.handle_request(self.request(url=url, **kwargs)) for url in urls],
                 return_exceptions=True)
             for index, task_result in enumerate(resp_results):
                 if not isinstance(task_result, RuntimeError) and task_result:
@@ -177,8 +178,8 @@ class Spider:
                     response.index = index
                     yield response
         else:
-            for index, url_config in enumerate(url_config_list):
-                _, response = await self.handle_request(self.request(**url_config))
+            for index, url in enumerate(urls):
+                _, response = await self.handle_request(self.request(url=url, **kwargs))
                 response.index = index
                 yield response
 
