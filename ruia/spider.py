@@ -98,7 +98,7 @@ class Spider:
         :param response: Response
         :return:
         """
-        raise NotImplementedError('bbb')
+        raise NotImplementedError
 
     @classmethod
     async def async_start(cls,
