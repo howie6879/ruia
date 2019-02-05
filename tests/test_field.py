@@ -2,9 +2,7 @@
 
 import os
 
-import pytest
-
-from lxml import etree
+import lxml
 
 from ruia import AttrField, TextField, HtmlField, RegexField
 from ruia.field import NothingMatchedError
@@ -13,7 +11,7 @@ html_path = os.path.join(os.path.dirname(os.path.realpath(__file__)), 'data', 'f
 with open(html_path, mode='r', encoding='utf-8') as file:
     HTML = file.read()
 
-html_etree = etree.HTML(HTML)
+html_etree = lxml.etree.HTML(HTML)
 
 
 def test_css_select():
@@ -153,8 +151,7 @@ def test_re_field_get_nothing_with_no_default():
     try:
         field.extract(html=HTML)
     except Exception as e:
-        assert type(e) == NothingMatchedError
-
+        assert isinstance(e, NothingMatchedError)
 
 def test_re_field_with_many():
     field = RegexField(re_select='<a class="test_link" href="(.*?)">(.*?)</a>', many=True)

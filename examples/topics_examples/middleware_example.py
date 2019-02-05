@@ -8,8 +8,8 @@ class TestSpider(Spider):
     concurrency = 10
 
     async def parse(self, response):
-        pages = [{'url': f'http://www.httpbin.org/get?p={i}'} for i in range(1, 9)]
-        async for resp in self.multiple_request(pages):
+        pages = [f'http://www.httpbin.org/get?p={i}' for i in range(1, 3)]
+        async for resp in self.multiple_request(urls=pages):
             yield self.parse_next(resp, any_param='hello')
 
     async def parse_next(self, response, any_param):
@@ -19,7 +19,7 @@ class TestSpider(Spider):
         )
 
     async def parse_item(self, response):
-        item_data = response.html
+        print(response.html)
 
 
 middleware = Middleware()
@@ -27,25 +27,25 @@ res_type_middleware = Middleware()
 
 
 @middleware.request
-async def print_on_request(request):
+async def print_on_request01(request):
     request.headers = {
         'User-Agent': 'ruia ua'
     }
 
 
 @middleware.response
-async def print_on_response(request, response):
-    assert type(response.html) == dict
+async def print_on_response01(request, response):
+    assert isinstance(response.html, dict)
 
 
 @res_type_middleware.request
-async def print_on_request(request):
+async def print_on_request02(request):
     request.res_type = 'json'
 
 
 @res_type_middleware.response
-async def print_on_response(request, response):
-    assert type(response.html) == dict
+async def print_on_response02(request, response):
+    assert isinstance(response.html, dict)
 
 
 if __name__ == '__main__':

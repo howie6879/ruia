@@ -1,8 +1,6 @@
 #!/usr/bin/env python
 import asyncio
 
-import pytest
-
 from ruia import AttrField, Item, Middleware, Request, Spider, TextField
 
 middleware = Middleware()
@@ -28,7 +26,7 @@ async def print_on_request(request):
 
 @middleware.response
 async def print_on_response(request, response):
-    assert type(response.html) == dict
+    assert isinstance(type(response.html), dict)
     assert request.headers == {
         'User-Agent': 'ruia ua'
     }
@@ -96,7 +94,7 @@ class HackerNewsSpider(Spider):
             yield self.parse_httpbin_item(resp)
 
     async def parse_httpbin_item(self, response):
-        assert type(response.html) == str
+        assert isinstance(response.html, str)
 
 
 class NoStartUrlSpider(Spider):
@@ -117,7 +115,7 @@ class InvalidParseTypeSpider(Spider):
 def test_spider():
     loop = asyncio.new_event_loop()
     SpiderDemo.start(loop=loop, middleware=middleware, after_start=after_start_func, before_stop=before_stop_func)
-    assert type(SpiderDemo.result) == dict
+    assert isinstance(SpiderDemo.result, dict)
     assert SpiderDemo.result['after_start'] == True
     assert SpiderDemo.result['before_stop'] == True
 
@@ -128,7 +126,7 @@ def test_no_start_url_spider():
     try:
         NoStartUrlSpider.start()
     except Exception as e:
-        assert type(e) == ValueError
+        assert isinstance(e, ValueError)
 
 
 def test_invalid_parse_type_spider():

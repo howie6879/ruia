@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-import pytest
 
 from ruia import Middleware
 
@@ -17,7 +16,7 @@ async def print_on_request(request):
 
 @middleware.response
 async def print_on_response(request, response):
-    assert type(response.html) == dict
+    assert isinstance(response.html, dict)
 
 
 @res_type_middleware.request
@@ -27,7 +26,7 @@ async def print_on_request(request):
 
 @res_type_middleware.response
 async def print_on_response(request, response):
-    assert type(response.html) == dict
+    assert isinstance(response.html, dict)
 
 
 all_middleware = middleware + res_type_middleware
@@ -40,7 +39,7 @@ async def print_on_request(request):
 
 @all_middleware.response
 async def print_on_response(request, response):
-    assert type(response.html) == dict
+    assert isinstance(response.html, dict)
 
 
 def test_add_middleware():

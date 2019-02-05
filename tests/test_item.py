@@ -3,8 +3,6 @@
 import asyncio
 import os
 
-import pytest
-
 from ruia import AttrField, Item, TextField
 from ruia.exceptions import InvalidFuncType
 
@@ -74,18 +72,18 @@ def test_item():
     try:
         item = asyncio.get_event_loop().run_until_complete(DoubanCleanMethodErrorItem.get_item(html=HTML))
     except Exception as e:
-        assert type(e) == InvalidFuncType
+        assert isinstance(e, InvalidFuncType)
 
     try:
 
         item = asyncio.get_event_loop().run_until_complete(DoubanItem.get_item(html=''))
     except Exception as e:
-        assert type(e) == ValueError
+        assert isinstance(e, ValueError)
 
     try:
         item = asyncio.get_event_loop().run_until_complete(DoubanItem.get_item(html_etree='test'))
     except Exception as e:
-        assert type(e) == AttributeError
+        assert isinstance(e, AttributeError)
 
 
 def test_items():
@@ -95,7 +93,7 @@ def test_items():
     try:
         items = asyncio.get_event_loop().run_until_complete(error_parse_item(html=HTML))
     except Exception as e:
-        assert type(e) == ValueError
+        assert isinstance(e, ValueError)
 
 
 def test_item_results():
@@ -110,6 +108,6 @@ def test_items_results():
 
 def test_request_url():
     items = asyncio.get_event_loop().run_until_complete(single_page_demo())
-    assert type(items) == list
+    assert isinstance(items, list)
     assert len(items) > 1
     assert 'Item' in str(items[0])
