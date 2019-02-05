@@ -13,13 +13,12 @@ class HackerNewsItem(Item):
     url = AttrField(css_select='a.storylink', attr='href')
 
     async def clean_title(self, value):
-        return value
+        return value.strip()
 
 
 async def single_page_demo(url="https://news.ycombinator.com/"):
     async for item in HackerNewsItem.get_items(url=url):
         print(item)
-        print(item.title, item.url)
 
 
 async def multiple_page_demo():

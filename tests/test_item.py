@@ -6,6 +6,7 @@ import os
 import pytest
 
 from ruia import AttrField, Item, TextField
+from ruia.exceptions import InvalidFuncType
 
 html_path = os.path.join(os.path.dirname(os.path.realpath(__file__)), 'data', 'for_item_testing.html')
 with open(html_path, mode='r', encoding='utf-8') as file:
@@ -29,6 +30,13 @@ class DoubanItem(Item):
     title = TextField(css_select='head title')
 
     async def clean_title(self, title):
+        return 'Title: ' + title
+
+
+class DoubanCleanMethodErrorItem(Item):
+    title = TextField(css_select='head title')
+
+    def clean_title(self, title):
         return 'Title: ' + title
 
 
@@ -64,6 +72,12 @@ def test_item():
     assert item.title == 'Title: 豆瓣电影TOP250'
 
     try:
+        item = asyncio.get_event_loop().run_until_complete(DoubanCleanMethodErrorItem.get_item(html=HTML))
+    except Exception as e:
+        assert type(e) == InvalidFuncType
+
+    try:
+
         item = asyncio.get_event_loop().run_until_complete(DoubanItem.get_item(html=''))
     except Exception as e:
         assert type(e) == ValueError
@@ -76,7 +90,6 @@ def test_item():
 
 def test_items():
     items = asyncio.get_event_loop().run_until_complete(parse_item(html=HTML))
-    print(items[0].results)
     assert items[0].abstract == '希望让人自由。'
 
     try:

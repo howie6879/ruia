@@ -7,3 +7,7 @@ class NothingMatchedError(Exception):
 
 class InvalidParseType(Exception):
     pass
+
+
+class InvalidFuncType(Exception):
+    pass
