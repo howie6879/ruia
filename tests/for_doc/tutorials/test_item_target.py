@@ -17,7 +17,7 @@ class MyItem(Item):
     title = TextField(css_select='.title')
     star = TextField(css_select='.star')
 
-    def clean_star(self, value):
+    async def clean_star(self, value):
         return int(value)
 
 

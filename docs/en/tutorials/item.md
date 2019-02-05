@@ -217,7 +217,7 @@ class PythonDocumentationItem(Item):
     title = TextField(css_select='title')
     tutorial_link = AttrField(xpath_select="//a[text()='Tutorial']", attr='href')
     
-    def clean_title(self, value):
+    async def clean_title(self, value):
         return value.split(' ')[0]
 
 
@@ -361,7 +361,7 @@ class MyItem(Item):
     title = TextField(css_select='.title')
     star = TextField(css_select='.star')
 
-    def clean_star(self, value):
+    async def clean_star(self, value):
         return int(value)
 
 
@@ -461,7 +461,7 @@ class MyItem(Item):
     star = TextField(css_select='.star')
     tags = TextField(css_select='.tag', many=True)
 
-    def clean_star(self, value):
+    async def clean_star(self, value):
         return int(value)
 
 

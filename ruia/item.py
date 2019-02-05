@@ -5,6 +5,7 @@ from inspect import iscoroutinefunction
 from lxml import etree
 from typing import Any, AsyncGenerator
 
+from ruia.exceptions import InvalidFuncType
 from ruia.field import BaseField
 from ruia.request import Request
 
@@ -31,18 +32,19 @@ class Item(metaclass=ItemMeta):
         self.results = {}
 
     @classmethod
-    async def _get_html(cls, html, url, **kwargs):
-        if html is None and not url:
-            raise ValueError("html(url or html_etree) is expected")
-        if not html:
-            sem = kwargs.pop('sem', None)
-            request = Request(url, **kwargs)
-            if sem:
-                _, response = await request.fetch_callback(sem=sem)
-            else:
-                response = await request.fetch()
-            html = response.html
-        return etree.HTML(html)
+    async def _get_html(cls, html: str = '', url: str = '', **kwargs):
+        if html or url:
+            if url:
+                sem = kwargs.pop('sem', None)
+                request = Request(url, **kwargs)
+                if sem:
+                    _, response = await request.fetch_callback(sem=sem)
+                else:
+                    response = await request.fetch()
+                html = response.html
+            return etree.HTML(html)
+        else:
+            ValueError("html(url or html_etree) is expected")
 
     @classmethod
     async def _parse_html(cls, *, html_etree: etree._Element) -> object:
@@ -51,13 +53,13 @@ class Item(metaclass=ItemMeta):
         item_ins = cls()
         for field_name, field_value in getattr(item_ins, '__fields', {}).items():
             if not field_name.startswith('target_'):
-                clean_method = getattr(item_ins, 'clean_%s' % field_name, None)
+                clean_method = getattr(item_ins, f'clean_{field_name}', None)
                 value = field_value.extract(html_etree=html_etree)
                 if clean_method is not None:
                     if iscoroutinefunction(clean_method):
                         value = await clean_method(value)
                     else:
-                        value = clean_method(value)
+                        raise InvalidFuncType('clean_method must be a coroutine function')
                 setattr(item_ins, field_name, value)
                 item_ins.results[field_name] = value
         return item_ins
