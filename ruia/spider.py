@@ -279,7 +279,7 @@ class Spider:
                 if process_failed_response:
                     await process_failed_response(request,response)
             else:
-                """Process succeed request"""
+                """Process succeed response"""
                 self.success_counts += 1
                 process_succeed_response = getattr(self, 'process_succeed_response', None)
                 if process_succeed_response:
