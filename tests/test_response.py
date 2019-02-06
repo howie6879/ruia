@@ -63,3 +63,7 @@ def test_index():
     assert response.index == None
     response.index = 'ruia'
     assert response.index == 'ruia'
+
+
+def test_json():
+    assert response.json['args']['name'] == 'ruia'

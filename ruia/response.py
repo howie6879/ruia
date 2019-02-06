@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 
 from lxml import etree
+import json
 
 
 class Response(object):
@@ -86,6 +87,10 @@ class Response(object):
         if self.html:
             html_etree = etree.HTML(self.html)
         return html_etree
+
+    @property
+    def json(self):
+        return json.loads(self.html)
 
     def __str__(self):
         return f'<Response url[{self._method}]: {self._url} status:{self._status} html_type:{self._res_type}>'
