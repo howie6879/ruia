@@ -219,7 +219,9 @@ class Spider:
         for url in self.start_urls:
             request_ins = self.request(url=url, callback=self.parse, metadata=self.metadata)
             self.request_queue.put_nowait(self.handle_request(request_ins))
-        [asyncio.ensure_future(self.start_worker()) for i in range(self.worker_numbers)]
+        workers = [asyncio.ensure_future(self.start_worker()) for i in range(self.worker_numbers)]
+        for worker in workers:
+            self.logger.info(f"worker started: {id(worker)}")
         await self.request_queue.join()
         if not self.is_async_start:
             await self.stop(SIGINT)
@@ -261,7 +263,7 @@ class Spider:
                 elif isinstance(each, typing.Coroutine):
                     self.request_queue.put_nowait(self.handle_callback(aws_callback=each, response=response))
                 elif isinstance(each, Item):
-                    """Process target item"""
+                    # Process target item
                     process_item = getattr(self, 'process_item', None)
                     if process_item:
                         await process_item(each)
@@ -273,13 +275,13 @@ class Spider:
     async def _process_response(self, request: Request, response: Response):
         if response:
             if response.html is None:
-                """Process failed response"""
+                # Process failed response
                 self.failed_counts += 1
                 process_failed_response = getattr(self, 'process_failed_response', None)
                 if process_failed_response:
-                    await process_failed_response(request,response)
+                    await process_failed_response(request, response)
             else:
-                """Process succeed response"""
+                # Process succeed response
                 self.success_counts += 1
                 process_succeed_response = getattr(self, 'process_succeed_response', None)
                 if process_succeed_response:

@@ -2,8 +2,6 @@
 
 import asyncio
 
-import pytest
-
 from ruia import Request
 
 sem = asyncio.Semaphore(3)

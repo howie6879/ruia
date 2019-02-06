@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-from ruia import AttrField, Item, Request, Spider, TextField
+from ruia import AttrField, Item, Spider, TextField
 
 
 class DoubanItem(Item):

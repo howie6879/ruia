@@ -45,7 +45,6 @@ class GithubDeveloperSpiderSingleRequest(Spider):
             if '#' in cat.link:
                 continue
             catalogue.append(cat)
-        urls = [page.link for page in catalogue][:10]
         for page in catalogue:
             response = await self.request(url=page.link)
             yield self.parse_page(response, page.title)

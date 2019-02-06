@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 
-class NothingMatchedError(Exception):
+class InvalidFuncType(Exception):
     pass
 
 
@@ -9,5 +9,5 @@ class InvalidParseType(Exception):
     pass
 
 
-class InvalidFuncType(Exception):
+class NothingMatchedError(Exception):
     pass

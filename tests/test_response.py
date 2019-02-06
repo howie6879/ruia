@@ -7,8 +7,6 @@ import asyncio
 from lxml import etree
 from aiohttp.cookiejar import SimpleCookie
 
-import pytest
-
 from ruia import Request
 
 
@@ -45,12 +43,12 @@ def test_response():
     assert method == 'GET'
     assert metadata == {'hello': 'ruia'}
     assert res_type == 'text'
-    assert type(html) == str
-    assert type(cookies) == SimpleCookie
+    assert isinstance(html, str)
+    assert isinstance(cookies, SimpleCookie)
     assert history == ()
     assert headers['Content-Type'] == 'application/json'
     assert status == 200
-    assert type(html_etree) == etree._Element
+    assert isinstance(html_etree, etree._Element)
 
     assert str(response) == '<Response url[GET]: http://www.httpbin.org/get status:200 html_type:text>'
 
