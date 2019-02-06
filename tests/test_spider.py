@@ -1,7 +1,5 @@
 #!/usr/bin/env python
 import asyncio
-
-import pytest
 from ruia import AttrField, Item, Middleware, Request, Spider, TextField, Response
 
 middleware = Middleware()
