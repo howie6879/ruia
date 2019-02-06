@@ -95,27 +95,9 @@ class Request(object):
                                 aws_json=resp.json,
                                 aws_text=resp.text,
                                 aws_read=resp.read)
-
-            return response
+            return response if res_data else await self._process_retry()
         except asyncio.TimeoutError:
-            if self.retry_times > 0:
-                retry_times = self.request_config.get('RETRIES', 3) - self.retry_times + 1
-                self.logger.info(f'<Retry url: {self.url}>, Retry times: {retry_times}')
-                self.retry_times -= 1
-                retry_func = self.request_config.get('RETRY_FUNC')
-                if retry_func and iscoroutinefunction(retry_func):
-                    request_ins = await retry_func(self)
-                    if isinstance(request_ins, Request):
-                        return await request_ins.fetch()
-                return await self.fetch()
-            else:
-                response = Response(url=self.url,
-                                    method=self.method,
-                                    metadata=self.metadata,
-                                    cookies={},
-                                    history=())
-
-                return response
+            return await self._process_retry()
         finally:
             # close client session
             await self._close_request_session()
@@ -160,6 +142,26 @@ class Request(object):
             )
         resp = await request_func
         return resp
+
+    async def _process_retry(self):
+        if self.retry_times > 0:
+            retry_times = self.request_config.get('RETRIES', 3) - self.retry_times + 1
+            self.logger.info(f'<Retry url: {self.url}>, Retry times: {retry_times}')
+            self.retry_times -= 1
+            retry_func = self.request_config.get('RETRY_FUNC')
+            if retry_func and iscoroutinefunction(retry_func):
+                request_ins = await retry_func(self)
+                if isinstance(request_ins, Request):
+                    return await request_ins.fetch()
+            return await self.fetch()
+        else:
+            response = Response(url=self.url,
+                                method=self.method,
+                                metadata=self.metadata,
+                                cookies={},
+                                history=())
+
+            return response
 
     def __str__(self):
         return f"<{self.method} {self.url}>"
