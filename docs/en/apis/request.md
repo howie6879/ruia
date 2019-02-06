@@ -18,7 +18,6 @@ Methods:
 - metadata: some data that need pass to next request
 - request_config: the configure of the request
 - request_session: `aiohttp.ClientSession`
-- res_type: response type of request, default `str`, optional `bytes` and `json`
 - kwargs: other arguments for request
 
 ## Usage

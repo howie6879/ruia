@@ -27,26 +27,16 @@ res_type_middleware = Middleware()
 
 
 @middleware.request
-async def print_on_request01(request):
+async def print_on_request(request):
     request.headers = {
         'User-Agent': 'ruia ua'
     }
 
 
 @middleware.response
-async def print_on_response01(request, response):
-    assert isinstance(response.html, dict)
-
-
-@res_type_middleware.request
-async def print_on_request02(request):
-    request.res_type = 'json'
-
-
-@res_type_middleware.response
-async def print_on_response02(request, response):
+async def print_on_response(request, response):
     assert isinstance(response.html, dict)
 
 
 if __name__ == '__main__':
-    TestSpider.start(middleware=[middleware, res_type_middleware])
+    TestSpider.start(middleware=middleware)

@@ -45,7 +45,6 @@ class Request(object):
                  metadata: dict = None,
                  request_config: dict = None,
                  request_session=None,
-                 res_type: str = 'text',
                  **kwargs):
         """
         Initialization parameters
@@ -61,7 +60,6 @@ class Request(object):
         self.metadata = metadata or {}
         self.request_session = request_session
         self.request_config = self.REQUEST_CONFIG if request_config is None else request_config
-        self.res_type = res_type
         self.kwargs = kwargs
 
         self.close_request_session = False
@@ -69,7 +67,82 @@ class Request(object):
         self.retry_times = self.request_config.get('RETRIES', 3)
 
     @property
-    def current_request_func(self):
+    def current_request_session(self):
+        if self.request_session is None:
+            self.request_session = aiohttp.ClientSession()
+            self.close_request_session = True
+        return self.request_session
+
+    async def fetch(self) -> Response:
+        """Fetch all the information by using aiohttp"""
+        if self.request_config.get('DELAY', 0) > 0:
+            await asyncio.sleep(self.request_config['DELAY'])
+
+        timeout = self.request_config.get('TIMEOUT', 10)
+        try:
+            async with async_timeout.timeout(timeout):
+                resp = await self._make_request()
+            res_data = await resp.text(encoding=self.encoding)
+            response = Response(url=self.url,
+                                method=self.method,
+                                encoding=resp.get_encoding(),
+                                html=res_data,
+                                metadata=self.metadata,
+                                cookies=resp.cookies,
+                                headers=resp.headers,
+                                history=resp.history,
+                                status=resp.status,
+                                aws_json=resp.json,
+                                aws_text=resp.text,
+                                aws_read=resp.read)
+
+            return response
+        except asyncio.TimeoutError:
+            if self.retry_times > 0:
+                retry_times = self.request_config.get('RETRIES', 3) - self.retry_times + 1
+                self.logger.info(f'<Retry url: {self.url}>, Retry times: {retry_times}')
+                self.retry_times -= 1
+                retry_func = self.request_config.get('RETRY_FUNC')
+                if retry_func and iscoroutinefunction(retry_func):
+                    request_ins = await retry_func(self)
+                    if isinstance(request_ins, Request):
+                        return await request_ins.fetch()
+                return await self.fetch()
+            else:
+                response = Response(url=self.url,
+                                    method=self.method,
+                                    metadata=self.metadata,
+                                    cookies={},
+                                    history=())
+
+                return response
+        finally:
+            # close client session
+            await self._close_request_session()
+
+    async def fetch_callback(self, sem: Semaphore = None) -> Tuple[AsyncGeneratorType, Response]:
+        try:
+            async with sem:
+                response = await self.fetch()
+            if self.callback is not None:
+                if iscoroutinefunction(self.callback):
+                    callback_result = await self.callback(response)
+                    response.callback_result = callback_result
+                else:
+                    callback_result = self.callback(response)
+            else:
+                callback_result = None
+        except Exception as e:
+            self.logger.error(f"<Error: {self.url} {e}>")
+            callback_result, response = None, None
+
+        return callback_result, response
+
+    async def _close_request_session(self):
+        if self.close_request_session:
+            await self.request_session.close()
+
+    async def _make_request(self):
         self.logger.info(f"<{self.method}: {self.url}>")
         if self.method == 'GET':
             request_func = self.current_request_session.get(
@@ -85,83 +158,8 @@ class Request(object):
                 ssl=False,
                 **self.kwargs
             )
-        return request_func
-
-    @property
-    def current_request_session(self):
-        if self.request_session is None:
-            self.request_session = aiohttp.ClientSession()
-            self.close_request_session = True
-        return self.request_session
-
-    async def close(self):
-        if self.close_request_session:
-            await self.request_session.close()
-            self.request_session = None
-
-    async def fetch(self) -> Response:
-        res_headers, res_history = {}, ()
-        res_status = 0
-        res_data, res_cookies = None, None
-        if self.request_config.get('DELAY', 0) > 0:
-            await asyncio.sleep(self.request_config['DELAY'])
-        try:
-            timeout = self.request_config.get('TIMEOUT', 10)
-
-            async with async_timeout.timeout(timeout):
-                async with self.current_request_func as resp:
-                    res_status = resp.status
-                    assert res_status in [200, 201]
-                    if self.res_type == 'bytes':
-                        res_data = await resp.read()
-                    elif self.res_type == 'json':
-                        res_data = await resp.json()
-                    else:
-                        res_data = await resp.text(encoding=self.encoding)
-                    res_cookies, res_headers, res_history = resp.cookies, resp.headers, resp.history
-        except Exception as e:
-            self.logger.error(f"<Error: {self.url} {res_status} {str(e)}>")
-
-        if self.retry_times > 0 and res_data is None:
-            retry_times = self.request_config.get('RETRIES', 3) - self.retry_times + 1
-            self.logger.info(f'<Retry url: {self.url}>, Retry times: {retry_times}')
-            self.retry_times -= 1
-            retry_func = self.request_config.get('RETRY_FUNC')
-            if retry_func and iscoroutinefunction(retry_func):
-                request_ins = await retry_func(self)
-                if isinstance(request_ins, Request):
-                    return await request_ins.fetch()
-            return await self.fetch()
-
-        await self.close()
-
-        response = Response(url=self.url,
-                            method=self.method,
-                            html=res_data,
-                            metadata=self.metadata,
-                            res_type=self.res_type,
-                            cookies=res_cookies,
-                            headers=res_headers,
-                            history=res_history,
-                            status=res_status)
-        return response
-
-    async def fetch_callback(self, sem: Semaphore = None) -> Tuple[AsyncGeneratorType, Response]:
-        async with sem:
-            response = await self.fetch()
-        if self.callback is not None:
-            try:
-                if iscoroutinefunction(self.callback):
-                    callback_result = await self.callback(response)
-                    response.callback_result = callback_result
-                else:
-                    callback_result = self.callback(response)
-            except Exception as e:
-                self.logger.error(e)
-                callback_result = None
-        else:
-            callback_result = None
-        return callback_result, response
+        resp = await request_func
+        return resp
 
     def __str__(self):
-        return "<%s %s>" % (self.method, self.url)
+        return f"<{self.method} {self.url}>"

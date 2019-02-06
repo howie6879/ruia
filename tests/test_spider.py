@@ -1,6 +1,6 @@
 #!/usr/bin/env python
-import json
 import asyncio
+
 from ruia import AttrField, Item, Middleware, Request, Spider, TextField, Response
 
 middleware = Middleware()
@@ -33,7 +33,7 @@ async def print_on_response(request, response):
 
 
 class SpiderDemo(Spider):
-    start_urls = ['http://www.httpbin.org/get']
+    start_urls = ['https://www.httpbin.org/get']
     request_config = {
         'RETRIES': 3,
         'DELAY': 0,
@@ -43,7 +43,6 @@ class SpiderDemo(Spider):
         "User-Agent": "Python3.6"
     }
     concurrency = 1
-    res_type = 'json'
     result = {
         'after_start': False,
         'before_stop': False,
@@ -61,7 +60,7 @@ class SpiderDemo(Spider):
         )
 
     async def parse_item(self, response):
-        pages = [{'url': f'http://www.httpbin.org/get?p={i}'} for i in range(1, 2)]
+        pages = [f'https://www.httpbin.org/get?p={i}' for i in range(1, 2)]
         async for resp in self.multiple_request(pages):
             yield self.parse_next(resp, any_param='hello')
 
@@ -134,18 +133,6 @@ def test_invalid_parse_type_spider():
     NoParseSpider.start()
 
 
-async def multiple_spider(loop):
-    await SpiderDemo.async_start(loop=loop, after_start=after_start_func, before_stop=before_stop_func)
-    await SpiderDemo.async_start(loop=loop, after_start=after_start_func, before_stop=before_stop_func)
-    return SpiderDemo
-
-
-def test_multiple_spider():
-    loop = asyncio.new_event_loop()
-    SpiderDemo = loop.run_until_complete(multiple_spider(loop=loop))
-    assert SpiderDemo.call_nums == 3
-
-
 def test_multiple_request_sync():
     result = list()
     index_list = list()
@@ -158,32 +145,22 @@ def test_multiple_request_sync():
             urls = [f'https://httpbin.org/get?p={page}' for page in range(2)]
             async for response in self.multiple_request(urls, is_gather=False):
                 index_list.append(response.index)
-                page = json.loads(response.html)['args']['p']
-                page = int(page)
-                result.append(page)
+                json_result = await response.json()
+                page = json_result['args']['p']
+                result.append(int(page))
 
     MultipleRequestSpider.start()
     assert index_list == [0, 1]
     assert result == [0, 1]
 
 
-def test_multiple_request_async():
-    result = list()
-    index_list = list()
+async def multiple_spider(loop):
+    await SpiderDemo.async_start(loop=loop, after_start=after_start_func, before_stop=before_stop_func)
+    await SpiderDemo.async_start(loop=loop, after_start=after_start_func, before_stop=before_stop_func)
+    return SpiderDemo
 
-    class MultipleRequestSpider(Spider):
-        start_urls = ['https://httpbin.org']
-        concurrency = 3
 
-        async def parse(self, response: Response):
-            urls = [f'https://httpbin.org/get?p={page}' for page in range(4)]
-            async for response in self.multiple_request(urls, is_gather=True):
-                response_json = json.loads(response.html)
-                page = response_json['args']['p']
-                page = int(page)
-                result.append(page)
-                index_list.append(response.index)
-
-    MultipleRequestSpider.start()
-    assert index_list == [0, 1, 2, 3]
-    assert result == [0, 1, 2, 3]
+def test_multiple_spider():
+    loop = asyncio.new_event_loop()
+    SpiderDemo = loop.run_until_complete(multiple_spider(loop=loop))
+    assert SpiderDemo.call_nums == 3

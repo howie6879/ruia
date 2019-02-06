@@ -39,8 +39,6 @@ class Spider:
     metadata: dict = None
     kwargs: dict = None
 
-    res_type: str = 'text'
-
     # Some fields for statistics
     failed_counts: int = 0
     success_counts: int = 0
@@ -190,14 +188,12 @@ class Spider:
                 metadata: dict = None,
                 request_config: dict = None,
                 request_session=None,
-                res_type: str = None,
                 **kwargs):
         """Init a Request class for crawling html"""
         headers = headers or {}
         metadata = metadata or {}
         request_config = request_config or {}
         request_session = request_session or self.request_session
-        res_type = res_type or self.res_type
 
         headers.update(self.headers.copy())
         request_config.update(self.request_config.copy())
@@ -211,7 +207,6 @@ class Spider:
                        metadata=metadata,
                        request_config=request_config,
                        request_session=request_session,
-                       res_type=res_type,
                        **kwargs)
 
     async def start_master(self):

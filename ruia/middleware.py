@@ -19,22 +19,6 @@ class Middleware:
         # response middleware
         self.response_middleware = deque()
 
-    # def listener(self, uri, target, **kwargs):
-    #     """
-    #     Decorates to be called before a special request or response
-    #     TODO: handling different urls for request/response
-    #     eg: @middleware.listener('/post', 'request')
-    #     """
-    #
-    #     def register_middleware(middleware):
-    #         if target == 'request':
-    #             self.request_middleware.append(middleware)
-    #         if target == 'response':
-    #             self.response_middleware.appendleft(middleware)
-    #         return middleware
-    #
-    #     return register_middleware
-
     def request(self, *args, **kwargs):
         """
         Define a Decorate to be called before a request.

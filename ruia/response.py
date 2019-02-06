@@ -1,6 +1,13 @@
 #!/usr/bin/env python
 
+import json
+
+from typing import Any, Callable, Optional
+
 from lxml import etree
+
+DEFAULT_JSON_DECODER = json.loads
+JSONDecoder = Callable[[str], Any]
 
 
 class Response(object):
@@ -9,24 +16,31 @@ class Response(object):
     """
 
     def __init__(self, url: str, method: str, *,
-                 metadata: dict,
-                 res_type: str,
+                 encoding: str = '',
                  html: str = '',
+                 metadata: dict,
                  cookies,
                  history,
                  headers: dict = None,
-                 status: int):
+                 status: int=-1,
+                 aws_json: Callable = None,
+                 aws_read: Callable = None,
+                 aws_text: Callable = None):
         self._callback_result = None
+        self._encoding = encoding
         self._url = url
         self._method = method
         self._metadata = metadata
-        self._res_type = res_type
         self._html = html
         self._index = None
         self._cookies = cookies
         self._history = history
         self._headers = headers
         self._status = status
+
+        self._aws_json = aws_json
+        self._aws_read = aws_read
+        self._aws_text = aws_text
 
     @property
     def callback_result(self):
@@ -45,6 +59,10 @@ class Response(object):
         self._index = value
 
     @property
+    def encoding(self):
+        return self._encoding
+
+    @property
     def url(self):
         return self._url
 
@@ -55,10 +73,6 @@ class Response(object):
     @property
     def metadata(self):
         return self._metadata
-
-    @property
-    def res_type(self):
-        return self._res_type
 
     @property
     def html(self):
@@ -87,5 +101,23 @@ class Response(object):
             html_etree = etree.HTML(self.html)
         return html_etree
 
+    async def json(self, *, encoding: str = None,
+                   loads: JSONDecoder = DEFAULT_JSON_DECODER,
+                   content_type: Optional[str] = 'application/json') -> Any:
+        """Read and decodes JSON response."""
+        return await self._aws_json(encoding=encoding,
+                                    loads=loads,
+                                    content_type=content_type)
+
+    async def read(self) -> bytes:
+        """Read response payload."""
+        return await self._aws_read()
+
+    async def text(self, *, encoding: Optional[str] = None,
+                   errors: str = 'strict') -> str:
+        """Read response payload and decode."""
+        return await self._aws_text(encoding=encoding,
+                                    errors=errors)
+
     def __str__(self):
-        return f'<Response url[{self._method}]: {self._url} status:{self._status} html_type:{self._res_type}>'
+        return f'<Response url[{self._method}]: {self._url} status:{self._status}>'

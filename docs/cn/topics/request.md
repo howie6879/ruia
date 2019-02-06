@@ -14,7 +14,6 @@
 - metadata：跨请求传递的一些数据
 - request_config：请求配置
 - request_session：`aiohttp`的请求session
-- res_type：请求的资源类型，默认为`str`，可以选择`bytes`或`json`
 - kwargs：请求目标资源可定义的其他参数
 
 ## Usage

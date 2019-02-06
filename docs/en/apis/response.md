@@ -6,7 +6,6 @@ Main properties:
 
 - url: the href of resource
 - metadata: some data from previous request
-- res_type: the type of response, default `str`, optional `bytes` or `json`
 - html: HTML source code from website
 - cookies: cookies of website
 - history: the request history

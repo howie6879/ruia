@@ -4,7 +4,7 @@ import logging
 
 
 def get_logger(name='Ruia'):
-    logging_format = "[%(asctime)s]-%(name)s-%(levelname)-6s"
+    logging_format = "[%(asctime)s]-%(levelname)-5s-%(name)-8s"
     # logging_format += "%(module)-7s::l%(lineno)d: "
     logging_format += "%(module)-7s: "
     logging_format += "%(message)s"
@@ -15,6 +15,5 @@ def get_logger(name='Ruia'):
         datefmt='%Y:%m:%d %H:%M:%S'
     )
     logging.getLogger("asyncio").setLevel(logging.INFO)
-    logging.getLogger("pyppeteer").setLevel(logging.INFO)
     logging.getLogger("websockets").setLevel(logging.INFO)
     return logging.getLogger(name)

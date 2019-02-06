@@ -2,44 +2,44 @@
 
 from ruia import Middleware
 
-middleware = Middleware()
+middleware01 = Middleware()
 
-res_type_middleware = Middleware()
+middleware02 = Middleware()
 
 
-@middleware.request
+@middleware01.request
 async def print_on_request01(request):
     request.headers = {
         'User-Agent': 'ruia ua'
     }
 
 
-@middleware.response
+@middleware01.response
 async def print_on_response01(request, response):
-    assert isinstance(response.html, dict)
+    assert isinstance(response.html, str)
 
 
-@res_type_middleware.request
+@middleware02.request
 async def print_on_request02(request):
-    request.res_type = 'json'
+    pass
 
 
-@res_type_middleware.response
+@middleware02.response
 async def print_on_response02(request, response):
-    assert isinstance(response.html, dict)
+    pass
 
 
-all_middleware = middleware + res_type_middleware
+all_middleware = middleware01 + middleware02
 
 
 @all_middleware.request
 async def print_on_request(request):
-    request.res_type = 'json'
+    pass
 
 
 @all_middleware.response
 async def print_on_response(request, response):
-    assert isinstance(response.html, dict)
+    pass
 
 
 def test_add_middleware():
@@ -52,9 +52,9 @@ def test_add_middleware():
 
 
 def test_request_middleware():
-    assert len(middleware.request_middleware) == 1
-    assert middleware.request_middleware.pop().__name__ == 'print_on_request01'
+    assert len(middleware01.request_middleware) == 1
+    assert middleware01.request_middleware.pop().__name__ == 'print_on_request01'
 
 
 def test_response_middleware():
-    assert middleware.response_middleware.pop().__name__ == 'print_on_response01'
+    assert middleware01.response_middleware.pop().__name__ == 'print_on_response01'
