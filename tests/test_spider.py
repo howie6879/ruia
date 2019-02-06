@@ -1,9 +1,7 @@
 #!/usr/bin/env python
 import asyncio
-
 import pytest
-
-from ruia import AttrField, Item, Middleware, Request, Spider, TextField
+from ruia import AttrField, Item, Middleware, Request, Spider, TextField, Response
 
 middleware = Middleware()
 
@@ -146,3 +144,31 @@ def test_multiple_spider():
     loop = asyncio.new_event_loop()
     SpiderDemo = loop.run_until_complete(multiple_spider(loop=loop))
     assert SpiderDemo.call_nums == 3
+
+
+def test_multiple_request_sync():
+    class MultipleRequestSpider(Spider):
+        start_urls = ['https://httpbin.org']
+        concurrency = 3
+
+        async def parse(self, response: Response):
+            urls = [f'https://httpbin.org/get?p={page}' for page in range(2)]
+            async for response in self.multiple_request(urls, is_gather=False):
+                # TODO: should use response.json instead
+                assert isinstance(response.html, str)
+
+    MultipleRequestSpider.start()
+
+
+def test_multiple_request_async():
+    class MultipleRequestSpider(Spider):
+        start_urls = ['https://httpbin.org']
+        concurrency = 3
+
+        async def parse(self, response: Response):
+            urls = [f'https://httpbin.org/get?p={page}' for page in range(4)]
+            async for response in self.multiple_request(urls, is_gather=True):
+                # TODO: should use response.json instead
+                assert isinstance(response.html, str)
+
+    MultipleRequestSpider.start()
