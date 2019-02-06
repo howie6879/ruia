@@ -1,10 +1,10 @@
 Ruia
 ====
 
-|travis| |codecov| |PyPI - Python Version| |PyPI| |license|
+|travis| |codecov| |PyPI - Python Version| |PyPI| |gitter|
 
 .. figure:: https://raw.githubusercontent.com/howie6879/ruia/master/docs/images/ruia_demo.png
-   :alt: 
+   :alt:
 
 Overview
 --------
@@ -224,5 +224,5 @@ Thanks
    :target: https://pypi.org/project/ruia/
 .. |PyPI| image:: https://img.shields.io/pypi/v/ruia.svg
    :target: https://pypi.org/project/ruia/
-.. |license| image:: https://img.shields.io/github/license/howie6879/ruia.svg
-   :target: https://github.com/howie6879/ruia
+.. |gitter| image:: https://badges.gitter.im/Join%20Chat.svg
+   :target: https://gitter.im/howie6879_ruia/community

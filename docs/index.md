@@ -4,7 +4,7 @@
 [![codecov](https://codecov.io/gh/howie6879/ruia/branch/master/graph/badge.svg)](https://codecov.io/gh/howie6879/ruia)
 [![PyPI - Python Version](https://img.shields.io/pypi/pyversions/ruia.svg)](https://pypi.org/project/ruia/) 
 [![PyPI](https://img.shields.io/pypi/v/ruia.svg)](https://pypi.org/project/ruia/) 
-[![license](https://img.shields.io/github/license/howie6879/ruia.svg)](https://github.com/howie6879/ruia)
+[![gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/howie6879_ruia/community)
 
 ![](https://raw.githubusercontent.com/howie6879/ruia/master/docs/images/ruia_demo.png)
 
