@@ -33,6 +33,7 @@ nav:
       - Middleware: ./en/apis/middleware.md
   - Topics:
       - Write Spiders like Scrapy: ./en/topics/write_spiders_like_scrapy.md
+      - Item Data Cleaning: ./en/topics/item_data_cleaning.md
   - Examples:
       - Full featured project: ./en/examples/project.md
 
