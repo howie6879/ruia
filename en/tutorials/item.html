@@ -582,10 +582,46 @@
       <input class="md-toggle md-nav__toggle" data-md-toggle="nav-5" type="checkbox" id="nav-5">
     
     <label class="md-nav__link" for="nav-5">
-      Examples
+      Topics
     </label>
     <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
       <label class="md-nav__title" for="nav-5">
+        Topics
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../topics/write_spiders_like_scrapy.html" title="Write Spiders like Scrapy" class="md-nav__link">
+      Write Spiders like Scrapy
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-6" type="checkbox" id="nav-6">
+    
+    <label class="md-nav__link" for="nav-6">
+      Examples
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-6">
         Examples
       </label>
       <ul class="md-nav__list" data-md-scrollfix>
@@ -903,7 +939,7 @@ Certainly we can solve this problem in such a way:</p>
     <span class="n">title</span> <span class="o">=</span> <span class="n">TextField</span><span class="p">(</span><span class="n">css_select</span><span class="o">=</span><span class="s1">&#39;title&#39;</span><span class="p">)</span>
     <span class="n">tutorial_link</span> <span class="o">=</span> <span class="n">AttrField</span><span class="p">(</span><span class="n">xpath_select</span><span class="o">=</span><span class="s2">&quot;//a[text()=&#39;Tutorial&#39;]&quot;</span><span class="p">,</span> <span class="n">attr</span><span class="o">=</span><span class="s1">&#39;href&#39;</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">clean_title</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+    <span class="n">async</span> <span class="k">def</span> <span class="nf">clean_title</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
         <span class="k">return</span> <span class="n">value</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
 
 
@@ -1033,7 +1069,7 @@ Here's an example.</p>
     <span class="n">title</span> <span class="o">=</span> <span class="n">TextField</span><span class="p">(</span><span class="n">css_select</span><span class="o">=</span><span class="s1">&#39;.title&#39;</span><span class="p">)</span>
     <span class="n">star</span> <span class="o">=</span> <span class="n">TextField</span><span class="p">(</span><span class="n">css_select</span><span class="o">=</span><span class="s1">&#39;.star&#39;</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">clean_star</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+    <span class="n">async</span> <span class="k">def</span> <span class="nf">clean_star</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
         <span class="k">return</span> <span class="nb">int</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
 
 
@@ -1124,7 +1160,7 @@ Here we want to get a list a pure strings from <code>tag</code> field.
     <span class="n">star</span> <span class="o">=</span> <span class="n">TextField</span><span class="p">(</span><span class="n">css_select</span><span class="o">=</span><span class="s1">&#39;.star&#39;</span><span class="p">)</span>
     <span class="n">tags</span> <span class="o">=</span> <span class="n">TextField</span><span class="p">(</span><span class="n">css_select</span><span class="o">=</span><span class="s1">&#39;.tag&#39;</span><span class="p">,</span> <span class="n">many</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">clean_star</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+    <span class="n">async</span> <span class="k">def</span> <span class="nf">clean_star</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
         <span class="k">return</span> <span class="nb">int</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
 
 
