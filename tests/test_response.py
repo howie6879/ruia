@@ -60,6 +60,6 @@ def test_callback():
 
 
 def test_index():
-    assert response.index == None
+    assert response.index is None
     response.index = 'ruia'
     assert response.index == 'ruia'
