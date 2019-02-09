@@ -13,5 +13,9 @@ class InvalidRequestMethod(Exception):
     pass
 
 
+class NotImplementedParseError(Exception):
+    pass
+
+
 class NothingMatchedError(Exception):
     pass

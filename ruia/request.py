@@ -111,17 +111,18 @@ class Request(object):
         try:
             async with sem:
                 response = await self.fetch()
-            if self.callback is not None:
-                if iscoroutinefunction(self.callback):
-                    callback_result = await self.callback(response)
-                    response.callback_result = callback_result
-                else:
-                    callback_result = self.callback(response)
-            else:
-                callback_result = None
         except Exception as e:
+            response = None
             self.logger.error(f"<Error: {self.url} {e}>")
-            callback_result, response = None, None
+
+        if self.callback is not None:
+            if iscoroutinefunction(self.callback):
+                callback_result = await self.callback(response)
+                response.callback_result = callback_result
+            else:
+                callback_result = self.callback(response)
+        else:
+            callback_result = None
 
         return callback_result, response
 

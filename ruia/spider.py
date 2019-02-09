@@ -10,7 +10,7 @@ from inspect import isawaitable
 from signal import SIGINT, SIGTERM
 from types import AsyncGeneratorType
 
-from ruia.exceptions import InvalidParseType, NothingMatchedError
+from ruia.exceptions import InvalidParseType, NotImplementedParseError, NothingMatchedError
 from ruia.item import Item
 from ruia.middleware import Middleware
 from ruia.request import Request
@@ -97,7 +97,7 @@ class Spider:
         :param response: Response
         :return:
         """
-        raise NotImplementedError
+        raise NotImplementedParseError('<!!! parse function is expected !!!>')
 
     @classmethod
     async def async_start(cls,
@@ -149,17 +149,34 @@ class Spider:
             spider_ins.loop.close()
 
     async def handle_callback(self, aws_callback: typing.Coroutine, response):
-        callback_result = await aws_callback
+        """Process coroutine callback function"""
+        callback_result = None
+
+        try:
+            callback_result = await aws_callback
+        except NothingMatchedError as e:
+            self.logger.error(f'<Item: {str(e).lower()}>')
+        except Exception as e:
+            self.logger.error(f'<Callback[{aws_callback.__name__}]: {e}')
         return callback_result, response
 
     async def handle_request(self, request: Request) -> typing.Tuple[AsyncGeneratorType, Response]:
         """
-        Wrap request with middlewares.
+        Wrap request with middleware.
         :param request:
         :return:
         """
+        callback_result, response = None, None
+
         await self._run_request_middleware(request)
-        callback_result, response = await request.fetch_callback(self.sem)
+        try:
+            callback_result, response = await request.fetch_callback(self.sem)
+        except NotImplementedParseError as e:
+            self.logger.error(e)
+        except NothingMatchedError as e:
+            self.logger.error(f'<Item: {str(e).lower()}>')
+        except Exception as e:
+            self.logger.error(f'<Callback[{request.callback.__name__}]: {e}')
         await self._run_response_middleware(request, response)
         await self._process_response(request=request, response=response)
         return callback_result, response
@@ -263,9 +280,7 @@ class Spider:
                     if process_item:
                         await process_item(each)
                 else:
-                    raise InvalidParseType(f'Invalid parse type: {type(each)}')
-        except NothingMatchedError as e:
-            self.logger.error(f'Field: {e}')
+                    raise InvalidParseType(f'<Parse Invalid parse type: {type(each)}>')
         except Exception as e:
             self.logger.error(e)
 

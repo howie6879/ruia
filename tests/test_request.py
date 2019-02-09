@@ -12,6 +12,10 @@ async def hello(response):
     return 'hello ruia'
 
 
+def hi(response):
+    yield 'hi ruia'
+
+
 async def retry_func(request):
     request.request_config['TIMEOUT'] = 10
 
@@ -19,22 +23,6 @@ async def retry_func(request):
 params = {
     "name": "ruia"
 }
-
-
-async def timeout_request(sem):
-    request_config = {
-        'RETRIES': 1,
-        'DELAY': 1,
-        'TIMEOUT': 0.1,
-    }
-    request = Request('http://www.httpbin.org/get',
-                      method='GET',
-                      metadata={'hello': 'ruia'},
-                      encoding='utf-8',
-                      request_config=request_config,
-                      params=params,
-                      callback=hello)
-    return await request.fetch_callback(sem)
 
 
 async def make_get_request(sem, callback=None):
@@ -66,6 +54,7 @@ async def make_post_request(sem, callback):
 
 
 def test_request_config():
+    assert str(Request('https://www.httpbin.org/')) == '<GET https://www.httpbin.org/>'
     _, response = asyncio.get_event_loop().run_until_complete(make_get_request(sem=sem, callback=hello))
     assert response.callback_result == 'hello ruia'
     assert response.metadata == {'hello': 'ruia'}
@@ -76,6 +65,8 @@ def test_request_config():
     json_result = asyncio.get_event_loop().run_until_complete(response.json())
     assert json_result['data'] == "name=ruia"
 
+
+def test_method_error_request():
     try:
         request = Request('https://www.httpbin.org/', method='PUT')
         response = asyncio.get_event_loop().run_until_complete(request.fetch())
@@ -84,6 +75,32 @@ def test_request_config():
         assert isinstance(e, InvalidRequestMethod)
 
 
+def test_sem_error_request():
+    _, response = asyncio.get_event_loop().run_until_complete(make_get_request(sem=None, callback=None))
+    assert response == None
+
+
+def test_retry_request():
+    request = Request('http://www.httpbin.org/404')
+    _, response = asyncio.get_event_loop().run_until_complete(request.fetch_callback(sem=sem))
+    assert response.url == 'http://www.httpbin.org/404'
+
+
 def test_timeout_request():
-    callback_result, response = asyncio.get_event_loop().run_until_complete(timeout_request(sem=sem))
+    async def timeout_request(sem):
+        request_config = {
+            'RETRIES': 1,
+            'DELAY': 1,
+            'TIMEOUT': 0.1,
+        }
+        request = Request('http://www.httpbin.org/get',
+                          method='GET',
+                          metadata={'hello': 'ruia'},
+                          encoding='utf-8',
+                          request_config=request_config,
+                          params=params,
+                          callback=hi)
+        return await request.fetch_callback(sem)
+
+    _, response = asyncio.get_event_loop().run_until_complete(timeout_request(sem=sem))
     assert response.url == 'http://www.httpbin.org/get'

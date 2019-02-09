@@ -70,18 +70,18 @@ def test_item():
     assert item.title == 'Title: 豆瓣电影TOP250'
 
     try:
-        item = asyncio.get_event_loop().run_until_complete(DoubanCleanMethodErrorItem.get_item(html=HTML))
+        asyncio.get_event_loop().run_until_complete(DoubanCleanMethodErrorItem.get_item(html=HTML))
     except Exception as e:
         assert isinstance(e, InvalidFuncType)
 
     try:
 
-        item = asyncio.get_event_loop().run_until_complete(DoubanItem.get_item(html=''))
+        asyncio.get_event_loop().run_until_complete(DoubanItem.get_item(html=''))
     except Exception as e:
         assert isinstance(e, ValueError)
 
     try:
-        item = asyncio.get_event_loop().run_until_complete(DoubanItem.get_item(html_etree='test'))
+        asyncio.get_event_loop().run_until_complete(DoubanItem.get_item(html_etree='test'))
     except Exception as e:
         assert isinstance(e, AttributeError)
 
@@ -91,7 +91,7 @@ def test_items():
     assert items[0].abstract == '希望让人自由。'
 
     try:
-        items = asyncio.get_event_loop().run_until_complete(error_parse_item(html=HTML))
+        asyncio.get_event_loop().run_until_complete(error_parse_item(html=HTML))
     except Exception as e:
         assert isinstance(e, ValueError)
 

@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 
-
 import asyncio
 import os
 
@@ -62,7 +61,7 @@ class SpiderDemo(Spider):
     async def parse_item(self, response):
         pages = [f'https://www.httpbin.org/get?p={i}' for i in range(1, 2)]
         async for resp in self.multiple_request(pages):
-            yield self.parse_next(resp, any_param='hello')
+            yield self.parse_next(response=resp, any_param='hello')
 
     async def parse_next(self, response, any_param):
         assert any_param == 'hello'
@@ -81,14 +80,6 @@ class SpiderDemo(Spider):
     async def count_nums(self):
         SpiderDemo.call_nums += 1
 
-# def test_invalid_parse_type_spider():
-#     class InvalidParseTypeSpider(Spider):
-#         start_urls = ['http://www.httpbin.org/get']
-#
-#         async def parse(self, response):
-#             yield {}
-#
-#     InvalidParseTypeSpider.start(loop=asyncio.new_event_loop())
 
 def test_spider_with_middleware():
     loop = asyncio.new_event_loop()
@@ -187,9 +178,12 @@ def test_spider_multiple_request_sync():
         async def parse(self, response: Response):
             urls = [f'https://httpbin.org/get?p={page}' for page in range(1, 2)]
             async for response in self.multiple_request(urls, is_gather=True):
-                json_result = await response.json()
-                page = json_result['args']['p']
-                result.append(int(page))
+                yield self.parse_next(response=response)
+
+        async def parse_next(self, response):
+            json_result = await response.json()
+            page = json_result['args']['p']
+            result.append(int(page))
 
     MultipleRequestSpider.start()
     assert result == [1]
@@ -205,14 +199,57 @@ def test_no_start_url_spider():
         assert isinstance(e, ValueError)
 
 
-def test_no_parse_spider():
+def test_callback_error():
     class NoParseSpider(Spider):
         start_urls = ['http://www.httpbin.org/get']
 
     NoParseSpider.start()
 
+    class CallbackError(Spider):
+        start_urls = ['http://www.httpbin.org/get']
+
+        async def parse(self, response):
+            raise ValueError('error')
+
+    CallbackError.start()
 
 
+def test_coroutine_callback_error():
+    class CoroutineItemErrorSpider(Spider):
+        start_urls = ['http://www.httpbin.org/get']
+
+        async def parse(self, response):
+            pages = ['http://www.httpbin.org/get?p=1']
+            async for resp in self.multiple_request(pages):
+                yield self.parse_item(response=resp)
+
+        async def parse_item(self, response):
+            await ItemDemo.get_item(html=response.html)
+
+    CoroutineItemErrorSpider.start()
+
+    class CoroutineErrorSpider(Spider):
+        start_urls = ['http://www.httpbin.org/get']
+
+        async def parse(self, response):
+            pages = ['http://www.httpbin.org/get?p=1']
+            async for resp in self.multiple_request(pages):
+                yield self.parse_item(response=resp)
+
+        async def parse_item(self, response):
+            raise ValueError("error")
+
+    CoroutineErrorSpider.start()
+
+
+def test_nothing_marched_spider():
+    class NothingMatchedErrorSpider(Spider):
+        start_urls = ['http://www.httpbin.org/get']
+
+        async def parse(self, response):
+            await ItemDemo.get_item(html=response.html)
+
+    NothingMatchedErrorSpider.start()
 
 
 def test_multiple_spider():
