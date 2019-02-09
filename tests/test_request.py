@@ -66,13 +66,13 @@ async def make_post_request(sem, callback):
 
 
 def test_request_config():
-    callback_result, response = asyncio.get_event_loop().run_until_complete(make_get_request(sem=sem, callback=hello))
+    _, response = asyncio.get_event_loop().run_until_complete(make_get_request(sem=sem, callback=hello))
     assert response.callback_result == 'hello ruia'
     assert response.metadata == {'hello': 'ruia'}
     json_result = asyncio.get_event_loop().run_until_complete(response.json())
     assert json_result['args']['name'] == "ruia"
 
-    callback_result, response = asyncio.get_event_loop().run_until_complete(make_post_request(sem=sem, callback=None))
+    _, response = asyncio.get_event_loop().run_until_complete(make_post_request(sem=sem, callback=None))
     json_result = asyncio.get_event_loop().run_until_complete(response.json())
     assert json_result['data'] == "name=ruia"
 

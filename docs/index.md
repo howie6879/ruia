@@ -2,6 +2,7 @@
 
 [![travis](https://travis-ci.org/howie6879/ruia.svg?branch=master)](https://travis-ci.org/howie6879/ruia) 
 [![codecov](https://codecov.io/gh/howie6879/ruia/branch/master/graph/badge.svg)](https://codecov.io/gh/howie6879/ruia)
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/920fd1b89cc94e4ca75a579fa3581832)](https://www.codacy.com/app/howie6879/ruia?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=howie6879/ruia&amp;utm_campaign=Badge_Grade)
 [![PyPI - Python Version](https://img.shields.io/pypi/pyversions/ruia.svg)](https://pypi.org/project/ruia/) 
 [![PyPI](https://img.shields.io/pypi/v/ruia.svg)](https://pypi.org/project/ruia/) 
 [![gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/howie6879_ruia/community)

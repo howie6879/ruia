@@ -10,7 +10,7 @@ from inspect import isawaitable
 from signal import SIGINT, SIGTERM
 from types import AsyncGeneratorType
 
-from ruia.exceptions import InvalidParseType,NothingMatchedError
+from ruia.exceptions import InvalidParseType, NothingMatchedError
 from ruia.item import Item
 from ruia.middleware import Middleware
 from ruia.request import Request
@@ -264,6 +264,8 @@ class Spider:
                         await process_item(each)
                 else:
                     raise InvalidParseType(f'Invalid parse type: {type(each)}')
+        except NothingMatchedError as e:
+            self.logger.error(f'Field: {e}')
         except Exception as e:
             self.logger.error(e)
 

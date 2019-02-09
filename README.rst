@@ -1,10 +1,11 @@
 Ruia
 ====
 
-|travis| |codecov| |PyPI - Python Version| |PyPI| |gitter|
+|travis| |codecov| |Codacy Badge| |PyPI - Python Version| |PyPI|
+|gitter|
 
 .. figure:: https://raw.githubusercontent.com/howie6879/ruia/master/docs/images/ruia_demo.png
-   :alt:
+   :alt: 
 
 Overview
 --------
@@ -220,6 +221,8 @@ Thanks
    :target: https://travis-ci.org/howie6879/ruia
 .. |codecov| image:: https://codecov.io/gh/howie6879/ruia/branch/master/graph/badge.svg
    :target: https://codecov.io/gh/howie6879/ruia
+.. |Codacy Badge| image:: https://api.codacy.com/project/badge/Grade/920fd1b89cc94e4ca75a579fa3581832
+   :target: https://www.codacy.com/app/howie6879/ruia?utm_source=github.com&utm_medium=referral&utm_content=howie6879/ruia&utm_campaign=Badge_Grade
 .. |PyPI - Python Version| image:: https://img.shields.io/pypi/pyversions/ruia.svg
    :target: https://pypi.org/project/ruia/
 .. |PyPI| image:: https://img.shields.io/pypi/v/ruia.svg
