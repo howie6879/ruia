@@ -35,7 +35,7 @@ async def print_on_request(request):
 
 @middleware.response
 async def print_on_response(request, response):
-    assert isinstance(response.html, dict)
+    assert isinstance(response.html, str)
 
 
 if __name__ == '__main__':

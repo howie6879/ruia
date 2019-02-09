@@ -7,7 +7,7 @@ class DoubanItem(Item):
     target_item = TextField(css_select='div.item')
     title = TextField(css_select='span.title')
     cover = AttrField(css_select='div.pic>a>img', attr='src')
-    abstract = TextField(css_select='span.inq')
+    abstract = TextField(css_select='span.inq', default='')
 
     async def clean_title(self, title):
         if isinstance(title, str):

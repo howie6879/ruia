@@ -61,7 +61,8 @@ class _LxmlElementField(BaseField):
         if elements:
             results = [self._parse_element(element) for element in elements]
         elif self.default is None:
-            raise NothingMatchedError(self.css_select or self.xpath_select)
+            raise NothingMatchedError(f"Extract `{self.css_select or self.xpath_select}` error, "
+                                      f"please check selector or set parameter named `default`")
         else:
             results = [self.default]
 
@@ -128,7 +129,8 @@ class RegexField(BaseField):
             if self.default:
                 return self.default
             else:
-                raise NothingMatchedError('Nothing matched: ' + self._re_select)
+                raise NothingMatchedError(f"Extract `{self._re_select}` error, "
+                                          f"please check selector or set parameter named `default`")
         else:
             string = match.group()
             groups = match.groups()

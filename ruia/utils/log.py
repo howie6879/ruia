@@ -4,9 +4,9 @@ import logging
 
 
 def get_logger(name='Ruia'):
-    logging_format = "[%(asctime)s]-%(levelname)-5s-%(name)-8s"
+    logging_format = "[%(asctime)s] %(levelname)-5s %(name)-8s"
     # logging_format += "%(module)-7s::l%(lineno)d: "
-    logging_format += "%(module)-7s: "
+    # logging_format += "%(module)-7s: "
     logging_format += "%(message)s"
 
     logging.basicConfig(

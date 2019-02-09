@@ -1,23 +1,6 @@
 #!/usr/bin/env python
-"""
- Created by howie.hu at 2018/11/21.
-"""
 
-from ruia import Request, Spider, Middleware
-
-middleware = Middleware()
-
-
-@middleware.request
-async def print_on_request(request):
-    request.headers = {
-        'User-Agent': 'ruia ua'
-    }
-
-
-@middleware.response
-async def print_on_response(request, response):
-    print(request.headers)
+from ruia import Spider
 
 
 async def retry_func(request):
@@ -35,19 +18,14 @@ class TestSpider(Spider):
     }
 
     async def parse(self, response):
-        pages = ['http://www.httpbin.org/get', 'http://www.httpbin.org/get']
-        for index, page in enumerate(pages):
-            yield Request(
-                page,
-                callback=self.parse_item,
-                metadata={'index': index},
-                request_config=self.request_config,
-            )
+        pages = ['http://www.httpbin.org/get?p=1', 'http://www.httpbin.org/get?p=2']
+        async for resp in self.multiple_request(pages):
+            yield self.parse_item(response=resp)
 
     async def parse_item(self, response):
-        item_data = response.html
-        return item_data
+        json_data = await response.json()
+        return json_data
 
 
 if __name__ == '__main__':
-    TestSpider.start(middleware=middleware)
+    TestSpider.start()

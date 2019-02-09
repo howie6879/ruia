@@ -18,6 +18,7 @@ try:
 except ImportError:
     pass
 
+from ruia.exceptions import InvalidRequestMethod
 from ruia.response import Response
 from ruia.utils import get_logger
 
@@ -52,7 +53,7 @@ class Request(object):
         self.url = url
         self.method = method.upper()
         if self.method not in self.METHOD:
-            raise ValueError('%s method is not supported' % self.method)
+            raise InvalidRequestMethod(f'{self.method} method is not supported')
 
         self.callback = callback
         self.encoding = encoding
@@ -80,6 +81,7 @@ class Request(object):
 
         timeout = self.request_config.get('TIMEOUT', 10)
         try:
+            # TODO middleware for retry
             async with async_timeout.timeout(timeout):
                 resp = await self._make_request()
             res_data = await resp.text(encoding=self.encoding)
@@ -95,11 +97,14 @@ class Request(object):
                                 aws_json=resp.json,
                                 aws_text=resp.text,
                                 aws_read=resp.read)
-            return response if res_data else await self._process_retry()
+            if response.status not in [200, 201] or not res_data:
+                return await self._retry()
+            return response
         except asyncio.TimeoutError:
-            return await self._process_retry()
+            # Retry for timeout
+            return await self._retry()
         finally:
-            # close client session
+            # Close client session
             await self._close_request_session()
 
     async def fetch_callback(self, sem: Semaphore = None) -> Tuple[AsyncGeneratorType, Response]:
@@ -143,7 +148,7 @@ class Request(object):
         resp = await request_func
         return resp
 
-    async def _process_retry(self):
+    async def _retry(self):
         if self.retry_times > 0:
             retry_times = self.request_config.get('RETRIES', 3) - self.retry_times + 1
             self.logger.info(f'<Retry url: {self.url}>, Retry times: {retry_times}')

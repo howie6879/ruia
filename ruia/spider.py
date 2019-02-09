@@ -10,7 +10,7 @@ from inspect import isawaitable
 from signal import SIGINT, SIGTERM
 from types import AsyncGeneratorType
 
-from ruia.exceptions import InvalidParseType
+from ruia.exceptions import InvalidParseType,NothingMatchedError
 from ruia.item import Item
 from ruia.middleware import Middleware
 from ruia.request import Request
@@ -75,7 +75,7 @@ class Spider:
         self.request_config = self.request_config or {}
 
         self.is_async_start = is_async_start
-        self.logger = get_logger(name=self.name)
+        self.logger = get_logger(name='Spider')
         self.loop = loop
         asyncio.set_event_loop(self.loop)
 
@@ -91,7 +91,7 @@ class Spider:
         # semaphore, used for concurrency control
         self.sem = asyncio.Semaphore(self.concurrency)
 
-    async def parse(self, response: Response):
+    async def parse(self, response):
         """
         Used for subclasses, directly parse the responses corresponding with start_urls
         :param response: Response
@@ -107,10 +107,10 @@ class Spider:
                           before_stop=None):
         """
         Start an async spider
-        :param middleware:
+        :param middleware: customize middleware or a list of middleware
         :param loop:
-        :param after_start:
-        :param before_stop:
+        :param after_start: hook
+        :param before_stop: hook
         :return:
         """
         loop = loop or asyncio.get_event_loop()
@@ -216,7 +216,7 @@ class Spider:
             self.request_queue.put_nowait(self.handle_request(request_ins))
         workers = [asyncio.ensure_future(self.start_worker()) for i in range(self.worker_numbers)]
         for worker in workers:
-            self.logger.info(f"worker started: {id(worker)}")
+            self.logger.info(f"Worker started: {id(worker)}")
         await self.request_queue.join()
         if not self.is_async_start:
             await self.stop(SIGINT)
@@ -265,11 +265,11 @@ class Spider:
                 else:
                     raise InvalidParseType(f'Invalid parse type: {type(each)}')
         except Exception as e:
-            self.logger.error(str(e))
+            self.logger.error(e)
 
     async def _process_response(self, request: Request, response: Response):
         if response:
-            if response.html is None:
+            if response.html is None or response.status not in [200, 201]:
                 # Process failed response
                 self.failed_counts += 1
                 process_failed_response = getattr(self, 'process_failed_response', None)
@@ -285,42 +285,35 @@ class Spider:
     async def _run_request_middleware(self, request: Request):
         if self.middleware.request_middleware:
             for middleware in self.middleware.request_middleware:
-                middleware_aws = middleware(request)
-                if isawaitable(middleware_aws):
-                    try:
-                        await middleware_aws
-                    except Exception as e:
-                        self.logger.exception(e)
-                else:
-                    self.logger.error('Middleware must be a coroutine function')
+                try:
+                    await middleware(request)
+                except TypeError:
+                    self.logger.error(f"<Middleware {middleware.__name__}: must be a coroutine function")
+                except Exception as e:
+                    self.logger.error(f'<Middleware {middleware.__name__}: {e}')
 
     async def _run_response_middleware(self, request: Request, response: Response):
         if self.middleware.response_middleware:
             for middleware in self.middleware.response_middleware:
-                middleware_aws = middleware(request, response)
-                if isawaitable(middleware_aws):
-                    try:
-                        await middleware_aws
-                    except Exception as e:
-                        self.logger.exception(e)
-                else:
-                    self.logger.error("Middleware's func must be a coroutine function")
+                try:
+                    await middleware(request, response)
+                except TypeError:
+                    self.logger.error(f"<Middleware {middleware.__name__}: must be a coroutine function")
+                except Exception as e:
+                    self.logger.error(f'<Middleware {middleware.__name__}: {e}')
 
     async def _run_spider_hook(self, hook_func):
         if callable(hook_func):
-            aws_hook_func = hook_func(self)
-            if isawaitable(aws_hook_func):
-                try:
+            try:
+                aws_hook_func = hook_func(self)
+                if isawaitable(aws_hook_func):
                     await aws_hook_func
-                except Exception as e:
-                    self.logger.exception(e)
-            else:
-                self.logger.error("Spider's hook must be a coroutine function")
+            except Exception as e:
+                self.logger.error(f'<Hook {hook_func.__name__}: {e}')
 
     async def _start(self, after_start=None, before_stop=None):
         self.logger.info('Spider started!')
         start_time = datetime.now()
-
         # Run hook before spider start crawling
         await self._run_spider_hook(after_start)
 

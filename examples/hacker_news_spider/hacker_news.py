@@ -2,9 +2,9 @@
 
 from ruia import Request, Spider
 
+from db import MotorBase
 from items import HackerNewsItem
 from middlewares import middleware
-from db import MotorBase
 
 
 class HackerNewsSpider(Spider):

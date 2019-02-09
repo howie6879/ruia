@@ -9,5 +9,9 @@ class InvalidParseType(Exception):
     pass
 
 
+class InvalidRequestMethod(Exception):
+    pass
+
+
 class NothingMatchedError(Exception):
     pass
