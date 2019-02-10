@@ -2,8 +2,24 @@
 
 from ruia import Spider, Middleware
 
+middleware = Middleware()
 
-class TestSpider(Spider):
+
+@middleware.request
+async def print_on_request(request):
+    request.metadata = {
+        'url': request.url
+    }
+    print(f"request: {request.metadata}")
+    # Just operate request object, and do not return anything.
+
+
+@middleware.response
+async def print_on_response(request, response):
+    print(f"response: {response.metadata}")
+
+
+class MiddlewareSpiderDemo(Spider):
     start_urls = ['http://www.httpbin.org/get']
     concurrency = 10
 
@@ -22,21 +38,5 @@ class TestSpider(Spider):
         print(response.html)
 
 
-middleware = Middleware()
-res_type_middleware = Middleware()
-
-
-@middleware.request
-async def print_on_request(request):
-    request.headers = {
-        'User-Agent': 'ruia ua'
-    }
-
-
-@middleware.response
-async def print_on_response(request, response):
-    assert isinstance(response.html, str)
-
-
 if __name__ == '__main__':
-    TestSpider.start(middleware=middleware)
+    MiddlewareSpiderDemo.start(middleware=middleware)

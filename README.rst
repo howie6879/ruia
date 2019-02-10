@@ -5,7 +5,9 @@ Ruia
 |gitter|
 
 .. figure:: https://raw.githubusercontent.com/howie6879/ruia/master/docs/images/ruia_demo.png
-   :alt: 
+   :alt: demo
+
+   demo
 
 Overview
 --------
@@ -17,7 +19,7 @@ Write less, run faster:
 
 -  Documentation:
    `中文文档 <https://github.com/howie6879/ruia/blob/master/docs/cn/README.md>`__
-   \|\ `documentation <https://howie6879.github.io/ruia/>`__
+   \|\ `documentation <https://docs.python-ruia.org/>`__
 -  Awesome: https://github.com/ruia-plugins/awesome-ruia
 -  Organization: https://github.com/ruia-plugins
 
@@ -65,7 +67,8 @@ Usage
 Item
 ~~~~
 
-``Item`` can be used standalone, for testing, and for tiny crawlers.
+``Item`` can be used standalone, for testing, and for tiny crawlers,
+Create a file named ``item_demo.py``
 
 .. code:: python
 
@@ -86,7 +89,7 @@ Item
     if __name__ == '__main__':
          items = asyncio.run(main())
 
-Run: ``python demo.py``
+Run: ``python item_demo.py``
 
 .. code:: shell
 
@@ -96,12 +99,9 @@ Run: ``python demo.py``
 Spider Control
 ~~~~~~~~~~~~~~
 
-``Spider`` is used for control requests better. ``Spider`` supports
-concurrency control, which is very important for spiders.
+``Spider`` is used for control requests better.
 
 .. code:: python
-
-    import aiofiles
 
     from ruia import AttrField, TextField, Item, Spider
 
@@ -118,19 +118,17 @@ concurrency control, which is very important for spiders.
 
     class HackerNewsSpider(Spider):
         start_urls = [f'https://news.ycombinator.com/news?p={index}' for index in range(1, 3)]
+        concurrency = 10
 
         async def parse(self, response):
             async for item in HackerNewsItem.get_items(html=response.html):
                 yield item
 
-        async def process_item(self, item: HackerNewsItem):
-            """Ruia build-in method"""
-            async with aiofiles.open('./hacker_news.txt', 'a') as f:
-                await f.write(str(item.title) + '\n')
-
-
     if __name__ == '__main__':
         HackerNewsSpider.start()
+
+More details click
+`here <https://github.com/howie6879/ruia/blob/master/examples/topics_examples/hacker_news_spider.py>`__
 
 Run ``hacker_news_spider.py``:
 
@@ -161,7 +159,7 @@ The following middleware is based on the above example:
     @middleware.request
     async def print_on_request(request):
         request.metadata = {
-            'index': request.url.split('=')[-1]
+            'url': request.url
         }
         print(f"request: {request.metadata}")
         # Just operate request object, and do not return anything.
@@ -171,10 +169,10 @@ The following middleware is based on the above example:
     async def print_on_response(request, response):
         print(f"response: {response.metadata}")
 
-    # Add HackerNewsSpider
+    # Add your spider here
 
-    if __name__ == '__main__':
-        HackerNewsSpider.start(middleware=middleware)
+More details click
+`here <https://github.com/howie6879/ruia/blob/master/examples/topics_examples/middleware_example.py>`__
 
 JavaScript Support
 ~~~~~~~~~~~~~~~~~~
@@ -214,7 +212,7 @@ requests:
 Thanks
 ------
 
--  `sanic <https://github.com/huge-success/sanic>`__
+-  `aiohttp <https://github.com/aio-libs/aiohttp/>`__
 -  `demiurge <https://github.com/matiasb/demiurge>`__
 
 .. |travis| image:: https://travis-ci.org/howie6879/ruia.svg?branch=master
