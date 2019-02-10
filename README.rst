@@ -5,9 +5,7 @@ Ruia
 |gitter|
 
 .. figure:: https://raw.githubusercontent.com/howie6879/ruia/master/docs/images/ruia_demo.png
-   :alt: demo
-
-   demo
+   :alt: 
 
 Overview
 --------

@@ -7,7 +7,7 @@
 [![PyPI](https://img.shields.io/pypi/v/ruia.svg)](https://pypi.org/project/ruia/) 
 [![gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/howie6879_ruia/community)
 
-![demo](https://raw.githubusercontent.com/howie6879/ruia/master/docs/images/ruia_demo.png)
+![](https://raw.githubusercontent.com/howie6879/ruia/master/docs/images/ruia_demo.png)
 
 ## Overview
 
