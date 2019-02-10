@@ -4,6 +4,12 @@ www.python-ruia.org {
     gzip
 }
 
+docs.python-ruia.org {
+    root /opt/ruia
+    timeouts none
+    gzip
+}
+
 python-ruia.org {
     redir http://www.python-ruia.org
 }
