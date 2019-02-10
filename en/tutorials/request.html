@@ -504,6 +504,18 @@
   </li>
 
         
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../topics/item_data_cleaning.html" title="Item Data Cleaning" class="md-nav__link">
+      Item Data Cleaning
+    </a>
+  </li>
+
+        
       </ul>
     </nav>
   </li>
@@ -590,10 +602,11 @@
     <span class="n">headers</span> <span class="o">=</span> <span class="p">{</span>
         <span class="s1">&#39;User-Agent&#39;</span><span class="p">:</span> <span class="s1">&#39;Python3.6&#39;</span><span class="p">,</span>
     <span class="p">}</span>
-    <span class="n">request</span> <span class="o">=</span> <span class="n">Request</span><span class="p">(</span><span class="n">url</span><span class="o">=</span><span class="n">url</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s1">&#39;GET&#39;</span><span class="p">,</span> <span class="n">res_type</span><span class="o">=</span><span class="s1">&#39;json&#39;</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">params</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="p">)</span>
+    <span class="n">request</span> <span class="o">=</span> <span class="n">Request</span><span class="p">(</span><span class="n">url</span><span class="o">=</span><span class="n">url</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s1">&#39;GET&#39;</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">params</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="p">)</span>
     <span class="n">response</span> <span class="o">=</span> <span class="n">await</span> <span class="n">request</span><span class="o">.</span><span class="n">fetch</span><span class="p">()</span>
-    <span class="k">assert</span> <span class="n">response</span><span class="o">.</span><span class="n">html</span><span class="p">[</span><span class="s1">&#39;args&#39;</span><span class="p">][</span><span class="s1">&#39;name&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;ruia&#39;</span>
-    <span class="k">assert</span> <span class="n">response</span><span class="o">.</span><span class="n">html</span><span class="p">[</span><span class="s1">&#39;headers&#39;</span><span class="p">][</span><span class="s1">&#39;User-Agent&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;Python3.6&#39;</span>
+    <span class="n">json_result</span> <span class="o">=</span> <span class="n">await</span> <span class="n">response</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
+    <span class="k">assert</span> <span class="n">json_result</span><span class="p">[</span><span class="s1">&#39;args&#39;</span><span class="p">][</span><span class="s1">&#39;name&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;ruia&#39;</span>
+    <span class="k">assert</span> <span class="n">json_result</span><span class="p">[</span><span class="s1">&#39;headers&#39;</span><span class="p">][</span><span class="s1">&#39;User-Agent&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;Python3.6&#39;</span>
 
 
 <span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
