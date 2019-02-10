@@ -3,7 +3,7 @@
 from inspect import iscoroutinefunction
 
 from lxml import etree
-from typing import Any, AsyncGenerator
+from typing import Any
 
 from ruia.exceptions import InvalidFuncType
 from ruia.field import BaseField
@@ -80,7 +80,7 @@ class Item(metaclass=ItemMeta):
                         html: str = '',
                         url: str = '',
                         html_etree: etree._Element = None,
-                        **kwargs) -> AsyncGenerator:
+                        **kwargs):
         if html_etree is None:
             html_etree = await cls._get_html(html, url, **kwargs)
         items_field = getattr(cls, '__fields', {}).get('target_item', None)
