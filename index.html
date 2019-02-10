@@ -803,13 +803,13 @@
 <a href="https://pypi.org/project/ruia/"><img alt="PyPI - Python Version" src="https://img.shields.io/pypi/pyversions/ruia.svg" /></a> 
 <a href="https://pypi.org/project/ruia/"><img alt="PyPI" src="https://img.shields.io/pypi/v/ruia.svg" /></a> 
 <a href="https://gitter.im/howie6879_ruia/community"><img alt="gitter" src="https://badges.gitter.im/Join%20Chat.svg" /></a></p>
-<p><img alt="" src="https://raw.githubusercontent.com/howie6879/ruia/master/docs/images/ruia_demo.png" /></p>
+<p><img alt="demo" src="https://raw.githubusercontent.com/howie6879/ruia/master/docs/images/ruia_demo.png" /></p>
 <h2 id="overview">Overview</h2>
 <p>An async web scraping micro-framework, written with <code>asyncio</code> and <code>aiohttp</code>, 
 aims to make crawling url as convenient as possible.</p>
 <p>Write less, run faster:</p>
 <ul>
-<li>Documentation: <a href="https://github.com/howie6879/ruia/blob/master/docs/cn/README.md">中文文档</a> |<a href="https://howie6879.github.io/ruia/">documentation</a></li>
+<li>Documentation: <a href="https://github.com/howie6879/ruia/blob/master/docs/cn/README.md">中文文档</a> |<a href="https://docs.python-ruia.org/">documentation</a></li>
 <li>Awesome: <a href="https://github.com/ruia-plugins/awesome-ruia">https://github.com/ruia-plugins/awesome-ruia</a></li>
 <li>Organization: <a href="https://github.com/ruia-plugins">https://github.com/ruia-plugins</a></li>
 </ul>
@@ -844,7 +844,7 @@ pip install git+https://github.com/howie6879/ruia
 </ol>
 <h2 id="usage">Usage</h2>
 <h3 id="item">Item</h3>
-<p><code>Item</code> can be used standalone, for testing, and for tiny crawlers.</p>
+<p><code>Item</code> can be used standalone, for testing, and for tiny crawlers, Create a file named <code>item_demo.py</code></p>
 <div class="codehilite"><pre><span></span><span class="kn">import</span> <span class="nn">asyncio</span>
 
 <span class="kn">from</span> <span class="nn">ruia</span> <span class="kn">import</span> <span class="n">AttrField</span><span class="p">,</span> <span class="n">TextField</span><span class="p">,</span> <span class="n">Item</span>
@@ -864,18 +864,15 @@ pip install git+https://github.com/howie6879/ruia
 </pre></div>
 
 
-<p>Run: <code>python demo.py</code></p>
+<p>Run: <code>python item_demo.py</code></p>
 <div class="codehilite"><pre><span></span>Notorious ‘Hijack Factory’ Shunned from Web https://krebsonsecurity.com/2018/07/notorious-hijack-factory-shunned-from-web/
  ......
 </pre></div>
 
 
 <h3 id="spider-control">Spider Control</h3>
-<p><code>Spider</code> is used for control requests better.
-<code>Spider</code> supports concurrency control, which is very important for spiders.</p>
-<div class="codehilite"><pre><span></span><span class="kn">import</span> <span class="nn">aiofiles</span>
-
-<span class="kn">from</span> <span class="nn">ruia</span> <span class="kn">import</span> <span class="n">AttrField</span><span class="p">,</span> <span class="n">TextField</span><span class="p">,</span> <span class="n">Item</span><span class="p">,</span> <span class="n">Spider</span>
+<p><code>Spider</code> is used for control requests better.</p>
+<div class="codehilite"><pre><span></span><span class="kn">from</span> <span class="nn">ruia</span> <span class="kn">import</span> <span class="n">AttrField</span><span class="p">,</span> <span class="n">TextField</span><span class="p">,</span> <span class="n">Item</span><span class="p">,</span> <span class="n">Spider</span>
 
 
 <span class="k">class</span> <span class="nc">HackerNewsItem</span><span class="p">(</span><span class="n">Item</span><span class="p">):</span>
@@ -890,22 +887,18 @@ pip install git+https://github.com/howie6879/ruia
 
 <span class="k">class</span> <span class="nc">HackerNewsSpider</span><span class="p">(</span><span class="n">Spider</span><span class="p">):</span>
     <span class="n">start_urls</span> <span class="o">=</span> <span class="p">[</span><span class="n">f</span><span class="s1">&#39;https://news.ycombinator.com/news?p={index}&#39;</span> <span class="k">for</span> <span class="n">index</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">)]</span>
+    <span class="n">concurrency</span> <span class="o">=</span> <span class="mi">10</span>
 
     <span class="n">async</span> <span class="k">def</span> <span class="nf">parse</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">response</span><span class="p">):</span>
         <span class="n">async</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">HackerNewsItem</span><span class="o">.</span><span class="n">get_items</span><span class="p">(</span><span class="n">html</span><span class="o">=</span><span class="n">response</span><span class="o">.</span><span class="n">html</span><span class="p">):</span>
             <span class="k">yield</span> <span class="n">item</span>
-
-    <span class="n">async</span> <span class="k">def</span> <span class="nf">process_item</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">item</span><span class="p">:</span> <span class="n">HackerNewsItem</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Ruia build-in method&quot;&quot;&quot;</span>
-        <span class="n">async</span> <span class="k">with</span> <span class="n">aiofiles</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s1">&#39;./hacker_news.txt&#39;</span><span class="p">,</span> <span class="s1">&#39;a&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
-            <span class="n">await</span> <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">item</span><span class="o">.</span><span class="n">title</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
-
 
 <span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
     <span class="n">HackerNewsSpider</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
 </pre></div>
 
 
+<p>More details click <a href="https://github.com/howie6879/ruia/blob/master/examples/topics_examples/hacker_news_spider.py">here</a></p>
 <p>Run <code>hacker_news_spider.py</code>:</p>
 <div class="codehilite"><pre><span></span><span class="o">[</span><span class="m">2018</span>-09-21 <span class="m">17</span>:27:14,497<span class="o">]</span>-ruia-INFO  spider::l54: Spider started!
 <span class="o">[</span><span class="m">2018</span>-09-21 <span class="m">17</span>:27:14,502<span class="o">]</span>-Request-INFO  request::l77: &lt;GET: https://news.ycombinator.com/news?p<span class="o">=</span><span class="m">2</span>&gt;
@@ -928,7 +921,7 @@ pip install git+https://github.com/howie6879/ruia
 <span class="nd">@middleware.request</span>
 <span class="n">async</span> <span class="k">def</span> <span class="nf">print_on_request</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
     <span class="n">request</span><span class="o">.</span><span class="n">metadata</span> <span class="o">=</span> <span class="p">{</span>
-        <span class="s1">&#39;index&#39;</span><span class="p">:</span> <span class="n">request</span><span class="o">.</span><span class="n">url</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;=&#39;</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+        <span class="s1">&#39;url&#39;</span><span class="p">:</span> <span class="n">request</span><span class="o">.</span><span class="n">url</span>
     <span class="p">}</span>
     <span class="k">print</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;request: {request.metadata}&quot;</span><span class="p">)</span>
     <span class="c1"># Just operate request object, and do not return anything.</span>
@@ -938,13 +931,11 @@ pip install git+https://github.com/howie6879/ruia
 <span class="n">async</span> <span class="k">def</span> <span class="nf">print_on_response</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">response</span><span class="p">):</span>
     <span class="k">print</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;response: {response.metadata}&quot;</span><span class="p">)</span>
 
-<span class="c1"># Add HackerNewsSpider</span>
-
-<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
-    <span class="n">HackerNewsSpider</span><span class="o">.</span><span class="n">start</span><span class="p">(</span><span class="n">middleware</span><span class="o">=</span><span class="n">middleware</span><span class="p">)</span>
+<span class="c1"># Add your spider here</span>
 </pre></div>
 
 
+<p>More details click <a href="https://github.com/howie6879/ruia/blob/master/examples/topics_examples/middleware_example.py">here</a></p>
 <h3 id="javascript-support">JavaScript Support</h3>
 <p>You can load js by using <a href="https://github.com/ruia-plugins/ruia-pyppeteer">ruia-pyppeteer</a>.</p>
 <p>For example:</p>
@@ -973,7 +964,7 @@ pip install git+https://github.com/howie6879/ruia
 </ul>
 <h2 id="thanks">Thanks</h2>
 <ul>
-<li><a href="https://github.com/huge-success/sanic">sanic</a></li>
+<li><a href="https://github.com/aio-libs/aiohttp/">aiohttp</a></li>
 <li><a href="https://github.com/matiasb/demiurge">demiurge</a></li>
 </ul>
                 

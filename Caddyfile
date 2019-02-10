@@ -5,9 +5,7 @@ www.python-ruia.org {
 }
 
 docs.python-ruia.org {
-    root /opt/ruia
-    timeouts none
-    gzip
+    proxy / https://howie6879.github.io/ruia/
 }
 
 python-ruia.org {
