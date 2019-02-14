@@ -84,11 +84,11 @@ class Request(object):
             # TODO middleware for retry
             async with async_timeout.timeout(timeout):
                 resp = await self._make_request()
-            res_data = await resp.text(encoding=self.encoding)
+            resp_data = await resp.text(encoding=self.encoding)
             response = Response(url=self.url,
                                 method=self.method,
                                 encoding=resp.get_encoding(),
-                                html=res_data,
+                                html=resp_data,
                                 metadata=self.metadata,
                                 cookies=resp.cookies,
                                 headers=resp.headers,
@@ -97,7 +97,7 @@ class Request(object):
                                 aws_json=resp.json,
                                 aws_text=resp.text,
                                 aws_read=resp.read)
-            if response.status not in [200, 201] or not res_data:
+            if not response.ok:
                 return await self._retry()
             return response
         except asyncio.TimeoutError:

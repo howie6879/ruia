@@ -51,6 +51,7 @@ def test_response():
     assert history == ()
     assert headers['Content-Type'] == 'application/json'
     assert status == 200
+    assert response.ok == True
     assert isinstance(html_etree, etree._Element)
     assert isinstance(text, str)
     assert isinstance(json, dict)

@@ -32,7 +32,8 @@ class HookDemoSpider(Spider):
     }
 
     async def parse(self, response):
-        yield await response.json()
+        if response.ok:
+            yield await response.json()
 
     async def process_callback_result(self, callback_result):
         if isinstance(callback_result, dict):

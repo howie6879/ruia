@@ -22,7 +22,7 @@ class Response(object):
                  cookies,
                  history,
                  headers: dict = None,
-                 status: int=-1,
+                 status: int = -1,
                  aws_json: Callable = None,
                  aws_read: Callable = None,
                  aws_text: Callable = None):
@@ -61,6 +61,10 @@ class Response(object):
     @property
     def encoding(self):
         return self._encoding
+
+    @property
+    def ok(self) -> bool:
+        return self._status == 0 or 200 <= self._status <= 299
 
     @property
     def url(self):

@@ -324,15 +324,14 @@ class Spider(SpiderHook):
 
     async def _process_response(self, request: Request, response: Response):
         if response:
-            if response.html is None or response.status < 0:
-                # Process failed response
-                self.failed_counts += 1
-                await self.process_failed_response(request, response)
-
-            else:
+            if response.ok:
                 # Process succeed response
                 self.success_counts += 1
                 await self.process_succeed_response(request, response)
+            else:
+                # Process failed response
+                self.failed_counts += 1
+                await self.process_failed_response(request, response)
 
     async def _run_request_middleware(self, request: Request):
         if self.middleware.request_middleware:
