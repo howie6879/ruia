@@ -185,7 +185,6 @@ def test_invalid_callback_result():
             yield {}
 
     async def process_dict_callback_result(spider_ins, callback_result):
-        print(callback_result)
         spider_ins.result['process_callback_result'] = True
 
     class CustomCallbackResultType:
