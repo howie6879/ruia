@@ -37,7 +37,7 @@ setup(
     author_email='xiaozizayang@gmail.com',
     python_requires='>=3.6',
     install_requires=['aiohttp>=3.5.4', 'cssselect', 'lxml'],
-    url="https://github.com/howie6879/ruia",
+    url="https://www.python-ruia.org/",
     packages=find_packages(),
     license='MIT',
     classifiers=[
@@ -56,7 +56,7 @@ setup(
         'Topic :: Software Development :: Libraries :: Python Modules',
     ],
     project_urls={
-        'Documentation': 'https://github.com/howie6879/ruia/blob/master/docs/index.md',
+        'Documentation': 'https://docs.python-ruia.org/',
         'Source': 'https://github.com/howie6879/ruia',
     },
     extras_require={
