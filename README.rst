@@ -18,8 +18,9 @@ Write less, run faster:
 -  Documentation:
    `中文文档 <https://github.com/howie6879/ruia/blob/master/docs/cn/README.md>`__
    \|\ `documentation <https://docs.python-ruia.org/>`__
--  Awesome: https://github.com/ruia-plugins/awesome-ruia
--  Organization: https://github.com/ruia-plugins
+-  Awesome:
+   `awesome-ruia <https://github.com/python-ruia/awesome-ruia>`__
+-  Organization: `python-ruia <https://github.com/python-ruia>`__
 
 Features
 --------

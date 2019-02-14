@@ -17,8 +17,8 @@ aims to make crawling url as convenient as possible.
 Write less, run faster:
 
 - Documentation: [中文文档][doc_cn] |[documentation][doc_en]
-- Awesome: [https://github.com/ruia-plugins/awesome-ruia][Awesome]
-- Organization: [https://github.com/ruia-plugins][Organization]
+- Awesome: [awesome-ruia][Awesome]
+- Organization: [python-ruia][Organization]
 
 ## Features
 
@@ -193,5 +193,5 @@ Ruia is still under developing, feel free to open issues and pull requests:
 
 [doc_cn]: https://github.com/howie6879/ruia/blob/master/docs/cn/README.md
 [doc_en]: https://docs.python-ruia.org/
-[Awesome]: https://github.com/ruia-plugins/awesome-ruia
-[Organization]: https://github.com/ruia-plugins
+[Awesome]: https://github.com/python-ruia/awesome-ruia
+[Organization]: https://github.com/python-ruia
