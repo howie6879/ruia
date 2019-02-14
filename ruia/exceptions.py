@@ -1,11 +1,10 @@
 #!/usr/bin/env python
 
-
-class InvalidFuncType(Exception):
+class InvalidCallbackResult(Exception):
     pass
 
 
-class InvalidParseType(Exception):
+class InvalidFuncType(Exception):
     pass
 
 

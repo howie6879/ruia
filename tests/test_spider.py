@@ -130,11 +130,16 @@ def test_spider_hook():
             'after_start': False,
             'before_stop': False,
             'process_succeed_response': False,
-            'process_failed_response': False
+            'process_failed_response': False,
+            'process_item': False
         }
 
         async def parse(self, response):
-            pass
+            item = await ItemDemo.get_item(html=HTML)
+            yield item
+
+        async def process_item(self, item):
+            self.result['process_item'] = True
 
         async def process_succeed_response(self, request, response):
             # Hook for response
@@ -152,6 +157,7 @@ def test_spider_hook():
     assert SpiderHook.result['before_stop'] == True
     assert SpiderHook.result['process_succeed_response'] == True
     assert SpiderHook.result['process_failed_response'] == True
+    assert SpiderHook.result['process_item'] == True
 
 
 def test_spider_hook_error():
@@ -166,6 +172,24 @@ def test_spider_hook_error():
 
     loop = asyncio.new_event_loop()
     SpiderDemo.start(loop=loop, before_stop=before_stop_func)
+
+
+def test_invalid_callback_result():
+    class SpiderDemo(Spider):
+        start_urls = ['https://www.httpbin.org/get?p=0']
+        result = {
+            'process_callback_result': False
+        }
+
+        async def parse(self, response):
+            yield {}
+
+        async def process_callback_result(self, callback_result):
+            self.result['process_callback_result'] = True
+
+    loop = asyncio.new_event_loop()
+    SpiderDemo.start(loop=loop)
+    assert SpiderDemo.result['process_callback_result'] == True
 
 
 def test_spider_multiple_request_sync():

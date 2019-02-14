@@ -170,7 +170,7 @@ The following middleware is based on the above example:
     # Add your spider here
 
 More details click
-`here <https://github.com/howie6879/ruia/blob/master/examples/topics_examples/middleware_example.py>`__
+`here <https://github.com/howie6879/ruia/blob/master/examples/topics_examples/middleware_demo.py>`__
 
 JavaScript Support
 ~~~~~~~~~~~~~~~~~~

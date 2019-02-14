@@ -154,7 +154,7 @@ async def print_on_response(request, response):
 # Add your spider here
 ```
 
-More details click [here](https://github.com/howie6879/ruia/blob/master/examples/topics_examples/middleware_example.py)
+More details click [here](https://github.com/howie6879/ruia/blob/master/examples/topics_examples/middleware_demo.py)
 
 ### JavaScript Support
 

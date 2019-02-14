@@ -7,7 +7,7 @@ async def retry_func(request):
     request.request_config['TIMEOUT'] = 10
 
 
-class TestSpider(Spider):
+class RetryDemo(Spider):
     start_urls = ['http://www.httpbin.org/get']
 
     request_config = {
@@ -24,8 +24,8 @@ class TestSpider(Spider):
 
     async def parse_item(self, response):
         json_data = await response.json()
-        return json_data
+        print(json_data)
 
 
 if __name__ == '__main__':
-    TestSpider.start()
+    RetryDemo.start()

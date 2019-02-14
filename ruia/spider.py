@@ -10,7 +10,7 @@ from inspect import isawaitable
 from signal import SIGINT, SIGTERM
 from types import AsyncGeneratorType
 
-from ruia.exceptions import InvalidParseType, NotImplementedParseError, NothingMatchedError
+from ruia.exceptions import InvalidCallbackResult, NotImplementedParseError, NothingMatchedError
 from ruia.item import Item
 from ruia.middleware import Middleware
 from ruia.request import Request
@@ -25,7 +25,47 @@ except ImportError:
     pass
 
 
-class Spider:
+class SpiderHook:
+    """
+    SpiderHook is used for extend spider
+    """
+
+    async def process_failed_response(self, request, response):
+        """
+        Corresponding processing for the failed response
+        :param request: Request
+        :param response: Response
+        :return:
+        """
+        pass
+
+    async def process_succeed_response(self, request, response):
+        """
+        Corresponding processing for the succeed response
+        :param request: Request
+        :param response: Response
+        :return:
+        """
+        pass
+
+    async def process_item(self, item):
+        """
+        Corresponding processing for the Item type
+        :param item: Item
+        :return:
+        """
+        pass
+
+    async def process_callback_result(self, callback_result):
+        """
+        Corresponding processing for the invalid callback_result
+        :param item:
+        :return:
+        """
+        raise InvalidCallbackResult(f'<Parse Invalid callback result: {type(callback_result)}>')
+
+
+class Spider(SpiderHook):
     """
     Spider is used for control requests better
     """
@@ -246,9 +286,9 @@ class Spider:
                 results = await asyncio.gather(*self.worker_tasks, return_exceptions=True)
                 for task_result in results:
                     if not isinstance(task_result, RuntimeError) and task_result:
-                        callback_result, response = task_result
-                        if isinstance(callback_result, AsyncGeneratorType):
-                            await self._process_async_callback(callback_result, response)
+                        callback_results, response = task_result
+                        if isinstance(callback_results, AsyncGeneratorType):
+                            await self._process_async_callback(callback_results, response)
                 self.worker_tasks = []
             self.request_queue.task_done()
 
@@ -265,39 +305,34 @@ class Spider:
         await asyncio.gather(*tasks, return_exceptions=True)
         self.loop.stop()
 
-    async def _process_async_callback(self, callback_result: AsyncGeneratorType, response: Response = None):
+    async def _process_async_callback(self, callback_results: AsyncGeneratorType, response: Response = None):
         try:
-            async for each in callback_result:
-                if isinstance(each, AsyncGeneratorType):
-                    await self._process_async_callback(each)
-                elif isinstance(each, Request):
-                    self.request_queue.put_nowait(self.handle_request(request=each))
-                elif isinstance(each, typing.Coroutine):
-                    self.request_queue.put_nowait(self.handle_callback(aws_callback=each, response=response))
-                elif isinstance(each, Item):
+            async for callback_result in callback_results:
+                if isinstance(callback_result, AsyncGeneratorType):
+                    await self._process_async_callback(callback_result)
+                elif isinstance(callback_result, Request):
+                    self.request_queue.put_nowait(self.handle_request(request=callback_result))
+                elif isinstance(callback_result, typing.Coroutine):
+                    self.request_queue.put_nowait(self.handle_callback(aws_callback=callback_result, response=response))
+                elif isinstance(callback_result, Item):
                     # Process target item
-                    process_item = getattr(self, 'process_item', None)
-                    if process_item:
-                        await process_item(each)
+                    await self.process_item(callback_result)
                 else:
-                    raise InvalidParseType(f'<Parse Invalid parse type: {type(each)}>')
+                    await self.process_callback_result(callback_result=callback_result)
         except Exception as e:
             self.logger.error(e)
 
     async def _process_response(self, request: Request, response: Response):
         if response:
-            if response.html is None or response.status not in [200, 201]:
+            if response.html is None or response.status < 0:
                 # Process failed response
                 self.failed_counts += 1
-                process_failed_response = getattr(self, 'process_failed_response', None)
-                if process_failed_response:
-                    await process_failed_response(request, response)
+                await self.process_failed_response(request, response)
+
             else:
                 # Process succeed response
                 self.success_counts += 1
-                process_succeed_response = getattr(self, 'process_succeed_response', None)
-                if process_succeed_response:
-                    await process_succeed_response(request, response)
+                await self.process_succeed_response(request, response)
 
     async def _run_request_middleware(self, request: Request):
         if self.middleware.request_middleware:
