@@ -184,8 +184,19 @@ def test_invalid_callback_result():
         async def parse(self, response):
             yield {}
 
-        async def process_callback_result(self, callback_result):
-            self.result['process_callback_result'] = True
+    async def process_dict_callback_result(spider_ins, callback_result):
+        print(callback_result)
+        spider_ins.result['process_callback_result'] = True
+
+    class CustomCallbackResultType:
+
+        @classmethod
+        def init_spider(cls, spider):
+            spider.callback_result_map = spider.callback_result_map or {}
+            setattr(spider, 'process_dict_callback_result', process_dict_callback_result)
+            spider.callback_result_map.update({'dict': 'process_dict_callback_result'})
+
+    CustomCallbackResultType.init_spider(SpiderDemo)
 
     loop = asyncio.new_event_loop()
     SpiderDemo.start(loop=loop)

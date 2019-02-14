@@ -37,6 +37,7 @@ class HookDemoSpider(Spider):
 
     async def process_callback_result(self, callback_result):
         if isinstance(callback_result, dict):
+            print(callback_result)
             self.result['process_callback_result'] = True
 
     async def process_succeed_response(self, request, response):

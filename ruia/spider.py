@@ -30,6 +30,8 @@ class SpiderHook:
     SpiderHook is used for extend spider
     """
 
+    callback_result_map: dict = None
+
     async def process_failed_response(self, request, response):
         """
         Corresponding processing for the failed response
@@ -62,7 +64,13 @@ class SpiderHook:
         :param item:
         :return:
         """
-        raise InvalidCallbackResult(f'<Parse Invalid callback result: {type(callback_result)}>')
+        callback_result_name = type(callback_result).__name__
+        process_func_name = self.callback_result_map.get(callback_result_name, '')
+        process_func = getattr(self, process_func_name, None)
+        if process_func is not None:
+            await process_func(callback_result)
+        else:
+            raise InvalidCallbackResult(f'<Parse invalid callback result type: {callback_result_name}>')
 
 
 class Spider(SpiderHook):
@@ -108,6 +116,7 @@ class Spider(SpiderHook):
                 "Ruia spider must have a param named start_urls, eg: start_urls = ['https://www.github.com']")
 
         # Init object-level properties
+        self.callback_result_map = self.callback_result_map or {}
         self.request_config = self.request_config or {}
         self.headers = self.headers or {}
         self.metadata = self.metadata or {}
