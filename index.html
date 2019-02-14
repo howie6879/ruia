@@ -37,7 +37,7 @@
       
         <meta name="lang:search.tokenizer" content="[\s\-]+">
       
-      <link rel="shortcut icon" href="assets/images/favicon.png">
+      <link rel="shortcut icon" href="images/favicon.ico">
       <meta name="generator" content="mkdocs-1.0.4, mkdocs-material-3.2.0">
     
     
@@ -108,7 +108,7 @@
       <div class="md-flex__cell md-flex__cell--shrink">
         <a href="https://docs.python-ruia.org/" title="Ruia" class="md-header-nav__button md-logo">
           
-            <i class="md-icon"></i>
+            <img src="images/logo.png" width="24" height="24">
           
         </a>
       </div>
@@ -204,7 +204,7 @@
   <label class="md-nav__title md-nav__title--site" for="__drawer">
     <a href="https://docs.python-ruia.org/" title="Ruia" class="md-nav__button md-logo">
       
-        <i class="md-icon"></i>
+        <img src="images/logo.png" width="48" height="48">
       
     </a>
     Ruia
@@ -937,13 +937,13 @@ pip install git+https://github.com/howie6879/ruia
 
 <p>More details click <a href="https://github.com/howie6879/ruia/blob/master/examples/topics_examples/middleware_demo.py">here</a></p>
 <h3 id="javascript-support">JavaScript Support</h3>
-<p>You can load js by using <a href="https://github.com/ruia-plugins/ruia-pyppeteer">ruia-pyppeteer</a>.</p>
+<p>You can load js by using <a href="https://github.com/python-ruia/ruia-pyppeteer">ruia-pyppeteer</a>.</p>
 <p>For example:</p>
 <div class="codehilite"><pre><span></span><span class="kn">import</span> <span class="nn">asyncio</span>
 
 <span class="kn">from</span> <span class="nn">ruia_pyppeteer</span> <span class="kn">import</span> <span class="n">PyppeteerRequest</span> <span class="k">as</span> <span class="n">Request</span>
 
-<span class="n">request</span> <span class="o">=</span> <span class="n">Request</span><span class="p">(</span><span class="s2">&quot;https://www.jianshu.com/&quot;</span><span class="p">,</span> <span class="n">load_js</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+<span class="n">request</span> <span class="o">=</span> <span class="n">Request</span><span class="p">(</span><span class="s2">&quot;https://www.jianshu.com/&quot;</span><span class="p">)</span>
 <span class="n">response</span> <span class="o">=</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">fetch</span><span class="p">())</span> <span class="c1"># Python 3.7</span>
 <span class="k">print</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">html</span><span class="p">)</span>
 </pre></div>
