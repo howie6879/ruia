@@ -1,12 +1,10 @@
 #!/usr/bin/env python
 """
- pip install ruia_pyppeteer
+pip install -U ruia_pyppeteer
 """
 
 from ruia import AttrField, TextField, Item
-
 from ruia_pyppeteer import PyppeteerSpider as Spider
-from ruia_pyppeteer import PyppeteerRequest as Request
 
 
 class JianshuItem(Item):
@@ -21,16 +19,11 @@ class JianshuItem(Item):
 class JianshuSpider(Spider):
     start_urls = ['https://www.jianshu.com/']
     concurrency = 10
-    # Load js on the first request
-    load_js = True
 
     async def parse(self, response):
         async for item in JianshuItem.get_items(html=response.html):
             # Loading js by using PyppeteerRequest
-            yield Request(url=item.author_url, load_js=self.load_js, callback=self.parse_item)
-
-    async def parse_item(self, response):
-        print(response)
+            print(item)
 
 
 if __name__ == '__main__':

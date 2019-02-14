@@ -10,6 +10,8 @@ copyright: Copyright &copy; 2018 - 2019 <a href="https://github.com/howie6879/ru
 
 theme:
   name: 'material'
+  logo: './images/logo.png'
+  favicon: './images/favicon.ico'
 
 use_directory_urls: false
 

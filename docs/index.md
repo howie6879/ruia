@@ -158,7 +158,7 @@ More details click [here](https://github.com/howie6879/ruia/blob/master/examples
 
 ### JavaScript Support
 
-You can load js by using [ruia-pyppeteer](https://github.com/ruia-plugins/ruia-pyppeteer).
+You can load js by using [ruia-pyppeteer](https://github.com/python-ruia/ruia-pyppeteer).
 
 For example:
 
@@ -167,7 +167,7 @@ import asyncio
 
 from ruia_pyppeteer import PyppeteerRequest as Request
 
-request = Request("https://www.jianshu.com/", load_js=True)
+request = Request("https://www.jianshu.com/")
 response = asyncio.run(request.fetch()) # Python 3.7
 print(response.html)
 ```
