@@ -1,4 +1,6 @@
-# Ruia
+<h1 align=center>
+<img src="./images/logo.png" width='120px' height='120px'>
+</h1>
 
 [![travis](https://travis-ci.org/howie6879/ruia.svg?branch=master)](https://travis-ci.org/howie6879/ruia) 
 [![codecov](https://codecov.io/gh/howie6879/ruia/branch/master/graph/badge.svg)](https://codecov.io/gh/howie6879/ruia)
