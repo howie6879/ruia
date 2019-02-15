@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+
 import os
 import re
 import sys
@@ -33,7 +34,8 @@ setup(
     version=read_version(),
     author='Howie Hu',
     description="An async web scraping micro-framework based on asyncio.",
-    long_description=read('README.rst'),
+    long_description=read('README.md'),
+    long_description_content_type='text/markdown',
     author_email='xiaozizayang@gmail.com',
     python_requires='>=3.6',
     install_requires=['aiohttp>=3.5.4', 'cssselect', 'lxml'],
