@@ -1,5 +1,5 @@
 <h1 align=center>
-<img src="./images/logo.png" width='120px' height='120px'>
+<img src="https://raw.githubusercontent.com/howie6879/ruia/master/docs/images/logo.png" width='120px' height='120px'>
 </h1>
 
 [![travis](https://travis-ci.org/howie6879/ruia.svg?branch=master)](https://travis-ci.org/howie6879/ruia) 
@@ -140,7 +140,7 @@ middleware = Middleware()
 
 
 @middleware.request
-async def print_on_request(request):
+async def print_on_request(spider_ins, request):
     request.metadata = {
         'url': request.url
     }
@@ -149,7 +149,7 @@ async def print_on_request(request):
 
 
 @middleware.response
-async def print_on_response(request, response):
+async def print_on_response(spider_ins, request, response):
     print(f"response: {response.metadata}")
 
 # Add your spider here

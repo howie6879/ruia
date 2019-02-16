@@ -4,7 +4,7 @@ import asyncio
 import os
 
 from ruia import AttrField, Item, TextField
-from ruia.exceptions import InvalidFuncType
+from ruia.exceptions import IgnoreThisItem, InvalidFuncType
 
 html_path = os.path.join(os.path.dirname(os.path.realpath(__file__)), 'data', 'for_item_testing.html')
 with open(html_path, mode='r', encoding='utf-8') as file:
@@ -36,6 +36,13 @@ class DoubanCleanMethodErrorItem(Item):
 
     def clean_title(self, title):
         return 'Title: ' + title
+
+
+class DoubanIgnoreItem(Item):
+    title = TextField(css_select='head title')
+
+    async def clean_title(self, title):
+        raise IgnoreThisItem
 
 
 class HackerNewsItem(Item):
@@ -99,6 +106,12 @@ def test_items():
 def test_item_results():
     item = asyncio.get_event_loop().run_until_complete(DoubanItem.get_item(html=HTML))
     assert item.results == {'title': 'Title: 豆瓣电影TOP250'}
+    assert item.ignore_item == False
+
+
+def test_ignore_item():
+    item = asyncio.get_event_loop().run_until_complete(DoubanIgnoreItem.get_item(html=HTML))
+    assert item.ignore_item == True
 
 
 def test_items_results():

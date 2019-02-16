@@ -1,11 +1,10 @@
 #!/usr/bin/env python
 
-from inspect import iscoroutinefunction
 
 from lxml import etree
 from typing import Any
 
-from ruia.exceptions import InvalidFuncType
+from ruia.exceptions import IgnoreThisItem, InvalidFuncType
 from ruia.field import BaseField
 from ruia.request import Request
 
@@ -29,6 +28,7 @@ class Item(metaclass=ItemMeta):
     """
 
     def __init__(self):
+        self.ignore_item = False
         self.results = {}
 
     @classmethod
@@ -47,7 +47,7 @@ class Item(metaclass=ItemMeta):
             ValueError("html(url or html_etree) is expected")
 
     @classmethod
-    async def _parse_html(cls, *, html_etree: etree._Element) -> object:
+    async def _parse_html(cls, *, html_etree: etree._Element):
         if html_etree is None:
             raise ValueError("html_etree is expected")
         item_ins = cls()
@@ -56,10 +56,13 @@ class Item(metaclass=ItemMeta):
                 clean_method = getattr(item_ins, f'clean_{field_name}', None)
                 value = field_value.extract(html_etree=html_etree)
                 if clean_method is not None:
-                    if iscoroutinefunction(clean_method):
+                    try:
                         value = await clean_method(value)
-                    else:
-                        raise InvalidFuncType('clean_method must be a coroutine function')
+                    except TypeError:
+                        raise InvalidFuncType('<Item: clean_method must be a coroutine function>')
+                    except IgnoreThisItem:
+                        item_ins.ignore_item = True
+
                 setattr(item_ins, field_name, value)
                 item_ins.results[field_name] = value
         return item_ins
@@ -90,11 +93,8 @@ class Item(metaclass=ItemMeta):
             if items_html_etree:
                 for each_html_etree in items_html_etree:
                     item = await cls._parse_html(html_etree=each_html_etree)
-                    yield item
-                # all_items = []
-                # for each_html_etree in items:
-                #     all_items.append(await cls._parse_html(html_etree=each_html_etree))
-                # return all_items
+                    if not item.ignore_item:
+                        yield item
             else:
                 raise ValueError("Get target_item's value error!")
         else:

@@ -99,7 +99,7 @@ middleware = Middleware()
 
 
 @middleware.request
-async def add_random_ua(request):
+async def add_random_ua(spider_ins, request):
     ua = await get_random_user_agent()
     if request.headers:
         request.headers.update({'User-Agent': ua})

@@ -1,5 +1,9 @@
 #!/usr/bin/env python
 
+class IgnoreThisItem(Exception):
+    pass
+
+
 class InvalidCallbackResult(Exception):
     pass
 

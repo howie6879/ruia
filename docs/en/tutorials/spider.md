@@ -199,7 +199,7 @@ You may want to use enumerate to get the index of responses like this:
 ```python
 async def parse(self, response):
     urls = [f'https://site.com/{page}' for page in range(10)]
-    async for response in enumerate(self.multiple_request(urls)):
+    async for response in self.multiple_request(urls):
         pass
 
 ```

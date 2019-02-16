@@ -346,7 +346,7 @@ class Spider(SpiderHook):
         if self.middleware.request_middleware:
             for middleware in self.middleware.request_middleware:
                 try:
-                    await middleware(request)
+                    await middleware(self, request)
                 except TypeError:
                     self.logger.error(f"<Middleware {middleware.__name__}: must be a coroutine function")
                 except Exception as e:
@@ -356,7 +356,7 @@ class Spider(SpiderHook):
         if self.middleware.response_middleware:
             for middleware in self.middleware.response_middleware:
                 try:
-                    await middleware(request, response)
+                    await middleware(self, request, response)
                 except TypeError:
                     self.logger.error(f"<Middleware {middleware.__name__}: must be a coroutine function")
                 except Exception as e:

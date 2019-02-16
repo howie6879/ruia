@@ -8,24 +8,24 @@ middleware02 = Middleware()
 
 
 @middleware01.request
-async def print_on_request01(request):
+async def print_on_request01(spider_ins, request):
     request.headers = {
         'User-Agent': 'ruia ua'
     }
 
 
 @middleware01.response
-async def print_on_response01(request, response):
+async def print_on_response01(spider_ins, request, response):
     assert isinstance(response.html, str)
 
 
 @middleware02.request
-async def print_on_request02(request):
+async def print_on_request02(spider_ins, request):
     pass
 
 
 @middleware02.response
-async def print_on_response02(request, response):
+async def print_on_response02(spider_ins, request, response):
     pass
 
 
@@ -33,12 +33,12 @@ all_middleware = middleware01 + middleware02
 
 
 @all_middleware.request
-async def print_on_request(request):
+async def print_on_request(spider_ins, request):
     pass
 
 
 @all_middleware.response
-async def print_on_response(request, response):
+async def print_on_response(spider_ins, request, response):
     pass
 
 

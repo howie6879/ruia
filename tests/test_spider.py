@@ -17,14 +17,14 @@ async def retry_func(request):
 
 
 @middleware.request
-async def print_on_request(request):
+async def print_on_request(spider_ins, request):
     request.headers = {
         'User-Agent': 'ruia ua'
     }
 
 
 @middleware.response
-async def print_on_response(request, response):
+async def print_on_response(spider_ins, request, response):
     assert isinstance(response.html, str)
     assert request.headers == {
         'User-Agent': 'ruia ua'
@@ -91,11 +91,11 @@ def test_spider_with_error_middleware():
     error_middleware = Middleware()
 
     @error_middleware.request
-    def error_request(request, response):
+    def error_request(spider_ins, request, response):
         pass
 
     @error_middleware.response
-    async def error_response(request, response):
+    async def error_response(spider_ins, request, response):
         raise TypeError('error')
 
     class SpiderDemo(Spider):

@@ -6,7 +6,7 @@ middleware = Middleware()
 
 
 @middleware.request
-async def print_on_request(request):
+async def print_on_request(spider_ins, request):
     request.metadata = {
         'url': request.url
     }
@@ -15,7 +15,7 @@ async def print_on_request(request):
 
 
 @middleware.response
-async def print_on_response(request, response):
+async def print_on_response(spider_ins, request, response):
     print(f"response: {response.metadata}")
 
 

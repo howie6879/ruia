@@ -12,7 +12,7 @@ from ruia import Middleware
 middleware = Middleware()
 
 @middleware.request
-async def print_on_request(request):
+async def print_on_request(spider_ins, request):
     """
     每次请求前都会调用此函数
     request: Request类的实例对象
@@ -20,7 +20,7 @@ async def print_on_request(request):
     print("request: print when a request is received")
     
 @middleware.response
-async def print_on_response(request, response):
+async def print_on_response(spider_ins, request, response):
     """
     每次请求后都会调用此函数
     request: Request类的实例对象
