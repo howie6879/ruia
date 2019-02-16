@@ -610,7 +610,7 @@
 <span class="n">middleware</span> <span class="o">=</span> <span class="n">Middleware</span><span class="p">()</span>
 
 <span class="nd">@middleware.request</span>
-<span class="n">async</span> <span class="k">def</span> <span class="nf">print_on_request</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
+<span class="n">async</span> <span class="k">def</span> <span class="nf">print_on_request</span><span class="p">(</span><span class="n">spider_ins</span><span class="p">,</span> <span class="n">request</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    每次请求前都会调用此函数</span>
 <span class="sd">    request: Request类的实例对象</span>
@@ -618,7 +618,7 @@
     <span class="k">print</span><span class="p">(</span><span class="s2">&quot;request: print when a request is received&quot;</span><span class="p">)</span>
 
 <span class="nd">@middleware.response</span>
-<span class="n">async</span> <span class="k">def</span> <span class="nf">print_on_response</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">response</span><span class="p">):</span>
+<span class="n">async</span> <span class="k">def</span> <span class="nf">print_on_response</span><span class="p">(</span><span class="n">spider_ins</span><span class="p">,</span> <span class="n">request</span><span class="p">,</span> <span class="n">response</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    每次请求后都会调用此函数</span>
 <span class="sd">    request: Request类的实例对象</span>

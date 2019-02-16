@@ -284,13 +284,6 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#tutorials" title="Tutorials" class="md-nav__link">
-    Tutorials
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
   <a href="#usage" title="Usage" class="md-nav__link">
     Usage
   </a>
@@ -299,15 +292,15 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#item" title="Item" class="md-nav__link">
-    Item
+  <a href="#field-item" title="Field &amp; Item" class="md-nav__link">
+    Field &amp; Item
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#spider-control" title="Spider Control" class="md-nav__link">
-    Spider Control
+  <a href="#spider-control" title="Spider control" class="md-nav__link">
+    Spider control
   </a>
   
 </li>
@@ -319,15 +312,15 @@
   
 </li>
         
-          <li class="md-nav__item">
-  <a href="#javascript-support" title="JavaScript Support" class="md-nav__link">
-    JavaScript Support
-  </a>
-  
-</li>
-        
       </ul>
     </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tutorials" title="Tutorials" class="md-nav__link">
+    Tutorials
+  </a>
   
 </li>
       
@@ -703,13 +696,6 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#tutorials" title="Tutorials" class="md-nav__link">
-    Tutorials
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
   <a href="#usage" title="Usage" class="md-nav__link">
     Usage
   </a>
@@ -718,15 +704,15 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#item" title="Item" class="md-nav__link">
-    Item
+  <a href="#field-item" title="Field &amp; Item" class="md-nav__link">
+    Field &amp; Item
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#spider-control" title="Spider Control" class="md-nav__link">
-    Spider Control
+  <a href="#spider-control" title="Spider control" class="md-nav__link">
+    Spider control
   </a>
   
 </li>
@@ -738,15 +724,15 @@
   
 </li>
         
-          <li class="md-nav__item">
-  <a href="#javascript-support" title="JavaScript Support" class="md-nav__link">
-    JavaScript Support
-  </a>
-  
-</li>
-        
       </ul>
     </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tutorials" title="Tutorials" class="md-nav__link">
+    Tutorials
+  </a>
   
 </li>
       
@@ -791,7 +777,7 @@
                 
                 
                 <h1 align=center>
-<img src="./images/logo.png" width='120px' height='120px'>
+<img src="https://raw.githubusercontent.com/howie6879/ruia/master/docs/images/logo.png" width='120px' height='120px'>
 </h1>
 
 <p><a href="https://travis-ci.org/howie6879/ruia"><img alt="travis" src="https://travis-ci.org/howie6879/ruia.svg?branch=master" /></a> 
@@ -806,7 +792,6 @@ aims to make crawling url as convenient as possible.</p>
 <p>Write less, run faster:</p>
 <ul>
 <li>Documentation: <a href="https://github.com/howie6879/ruia/blob/master/docs/cn/README.md">中文文档</a> |<a href="https://docs.python-ruia.org/">documentation</a></li>
-<li>Awesome: <a href="https://github.com/python-ruia/awesome-ruia">awesome-ruia</a></li>
 <li>Organization: <a href="https://github.com/python-ruia">python-ruia</a></li>
 </ul>
 <h2 id="features">Features</h2>
@@ -828,18 +813,8 @@ pip install git+https://github.com/howie6879/ruia
 </pre></div>
 
 
-<h2 id="tutorials">Tutorials</h2>
-<ol>
-<li><a href="https://howie6879.github.io/ruia/en/tutorials/overview.html">Overview</a></li>
-<li><a href="https://howie6879.github.io/ruia/en/tutorials/installation.html">Installation</a></li>
-<li><a href="https://howie6879.github.io/ruia/en/tutorials/item.html">Define Data Items</a></li>
-<li><a href="https://howie6879.github.io/ruia/en/tutorials/spider.html">Spider Control</a></li>
-<li><a href="https://howie6879.github.io/ruia/en/tutorials/request.html">Request &amp; Response</a></li>
-<li><a href="https://howie6879.github.io/ruia/en/tutorials/middleware.html">Customize Middleware</a></li>
-<li><a href="https://howie6879.github.io/ruia/en/tutorials/plugins.html">Write a Plugins</a></li>
-</ol>
 <h2 id="usage">Usage</h2>
-<h3 id="item">Item</h3>
+<h3 id="field-item">Field &amp; Item</h3>
 <p><code>Item</code> can be used standalone, for testing, and for tiny crawlers, Create a file named <code>item_demo.py</code></p>
 <div class="codehilite"><pre><span></span><span class="kn">import</span> <span class="nn">asyncio</span>
 
@@ -866,7 +841,7 @@ pip install git+https://github.com/howie6879/ruia
 </pre></div>
 
 
-<h3 id="spider-control">Spider Control</h3>
+<h3 id="spider-control">Spider control</h3>
 <p><code>Spider</code> is used for control requests better.</p>
 <div class="codehilite"><pre><span></span><span class="kn">from</span> <span class="nn">ruia</span> <span class="kn">import</span> <span class="n">AttrField</span><span class="p">,</span> <span class="n">TextField</span><span class="p">,</span> <span class="n">Item</span><span class="p">,</span> <span class="n">Spider</span>
 
@@ -915,7 +890,7 @@ pip install git+https://github.com/howie6879/ruia
 
 
 <span class="nd">@middleware.request</span>
-<span class="n">async</span> <span class="k">def</span> <span class="nf">print_on_request</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
+<span class="n">async</span> <span class="k">def</span> <span class="nf">print_on_request</span><span class="p">(</span><span class="n">spider_ins</span><span class="p">,</span> <span class="n">request</span><span class="p">):</span>
     <span class="n">request</span><span class="o">.</span><span class="n">metadata</span> <span class="o">=</span> <span class="p">{</span>
         <span class="s1">&#39;url&#39;</span><span class="p">:</span> <span class="n">request</span><span class="o">.</span><span class="n">url</span>
     <span class="p">}</span>
@@ -924,7 +899,7 @@ pip install git+https://github.com/howie6879/ruia
 
 
 <span class="nd">@middleware.response</span>
-<span class="n">async</span> <span class="k">def</span> <span class="nf">print_on_response</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">response</span><span class="p">):</span>
+<span class="n">async</span> <span class="k">def</span> <span class="nf">print_on_response</span><span class="p">(</span><span class="n">spider_ins</span><span class="p">,</span> <span class="n">request</span><span class="p">,</span> <span class="n">response</span><span class="p">):</span>
     <span class="k">print</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;response: {response.metadata}&quot;</span><span class="p">)</span>
 
 <span class="c1"># Add your spider here</span>
@@ -932,19 +907,16 @@ pip install git+https://github.com/howie6879/ruia
 
 
 <p>More details click <a href="https://github.com/howie6879/ruia/blob/master/examples/topics_examples/middleware_demo.py">here</a></p>
-<h3 id="javascript-support">JavaScript Support</h3>
-<p>You can load js by using <a href="https://github.com/python-ruia/ruia-pyppeteer">ruia-pyppeteer</a>.</p>
-<p>For example:</p>
-<div class="codehilite"><pre><span></span><span class="kn">import</span> <span class="nn">asyncio</span>
-
-<span class="kn">from</span> <span class="nn">ruia_pyppeteer</span> <span class="kn">import</span> <span class="n">PyppeteerRequest</span> <span class="k">as</span> <span class="n">Request</span>
-
-<span class="n">request</span> <span class="o">=</span> <span class="n">Request</span><span class="p">(</span><span class="s2">&quot;https://www.jianshu.com/&quot;</span><span class="p">)</span>
-<span class="n">response</span> <span class="o">=</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">fetch</span><span class="p">())</span> <span class="c1"># Python 3.7</span>
-<span class="k">print</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">html</span><span class="p">)</span>
-</pre></div>
-
-
+<h2 id="tutorials">Tutorials</h2>
+<ol>
+<li><a href="https://howie6879.github.io/ruia/en/tutorials/overview.html">Overview</a></li>
+<li><a href="https://howie6879.github.io/ruia/en/tutorials/installation.html">Installation</a></li>
+<li><a href="https://howie6879.github.io/ruia/en/tutorials/item.html">Define Data Items</a></li>
+<li><a href="https://howie6879.github.io/ruia/en/tutorials/spider.html">Spider Control</a></li>
+<li><a href="https://howie6879.github.io/ruia/en/tutorials/request.html">Request &amp; Response</a></li>
+<li><a href="https://howie6879.github.io/ruia/en/tutorials/middleware.html">Customize Middleware</a></li>
+<li><a href="https://howie6879.github.io/ruia/en/tutorials/plugins.html">Write a Plugins</a></li>
+</ol>
 <h2 id="todo">TODO</h2>
 <ul>
 <li>Cache for debug, to decreasing request limitation</li>

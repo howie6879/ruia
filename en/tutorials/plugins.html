@@ -748,7 +748,7 @@ then we only need to use <code>Middleware</code> of <code>ruia</code> to add a r
 
 
 <span class="nd">@middleware.request</span>
-<span class="n">async</span> <span class="k">def</span> <span class="nf">add_random_ua</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
+<span class="n">async</span> <span class="k">def</span> <span class="nf">add_random_ua</span><span class="p">(</span><span class="n">spider_ins</span><span class="p">,</span> <span class="n">request</span><span class="p">):</span>
     <span class="n">ua</span> <span class="o">=</span> <span class="n">await</span> <span class="n">get_random_user_agent</span><span class="p">()</span>
     <span class="k">if</span> <span class="n">request</span><span class="o">.</span><span class="n">headers</span><span class="p">:</span>
         <span class="n">request</span><span class="o">.</span><span class="n">headers</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s1">&#39;User-Agent&#39;</span><span class="p">:</span> <span class="n">ua</span><span class="p">})</span>

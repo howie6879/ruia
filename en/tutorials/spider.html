@@ -866,7 +866,7 @@ It yields responses.
 You may want to use enumerate to get the index of responses like this:</p>
 <div class="codehilite"><pre><span></span><span class="n">async</span> <span class="k">def</span> <span class="nf">parse</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">response</span><span class="p">):</span>
     <span class="n">urls</span> <span class="o">=</span> <span class="p">[</span><span class="n">f</span><span class="s1">&#39;https://site.com/{page}&#39;</span> <span class="k">for</span> <span class="n">page</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">)]</span>
-    <span class="n">async</span> <span class="k">for</span> <span class="n">response</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">multiple_request</span><span class="p">(</span><span class="n">urls</span><span class="p">)):</span>
+    <span class="n">async</span> <span class="k">for</span> <span class="n">response</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">multiple_request</span><span class="p">(</span><span class="n">urls</span><span class="p">):</span>
         <span class="k">pass</span>
 </pre></div>
 
