@@ -12,7 +12,7 @@
 
 ## Overview
 
-An async web scraping micro-framework, written with `asyncio` and `aiohttp`, 
+Ruia is an async web scraping micro-framework, written with `asyncio` and `aiohttp`, 
 aims to make crawling url as convenient as possible.
 
 Write less, run faster:
@@ -44,7 +44,7 @@ pip install git+https://github.com/howie6879/ruia
 
 ### Field & Item
 
-`Item` can be used standalone, for testing, and for tiny crawlers, Create a file named `item_demo.py`
+`Item` can be used standalone, for testing, and for tiny crawlers, create a file named `item_demo.py`
 
 ```python
 import asyncio
