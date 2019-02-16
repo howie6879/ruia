@@ -1,13 +1,11 @@
-www.python-ruia.org {
-    root /opt/ruia
-    timeouts none
-    gzip
+python-ruia.org {
+    proxy / https://howie6879.github.io/ruia/
 }
 
 docs.python-ruia.org {
     proxy / https://howie6879.github.io/ruia/
 }
 
-python-ruia.org {
-    redir http://www.python-ruia.org
+www.python-ruia.org {
+    redir http://python-ruia.org
 }
