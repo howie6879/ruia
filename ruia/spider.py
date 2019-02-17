@@ -60,7 +60,7 @@ class SpiderHook:
 
     async def process_callback_result(self, callback_result):
         """
-        Corresponding processing for the invalid callback_result
+        Corresponding processing for the invalid callback result
         :param item:
         :return:
         """
@@ -140,180 +140,6 @@ class Spider(SpiderHook):
         # semaphore, used for concurrency control
         self.sem = asyncio.Semaphore(self.concurrency)
 
-    async def parse(self, response):
-        """
-        Used for subclasses, directly parse the responses corresponding with start_urls
-        :param response: Response
-        :return:
-        """
-        raise NotImplementedParseError('<!!! parse function is expected !!!>')
-
-    @classmethod
-    async def async_start(cls,
-                          middleware: typing.Union[typing.Iterable, Middleware] = None,
-                          loop=None,
-                          after_start=None,
-                          before_stop=None):
-        """
-        Start an async spider
-        :param middleware: customize middleware or a list of middleware
-        :param loop:
-        :param after_start: hook
-        :param before_stop: hook
-        :return:
-        """
-        loop = loop or asyncio.get_event_loop()
-        spider_ins = cls(middleware=middleware, loop=loop, is_async_start=True)
-        await spider_ins._start(after_start=after_start, before_stop=before_stop)
-
-    @classmethod
-    def start(cls,
-              middleware: typing.Union[typing.Iterable, Middleware] = None,
-              loop=None,
-              after_start=None,
-              before_stop=None,
-              close_event_loop=True):
-        """
-        Start a spider
-        :param after_start: hook
-        :param before_stop: hook
-        :param middleware: customize middleware or a list of middleware
-        :param loop: event loop
-        :param close_event_loop: bool
-        :return:
-        """
-        loop = loop or asyncio.new_event_loop()
-        spider_ins = cls(middleware=middleware, loop=loop)
-
-        for signal in (SIGINT, SIGTERM):
-            try:
-                spider_ins.loop.add_signal_handler(signal, lambda: asyncio.ensure_future(spider_ins.stop(signal)))
-            except NotImplementedError:
-                spider_ins.logger.warning(f'{spider_ins.name} tried to use loop.add_signal_handler '
-                                          'but it is not implemented on this platform.')
-        # Actually start crawling
-        spider_ins.loop.run_until_complete(spider_ins._start(after_start=after_start, before_stop=before_stop))
-        spider_ins.loop.run_until_complete(spider_ins.loop.shutdown_asyncgens())
-        if close_event_loop:
-            spider_ins.loop.close()
-
-    async def handle_callback(self, aws_callback: typing.Coroutine, response):
-        """Process coroutine callback function"""
-        callback_result = None
-
-        try:
-            callback_result = await aws_callback
-        except NothingMatchedError as e:
-            self.logger.error(f'<Item: {str(e).lower()}>')
-        except Exception as e:
-            self.logger.error(f'<Callback[{aws_callback.__name__}]: {e}')
-        return callback_result, response
-
-    async def handle_request(self, request: Request) -> typing.Tuple[AsyncGeneratorType, Response]:
-        """
-        Wrap request with middleware.
-        :param request:
-        :return:
-        """
-        callback_result, response = None, None
-
-        await self._run_request_middleware(request)
-        try:
-            callback_result, response = await request.fetch_callback(self.sem)
-        except NotImplementedParseError as e:
-            self.logger.error(e)
-        except NothingMatchedError as e:
-            self.logger.error(f'<Item: {str(e).lower()}>')
-        except Exception as e:
-            self.logger.error(f'<Callback[{request.callback.__name__}]: {e}')
-        await self._run_response_middleware(request, response)
-        await self._process_response(request=request, response=response)
-        return callback_result, response
-
-    async def multiple_request(self, urls, is_gather=False, **kwargs):
-        """For crawling multiple urls"""
-        if is_gather:
-            resp_results = await asyncio.gather(
-                *[self.handle_request(self.request(url=url, **kwargs)) for url in urls],
-                return_exceptions=True)
-            for index, task_result in enumerate(resp_results):
-                if not isinstance(task_result, RuntimeError) and task_result:
-                    _, response = task_result
-                    response.index = index
-                    yield response
-        else:
-            for index, url in enumerate(urls):
-                _, response = await self.handle_request(self.request(url=url, **kwargs))
-                response.index = index
-                yield response
-
-    def request(self, url: str, method: str = 'GET', *,
-                callback=None,
-                encoding: typing.Optional[str] = None,
-                headers: dict = None,
-                metadata: dict = None,
-                request_config: dict = None,
-                request_session=None,
-                **kwargs):
-        """Init a Request class for crawling html"""
-        headers = headers or {}
-        metadata = metadata or {}
-        request_config = request_config or {}
-        request_session = request_session or self.request_session
-
-        headers.update(self.headers.copy())
-        request_config.update(self.request_config.copy())
-        kwargs.update(self.kwargs.copy())
-
-        return Request(url=url,
-                       method=method,
-                       callback=callback,
-                       encoding=encoding,
-                       headers=headers,
-                       metadata=metadata,
-                       request_config=request_config,
-                       request_session=request_session,
-                       **kwargs)
-
-    async def start_master(self):
-        """Actually start crawling."""
-        for url in self.start_urls:
-            request_ins = self.request(url=url, callback=self.parse, metadata=self.metadata)
-            self.request_queue.put_nowait(self.handle_request(request_ins))
-        workers = [asyncio.ensure_future(self.start_worker()) for i in range(self.worker_numbers)]
-        for worker in workers:
-            self.logger.info(f"Worker started: {id(worker)}")
-        await self.request_queue.join()
-        if not self.is_async_start:
-            await self.stop(SIGINT)
-
-    async def start_worker(self):
-        while True:
-            request_item = await self.request_queue.get()
-            self.worker_tasks.append(request_item)
-            if self.request_queue.empty():
-                results = await asyncio.gather(*self.worker_tasks, return_exceptions=True)
-                for task_result in results:
-                    if not isinstance(task_result, RuntimeError) and task_result:
-                        callback_results, response = task_result
-                        if isinstance(callback_results, AsyncGeneratorType):
-                            await self._process_async_callback(callback_results, response)
-                self.worker_tasks = []
-            self.request_queue.task_done()
-
-    async def stop(self, _signal):
-        """
-        Finish all running tasks, cancel remaining tasks, then stop loop.
-        :param _signal:
-        :return:
-        """
-        self.logger.info(f'Stopping spider: {self.name}')
-        tasks = [task for task in asyncio.Task.all_tasks() if task is not
-                 asyncio.tasks.Task.current_task()]
-        [task.cancel() for task in tasks]
-        await asyncio.gather(*tasks, return_exceptions=True)
-        self.loop.stop()
-
     async def _process_async_callback(self, callback_results: AsyncGeneratorType, response: Response = None):
         try:
             async for callback_result in callback_results:
@@ -390,3 +216,183 @@ class Spider(SpiderHook):
                 self.logger.info(f'Failed requests: {self.failed_counts}')
             self.logger.info(f'Time usage: {end_time - start_time}')
             self.logger.info('Spider finished!')
+
+    @classmethod
+    async def async_start(cls,
+                          middleware: typing.Union[typing.Iterable, Middleware] = None,
+                          loop=None,
+                          after_start=None,
+                          before_stop=None,
+                          **kwargs):
+        """
+        Start an async spider
+        :param middleware: customize middleware or a list of middleware
+        :param loop:
+        :param after_start: hook
+        :param before_stop: hook
+        :return:
+        """
+        loop = loop or asyncio.get_event_loop()
+        spider_ins = cls(middleware=middleware, loop=loop, is_async_start=True)
+        await spider_ins._start(after_start=after_start, before_stop=before_stop)
+
+    @classmethod
+    def start(cls,
+              middleware: typing.Union[typing.Iterable, Middleware] = None,
+              loop=None,
+              after_start=None,
+              before_stop=None,
+              close_event_loop=True,
+              **kwargs):
+        """
+        Start a spider
+        :param after_start: hook
+        :param before_stop: hook
+        :param middleware: customize middleware or a list of middleware
+        :param loop: event loop
+        :param close_event_loop: bool
+        :return:
+        """
+        loop = loop or asyncio.new_event_loop()
+        spider_ins = cls(middleware=middleware, loop=loop)
+
+        for signal in (SIGINT, SIGTERM):
+            try:
+                spider_ins.loop.add_signal_handler(signal, lambda: asyncio.ensure_future(spider_ins.stop(signal)))
+            except NotImplementedError:
+                spider_ins.logger.warning(f'{spider_ins.name} tried to use loop.add_signal_handler '
+                                          'but it is not implemented on this platform.')
+        # Actually start crawling
+        spider_ins.loop.run_until_complete(
+            spider_ins._start(
+                after_start=after_start,
+                before_stop=before_stop)
+        )
+        spider_ins.loop.run_until_complete(spider_ins.loop.shutdown_asyncgens())
+        if close_event_loop:
+            spider_ins.loop.close()
+
+    async def handle_callback(self, aws_callback: typing.Coroutine, response):
+        """Process coroutine callback function"""
+        callback_result = None
+
+        try:
+            callback_result = await aws_callback
+        except NothingMatchedError as e:
+            self.logger.error(f'<Item: {str(e).lower()}>')
+        except Exception as e:
+            self.logger.error(f'<Callback[{aws_callback.__name__}]: {e}')
+        return callback_result, response
+
+    async def handle_request(self, request: Request) -> typing.Tuple[AsyncGeneratorType, Response]:
+        """
+        Wrap request with middleware.
+        :param request:
+        :return:
+        """
+        callback_result, response = None, None
+
+        await self._run_request_middleware(request)
+        try:
+            callback_result, response = await request.fetch_callback(self.sem)
+        except NotImplementedParseError as e:
+            self.logger.error(e)
+        except NothingMatchedError as e:
+            self.logger.error(f'<Item: {str(e).lower()}>')
+        except Exception as e:
+            self.logger.error(f'<Callback[{request.callback.__name__}]: {e}')
+        await self._run_response_middleware(request, response)
+        await self._process_response(request=request, response=response)
+        return callback_result, response
+
+    async def multiple_request(self, urls, is_gather=False, **kwargs):
+        """For crawling multiple urls"""
+        if is_gather:
+            resp_results = await asyncio.gather(
+                *[self.handle_request(self.request(url=url, **kwargs)) for url in urls],
+                return_exceptions=True)
+            for index, task_result in enumerate(resp_results):
+                if not isinstance(task_result, RuntimeError) and task_result:
+                    _, response = task_result
+                    response.index = index
+                    yield response
+        else:
+            for index, url in enumerate(urls):
+                _, response = await self.handle_request(self.request(url=url, **kwargs))
+                response.index = index
+                yield response
+
+    async def parse(self, response):
+        """
+        Used for subclasses, directly parse the responses corresponding with start_urls
+        :param response: Response
+        :return:
+        """
+        raise NotImplementedParseError('<!!! parse function is expected !!!>')
+
+    def request(self, url: str, method: str = 'GET', *,
+                callback=None,
+                encoding: typing.Optional[str] = None,
+                headers: dict = None,
+                metadata: dict = None,
+                request_config: dict = None,
+                request_session=None,
+                **kwargs):
+        """Init a Request class for crawling html"""
+        headers = headers or {}
+        metadata = metadata or {}
+        request_config = request_config or {}
+        request_session = request_session or self.request_session
+
+        headers.update(self.headers.copy())
+        request_config.update(self.request_config.copy())
+        kwargs.update(self.kwargs.copy())
+
+        return Request(url=url,
+                       method=method,
+                       callback=callback,
+                       encoding=encoding,
+                       headers=headers,
+                       metadata=metadata,
+                       request_config=request_config,
+                       request_session=request_session,
+                       **kwargs)
+
+    async def start_master(self):
+        """Actually start crawling."""
+        for url in self.start_urls:
+            request_ins = self.request(url=url, callback=self.parse, metadata=self.metadata)
+            self.request_queue.put_nowait(self.handle_request(request_ins))
+        workers = [asyncio.ensure_future(self.start_worker()) for i in range(self.worker_numbers)]
+        for worker in workers:
+            self.logger.info(f"Worker started: {id(worker)}")
+        await self.request_queue.join()
+        if not self.is_async_start:
+            await self.stop(SIGINT)
+
+    async def start_worker(self):
+        while True:
+            request_item = await self.request_queue.get()
+            self.worker_tasks.append(request_item)
+            if self.request_queue.empty():
+                results = await asyncio.gather(*self.worker_tasks, return_exceptions=True)
+                for task_result in results:
+                    if not isinstance(task_result, RuntimeError) and task_result:
+                        callback_results, response = task_result
+                        if isinstance(callback_results, AsyncGeneratorType):
+                            await self._process_async_callback(callback_results, response)
+                self.worker_tasks = []
+            self.request_queue.task_done()
+
+    async def stop(self, _signal):
+        """
+        Finish all running tasks, cancel remaining tasks, then stop loop.
+        :param _signal:
+        :return:
+        """
+        self.logger.info(f'Stopping spider: {self.name}')
+        tasks = [task for task in asyncio.Task.all_tasks() if task is not
+                 asyncio.tasks.Task.current_task()]
+        [task.cancel() for task in tasks]
+        await asyncio.gather(*tasks, return_exceptions=True)
+        self.loop.stop()

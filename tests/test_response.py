@@ -70,3 +70,9 @@ def test_index():
     assert response.index is None
     response.index = 'ruia'
     assert response.index == 'ruia'
+
+
+def test_ok():
+    assert response.ok == True
+    response.ok = False
+    assert response.ok == False

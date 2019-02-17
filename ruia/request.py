@@ -7,7 +7,7 @@ import async_timeout
 
 from inspect import iscoroutinefunction
 from types import AsyncGeneratorType
-from typing import Optional, Tuple
+from typing import Coroutine, Optional, Tuple
 
 from asyncio.locks import Semaphore
 
@@ -34,7 +34,8 @@ class Request(object):
         'RETRIES': 3,
         'DELAY': 0,
         'TIMEOUT': 10,
-        'RETRY_FUNC': None
+        'RETRY_FUNC': Coroutine,
+        'VALID': Coroutine
     }
 
     METHOD = ['GET', 'POST']
@@ -81,7 +82,6 @@ class Request(object):
 
         timeout = self.request_config.get('TIMEOUT', 10)
         try:
-            # TODO middleware for retry
             async with async_timeout.timeout(timeout):
                 resp = await self._make_request()
             resp_data = await resp.text(encoding=self.encoding)
@@ -97,9 +97,14 @@ class Request(object):
                                 aws_json=resp.json,
                                 aws_text=resp.text,
                                 aws_read=resp.read)
-            if not response.ok:
+            # Retry middleware
+            aws_valid_response = self.request_config.get('VALID')
+            if aws_valid_response and iscoroutinefunction(aws_valid_response):
+                response = await aws_valid_response(response)
+            if response.ok:
+                return response
+            else:
                 return await self._retry()
-            return response
         except asyncio.TimeoutError:
             # Retry for timeout
             return await self._retry()
@@ -107,7 +112,7 @@ class Request(object):
             # Close client session
             await self._close_request_session()
 
-    async def fetch_callback(self, sem: Semaphore = None) -> Tuple[AsyncGeneratorType, Response]:
+    async def fetch_callback(self, sem: Semaphore) -> Tuple[AsyncGeneratorType, Response]:
         try:
             async with sem:
                 response = await self.fetch()

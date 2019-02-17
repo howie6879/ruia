@@ -25,11 +25,16 @@ params = {
 }
 
 
+async def valid_response(response):
+    return response
+
+
 async def make_get_request(sem, callback=None):
     request_config = {
         'RETRIES': 3,
         'DELAY': 1,
         'TIMEOUT': 0.1,
+        'VALID': valid_response,
         'RETRY_FUNC': retry_func
     }
     request = Request('https://www.httpbin.org/get',

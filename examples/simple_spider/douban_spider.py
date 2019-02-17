@@ -21,7 +21,7 @@ class DoubanSpider(Spider):
     request_config = {
         'RETRIES': 3,
         'DELAY': 0,
-        'TIMEOUT': 20
+        'TIMEOUT': 20,
     }
     concurrency = 10
     # proxy config

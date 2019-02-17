@@ -37,6 +37,7 @@ class Response(object):
         self._history = history
         self._headers = headers
         self._status = status
+        self._ok = self._status == 0 or 200 <= self._status <= 299
 
         self._aws_json = aws_json
         self._aws_read = aws_read
@@ -59,12 +60,16 @@ class Response(object):
         self._index = value
 
     @property
-    def encoding(self):
-        return self._encoding
+    def ok(self) -> bool:
+        return self._ok
+
+    @ok.setter
+    def ok(self, value: bool):
+        self._ok = value
 
     @property
-    def ok(self) -> bool:
-        return self._status == 0 or 200 <= self._status <= 299
+    def encoding(self):
+        return self._encoding
 
     @property
     def url(self):
