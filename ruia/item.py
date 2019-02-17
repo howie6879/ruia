@@ -58,8 +58,11 @@ class Item(metaclass=ItemMeta):
                 if clean_method is not None:
                     try:
                         value = await clean_method(value)
-                    except TypeError:
-                        raise InvalidFuncType('<Item: clean_method must be a coroutine function>')
+                    except TypeError as e:
+                        if 'await' in str(e):
+                            raise InvalidFuncType(f'<Item: clean_method must be a coroutine function>')
+                        else:
+                            raise TypeError(e)
                     except IgnoreThisItem:
                         item_ins.ignore_item = True
 

@@ -155,6 +155,7 @@ class Spider(SpiderHook):
                 else:
                     await self.process_callback_result(callback_result=callback_result)
         except Exception as e:
+            print(333)
             self.logger.error(e)
 
     async def _process_response(self, request: Request, response: Response):

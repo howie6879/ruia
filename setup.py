@@ -39,7 +39,7 @@ setup(
     author_email='xiaozizayang@gmail.com',
     python_requires='>=3.6',
     install_requires=['aiohttp>=3.5.4', 'cssselect', 'lxml'],
-    url="https://www.python-ruia.org/",
+    url="https://python-ruia.org/",
     packages=find_packages(),
     license='MIT',
     classifiers=[
