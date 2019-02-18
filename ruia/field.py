@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 
 import re
+
 from typing import Union
 from lxml import etree
 
@@ -27,7 +28,7 @@ class BaseField(object):
 
 
 class _LxmlElementField(BaseField):
-    def __init__(self, css_select=None, xpath_select=None, default: str = None, many: bool = False):
+    def __init__(self, css_select: str = None, xpath_select: str = None, default: str = None, many: bool = False):
         """
         :param css_select: css select http://lxml.de/cssselect.html
         :param xpath_select: http://www.w3school.com.cn/xpath/index.asp
@@ -74,7 +75,7 @@ class AttrField(_LxmlElementField):
     This field is used to get  attribute.
     """
 
-    def __init__(self, attr, css_select=None, xpath_select=None, default='', many: bool = False):
+    def __init__(self, attr, css_select: str = None, xpath_select: str = None, default='', many: bool = False):
         super(AttrField, self).__init__(
             css_select=css_select, xpath_select=xpath_select, default=default, many=many)
         self.attr = attr
