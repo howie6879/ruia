@@ -1,7 +1,4 @@
 #!/usr/bin/env python
-"""
- Created by howie.hu at 2018/9/21.
-"""
 
 from collections import deque
 from functools import wraps

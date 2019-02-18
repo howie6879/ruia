@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 
-
 from lxml import etree
 from typing import Any
 
