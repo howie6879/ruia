@@ -18,7 +18,7 @@ sem = asyncio.Semaphore(3)
 params = {
     "name": "ruia"
 }
-request = Request('http://www.httpbin.org/get',
+request = Request('https://httpbin.org/get',
                   method='GET',
                   metadata={'hello': 'ruia'},
                   params=params,
@@ -42,7 +42,7 @@ def test_response():
     json = asyncio.get_event_loop().run_until_complete(response.json())
     read = asyncio.get_event_loop().run_until_complete(response.read())
 
-    assert url == 'http://www.httpbin.org/get'
+    assert url == 'https://httpbin.org/get'
     assert method == 'GET'
     assert encoding == 'utf-8'
     assert metadata == {'hello': 'ruia'}
@@ -57,7 +57,7 @@ def test_response():
     assert isinstance(json, dict)
     assert isinstance(read, bytes)
 
-    assert str(response) == '<Response url[GET]: http://www.httpbin.org/get status:200>'
+    assert str(response) == '<Response url[GET]: https://httpbin.org/get status:200>'
 
 
 def test_callback():

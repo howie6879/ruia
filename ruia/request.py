@@ -62,6 +62,7 @@ class Request(object):
         self.metadata = metadata or {}
         self.request_session = request_session
         self.request_config = self.REQUEST_CONFIG if request_config is None else request_config
+        self.ssl = kwargs.pop('ssl', False)
         self.kwargs = kwargs
 
         self.close_request_session = False
@@ -141,14 +142,14 @@ class Request(object):
             request_func = self.current_request_session.get(
                 self.url,
                 headers=self.headers,
-                ssl=False,
+                ssl=self.ssl,
                 **self.kwargs
             )
         else:
             request_func = self.current_request_session.post(
                 self.url,
                 headers=self.headers,
-                ssl=False,
+                ssl=self.ssl,
                 **self.kwargs
             )
         resp = await request_func

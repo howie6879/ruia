@@ -36,7 +36,7 @@ class ItemDemo(Item):
 
 
 class SpiderDemo(Spider):
-    start_urls = ['https://www.httpbin.org/get?p=0']
+    start_urls = ['https://httpbin.org/get?p=0']
     request_config = {
         'RETRIES': 3,
         'DELAY': 0,
@@ -59,13 +59,13 @@ class SpiderDemo(Spider):
         )
 
     async def parse_item(self, response):
-        pages = [f'https://www.httpbin.org/get?p={i}' for i in range(1, 2)]
+        pages = [f'https://httpbin.org/get?p={i}' for i in range(1, 2)]
         async for resp in self.multiple_request(pages):
             yield self.parse_next(response=resp, any_param='hello')
 
     async def parse_next(self, response, any_param):
         assert any_param == 'hello'
-        yield self.request(url='https://www.httpbin.org/get?p=2',
+        yield self.request(url='https://httpbin.org/get?p=2',
                            metadata={'any_param': any_param},
                            callback=self.parse_details)
 
@@ -99,7 +99,7 @@ def test_spider_with_error_middleware():
         raise TypeError('error')
 
     class SpiderDemo(Spider):
-        start_urls = ['https://www.httpbin.org/get?p=0']
+        start_urls = ['https://httpbin.org/get?p=0']
 
         async def parse(self, response):
             pass
@@ -118,7 +118,7 @@ def test_spider_hook():
         spider_ins.result['before_stop'] = True
 
     class SpiderHook(Spider):
-        start_urls = ['https://www.httpbin.org/get?p=0', 'https://www.httpbin.org/404']
+        start_urls = ['https://httpbin.org/get?p=0', 'https://httpbin.org/404']
         request_config = {
             'RETRIES': 1,
             'DELAY': 0,
@@ -162,7 +162,7 @@ def test_spider_hook():
 
 def test_spider_hook_error():
     class SpiderDemo(Spider):
-        start_urls = ['https://www.httpbin.org/get?p=0']
+        start_urls = ['https://httpbin.org/get?p=0']
 
         async def parse(self, response):
             pass
@@ -176,7 +176,7 @@ def test_spider_hook_error():
 
 def test_invalid_callback_result():
     class SpiderDemo(Spider):
-        start_urls = ['https://www.httpbin.org/get?p=0']
+        start_urls = ['https://httpbin.org/get?p=0']
         result = {
             'process_callback_result': False
         }
@@ -235,12 +235,12 @@ def test_no_start_url_spider():
 
 def test_callback_error():
     class NoParseSpider(Spider):
-        start_urls = ['http://www.httpbin.org/get']
+        start_urls = ['https://httpbin.org/get']
 
     NoParseSpider.start()
 
     class CallbackError(Spider):
-        start_urls = ['http://www.httpbin.org/get']
+        start_urls = ['https://httpbin.org/get']
 
         async def parse(self, response):
             raise ValueError('error')
@@ -250,10 +250,10 @@ def test_callback_error():
 
 def test_coroutine_callback_error():
     class CoroutineItemErrorSpider(Spider):
-        start_urls = ['http://www.httpbin.org/get']
+        start_urls = ['https://httpbin.org/get']
 
         async def parse(self, response):
-            pages = ['http://www.httpbin.org/get?p=1']
+            pages = ['https://httpbin.org/get?p=1']
             async for resp in self.multiple_request(pages):
                 yield self.parse_item(response=resp)
 
@@ -263,10 +263,10 @@ def test_coroutine_callback_error():
     CoroutineItemErrorSpider.start()
 
     class CoroutineErrorSpider(Spider):
-        start_urls = ['http://www.httpbin.org/get']
+        start_urls = ['https://httpbin.org/get']
 
         async def parse(self, response):
-            pages = ['http://www.httpbin.org/get?p=1']
+            pages = ['https://httpbin.org/get?p=1']
             async for resp in self.multiple_request(pages):
                 yield self.parse_item(response=resp)
 
@@ -278,7 +278,7 @@ def test_coroutine_callback_error():
 
 def test_nothing_marched_spider():
     class NothingMatchedErrorSpider(Spider):
-        start_urls = ['http://www.httpbin.org/get']
+        start_urls = ['https://httpbin.org/get']
 
         async def parse(self, response):
             await ItemDemo.get_item(html=response.html)
@@ -289,7 +289,7 @@ def test_nothing_marched_spider():
 def test_multiple_spider():
     class MultipleSpider(Spider):
         count = 0
-        start_urls = ['https://www.httpbin.org/get?p=0']
+        start_urls = ['https://httpbin.org/get?p=0']
 
         async def parse(self, response):
             MultipleSpider.count += 1

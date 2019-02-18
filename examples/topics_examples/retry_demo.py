@@ -8,7 +8,7 @@ async def retry_func(request):
 
 
 class RetryDemo(Spider):
-    start_urls = ['http://www.httpbin.org/get']
+    start_urls = ['http://httpbin.org/get']
 
     request_config = {
         'RETRIES': 3,
@@ -18,7 +18,7 @@ class RetryDemo(Spider):
     }
 
     async def parse(self, response):
-        pages = ['http://www.httpbin.org/get?p=1', 'http://www.httpbin.org/get?p=2']
+        pages = ['http://httpbin.org/get?p=1', 'http://httpbin.org/get?p=2']
         async for resp in self.multiple_request(pages):
             yield self.parse_item(response=resp)
 

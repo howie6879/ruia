@@ -10,7 +10,7 @@ from ruia import Request
 
 
 async def request_example():
-    url = 'http://www.httpbin.org/get'
+    url = 'http://httpbin.org/get'
     params = {
         'name': 'ruia',
     }

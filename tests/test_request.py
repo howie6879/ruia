@@ -37,7 +37,7 @@ async def make_get_request(sem, callback=None):
         'VALID': valid_response,
         'RETRY_FUNC': retry_func
     }
-    request = Request('https://www.httpbin.org/get',
+    request = Request('https://httpbin.org/get',
                       method='GET',
                       metadata={'hello': 'ruia'},
                       request_config=request_config,
@@ -50,7 +50,7 @@ async def make_post_request(sem, callback):
     headers = {
         'Content-Type': 'application/json'
     }
-    request = Request('https://www.httpbin.org/post',
+    request = Request('https://httpbin.org/post',
                       method='POST',
                       headers=headers,
                       data=params,
@@ -59,7 +59,7 @@ async def make_post_request(sem, callback):
 
 
 def test_request_config():
-    assert str(Request('https://www.httpbin.org/')) == '<GET https://www.httpbin.org/>'
+    assert str(Request('https://httpbin.org/')) == '<GET https://httpbin.org/>'
     _, response = asyncio.get_event_loop().run_until_complete(make_get_request(sem=sem, callback=hello))
     assert response.callback_result == 'hello ruia'
     assert response.metadata == {'hello': 'ruia'}
@@ -73,7 +73,7 @@ def test_request_config():
 
 def test_method_error_request():
     try:
-        request = Request('https://www.httpbin.org/', method='PUT')
+        request = Request('https://httpbin.org/', method='PUT')
         response = asyncio.get_event_loop().run_until_complete(request.fetch())
         assert response.html == ''
     except Exception as e:
@@ -86,9 +86,9 @@ def test_sem_error_request():
 
 
 def test_retry_request():
-    request = Request('http://www.httpbin.org/404')
+    request = Request('http://httpbin.org/404')
     _, response = asyncio.get_event_loop().run_until_complete(request.fetch_callback(sem=sem))
-    assert response.url == 'http://www.httpbin.org/404'
+    assert response.url == 'http://httpbin.org/404'
 
 
 def test_timeout_request():
@@ -98,7 +98,7 @@ def test_timeout_request():
             'DELAY': 1,
             'TIMEOUT': 0.1,
         }
-        request = Request('http://www.httpbin.org/get',
+        request = Request('https://httpbin.org/get',
                           method='GET',
                           metadata={'hello': 'ruia'},
                           encoding='utf-8',
@@ -108,4 +108,4 @@ def test_timeout_request():
         return await request.fetch_callback(sem)
 
     _, response = asyncio.get_event_loop().run_until_complete(timeout_request(sem=sem))
-    assert response.url == 'http://www.httpbin.org/get'
+    assert response.url == 'https://httpbin.org/get'

@@ -10,7 +10,7 @@ mkdocs-material = "*"
 codecov = "*"
 
 [packages]
-aiohttp = ">=3.3.2"
+aiohttp = ">=3.5.4"
 cssselect = "*"
 lxml = "*"
 

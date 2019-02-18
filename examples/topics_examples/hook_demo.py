@@ -15,7 +15,7 @@ async def before_stop_func(spider_ins):
 
 
 class HookDemoSpider(Spider):
-    start_urls = ['https://www.httpbin.org/get?p=0', 'https://www.httpbin.org/404']
+    start_urls = ['https://httpbin.org/get?p=0', 'https://httpbin.org/404']
     request_config = {
         'RETRIES': 1,
         'DELAY': 0,
