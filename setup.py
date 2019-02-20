@@ -33,7 +33,7 @@ setup(
     name='ruia',
     version=read_version(),
     author='Howie Hu',
-    description="An async web scraping micro-framework based on asyncio.",
+    description="Async Python 3.6+ web scraping micro-framework based on asyncio.",
     long_description=read('README.md'),
     long_description_content_type='text/markdown',
     author_email='xiaozizayang@gmail.com',
