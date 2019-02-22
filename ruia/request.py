@@ -85,7 +85,11 @@ class Request(object):
         try:
             async with async_timeout.timeout(timeout):
                 resp = await self._make_request()
-            resp_data = await resp.text(encoding=self.encoding)
+            try:
+                resp_data = await resp.text(encoding=self.encoding)
+            except UnicodeDecodeError:
+                resp_data = await resp.read()
+
             response = Response(url=self.url,
                                 method=self.method,
                                 encoding=resp.get_encoding(),
