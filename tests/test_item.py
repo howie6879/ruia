@@ -26,6 +26,7 @@ class DoubanItems(Item):
 
 class DoubanItem(Item):
     title = TextField(css_select='head title')
+    constant_attr = 'hello ruia'
 
     async def clean_title(self, title):
         return 'Title: ' + title
@@ -75,6 +76,7 @@ async def single_page_demo(url="https://news.ycombinator.com/"):
 def test_item():
     item = asyncio.get_event_loop().run_until_complete(DoubanItem.get_item(html=HTML))
     assert item.title == 'Title: 豆瓣电影TOP250'
+    assert item.constant_attr == 'hello ruia'
 
     try:
         asyncio.get_event_loop().run_until_complete(DoubanCleanMethodErrorItem.get_item(html=HTML))

@@ -7,4 +7,4 @@ from .request import Request
 from .response import Response
 from .spider import Spider
 
-__version__ = '0.5.5'
+__version__ = '0.5.6'

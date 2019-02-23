@@ -31,6 +31,21 @@ class SpiderHook:
     """
 
     callback_result_map: dict = None
+    logger = get_logger(name='Spider')
+
+    async def _run_spider_hook(self, hook_func):
+        """
+        Run hook before/after spider start crawling
+        :param hook_func: aws function
+        :return:
+        """
+        if callable(hook_func):
+            try:
+                aws_hook_func = hook_func(self)
+                if isawaitable(aws_hook_func):
+                    await aws_hook_func
+            except Exception as e:
+                self.logger.error(f'<Hook {hook_func.__name__}: {e}')
 
     async def process_failed_response(self, request, response):
         """
@@ -124,7 +139,6 @@ class Spider(SpiderHook):
         self.request_config = self.request_config or {}
 
         self.is_async_start = is_async_start
-        self.logger = get_logger(name='Spider')
         self.loop = loop
         asyncio.set_event_loop(self.loop)
 
@@ -195,15 +209,6 @@ class Spider(SpiderHook):
                     self.logger.error(f"<Middleware {middleware.__name__}: must be a coroutine function")
                 except Exception as e:
                     self.logger.error(f'<Middleware {middleware.__name__}: {e}')
-
-    async def _run_spider_hook(self, hook_func):
-        if callable(hook_func):
-            try:
-                aws_hook_func = hook_func(self)
-                if isawaitable(aws_hook_func):
-                    await aws_hook_func
-            except Exception as e:
-                self.logger.error(f'<Hook {hook_func.__name__}: {e}')
 
     async def _start(self, after_start=None, before_stop=None):
         self.logger.info('Spider started!')

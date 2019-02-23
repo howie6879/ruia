@@ -44,7 +44,7 @@ class DoubanSpider(Spider):
             yield item
 
     async def process_item(self, item: DoubanItem):
-        print(item)
+        self.logger.info(item)
 
 
 if __name__ == '__main__':
