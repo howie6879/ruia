@@ -140,6 +140,14 @@ class Spider(SpiderHook):
         # semaphore, used for concurrency control
         self.sem = asyncio.Semaphore(self.concurrency)
 
+    async def _cancel_tasks(self):
+        tasks = []
+        for task in asyncio.Task.all_tasks():
+            if task is not asyncio.tasks.Task.current_task():
+                tasks.append(task)
+                task.cancel()
+        await asyncio.gather(*tasks, return_exceptions=True)
+
     async def _process_async_callback(self, callback_results: AsyncGeneratorType, response: Response = None):
         try:
             async for callback_result in callback_results:
@@ -200,6 +208,14 @@ class Spider(SpiderHook):
     async def _start(self, after_start=None, before_stop=None):
         self.logger.info('Spider started!')
         start_time = datetime.now()
+
+        # Add signal
+        for signal in (SIGINT, SIGTERM):
+            try:
+                self.loop.add_signal_handler(signal, lambda: asyncio.ensure_future(self.stop(signal)))
+            except NotImplementedError:
+                self.logger.warning(f'{self.name} tried to use loop.add_signal_handler '
+                                    'but it is not implemented on this platform.')
         # Run hook before spider start crawling
         await self._run_spider_hook(after_start)
 
@@ -256,12 +272,6 @@ class Spider(SpiderHook):
         loop = loop or asyncio.new_event_loop()
         spider_ins = cls(middleware=middleware, loop=loop)
 
-        for signal in (SIGINT, SIGTERM):
-            try:
-                spider_ins.loop.add_signal_handler(signal, lambda: asyncio.ensure_future(spider_ins.stop(signal)))
-            except NotImplementedError:
-                spider_ins.logger.warning(f'{spider_ins.name} tried to use loop.add_signal_handler '
-                                          'but it is not implemented on this platform.')
         # Actually start crawling
         spider_ins.loop.run_until_complete(
             spider_ins._start(
@@ -367,8 +377,11 @@ class Spider(SpiderHook):
         for worker in workers:
             self.logger.info(f"Worker started: {id(worker)}")
         await self.request_queue.join()
+
         if not self.is_async_start:
             await self.stop(SIGINT)
+        else:
+            await self._cancel_tasks()
 
     async def start_worker(self):
         while True:
@@ -391,8 +404,5 @@ class Spider(SpiderHook):
         :return:
         """
         self.logger.info(f'Stopping spider: {self.name}')
-        tasks = [task for task in asyncio.Task.all_tasks() if task is not
-                 asyncio.tasks.Task.current_task()]
-        [task.cancel() for task in tasks]
-        await asyncio.gather(*tasks, return_exceptions=True)
+        await self._cancel_tasks()
         self.loop.stop()
