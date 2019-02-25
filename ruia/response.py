@@ -3,6 +3,7 @@
 import json
 
 from typing import Any, Callable, Optional
+from http.cookies import SimpleCookie
 
 from lxml import etree
 
@@ -88,8 +89,14 @@ class Response(object):
         return self._html
 
     @property
-    def cookies(self):
-        return self._cookies
+    def cookies(self) -> dict:
+        if isinstance(self._cookies, SimpleCookie):
+            cur_cookies = {}
+            for key, value in self._cookies.items():
+                cur_cookies[key] = value.value
+            return cur_cookies
+        else:
+            return self._cookies
 
     @property
     def history(self):
