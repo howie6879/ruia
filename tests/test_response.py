@@ -5,7 +5,6 @@
 import asyncio
 
 from lxml import etree
-from aiohttp.cookiejar import SimpleCookie
 
 from ruia import Request
 
@@ -47,7 +46,7 @@ def test_response():
     assert encoding == 'utf-8'
     assert metadata == {'hello': 'ruia'}
     assert isinstance(html, str)
-    assert isinstance(cookies, SimpleCookie)
+    assert isinstance(cookies, dict)
     assert history == ()
     assert headers['Content-Type'] == 'application/json'
     assert status == 200
