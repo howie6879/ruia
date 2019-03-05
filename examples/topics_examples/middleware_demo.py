@@ -24,7 +24,7 @@ class MiddlewareSpiderDemo(Spider):
     concurrency = 10
 
     async def parse(self, response):
-        pages = [f'https://httpbin.org/get?p={i}' for i in range(1, 3)]
+        pages = [f'https://httpbin.org/get?p={i}' for i in range(1, 2)]
         async for resp in self.multiple_request(urls=pages):
             print(resp.url)
 

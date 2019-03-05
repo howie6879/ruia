@@ -15,7 +15,7 @@
 Ruia is an async web scraping micro-framework, written with `asyncio` and `aiohttp`, 
 aims to make crawling url as convenient as possible.
 
-Write less, run faster:
+**Write less, run faster**:
 
 -   Documentation: [中文文档][doc_cn] |[documentation][doc_en]
 -   Organization: [python-ruia][Organization]
@@ -42,13 +42,13 @@ pip install git+https://github.com/howie6879/ruia
 
 ## Tutorials
 
-1.  [Overview](https://howie6879.github.io/ruia/en/tutorials/overview.html)
-2.  [Installation](https://howie6879.github.io/ruia/en/tutorials/installation.html)
-3.  [Define Data Items](https://howie6879.github.io/ruia/en/tutorials/item.html)
-4.  [Spider Control](https://howie6879.github.io/ruia/en/tutorials/spider.html)
-5.  [Request & Response](https://howie6879.github.io/ruia/en/tutorials/request.html)
-6.  [Customize Middleware](https://howie6879.github.io/ruia/en/tutorials/middleware.html)
-7.  [Write a Plugins](https://howie6879.github.io/ruia/en/tutorials/plugins.html)
+1.  [Overview](https://docs.python-ruia.org/en/tutorials/overview.html)
+2.  [Installation](https://docs.python-ruia.org/en/tutorials/installation.html)
+3.  [Define Data Items](https://docs.python-ruia.org/en/tutorials/item.html)
+4.  [Spider Control](https://docs.python-ruia.org/en/tutorials/spider.html)
+5.  [Request & Response](https://docs.python-ruia.org/en/tutorials/request.html)
+6.  [Customize Middleware](https://docs.python-ruia.org/en/tutorials/middleware.html)
+7.  [Write a Plugins](https://docs.python-ruia.org/en/tutorials/plugins.html)
 
 
 ## TODO

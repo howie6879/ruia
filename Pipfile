@@ -8,6 +8,8 @@ pytest = "*"
 mkdocs = "*"
 mkdocs-material = "*"
 codecov = "*"
+pylint = "*"
+yapf = "*"
 
 [packages]
 aiohttp = ">=3.5.4"

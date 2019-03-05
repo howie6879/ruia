@@ -13,8 +13,8 @@ Methods:
 - url: the resource link
 - method: request method, shoud be `GET` or `POST
 - callback: callback function
+- encoding: html encode
 - headers: request headers
-- load_js: bool, if the target web page needs loading JS
 - metadata: some data that need pass to next request
 - request_config: the configure of the request
 - request_session: `aiohttp.ClientSession`

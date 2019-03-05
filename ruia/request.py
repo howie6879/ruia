@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 
 import asyncio
+import weakref
 
 import aiohttp
 import async_timeout
@@ -40,7 +41,10 @@ class Request(object):
 
     METHOD = ['GET', 'POST']
 
-    def __init__(self, url: str, method: str = 'GET', *,
+    def __init__(self,
+                 url: str,
+                 method: str = 'GET',
+                 *,
                  callback=None,
                  encoding: Optional[str] = None,
                  headers: dict = None,
@@ -54,7 +58,9 @@ class Request(object):
         self.url = url
         self.method = method.upper()
         if self.method not in self.METHOD:
-            raise InvalidRequestMethod(f'{self.method} method is not supported')
+            raise InvalidRequestMethod(
+                f'{self.method} method is not supported'
+            )
 
         self.callback = callback
         self.encoding = encoding
@@ -90,18 +96,19 @@ class Request(object):
             except UnicodeDecodeError:
                 resp_data = await resp.read()
 
-            response = Response(url=self.url,
-                                method=self.method,
-                                encoding=resp.get_encoding(),
-                                html=resp_data,
-                                metadata=self.metadata,
-                                cookies=resp.cookies,
-                                headers=resp.headers,
-                                history=resp.history,
-                                status=resp.status,
-                                aws_json=resp.json,
-                                aws_text=resp.text,
-                                aws_read=resp.read)
+            response = Response(
+                url=self.url,
+                method=self.method,
+                encoding=resp.get_encoding(),
+                html=resp_data,
+                metadata=self.metadata,
+                cookies=resp.cookies,
+                headers=resp.headers,
+                history=resp.history,
+                status=resp.status,
+                aws_json=resp.json,
+                aws_text=resp.text,
+                aws_read=resp.read)
             # Retry middleware
             aws_valid_response = self.request_config.get('VALID')
             if aws_valid_response and iscoroutinefunction(aws_valid_response):
@@ -117,7 +124,8 @@ class Request(object):
             # Close client session
             await self._close_request_session()
 
-    async def fetch_callback(self, sem: Semaphore) -> Tuple[AsyncGeneratorType, Response]:
+    async def fetch_callback(
+            self, sem: Semaphore) -> Tuple[AsyncGeneratorType, Response]:
         try:
             async with sem:
                 response = await self.fetch()
@@ -144,38 +152,33 @@ class Request(object):
         self.logger.info(f"<{self.method}: {self.url}>")
         if self.method == 'GET':
             request_func = self.current_request_session.get(
-                self.url,
-                headers=self.headers,
-                ssl=self.ssl,
-                **self.kwargs
-            )
+                self.url, headers=self.headers, ssl=self.ssl, **self.kwargs)
         else:
             request_func = self.current_request_session.post(
-                self.url,
-                headers=self.headers,
-                ssl=self.ssl,
-                **self.kwargs
-            )
+                self.url, headers=self.headers, ssl=self.ssl, **self.kwargs)
         resp = await request_func
         return resp
 
     async def _retry(self):
         if self.retry_times > 0:
-            retry_times = self.request_config.get('RETRIES', 3) - self.retry_times + 1
-            self.logger.info(f'<Retry url: {self.url}>, Retry times: {retry_times}')
+            retry_times = self.request_config.get('RETRIES',
+                                                  3) - self.retry_times + 1
+            self.logger.info(
+                f'<Retry url: {self.url}>, Retry times: {retry_times}')
             self.retry_times -= 1
             retry_func = self.request_config.get('RETRY_FUNC')
             if retry_func and iscoroutinefunction(retry_func):
-                request_ins = await retry_func(self)
+                request_ins = await retry_func(weakref.proxy(self))
                 if isinstance(request_ins, Request):
                     return await request_ins.fetch()
             return await self.fetch()
         else:
-            response = Response(url=self.url,
-                                method=self.method,
-                                metadata=self.metadata,
-                                cookies={},
-                                history=())
+            response = Response(
+                url=self.url,
+                method=self.method,
+                metadata=self.metadata,
+                cookies={},
+                history=())
 
             return response
 

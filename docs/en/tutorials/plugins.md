@@ -1,7 +1,10 @@
 # How to Write a Plugins
 
 Plugins are used to package some common functions as a third-party model.
-**Ruia** allow developers to implement third-party extensions by `Middleware` class.
+**Ruia** allow developers to implement third-party extensions in the following ways:
+
+-   by using `Middleware` class 
+-   by overwriting some core modules(just like Spider, Request etc...)
 
 In the previous section, we talked about `Middleware`. 
 It is used to process before request and after response.
@@ -124,7 +127,7 @@ Here is an example:
 
 ```python
 from ruia import AttrField, TextField, Item, Spider
-from ruia_ua import middleware
+from ruia_ua import middleware as ua_middleware
 
 
 class HackerNewsItem(Item):
@@ -146,7 +149,7 @@ class HackerNewsSpider(Spider):
 
 
 if __name__ == '__main__':
-    HackerNewsSpider.start(middleware=middleware)
+    HackerNewsSpider.start(middleware=ua_middleware)
 ```
 
 The implementations of third-party plugins will make developing crawlers easier!

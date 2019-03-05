@@ -28,7 +28,11 @@ class BaseField(object):
 
 
 class _LxmlElementField(BaseField):
-    def __init__(self, css_select: str = None, xpath_select: str = None, default: str = None, many: bool = False):
+    def __init__(self,
+                 css_select: str = None,
+                 xpath_select: str = None,
+                 default: str = None,
+                 many: bool = False):
         """
         :param css_select: css select http://lxml.de/cssselect.html
         :param xpath_select: http://www.w3school.com.cn/xpath/index.asp
@@ -45,7 +49,8 @@ class _LxmlElementField(BaseField):
         elif self.xpath_select:
             elements = html_etree.xpath(self.xpath_select)
         else:
-            raise ValueError('%s field: css_select or xpath_select is expected' % self.__class__.__name__)
+            raise ValueError('%s field: css_select or xpath_select is expected'
+                             % self.__class__.__name__)
         if not self.many:
             elements = elements[:1]
         return elements
@@ -62,8 +67,9 @@ class _LxmlElementField(BaseField):
         if elements:
             results = [self._parse_element(element) for element in elements]
         elif self.default is None:
-            raise NothingMatchedError(f"Extract `{self.css_select or self.xpath_select}` error, "
-                                      f"please check selector or set parameter named `default`")
+            raise NothingMatchedError(
+                f"Extract `{self.css_select or self.xpath_select}` error, "
+                f"please check selector or set parameter named `default`")
         else:
             results = [self.default]
 
@@ -75,9 +81,17 @@ class AttrField(_LxmlElementField):
     This field is used to get  attribute.
     """
 
-    def __init__(self, attr, css_select: str = None, xpath_select: str = None, default='', many: bool = False):
+    def __init__(self,
+                 attr,
+                 css_select: str = None,
+                 xpath_select: str = None,
+                 default='',
+                 many: bool = False):
         super(AttrField, self).__init__(
-            css_select=css_select, xpath_select=xpath_select, default=default, many=many)
+            css_select=css_select,
+            xpath_select=xpath_select,
+            default=default,
+            many=many)
         self.attr = attr
 
     def _parse_element(self, element):
@@ -130,8 +144,9 @@ class RegexField(BaseField):
             if self.default:
                 return self.default
             else:
-                raise NothingMatchedError(f"Extract `{self._re_select}` error, "
-                                          f"please check selector or set parameter named `default`")
+                raise NothingMatchedError(
+                    f"Extract `{self._re_select}` error, "
+                    f"please check selector or set parameter named `default`")
         else:
             string = match.group()
             groups = match.groups()

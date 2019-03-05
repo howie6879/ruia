@@ -16,7 +16,10 @@ class Response(object):
     Return a friendly response
     """
 
-    def __init__(self, url: str, method: str, *,
+    def __init__(self,
+                 url: str,
+                 method: str,
+                 *,
                  encoding: str = '',
                  html: str = '',
                  metadata: dict,
@@ -117,23 +120,25 @@ class Response(object):
             html_etree = etree.HTML(self.html)
         return html_etree
 
-    async def json(self, *, encoding: str = None,
+    async def json(self,
+                   *,
+                   encoding: str = None,
                    loads: JSONDecoder = DEFAULT_JSON_DECODER,
                    content_type: Optional[str] = 'application/json') -> Any:
         """Read and decodes JSON response."""
-        return await self._aws_json(encoding=encoding,
-                                    loads=loads,
-                                    content_type=content_type)
+        return await self._aws_json(
+            encoding=encoding, loads=loads, content_type=content_type)
 
     async def read(self) -> bytes:
         """Read response payload."""
         return await self._aws_read()
 
-    async def text(self, *, encoding: Optional[str] = None,
+    async def text(self,
+                   *,
+                   encoding: Optional[str] = None,
                    errors: str = 'strict') -> str:
         """Read response payload and decode."""
-        return await self._aws_text(encoding=encoding,
-                                    errors=errors)
+        return await self._aws_text(encoding=encoding, errors=errors)
 
     def __str__(self):
         return f'<Response url[{self._method}]: {self._url} status:{self._status}>'
