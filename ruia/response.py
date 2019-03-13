@@ -140,5 +140,5 @@ class Response(object):
         """Read response payload and decode."""
         return await self._aws_text(encoding=encoding, errors=errors)
 
-    def __str__(self):
+    def __repr__(self):
         return f'<Response url[{self._method}]: {self._url} status:{self._status}>'

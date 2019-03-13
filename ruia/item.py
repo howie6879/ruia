@@ -109,5 +109,5 @@ class Item(metaclass=ItemMeta):
         else:
             raise ValueError("target_item is expected")
 
-    def __str__(self):
+    def __repr__(self):
         return f"<Item {self.results}>"
