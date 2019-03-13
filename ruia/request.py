@@ -116,10 +116,11 @@ class Request(object):
             if response.ok:
                 return response
             else:
-                return await self._retry()
+                return await self._retry(error_msg='request url failed!')
         except asyncio.TimeoutError:
-            # Retry for timeout
-            return await self._retry()
+            return await self._retry(error_msg='timeout')
+        except Exception as e:
+            return await self._retry(error_msg=e)
         finally:
             # Close client session
             await self._close_request_session()
@@ -159,12 +160,12 @@ class Request(object):
         resp = await request_func
         return resp
 
-    async def _retry(self):
+    async def _retry(self, error_msg):
         if self.retry_times > 0:
             retry_times = self.request_config.get('RETRIES',
                                                   3) - self.retry_times + 1
-            self.logger.info(
-                f'<Retry url: {self.url}>, Retry times: {retry_times}')
+            self.logger.error(
+                f'<Retry url: {self.url}>, Retry times: {retry_times}, Retry message: {error_msg}>')
             self.retry_times -= 1
             retry_func = self.request_config.get('RETRY_FUNC')
             if retry_func and iscoroutinefunction(retry_func):
