@@ -55,7 +55,7 @@ For `title` element, because of his uniqueness, a simple CSS Selector is enough:
 css_select = 'title'
 ```
 
-For the `Tuturial` element,
+For the `Tutorial` element,
 we have to use a XPath Selector to address it by it's text.
 
 ```python
