@@ -28,7 +28,7 @@ class Middleware:
             self.request_middleware.append(middleware)
             return middleware
 
-        return register_middleware()
+        return register_middleware
 
     def response(self, *args, **kwargs):
         """
