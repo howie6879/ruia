@@ -42,7 +42,7 @@ class Middleware:
             self.response_middleware.appendleft(middleware)
             return middleware
 
-        return register_middleware()
+        return register_middleware
 
     def __add__(self, other):
         new_middleware = Middleware()
