@@ -24,7 +24,7 @@ and this is the main part of your spider.
 
 Here's a simple parse example, to simply save response fields to a text file.
 We only have to define `start_urls`,
-and implement a `parst` method.
+and implement a `parse` method.
 
 ```python
 import aiofiles
