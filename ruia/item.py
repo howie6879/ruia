@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 
+from inspect import isawaitable
 from lxml import etree
 from typing import Any
 
@@ -56,16 +57,15 @@ class Item(metaclass=ItemMeta):
             if not field_name.startswith('target_'):
                 clean_method = getattr(item_ins, f'clean_{field_name}', None)
                 value = field_value.extract(html_etree=html_etree)
-                if clean_method is not None:
+                if clean_method is not None and callable(clean_method):
                     try:
-                        value = await clean_method(value)
-                    except TypeError as e:
-                        if 'await' in str(e):
+                        aws_clean_func = clean_method(value)
+                        if isawaitable(aws_clean_func):
+                            value = await aws_clean_func
+                        else:
                             raise InvalidFuncType(
                                 f'<Item: clean_method must be a coroutine function>'
                             )
-                        else:
-                            raise TypeError(e)
                     except IgnoreThisItem:
                         item_ins.ignore_item = True
 

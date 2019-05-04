@@ -205,29 +205,35 @@ class Spider(SpiderHook):
     async def _run_request_middleware(self, request: Request):
         if self.middleware.request_middleware:
             for middleware in self.middleware.request_middleware:
-                try:
-                    await middleware(self, request)
-                except TypeError:
-                    self.logger.error(
-                        f"<Middleware {middleware.__name__}: must be a coroutine function"
-                    )
-                except Exception as e:
-                    self.logger.error(
-                        f'<Middleware {middleware.__name__}: {e}')
+                if callable(middleware):
+                    try:
+                        aws_middleware_func = middleware(self, request)
+                        if isawaitable(aws_middleware_func):
+                            await aws_middleware_func
+                        else:
+                            self.logger.error(
+                                f"<Middleware {middleware.__name__}: must be a coroutine function"
+                            )
+                    except Exception as e:
+                        self.logger.error(
+                            f'<Middleware {middleware.__name__}: {e}')
 
     async def _run_response_middleware(self, request: Request,
                                        response: Response):
         if self.middleware.response_middleware:
             for middleware in self.middleware.response_middleware:
-                try:
-                    await middleware(self, request, response)
-                except TypeError:
-                    self.logger.error(
-                        f"<Middleware {middleware.__name__}: must be a coroutine function"
-                    )
-                except Exception as e:
-                    self.logger.error(
-                        f'<Middleware {middleware.__name__}: {e}')
+                if callable(middleware):
+                    try:
+                        aws_middleware_func = middleware(self, request, response)
+                        if isawaitable(aws_middleware_func):
+                            await aws_middleware_func
+                        else:
+                            self.logger.error(
+                                f"<Middleware {middleware.__name__}: must be a coroutine function"
+                            )
+                    except Exception as e:
+                        self.logger.error(
+                            f'<Middleware {middleware.__name__}: {e}')
 
     async def _start(self, after_start=None, before_stop=None):
         self.logger.info('Spider started!')
