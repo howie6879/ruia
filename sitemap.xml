@@ -2,92 +2,92 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
      <loc>https://docs.python-ruia.org/index.html</loc>
-     <lastmod>2019-02-16</lastmod>
+     <lastmod>2019-05-04</lastmod>
      <changefreq>daily</changefreq>
     </url>
     <url>
      <loc>https://docs.python-ruia.org/en/quickstart.html</loc>
-     <lastmod>2019-02-16</lastmod>
+     <lastmod>2019-05-04</lastmod>
      <changefreq>daily</changefreq>
     </url>
     <url>
      <loc>https://docs.python-ruia.org/en/tutorials/overview.html</loc>
-     <lastmod>2019-02-16</lastmod>
+     <lastmod>2019-05-04</lastmod>
      <changefreq>daily</changefreq>
     </url>
     <url>
      <loc>https://docs.python-ruia.org/en/tutorials/installation.html</loc>
-     <lastmod>2019-02-16</lastmod>
+     <lastmod>2019-05-04</lastmod>
      <changefreq>daily</changefreq>
     </url>
     <url>
      <loc>https://docs.python-ruia.org/en/tutorials/item.html</loc>
-     <lastmod>2019-02-16</lastmod>
+     <lastmod>2019-05-04</lastmod>
      <changefreq>daily</changefreq>
     </url>
     <url>
      <loc>https://docs.python-ruia.org/en/tutorials/spider.html</loc>
-     <lastmod>2019-02-16</lastmod>
+     <lastmod>2019-05-04</lastmod>
      <changefreq>daily</changefreq>
     </url>
     <url>
      <loc>https://docs.python-ruia.org/en/tutorials/request.html</loc>
-     <lastmod>2019-02-16</lastmod>
+     <lastmod>2019-05-04</lastmod>
      <changefreq>daily</changefreq>
     </url>
     <url>
      <loc>https://docs.python-ruia.org/en/tutorials/middleware.html</loc>
-     <lastmod>2019-02-16</lastmod>
+     <lastmod>2019-05-04</lastmod>
      <changefreq>daily</changefreq>
     </url>
     <url>
      <loc>https://docs.python-ruia.org/en/tutorials/plugins.html</loc>
-     <lastmod>2019-02-16</lastmod>
+     <lastmod>2019-05-04</lastmod>
      <changefreq>daily</changefreq>
     </url>
     <url>
      <loc>https://docs.python-ruia.org/en/apis/field.html</loc>
-     <lastmod>2019-02-16</lastmod>
+     <lastmod>2019-05-04</lastmod>
      <changefreq>daily</changefreq>
     </url>
     <url>
      <loc>https://docs.python-ruia.org/en/apis/item.html</loc>
-     <lastmod>2019-02-16</lastmod>
+     <lastmod>2019-05-04</lastmod>
      <changefreq>daily</changefreq>
     </url>
     <url>
      <loc>https://docs.python-ruia.org/en/apis/spider.html</loc>
-     <lastmod>2019-02-16</lastmod>
+     <lastmod>2019-05-04</lastmod>
      <changefreq>daily</changefreq>
     </url>
     <url>
      <loc>https://docs.python-ruia.org/en/apis/request.html</loc>
-     <lastmod>2019-02-16</lastmod>
+     <lastmod>2019-05-04</lastmod>
      <changefreq>daily</changefreq>
     </url>
     <url>
      <loc>https://docs.python-ruia.org/en/apis/response.html</loc>
-     <lastmod>2019-02-16</lastmod>
+     <lastmod>2019-05-04</lastmod>
      <changefreq>daily</changefreq>
     </url>
     <url>
      <loc>https://docs.python-ruia.org/en/apis/middleware.html</loc>
-     <lastmod>2019-02-16</lastmod>
+     <lastmod>2019-05-04</lastmod>
      <changefreq>daily</changefreq>
     </url>
     <url>
      <loc>https://docs.python-ruia.org/en/topics/write_spiders_like_scrapy.html</loc>
-     <lastmod>2019-02-16</lastmod>
+     <lastmod>2019-05-04</lastmod>
      <changefreq>daily</changefreq>
     </url>
     <url>
      <loc>https://docs.python-ruia.org/en/topics/item_data_cleaning.html</loc>
-     <lastmod>2019-02-16</lastmod>
+     <lastmod>2019-05-04</lastmod>
      <changefreq>daily</changefreq>
     </url>
     <url>
      <loc>https://docs.python-ruia.org/en/examples/project.html</loc>
-     <lastmod>2019-02-16</lastmod>
+     <lastmod>2019-05-04</lastmod>
      <changefreq>daily</changefreq>
     </url>
 </urlset>

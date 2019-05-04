@@ -662,7 +662,11 @@
                 
                 <h1 id="how-to-write-a-plugins">How to Write a Plugins</h1>
 <p>Plugins are used to package some common functions as a third-party model.
-<strong>Ruia</strong> allow developers to implement third-party extensions by <code>Middleware</code> class.</p>
+<strong>Ruia</strong> allow developers to implement third-party extensions in the following ways:</p>
+<ul>
+<li>by using <code>Middleware</code> class </li>
+<li>by overwriting some core modules(just like Spider, Request etc...)</li>
+</ul>
 <p>In the previous section, we talked about <code>Middleware</code>. 
 It is used to process before request and after response.
 Then, we implemeneted a function, that is to add <code>User-Agent</code> in request headers.</p>
@@ -769,7 +773,7 @@ Sounds great!</p>
 
 <p>Here is an example:</p>
 <div class="codehilite"><pre><span></span><span class="kn">from</span> <span class="nn">ruia</span> <span class="kn">import</span> <span class="n">AttrField</span><span class="p">,</span> <span class="n">TextField</span><span class="p">,</span> <span class="n">Item</span><span class="p">,</span> <span class="n">Spider</span>
-<span class="kn">from</span> <span class="nn">ruia_ua</span> <span class="kn">import</span> <span class="n">middleware</span>
+<span class="kn">from</span> <span class="nn">ruia_ua</span> <span class="kn">import</span> <span class="n">middleware</span> <span class="k">as</span> <span class="n">ua_middleware</span>
 
 
 <span class="k">class</span> <span class="nc">HackerNewsItem</span><span class="p">(</span><span class="n">Item</span><span class="p">):</span>
@@ -791,7 +795,7 @@ Sounds great!</p>
 
 
 <span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
-    <span class="n">HackerNewsSpider</span><span class="o">.</span><span class="n">start</span><span class="p">(</span><span class="n">middleware</span><span class="o">=</span><span class="n">middleware</span><span class="p">)</span>
+    <span class="n">HackerNewsSpider</span><span class="o">.</span><span class="n">start</span><span class="p">(</span><span class="n">middleware</span><span class="o">=</span><span class="n">ua_middleware</span><span class="p">)</span>
 </pre></div>
 
 
