@@ -13,7 +13,7 @@ class BaseField(object):
     BaseField class
     """
 
-    def __init__(self, default: str = '', many: bool = False):
+    def __init__(self, default = '', many: bool = False):
         """
         Init BaseField class
         url: http://lxml.de/index.html
@@ -31,7 +31,7 @@ class _LxmlElementField(BaseField):
     def __init__(self,
                  css_select: str = None,
                  xpath_select: str = None,
-                 default: str = None,
+                 default = None,
                  many: bool = False):
         """
         :param css_select: css select http://lxml.de/cssselect.html
@@ -124,7 +124,7 @@ class RegexField(BaseField):
     RegexField uses standard library `re` inner, that is to say it has a better performance than _LxmlElementField.
     """
 
-    def __init__(self, re_select: str, default: str = '', many: bool = False):
+    def __init__(self, re_select: str, default = '', many: bool = False):
         super(RegexField, self).__init__(default=default, many=many)
         self._re_select = re_select
         self._re_object = re.compile(self._re_select)
