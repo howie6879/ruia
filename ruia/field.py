@@ -13,7 +13,7 @@ class BaseField(object):
     BaseField class
     """
 
-    def __init__(self, default = '', many: bool = False):
+    def __init__(self, default='', many: bool = False):
         """
         Init BaseField class
         url: http://lxml.de/index.html
@@ -31,7 +31,7 @@ class _LxmlElementField(BaseField):
     def __init__(self,
                  css_select: str = None,
                  xpath_select: str = None,
-                 default = None,
+                 default=None,
                  many: bool = False):
         """
         :param css_select: css select http://lxml.de/cssselect.html
@@ -49,8 +49,7 @@ class _LxmlElementField(BaseField):
         elif self.xpath_select:
             elements = html_etree.xpath(self.xpath_select)
         else:
-            raise ValueError('%s field: css_select or xpath_select is expected'
-                             % self.__class__.__name__)
+            raise ValueError(f"{self.__class__.__name__} field: css_select or xpath_select is expected")
         if not self.many:
             elements = elements[:1]
         return elements
@@ -124,7 +123,7 @@ class RegexField(BaseField):
     RegexField uses standard library `re` inner, that is to say it has a better performance than _LxmlElementField.
     """
 
-    def __init__(self, re_select: str, default = '', many: bool = False):
+    def __init__(self, re_select: str, default='', many: bool = False):
         super(RegexField, self).__init__(default=default, many=many)
         self._re_select = re_select
         self._re_object = re.compile(self._re_select)
