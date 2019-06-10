@@ -57,7 +57,7 @@ class _LxmlElementField(BaseField):
     def _parse_element(self, element):
         raise NotImplementedError
 
-    def extract(self, *, html_etree: etree._Element, is_source: bool = False):
+    def extract(self, html_etree: etree._Element, is_source: bool = False):
         elements = self._get_elements(html_etree=html_etree)
 
         if is_source:

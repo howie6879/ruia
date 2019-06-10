@@ -56,7 +56,7 @@ class Item(metaclass=ItemMeta):
         for field_name, field_value in fields_dict.items():
             if not field_name.startswith('target_'):
                 clean_method = getattr(item_ins, f'clean_{field_name}', None)
-                value = field_value.extract(html_etree=html_etree)
+                value = field_value.extract(html_etree)
                 if clean_method is not None and callable(clean_method):
                     try:
                         aws_clean_func = clean_method(value)
