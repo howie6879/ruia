@@ -123,7 +123,8 @@ class Spider(SpiderHook):
     def __init__(self,
                  middleware: typing.Union[typing.Iterable, Middleware] = None,
                  loop=None,
-                 is_async_start: bool = False):
+                 is_async_start: bool = False,
+                 cancel_tasks: bool = True):
         """
         Init spider object.
         :param middleware: a list of or a single Middleware
@@ -144,6 +145,7 @@ class Spider(SpiderHook):
         self.kwargs = self.kwargs or {}
         self.request_config = self.request_config or {}
 
+        self.cancel_tasks = cancel_tasks
         self.is_async_start = is_async_start
         self.loop = loop
         asyncio.set_event_loop(self.loop)
@@ -274,6 +276,7 @@ class Spider(SpiderHook):
             loop=None,
             after_start=None,
             before_stop=None,
+            cancel_tasks: bool = True,
             **kwargs):
         """
         Start an async spider
@@ -284,7 +287,7 @@ class Spider(SpiderHook):
         :return:
         """
         loop = loop or asyncio.get_event_loop()
-        spider_ins = cls(middleware=middleware, loop=loop, is_async_start=True)
+        spider_ins = cls(middleware=middleware, loop=loop, is_async_start=True, cancel_tasks=cancel_tasks)
         await spider_ins._start(
             after_start=after_start, before_stop=before_stop)
 
@@ -430,7 +433,8 @@ class Spider(SpiderHook):
         if not self.is_async_start:
             await self.stop(SIGINT)
         else:
-            await self._cancel_tasks()
+            if self.cancel_tasks:
+                await self._cancel_tasks()
 
     async def start_worker(self):
         while True:
