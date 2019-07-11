@@ -116,7 +116,7 @@ class Request(object):
             if response.ok:
                 return response
             else:
-                return await self._retry(error_msg='request url failed!')
+                return await self._retry(error_msg=f'request url failed with status {response.status}!')
         except asyncio.TimeoutError:
             return await self._retry(error_msg='timeout')
         except Exception as e:
