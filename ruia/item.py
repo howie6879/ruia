@@ -15,10 +15,14 @@ class ItemMeta(type):
     """
 
     def __new__(cls, name, bases, attrs):
-        __fields = dict({(field_name, attrs.pop(field_name))
-                         for field_name, object in list(attrs.items())
-                         if isinstance(object, BaseField)})
-        attrs['__fields'] = __fields
+        __fields = dict(
+            {
+                (field_name, attrs.pop(field_name))
+                for field_name, object in list(attrs.items())
+                if isinstance(object, BaseField)
+            }
+        )
+        attrs["__fields"] = __fields
         new_class = type.__new__(cls, name, bases, attrs)
         return new_class
 
@@ -33,10 +37,10 @@ class Item(metaclass=ItemMeta):
         self.results = {}
 
     @classmethod
-    async def _get_html(cls, html: str = '', url: str = '', **kwargs):
+    async def _get_html(cls, html: str = "", url: str = "", **kwargs):
         if html or url:
             if url:
-                sem = kwargs.pop('sem', None)
+                sem = kwargs.pop("sem", None)
                 request = Request(url, **kwargs)
                 if sem:
                     _, response = await request.fetch_callback(sem=sem)
@@ -52,10 +56,10 @@ class Item(metaclass=ItemMeta):
         if html_etree is None:
             raise ValueError("html_etree is expected")
         item_ins = cls()
-        fields_dict = getattr(item_ins, '__fields', {})
+        fields_dict = getattr(item_ins, "__fields", {})
         for field_name, field_value in fields_dict.items():
-            if not field_name.startswith('target_'):
-                clean_method = getattr(item_ins, f'clean_{field_name}', None)
+            if not field_name.startswith("target_"):
+                clean_method = getattr(item_ins, f"clean_{field_name}", None)
                 value = field_value.extract(html_etree)
                 if clean_method is not None and callable(clean_method):
                     try:
@@ -64,7 +68,7 @@ class Item(metaclass=ItemMeta):
                             value = await aws_clean_func
                         else:
                             raise InvalidFuncType(
-                                f'<Item: clean_method must be a coroutine function>'
+                                f"<Item: clean_method must be a coroutine function>"
                             )
                     except IgnoreThisItem:
                         item_ins.ignore_item = True
@@ -74,31 +78,36 @@ class Item(metaclass=ItemMeta):
         return item_ins
 
     @classmethod
-    async def get_item(cls,
-                       *,
-                       html: str = '',
-                       url: str = '',
-                       html_etree: etree._Element = None,
-                       **kwargs) -> Any:
+    async def get_item(
+        cls,
+        *,
+        html: str = "",
+        url: str = "",
+        html_etree: etree._Element = None,
+        **kwargs,
+    ) -> Any:
         if html_etree is None:
             html_etree = await cls._get_html(html, url, **kwargs)
 
         return await cls._parse_html(html_etree=html_etree)
 
     @classmethod
-    async def get_items(cls,
-                        *,
-                        html: str = '',
-                        url: str = '',
-                        html_etree: etree._Element = None,
-                        **kwargs):
+    async def get_items(
+        cls,
+        *,
+        html: str = "",
+        url: str = "",
+        html_etree: etree._Element = None,
+        **kwargs,
+    ):
         if html_etree is None:
             html_etree = await cls._get_html(html, url, **kwargs)
-        items_field = getattr(cls, '__fields', {}).get('target_item', None)
+        items_field = getattr(cls, "__fields", {}).get("target_item", None)
         if items_field:
             items_field.many = True
             items_html_etree = items_field.extract(
-                html_etree=html_etree, is_source=True)
+                html_etree=html_etree, is_source=True
+            )
             if items_html_etree:
                 for each_html_etree in items_html_etree:
                     item = await cls._parse_html(html_etree=each_html_etree)

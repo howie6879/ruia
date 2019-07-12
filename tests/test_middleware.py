@@ -9,9 +9,7 @@ middleware02 = Middleware()
 
 @middleware01.request
 async def print_on_request01(spider_ins, request):
-    request.headers = {
-        'User-Agent': 'ruia ua'
-    }
+    request.headers = {"User-Agent": "ruia ua"}
 
 
 @middleware01.response
@@ -45,16 +43,16 @@ async def print_on_response(spider_ins, request, response):
 def test_add_middleware():
     assert len(all_middleware.request_middleware) == 3
     assert len(all_middleware.response_middleware) == 3
-    assert all_middleware.request_middleware.pop().__name__ == 'print_on_request'
-    assert all_middleware.response_middleware.pop().__name__ == 'print_on_response01'
+    assert all_middleware.request_middleware.pop().__name__ == "print_on_request"
+    assert all_middleware.response_middleware.pop().__name__ == "print_on_response01"
     assert len(all_middleware.request_middleware) == 2
     assert len(all_middleware.response_middleware) == 2
 
 
 def test_request_middleware():
     assert len(middleware01.request_middleware) == 1
-    assert middleware01.request_middleware.pop().__name__ == 'print_on_request01'
+    assert middleware01.request_middleware.pop().__name__ == "print_on_request01"
 
 
 def test_response_middleware():
-    assert middleware01.response_middleware.pop().__name__ == 'print_on_response01'
+    assert middleware01.response_middleware.pop().__name__ == "print_on_response01"

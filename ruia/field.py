@@ -13,7 +13,7 @@ class BaseField(object):
     BaseField class
     """
 
-    def __init__(self, default='', many: bool = False):
+    def __init__(self, default="", many: bool = False):
         """
         Init BaseField class
         url: http://lxml.de/index.html
@@ -24,15 +24,17 @@ class BaseField(object):
         self.many = many
 
     def extract(self, *args, **kwargs):
-        raise NotImplementedError('extract is not implemented.')
+        raise NotImplementedError("extract is not implemented.")
 
 
 class _LxmlElementField(BaseField):
-    def __init__(self,
-                 css_select: str = None,
-                 xpath_select: str = None,
-                 default=None,
-                 many: bool = False):
+    def __init__(
+        self,
+        css_select: str = None,
+        xpath_select: str = None,
+        default=None,
+        many: bool = False,
+    ):
         """
         :param css_select: css select http://lxml.de/cssselect.html
         :param xpath_select: http://www.w3school.com.cn/xpath/index.asp
@@ -49,7 +51,9 @@ class _LxmlElementField(BaseField):
         elif self.xpath_select:
             elements = html_etree.xpath(self.xpath_select)
         else:
-            raise ValueError(f"{self.__class__.__name__} field: css_select or xpath_select is expected")
+            raise ValueError(
+                f"{self.__class__.__name__} field: css_select or xpath_select is expected"
+            )
         if not self.many:
             elements = elements[:1]
         return elements
@@ -68,7 +72,8 @@ class _LxmlElementField(BaseField):
         elif self.default is None:
             raise NothingMatchedError(
                 f"Extract `{self.css_select or self.xpath_select}` error, "
-                f"please check selector or set parameter named `default`")
+                f"please check selector or set parameter named `default`"
+            )
         else:
             results = [self.default]
 
@@ -80,17 +85,17 @@ class AttrField(_LxmlElementField):
     This field is used to get  attribute.
     """
 
-    def __init__(self,
-                 attr,
-                 css_select: str = None,
-                 xpath_select: str = None,
-                 default='',
-                 many: bool = False):
+    def __init__(
+        self,
+        attr,
+        css_select: str = None,
+        xpath_select: str = None,
+        default="",
+        many: bool = False,
+    ):
         super(AttrField, self).__init__(
-            css_select=css_select,
-            xpath_select=xpath_select,
-            default=default,
-            many=many)
+            css_select=css_select, xpath_select=xpath_select, default=default, many=many
+        )
         self.attr = attr
 
     def _parse_element(self, element):
@@ -103,7 +108,7 @@ class HtmlField(_LxmlElementField):
     """
 
     def _parse_element(self, element):
-        return etree.tostring(element).decode(encoding='utf-8')
+        return etree.tostring(element).decode(encoding="utf-8")
 
 
 class TextField(_LxmlElementField):
@@ -113,7 +118,7 @@ class TextField(_LxmlElementField):
 
     def _parse_element(self, element):
         strings = [node.strip() for node in element.itertext()]
-        string = ''.join(strings)
+        string = "".join(strings)
         return string if string else self.default
 
 
@@ -123,7 +128,7 @@ class RegexField(BaseField):
     RegexField uses standard library `re` inner, that is to say it has a better performance than _LxmlElementField.
     """
 
-    def __init__(self, re_select: str, re_flags=0, default='', many: bool = False):
+    def __init__(self, re_select: str, re_flags=0, default="", many: bool = False):
         super(RegexField, self).__init__(default=default, many=many)
         self._re_select = re_select
         self._re_object = re.compile(self._re_select, flags=re_flags)
@@ -145,7 +150,8 @@ class RegexField(BaseField):
             else:
                 raise NothingMatchedError(
                     f"Extract `{self._re_select}` error, "
-                    f"please check selector or set parameter named `default`")
+                    f"please check selector or set parameter named `default`"
+                )
         else:
             string = match.group()
             groups = match.groups()
@@ -158,7 +164,7 @@ class RegexField(BaseField):
 
     def extract(self, html: Union[str, etree._Element]):
         if isinstance(html, etree._Element):
-            html = etree.tostring(html).decode(encoding='utf-8')
+            html = etree.tostring(html).decode(encoding="utf-8")
         if self.many:
             matches = self._re_object.finditer(html)
             return [self._parse_match(match) for match in matches]

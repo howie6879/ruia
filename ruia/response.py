@@ -16,20 +16,22 @@ class Response(object):
     Return a friendly response
     """
 
-    def __init__(self,
-                 url: str,
-                 method: str,
-                 *,
-                 encoding: str = '',
-                 html: str = '',
-                 metadata: dict,
-                 cookies,
-                 history,
-                 headers: dict = None,
-                 status: int = -1,
-                 aws_json: Callable = None,
-                 aws_read: Callable = None,
-                 aws_text: Callable = None):
+    def __init__(
+        self,
+        url: str,
+        method: str,
+        *,
+        encoding: str = "",
+        html: str = "",
+        metadata: dict,
+        cookies,
+        history,
+        headers,
+        status: int = -1,
+        aws_json: Callable = None,
+        aws_read: Callable = None,
+        aws_text: Callable = None,
+    ):
         self._callback_result = None
         self._encoding = encoding
         self._url = url
@@ -120,25 +122,27 @@ class Response(object):
             html_etree = etree.HTML(self.html)
         return html_etree
 
-    async def json(self,
-                   *,
-                   encoding: str = None,
-                   loads: JSONDecoder = DEFAULT_JSON_DECODER,
-                   content_type: Optional[str] = 'application/json') -> Any:
+    async def json(
+        self,
+        *,
+        encoding: str = None,
+        loads: JSONDecoder = DEFAULT_JSON_DECODER,
+        content_type: Optional[str] = "application/json",
+    ) -> Any:
         """Read and decodes JSON response."""
         return await self._aws_json(
-            encoding=encoding, loads=loads, content_type=content_type)
+            encoding=encoding, loads=loads, content_type=content_type
+        )
 
     async def read(self) -> bytes:
         """Read response payload."""
         return await self._aws_read()
 
-    async def text(self,
-                   *,
-                   encoding: Optional[str] = None,
-                   errors: str = 'strict') -> str:
+    async def text(
+        self, *, encoding: Optional[str] = None, errors: str = "strict"
+    ) -> str:
         """Read response payload and decode."""
         return await self._aws_text(encoding=encoding, errors=errors)
 
     def __repr__(self):
-        return f'<Response url[{self._method}]: {self._url} status:{self._status}>'
+        return f"<Response url[{self._method}]: {self._url} status:{self._status}>"

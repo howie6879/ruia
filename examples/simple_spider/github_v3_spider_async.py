@@ -3,26 +3,26 @@ from ruia import *
 
 
 class CatalogueItem(Item):
-    target_item = TextField(css_select='.sidebar-menu a')
-    title = TextField(css_select='a')
-    link = AttrField(css_select='a', attr='href')
+    target_item = TextField(css_select=".sidebar-menu a")
+    title = TextField(css_select="a")
+    link = AttrField(css_select="a", attr="href")
 
     async def clean_link(self, value):
-        return f'https://developer.github.com{value}'
+        return f"https://developer.github.com{value}"
 
 
 class PageItem(Item):
-    content = HtmlField(css_select='.content')
+    content = HtmlField(css_select=".content")
 
 
 class GithubDeveloperSpider(Spider):
-    start_urls = ['https://developer.github.com/v3/']
+    start_urls = ["https://developer.github.com/v3/"]
     concurrency = 5
 
     async def parse(self, response: Response):
         catalogue = []
         async for cat in CatalogueItem.get_items(html=response.html):
-            if '#' in cat.link:
+            if "#" in cat.link:
                 continue
             catalogue.append(cat)
         urls = [page.link for page in catalogue][:10]
@@ -36,13 +36,13 @@ class GithubDeveloperSpider(Spider):
 
 
 class GithubDeveloperSpiderSingleRequest(Spider):
-    start_urls = ['https://developer.github.com/v3/']
+    start_urls = ["https://developer.github.com/v3/"]
     concurrency = 5
 
     async def parse(self, response: Response):
         catalogue = []
         async for cat in CatalogueItem.get_items(html=response.html):
-            if '#' in cat.link:
+            if "#" in cat.link:
                 continue
             catalogue.append(cat)
         for page in catalogue:
@@ -54,5 +54,5 @@ class GithubDeveloperSpiderSingleRequest(Spider):
         print(title, len(item.content))
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     GithubDeveloperSpider.start()
