@@ -131,12 +131,14 @@ class Spider(SpiderHook):
         loop=None,
         is_async_start: bool = False,
         cancel_tasks: bool = True,
+        **kwargs,
     ):
         """
         Init spider object.
         :param middleware: a list of or a single Middleware
-        :param loop:
-        :param is_async_start:
+        :param loop: asyncio event llo
+        :param is_async_start: start spider by using async
+        :param kwargs
         """
         if not self.start_urls or not isinstance(self.start_urls, collections.Iterable):
             raise ValueError(

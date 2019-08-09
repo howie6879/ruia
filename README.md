@@ -66,6 +66,8 @@ Ruia is still under developing, feel free to open issues and pull requests:
 -   Write or fix documentation
 -   Add test cases
 
+!!!Notice: We use [black](https://github.com/psf/black) to format the code
+
 ## Thanks
 
 -   [aiohttp](https://github.com/aio-libs/aiohttp/)
