@@ -298,7 +298,8 @@ class Spider(SpiderHook):
         :param after_start: hook
         :param before_stop: hook
         :param cancel_tasks: cancel async tasks
-        :return:
+        :param kwargs: Additional keyword args to initialize spider
+        :return: An instance of :cls:`Spider`
         """
         loop = loop or asyncio.get_event_loop()
         spider_ins = cls(
@@ -306,8 +307,11 @@ class Spider(SpiderHook):
             loop=loop,
             is_async_start=True,
             cancel_tasks=cancel_tasks,
+            **kwargs,
         )
         await spider_ins._start(after_start=after_start, before_stop=before_stop)
+
+        return spider_ins
 
     @classmethod
     def start(
@@ -326,10 +330,11 @@ class Spider(SpiderHook):
         :param middleware: customize middleware or a list of middleware
         :param loop: event loop
         :param close_event_loop: bool
-        :return:
+        :param kwargs: Additional keyword args to initialize spider
+        :return: An instance of :cls:`Spider`
         """
         loop = loop or asyncio.new_event_loop()
-        spider_ins = cls(middleware=middleware, loop=loop)
+        spider_ins = cls(middleware=middleware, loop=loop, **kwargs)
 
         # Actually start crawling
         spider_ins.loop.run_until_complete(
@@ -338,6 +343,8 @@ class Spider(SpiderHook):
         spider_ins.loop.run_until_complete(spider_ins.loop.shutdown_asyncgens())
         if close_event_loop:
             spider_ins.loop.close()
+
+        return spider_ins
 
     async def handle_callback(self, aws_callback: typing.Coroutine, response):
         """Process coroutine callback function"""
