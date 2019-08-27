@@ -83,7 +83,7 @@ class SpiderHook:
     async def process_callback_result(self, callback_result):
         """
         Corresponding processing for the invalid callback result
-        :param item:
+        :param callback_result: Custom instance
         :return:
         """
         callback_result_name = type(callback_result).__name__
@@ -413,6 +413,14 @@ class Spider(SpiderHook):
         """
         raise NotImplementedParseError("<!!! parse function is expected !!!>")
 
+    def process_start_urls(self):
+        """
+        Process the start URLs
+        :return:
+        """
+        for url in self.start_urls:
+            yield self.request(url=url, callback=self.parse, metadata=self.metadata)
+
     def request(
         self,
         url: str,
@@ -450,10 +458,7 @@ class Spider(SpiderHook):
 
     async def start_master(self):
         """Actually start crawling."""
-        for url in self.start_urls:
-            request_ins = self.request(
-                url=url, callback=self.parse, metadata=self.metadata
-            )
+        for request_ins in self.process_start_urls():
             self.request_queue.put_nowait(self.handle_request(request_ins))
         workers = [
             asyncio.ensure_future(self.start_worker())
