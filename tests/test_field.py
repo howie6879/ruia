@@ -103,11 +103,13 @@ def test_attr_field_with_default_and_many():
 
 
 def test_html_field():
-    field = HtmlField(css_select="div.brand a")
+    field_en = HtmlField(css_select="div.brand a")
+    field_zh = HtmlField(css_select="div.brand p")
     assert (
-        field.extract(html_etree=html_etree)
+        field_en.extract(html_etree=html_etree)
         == '<a href="https://github.com">Github</a>'
     )
+    assert field_zh.extract(html_etree=html_etree) == "<p>你好</p>\n"
 
 
 def test_html_field_with_many():

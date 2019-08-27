@@ -108,7 +108,7 @@ class HtmlField(_LxmlElementField):
     """
 
     def _parse_element(self, element):
-        return etree.tostring(element).decode(encoding="utf-8")
+        return etree.tostring(element, encoding="utf-8").decode(encoding="utf-8")
 
 
 class TextField(_LxmlElementField):
