@@ -413,10 +413,10 @@ class Spider(SpiderHook):
         """
         raise NotImplementedParseError("<!!! parse function is expected !!!>")
 
-    def process_start_urls(self):
+    async def process_start_urls(self):
         """
         Process the start URLs
-        :return:
+        :return: AN async iterator
         """
         for url in self.start_urls:
             yield self.request(url=url, callback=self.parse, metadata=self.metadata)
@@ -458,7 +458,7 @@ class Spider(SpiderHook):
 
     async def start_master(self):
         """Actually start crawling."""
-        for request_ins in self.process_start_urls():
+        async for request_ins in self.process_start_urls():
             self.request_queue.put_nowait(self.handle_request(request_ins))
         workers = [
             asyncio.ensure_future(self.start_worker())
