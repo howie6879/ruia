@@ -202,7 +202,7 @@ class Request(object):
             if retry_func and iscoroutinefunction(retry_func):
                 request_ins = await retry_func(weakref.proxy(self))
                 if isinstance(request_ins, Request):
-                    return await request_ins.fetch()
+                    return await request_ins.fetch(delay=False)
             return await self.fetch(delay=False)
         else:
             response = Response(
