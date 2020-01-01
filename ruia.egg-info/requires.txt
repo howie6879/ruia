@@ -1,0 +1,6 @@
+aiohttp>=3.5.4
+cssselect
+lxml
+
+[uvloop]
+uvloop
