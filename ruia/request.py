@@ -35,6 +35,7 @@ class Request(object):
     REQUEST_CONFIG = {
         "RETRIES": 3,
         "DELAY": 0,
+        "RETRY_DELAY": 0,
         "TIMEOUT": 10,
         "RETRY_FUNC": Coroutine,
         "VALID": Coroutine,
@@ -188,6 +189,10 @@ class Request(object):
     async def _retry(self, error_msg):
         """Manage request"""
         if self.retry_times > 0:
+            # Sleep to give server a chance to process/cache prior request
+            if self.request_config.get("RETRY_DELAY", 0) > 0:
+                await asyncio.sleep(self.request_config["RETRY_DELAY"])
+
             retry_times = self.request_config.get("RETRIES", 3) - self.retry_times + 1
             self.logger.error(
                 f"<Retry url: {self.url}>, Retry times: {retry_times}, Retry message: {error_msg}>"
