@@ -17,14 +17,14 @@ Methods:
 - headers: request headers
 - metadata: some data that need pass to next request
 - request_config: the configure of the request
-  - `RETRIES`: number of retries before failing (default: `3`)
-  - `DELAY`: delay (seconds) between each request (default: `0`)
-  - `RETRY_DELAY`: delay (seconds) between each retry (default: `0`)
-  - `TIMEOUT`: time (seconds) to presist with request before failing/retrying (default: `10`)
-  - `RETRY_FUNC`: function to call on retry
-  - `VALID`: function to call after retrieving data
+    - `RETRIES`: number of retries before failing (default: `3`)
+    - `DELAY`: delay (seconds) between each request (default: `0`)
+    - `RETRY_DELAY`: delay (seconds) between each retry (default: `0`)
+    - `TIMEOUT`: time (seconds) to presist with request before failing/retrying (default: `10`)
+    - `RETRY_FUNC`: function to call on retry
+    - `VALID`: function to call after retrieving data
 - request_session: `aiohttp.ClientSession`
-- kwargs: other arguments for request
+- aiohttp_kwargs: aiohttp arguments for request
 
 ## Usage
 
