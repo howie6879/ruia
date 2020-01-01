@@ -115,6 +115,20 @@ def test_retry_delay():
     assert time.time()-timer > 2
 
 
+def test_delay_false():
+    request_config = {"DELAY": 10}
+    request = Request("https://httpbin.org/", request_config=request_config)
+
+    # Start a timer to time request
+    timer = time.time()
+    response = asyncio.get_event_loop().run_until_complete(
+        request.fetch(delay=False)
+    )
+
+    # Ensure delay option was ignored (time taken is less than 10s)
+    assert time.time()-timer < 10
+
+
 def test_timeout_request():
     async def timeout_request(sem):
         request_config = {"RETRIES": 1, "DELAY": 1, "TIMEOUT": 0.1}
