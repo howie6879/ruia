@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 
 import asyncio
+import time
 
 from ruia import Request
 from ruia.exceptions import InvalidRequestMethod
@@ -97,6 +98,21 @@ def test_retry_request():
         request.fetch_callback(sem=sem)
     )
     assert response.url == "http://httpbin.org/404"
+
+
+def test_retry_delay():
+    # Test invalid URL (to trigger retries) with 1s delay between retries
+    request_config = {"RETRIES": 2, "RETRY_DELAY": 1}
+    request = Request("http://127.0.0.1:5999/", request_config=request_config)
+
+    # Start a timer to time retries
+    timer = time.time()
+    _, response = asyncio.get_event_loop().run_until_complete(
+        request.fetch_callback(sem=sem)
+    )
+
+    # Ensure that for 2 retries the time taken is > 2s (1s between each retry)
+    assert time.time()-timer > 2
 
 
 def test_timeout_request():
