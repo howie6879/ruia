@@ -96,9 +96,9 @@ class Request(object):
             self.close_request_session = True
         return self.request_session
 
-    async def fetch(self) -> Response:
+    async def fetch(self, delay=True) -> Response:
         """Fetch all the information by using aiohttp"""
-        if self.request_config.get("DELAY", 0) > 0:
+        if delay and self.request_config.get("DELAY", 0) > 0:
             await asyncio.sleep(self.request_config["DELAY"])
 
         timeout = self.request_config.get("TIMEOUT", 10)
@@ -202,8 +202,8 @@ class Request(object):
             if retry_func and iscoroutinefunction(retry_func):
                 request_ins = await retry_func(weakref.proxy(self))
                 if isinstance(request_ins, Request):
-                    return await request_ins.fetch()
-            return await self.fetch()
+                    return await request_ins.fetch(delay=False)
+            return await self.fetch(delay=False)
         else:
             response = Response(
                 url=self.url,
