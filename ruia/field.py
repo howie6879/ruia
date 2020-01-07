@@ -117,7 +117,12 @@ class TextField(_LxmlElementField):
     """
 
     def _parse_element(self, element):
-        strings = [node for node in element.itertext()]
+        # Extract text appropriately based on it's type
+        if type(element) is etree._ElementUnicodeResult:
+            strings = [node for node in element]
+        else:
+	        strings = [node for node in element.itertext()]
+
         string = "".join(strings)
         return string if string else self.default
 

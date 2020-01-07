@@ -28,6 +28,12 @@ def test_xpath_select():
     assert value == "ruia"
 
 
+def test_xpath_text_select():
+    field = TextField(xpath_select="/html/head/title/text()")
+    value = field.extract(html_etree=html_etree)
+    assert value == "ruia"
+
+
 def test_attr_field():
     attr_field = AttrField(css_select="div.brand a", attr="href")
     value = attr_field.extract(html_etree=html_etree)
