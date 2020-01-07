@@ -117,7 +117,7 @@ class TextField(_LxmlElementField):
     """
 
     def _parse_element(self, element):
-        strings = [node.strip() for node in element.itertext()]
+        strings = [node for node in element.itertext()]
         string = "".join(strings)
         return string if string else self.default
 
