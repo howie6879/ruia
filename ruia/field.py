@@ -121,7 +121,7 @@ class TextField(_LxmlElementField):
         if type(element) is etree._ElementUnicodeResult:
             strings = [node for node in element]
         else:
-	        strings = [node for node in element.itertext()]
+	    strings = [node for node in element.itertext()]
 
         string = "".join(strings)
         return string if string else self.default
