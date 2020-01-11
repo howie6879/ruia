@@ -80,9 +80,18 @@ class _LxmlElementField(BaseField):
         return results if self.many else results[0]
 
 
+class ElementField(_LxmlElementField):
+    """
+    This field is used to get LXML element(s).
+    """
+
+    def _parse_element(self, element):
+        return element
+
+
 class AttrField(_LxmlElementField):
     """
-    This field is used to get  attribute.
+    This field is used to get attribute.
     """
 
     def __init__(
