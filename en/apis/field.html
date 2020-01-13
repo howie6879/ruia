@@ -407,8 +407,8 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#textfield" class="md-nav__link">
-    TextField
+  <a href="#elementfield" class="md-nav__link">
+    ElementField
   </a>
   
     <nav class="md-nav">
@@ -434,8 +434,8 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#attrfield" class="md-nav__link">
-    AttrField
+  <a href="#textfield" class="md-nav__link">
+    TextField
   </a>
   
     <nav class="md-nav">
@@ -461,8 +461,8 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#htmlfield" class="md-nav__link">
-    HtmlField
+  <a href="#attrfield" class="md-nav__link">
+    AttrField
   </a>
   
     <nav class="md-nav">
@@ -488,8 +488,8 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#regexfield" class="md-nav__link">
-    RegexField
+  <a href="#htmlfield" class="md-nav__link">
+    HtmlField
   </a>
   
     <nav class="md-nav">
@@ -504,6 +504,33 @@
         
           <li class="md-nav__item">
   <a href="#example_3" class="md-nav__link">
+    Example
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#regexfield" class="md-nav__link">
+    RegexField
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#parameters_4" class="md-nav__link">
+    Parameters
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example_4" class="md-nav__link">
     Example
   </a>
   
@@ -709,8 +736,8 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#textfield" class="md-nav__link">
-    TextField
+  <a href="#elementfield" class="md-nav__link">
+    ElementField
   </a>
   
     <nav class="md-nav">
@@ -736,8 +763,8 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#attrfield" class="md-nav__link">
-    AttrField
+  <a href="#textfield" class="md-nav__link">
+    TextField
   </a>
   
     <nav class="md-nav">
@@ -763,8 +790,8 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#htmlfield" class="md-nav__link">
-    HtmlField
+  <a href="#attrfield" class="md-nav__link">
+    AttrField
   </a>
   
     <nav class="md-nav">
@@ -790,8 +817,8 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#regexfield" class="md-nav__link">
-    RegexField
+  <a href="#htmlfield" class="md-nav__link">
+    HtmlField
   </a>
   
     <nav class="md-nav">
@@ -806,6 +833,33 @@
         
           <li class="md-nav__item">
   <a href="#example_3" class="md-nav__link">
+    Example
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#regexfield" class="md-nav__link">
+    RegexField
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#parameters_4" class="md-nav__link">
+    Parameters
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example_4" class="md-nav__link">
     Example
   </a>
   
@@ -847,6 +901,7 @@
 <p>Fields are used to extract value from HTML code.</p>
 <p>Ruia supports the following fields:</p>
 <ul>
+<li><code>ElementField</code>: extract LXML element(s) from the selected HTML element</li>
 <li><code>TextField</code>: extract text string of the selected HTML element</li>
 <li><code>AttrField</code>: extract an attribute of the selected HTML element</li>
 <li><code>HtmlField</code>: extract raw HTML code of the selected HTML element</li>
@@ -856,17 +911,52 @@
 <p class="admonition-title">Note</p>
 <p>All the parameters of fields are <strong>keyword arguments</strong>.</p>
 </div>
-<h2 id="textfield">TextField</h2>
-<p><code>TextField</code> first select an HTML element by CSS Selector or XPath Selector,
-then get the text value of the selected element.</p>
+<h2 id="elementfield">ElementField</h2>
+<p><code>ElementField</code> first select an HTML element by CSS Selector or XPath Selector,
+then get the LXML element(s) from the selected element.</p>
 <h3 id="parameters">Parameters</h3>
 <ul>
+<li><code>attr</code>: <code>str</code>, required, the name of the attribute you want to extract</li>
 <li><code>css_select</code>: <code>str</code>, alternative, match HTML element(s) with CSS Selector</li>
 <li><code>xpath_select</code>: <code>str</code>, alternative, match HTML element(s) with XPath Selector</li>
 <li><code>default</code>: <code>str</code>, recommended, the default value if nothing matched in HTML element</li>
 <li><code>many</code>: <code>bool</code>, optional, extract a list if True</li>
 </ul>
 <h3 id="example">Example</h3>
+<div class="codehilite"><pre><span></span><span class="kn">import</span> <span class="nn">ruia</span>
+
+<span class="kn">from</span> <span class="nn">lxml</span> <span class="kn">import</span> <span class="n">etree</span>
+
+<span class="n">HTML</span> <span class="o">=</span> <span class="s1">&#39;&#39;&#39;</span>
+<span class="s1">&lt;body&gt;</span>
+<span class="s1">&lt;div class=&quot;title&quot; href=&quot;/&quot;&gt;Ruia Documentation&lt;/div&gt;</span>
+<span class="s1">&lt;ul&gt;</span>
+<span class="s1">    &lt;li class=&quot;tag&quot; href=&quot;./easy.html&quot;&gt;easy&lt;/li&gt;</span>
+<span class="s1">    &lt;li class=&quot;tag&quot; href=&quot;./fast.html&quot;&gt;fast&lt;/li&gt;</span>
+<span class="s1">    &lt;li class=&quot;tag&quot; href=&quot;./powerful.html&quot;&gt;powerful&lt;/li&gt;</span>
+<span class="s1">&lt;/ul&gt;</span>
+<span class="s1">&lt;/body&gt;</span>
+<span class="s1">&#39;&#39;&#39;</span>
+
+<span class="n">html</span> <span class="o">=</span> <span class="n">etree</span><span class="o">.</span><span class="n">HTML</span><span class="p">(</span><span class="n">HTML</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">test_element_field</span><span class="p">():</span>
+    <span class="n">ul</span> <span class="o">=</span> <span class="n">ruia</span><span class="o">.</span><span class="n">ElementField</span><span class="p">(</span><span class="n">css_select</span><span class="o">=</span><span class="s2">&quot;ul&quot;</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">ul</span><span class="o">.</span><span class="n">extract</span><span class="p">(</span><span class="n">html_etree</span><span class="o">=</span><span class="n">html</span><span class="p">)</span><span class="o">.</span><span class="n">xpath</span><span class="p">(</span><span class="s1">&#39;//li&#39;</span><span class="p">))</span> <span class="o">==</span> <span class="mi">3</span>
+</pre></div>
+
+
+<h2 id="textfield">TextField</h2>
+<p><code>TextField</code> first select an HTML element by CSS Selector or XPath Selector,
+then get the text value of the selected element.</p>
+<h3 id="parameters_1">Parameters</h3>
+<ul>
+<li><code>css_select</code>: <code>str</code>, alternative, match HTML element(s) with CSS Selector</li>
+<li><code>xpath_select</code>: <code>str</code>, alternative, match HTML element(s) with XPath Selector</li>
+<li><code>default</code>: <code>str</code>, recommended, the default value if nothing matched in HTML element</li>
+<li><code>many</code>: <code>bool</code>, optional, extract a list if True</li>
+</ul>
+<h3 id="example_1">Example</h3>
 <div class="codehilite"><pre><span></span><span class="kn">import</span> <span class="nn">ruia</span>
 
 <span class="kn">from</span> <span class="nn">lxml</span> <span class="kn">import</span> <span class="n">etree</span>
@@ -896,7 +986,7 @@ then get the text value of the selected element.</p>
 <h2 id="attrfield">AttrField</h2>
 <p><code>TextField</code> first select an HTML element by CSS Selector or XPath Selector,
 then get the attribute value of the selected element.</p>
-<h3 id="parameters_1">Parameters</h3>
+<h3 id="parameters_2">Parameters</h3>
 <ul>
 <li><code>attr</code>: <code>str</code>, required, the name of the attribute you want to extract</li>
 <li><code>css_select</code>: <code>str</code>, alternative, match HTML element(s) with CSS Selector</li>
@@ -904,7 +994,7 @@ then get the attribute value of the selected element.</p>
 <li><code>default</code>: <code>str</code>, recommended, the default value if nothing matched in HTML element</li>
 <li><code>many</code>: <code>bool</code>, optional, extract a list if True</li>
 </ul>
-<h3 id="example_1">Example</h3>
+<h3 id="example_2">Example</h3>
 <div class="codehilite"><pre><span></span><span class="kn">import</span> <span class="nn">ruia</span>
 
 <span class="kn">from</span> <span class="nn">lxml</span> <span class="kn">import</span> <span class="n">etree</span>
@@ -936,14 +1026,14 @@ then get the raw HTML code of the selected element.</p>
 <p>If there's some spaces or some text outside any HTML elements between this element and next element,
 then this part of text will also inside the return value.
 It's an unstable feature, perhaps in later versions the outside text will be remove by default.</p>
-<h3 id="parameters_2">Parameters</h3>
+<h3 id="parameters_3">Parameters</h3>
 <ul>
 <li><code>css_select</code>: <code>str</code>, alternative, match HTML element(s) with CSS Selector</li>
 <li><code>xpath_select</code>: <code>str</code>, alternative, match HTML element(s) with XPath Selector</li>
 <li><code>default</code>: <code>str</code>, recommended, the default value if nothing matched in HTML element</li>
 <li><code>many</code>: <code>bool</code>, optional, extract a list if True</li>
 </ul>
-<h3 id="example_2">Example</h3>
+<h3 id="example_3">Example</h3>
 <div class="codehilite"><pre><span></span><span class="kn">import</span> <span class="nn">ruia</span>
 
 <span class="kn">from</span> <span class="nn">lxml</span> <span class="kn">import</span> <span class="n">etree</span>
@@ -983,13 +1073,13 @@ you will seldom meet performance limitation!</p>
 <li>if regex has named groups, no matter one or more: return a dict, whose key and value are both string</li>
 <li>if <code>many=True</code>, return a list of above values</li>
 </ul>
-<h3 id="parameters_3">Parameters</h3>
+<h3 id="parameters_4">Parameters</h3>
 <ul>
 <li><code>re_select</code>: <code>str</code>, required, match HTML element(s) with regular expression</li>
 <li><code>default</code>: <code>str</code>, recommended, the default value if nothing matched in HTML element</li>
 <li><code>many</code>: <code>bool</code>, optional, extract a list if True</li>
 </ul>
-<h3 id="example_3">Example</h3>
+<h3 id="example_4">Example</h3>
 <div class="codehilite"><pre><span></span><span class="kn">import</span> <span class="nn">ruia</span>
 
 <span class="kn">from</span> <span class="nn">lxml</span> <span class="kn">import</span> <span class="n">etree</span>

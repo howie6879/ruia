@@ -787,7 +787,7 @@ and its tutorial page link.</p>
 * extract data from element.</p>
 <h2 id="navigate-to-an-element">Navigate to an element</h2>
 <p><code>Ruia</code> use selectors to navigate to the HTML element.
-As a crawler engineer, 
+As a crawler engineer,
 <code>ruia</code> believes that you have a full knowledge of at least one of CSS Selector and XPath Selector.</p>
 <p>For <code>title</code> element, because of his uniqueness, a simple CSS Selector is enough:</p>
 <div class="codehilite"><pre><span></span><span class="n">css_select</span> <span class="o">=</span> <span class="s1">&#39;title&#39;</span>
@@ -859,7 +859,7 @@ The magic is that it is also able to extract data from the given URL.</p>
 
 <span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
     <span class="c1"># Python 3.7 required</span>
-    <span class="n">asyncio</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">main</span><span class="p">())</span>  
+    <span class="n">asyncio</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">main</span><span class="p">())</span>
 
     <span class="c1"># For python 3.6</span>
     <span class="c1"># loop = asyncio.new_event_loop()</span>
@@ -965,7 +965,7 @@ Here's an example.</p>
 <p>Previously, we call <code>Item.get_item(html=HTML)</code> to get an item.
 Here, we call <code>Item.get_items(html=HTML)</code> to get a list of items.</p>
 <p>The data cleaning methods still process a string, it has no difference.</p>
-<div class="codehilite"><pre><span></span>Output: 
+<div class="codehilite"><pre><span></span>Output:
 Title=Movie 1, Star=3
 Title=Movie 2, Star=5
 Title=Movie 3, Star=2
@@ -1065,6 +1065,7 @@ However, they are the two fields that mostly used.</p>
 It is only used for performance limitation, however, because of ruia's fast,
 we seldom meet performance limitation.</p>
 <p>There is a <code>HtmlField</code> to extract pure HTML source of a HTML element.</p>
+<p>Finally there is a <code>ElementField</code> to extract raw LXML element(s).</p>
 <p>Read <a href="../apis/field.html">Field API</a> to get more information.</p>
 <h2 id="further">Further</h2>
 <p>Read the following essays for further learning.</p>
