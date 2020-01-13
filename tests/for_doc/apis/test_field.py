@@ -16,6 +16,11 @@ HTML = """
 html = etree.HTML(HTML)
 
 
+def test_element_field():
+    ul = ruia.ElementField(css_select="ul")
+    assert len(ul.extract(html_etree=html).xpath('//li')) == 3
+
+
 def test_text_field():
     title = ruia.TextField(css_select=".title", default="Untitled")
     assert title.extract(html_etree=html) == "Ruia Documentation"

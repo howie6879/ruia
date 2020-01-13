@@ -46,7 +46,7 @@ What we want to do:
 ## Navigate to an element
 
 `Ruia` use selectors to navigate to the HTML element.
-As a crawler engineer, 
+As a crawler engineer,
 `ruia` believes that you have a full knowledge of at least one of CSS Selector and XPath Selector.
 
 For `title` element, because of his uniqueness, a simple CSS Selector is enough:
@@ -136,7 +136,7 @@ async def main():
 
 if __name__ == '__main__':
     # Python 3.7 required
-    asyncio.run(main())  
+    asyncio.run(main())
 
     # For python 3.6
     # loop = asyncio.new_event_loop()
@@ -254,7 +254,7 @@ Here, we call `Item.get_items(html=HTML)` to get a list of items.
 The data cleaning methods still process a string, it has no difference.
 
 ```text
-Output: 
+Output:
 Title=Movie 1, Star=3
 Title=Movie 2, Star=5
 Title=Movie 3, Star=2
@@ -364,6 +364,8 @@ It is only used for performance limitation, however, because of ruia's fast,
 we seldom meet performance limitation.
 
 There is a `HtmlField` to extract pure HTML source of a HTML element.
+
+Finally there is a `ElementField` to extract raw LXML element(s).
 
 Read [Field API](../apis/field.md) to get more information.
 

@@ -4,7 +4,7 @@ import os
 
 import lxml
 
-from ruia import AttrField, TextField, HtmlField, RegexField
+from ruia import AttrField, ElementField, TextField, HtmlField, RegexField
 from ruia.field import NothingMatchedError
 
 html_path = os.path.join(
@@ -14,6 +14,12 @@ with open(html_path, mode="r", encoding="utf-8") as file:
     HTML = file.read()
 
 html_etree = lxml.etree.HTML(HTML)
+
+
+def test_element_field():
+    element_field = ElementField(css_select="div.brand a")
+    value = element_field.extract(html_etree=html_etree)
+    assert type(value) == lxml.etree._Element
 
 
 def test_css_select():
