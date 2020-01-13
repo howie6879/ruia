@@ -34,6 +34,9 @@ class Middleware:
         """
         Define a Decorate to be called after a response.
         eg: @middleware.response
+        :param args:
+        :param kwargs:
+        :return:
         """
         middleware = args[0]
 

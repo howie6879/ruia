@@ -50,7 +50,7 @@ html = etree.HTML(HTML)
 
 def test_element_field():
     ul = ruia.ElementField(css_select="ul")
-    assert len(ul.extract(html_etree=html).xpath('//li')) ==
+    assert len(ul.extract(html_etree=html).xpath('//li')) == 3
 
 ```
 

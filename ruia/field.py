@@ -3,6 +3,7 @@
 import re
 
 from typing import Union
+
 from lxml import etree
 
 from ruia.exceptions import NothingMatchedError
@@ -80,15 +81,6 @@ class _LxmlElementField(BaseField):
         return results if self.many else results[0]
 
 
-class ElementField(_LxmlElementField):
-    """
-    This field is used to get LXML element(s).
-    """
-
-    def _parse_element(self, element):
-        return element
-
-
 class AttrField(_LxmlElementField):
     """
     This field is used to get attribute.
@@ -111,6 +103,15 @@ class AttrField(_LxmlElementField):
         return element.get(self.attr, self.default)
 
 
+class ElementField(_LxmlElementField):
+    """
+    This field is used to get LXML element(s).
+    """
+
+    def _parse_element(self, element):
+        return element
+
+
 class HtmlField(_LxmlElementField):
     """
     This field is used to get raw html data.
@@ -118,22 +119,6 @@ class HtmlField(_LxmlElementField):
 
     def _parse_element(self, element):
         return etree.tostring(element, encoding="utf-8").decode(encoding="utf-8")
-
-
-class TextField(_LxmlElementField):
-    """
-    This field is used to get text.
-    """
-
-    def _parse_element(self, element):
-        # Extract text appropriately based on it's type
-        if type(element) is etree._ElementUnicodeResult:
-            strings = [node for node in element]
-        else:
-            strings = [node for node in element.itertext()]
-
-        string = "".join(strings)
-        return string if string else self.default
 
 
 class RegexField(BaseField):
@@ -185,3 +170,19 @@ class RegexField(BaseField):
         else:
             match = self._re_object.search(html)
             return self._parse_match(match)
+
+
+class TextField(_LxmlElementField):
+    """
+    This field is used to get text.
+    """
+
+    def _parse_element(self, element):
+        # Extract text appropriately based on it's type
+        if isinstance(element, etree._ElementUnicodeResult):
+            strings = [node for node in element]
+        else:
+            strings = [node for node in element.itertext()]
+
+        string = "".join(strings)
+        return string if string else self.default

@@ -1,8 +1,9 @@
 #!/usr/bin/env python
 
 from inspect import isawaitable
-from lxml import etree
 from typing import Any
+
+from lxml import etree
 
 from ruia.exceptions import IgnoreThisItem, InvalidFuncType
 from ruia.field import BaseField
