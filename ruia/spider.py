@@ -203,6 +203,9 @@ class Spider(SpiderHook):
                     await self.process_item(callback_result)
                 else:
                     await self.process_callback_result(callback_result=callback_result)
+        except NothingMatchedError as e:
+            error_info = f"<Field: {str(e).lower()}" + f", error url: {response.url}>"
+            self.logger.error(error_info)
         except Exception as e:
             self.logger.error(e)
 
@@ -371,19 +374,18 @@ class Spider(SpiderHook):
         """
         callback_result, response = None, None
 
-        await self._run_request_middleware(request)
-
         try:
+            await self._run_request_middleware(request)
             callback_result, response = await request.fetch_callback(self.sem)
+            await self._run_response_middleware(request, response)
+            await self._process_response(request=request, response=response)
         except NotImplementedParseError as e:
             self.logger.error(e)
         except NothingMatchedError as e:
-            self.logger.error(f"<Item: {str(e).lower()}>")
+            error_info = f"<Field: {str(e).lower()}" + f", error url: {response.url}>"
+            self.logger.error(error_info)
         except Exception as e:
             self.logger.error(f"<Callback[{request.callback.__name__}]: {e}")
-
-        await self._run_response_middleware(request, response)
-        await self._process_response(request=request, response=response)
 
         return callback_result, response
 

@@ -25,7 +25,7 @@ class BaseField(object):
         self.many = many
 
     def extract(self, *args, **kwargs):
-        raise NotImplementedError("extract is not implemented.")
+        raise NotImplementedError("Extract is not implemented.")
 
 
 class _LxmlElementField(BaseField):
@@ -53,7 +53,7 @@ class _LxmlElementField(BaseField):
             elements = html_etree.xpath(self.xpath_select)
         else:
             raise ValueError(
-                f"{self.__class__.__name__} field: css_select or xpath_select is expected"
+                f"{self.__class__.__name__} field: css_select or xpath_select is expected."
             )
         if not self.many:
             elements = elements[:1]
@@ -73,7 +73,7 @@ class _LxmlElementField(BaseField):
         elif self.default is None:
             raise NothingMatchedError(
                 f"Extract `{self.css_select or self.xpath_select}` error, "
-                f"please check selector or set parameter named `default`"
+                "please check selector or set parameter named `default`"
             )
         else:
             results = [self.default]

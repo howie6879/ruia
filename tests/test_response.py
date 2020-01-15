@@ -59,10 +59,10 @@ def test_response():
     assert str(response) == "<Response url[GET]: https://httpbin.org/get status:200>"
 
 
-def test_callback():
-    assert response.callback_result == "hello ruia"
-    response.callback_result = "ruia"
-    assert response.callback_result == "ruia"
+# def test_callback():
+#     assert response.callback_result == "hello ruia"
+#     response.callback_result = "ruia"
+#     assert response.callback_result == "ruia"
 
 
 def test_index():

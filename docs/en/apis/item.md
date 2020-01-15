@@ -9,6 +9,7 @@ It has the following two methods:
 ## Core arguments
 
 `get_item` and `get_items` receives same arguments:
+
 - html: optional, HTML source code
 - url: optional, HTML href link
 - html_etree: optional, etree._Element object
@@ -17,6 +18,8 @@ It has the following two methods:
 
 From the arguments above, we can see that,
 there are three ways to feed `Item` object: from a web link, from HTML source code, or even from `etree._Element` object.
+
+If you are using `get_items`, the attr named `target_item` is expected.
 
 ```python
 import asyncio

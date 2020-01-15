@@ -50,12 +50,12 @@ class Item(metaclass=ItemMeta):
                 html = response.html
             return etree.HTML(html)
         else:
-            ValueError("html(url or html_etree) is expected")
+            ValueError("<Item: html(url or html_etree) is expected.")
 
     @classmethod
     async def _parse_html(cls, *, html_etree: etree._Element):
         if html_etree is None:
-            raise ValueError("html_etree is expected")
+            raise ValueError("<Item: html_etree is expected>")
         item_ins = cls()
         fields_dict = getattr(item_ins, "__fields", {})
         for field_name, field_value in fields_dict.items():
@@ -115,9 +115,16 @@ class Item(metaclass=ItemMeta):
                     if not item.ignore_item:
                         yield item
             else:
-                raise ValueError("Get target_item's value error!")
+                value_error_info = "<Item: Failed to get target_item's value from"
+                if url:
+                    value_error_info = f"{value_error_info} url: {url}.>"
+                if html:
+                    value_error_info = f"{value_error_info} html.>"
+                raise ValueError(value_error_info)
         else:
-            raise ValueError("target_item is expected")
+            raise ValueError(
+                f"<Item: target_item is expected, more info: https://docs.python-ruia.org/en/apis/item.html>"
+            )
 
     def __repr__(self):
         return f"<Item {self.results}>"
