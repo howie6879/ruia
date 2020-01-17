@@ -3,7 +3,7 @@
 `Request` is used for operating web requests.
 It returns a [Response][response.md] object.
 
-Methods: 
+Methods:
 
 - [Request().fetch][request.py]: request a web resource, it can be used standalone
 - [Request().fetch_callback][request.py]: it is a core method for `Spider` class
@@ -13,13 +13,18 @@ Methods:
 - url: the resource link
 - method: request method, shoud be `GET` or `POST
 - callback: callback function
+- encoding: html encode
 - headers: request headers
-- load_js: bool, if the target web page needs loading JS
 - metadata: some data that need pass to next request
 - request_config: the configure of the request
+    - `RETRIES`: number of retries before failing (default: `3`)
+    - `DELAY`: delay (seconds) between each request (default: `0`)
+    - `RETRY_DELAY`: delay (seconds) between each retry (default: `0`)
+    - `TIMEOUT`: time (seconds) to presist with request before failing/retrying (default: `10`)
+    - `RETRY_FUNC`: function to call on retry
+    - `VALID`: function to call after retrieving data
 - request_session: `aiohttp.ClientSession`
-- res_type: response type of request, default `str`, optional `bytes` and `json`
-- kwargs: other arguments for request
+- aiohttp_kwargs: aiohttp arguments for request
 
 ## Usage
 
@@ -44,3 +49,4 @@ response = asyncio.get_event_loop().run_until_complete(request.fetch())
 
 [response.md]: ./response.md
 [request.py]: https://github.com/howie6879/ruia/blob/master/ruia/request.py
+

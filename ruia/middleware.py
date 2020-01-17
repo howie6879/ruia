@@ -1,7 +1,4 @@
 #!/usr/bin/env python
-"""
- Created by howie.hu at 2018/9/21.
-"""
 
 from collections import deque
 from functools import wraps
@@ -18,22 +15,6 @@ class Middleware:
         self.request_middleware = deque()
         # response middleware
         self.response_middleware = deque()
-
-    # def listener(self, uri, target, **kwargs):
-    #     """
-    #     Decorates to be called before a special request or response
-    #     TODO: handling different urls for request/response
-    #     eg: @middleware.listener('/post', 'request')
-    #     """
-    #
-    #     def register_middleware(middleware):
-    #         if target == 'request':
-    #             self.request_middleware.append(middleware)
-    #         if target == 'response':
-    #             self.response_middleware.appendleft(middleware)
-    #         return middleware
-    #
-    #     return register_middleware
 
     def request(self, *args, **kwargs):
         """
@@ -53,6 +34,9 @@ class Middleware:
         """
         Define a Decorate to be called after a response.
         eg: @middleware.response
+        :param args:
+        :param kwargs:
+        :return:
         """
         middleware = args[0]
 

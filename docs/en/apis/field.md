@@ -6,6 +6,7 @@ Fields are used to extract value from HTML code.
 
 Ruia supports the following fields:
 
+* `ElementField`: extract LXML element(s) from the selected HTML element
 * `TextField`: extract text string of the selected HTML element
 * `AttrField`: extract an attribute of the selected HTML element
 * `HtmlField`: extract raw HTML code of the selected HTML element
@@ -13,6 +14,45 @@ Ruia supports the following fields:
 
 !!! Note
     All the parameters of fields are **keyword arguments**.
+
+## ElementField
+
+`ElementField` first select an HTML element by CSS Selector or XPath Selector,
+then get the LXML element(s) from the selected element.
+
+### Parameters
+
+* `attr`: `str`, required, the name of the attribute you want to extract
+* `css_select`: `str`, alternative, match HTML element(s) with CSS Selector
+* `xpath_select`: `str`, alternative, match HTML element(s) with XPath Selector
+* `default`: `str`, recommended, the default value if nothing matched in HTML element
+* `many`: `bool`, optional, extract a list if True
+
+### Example
+
+```python
+import ruia
+
+from lxml import etree
+
+HTML = '''
+<body>
+<div class="title" href="/">Ruia Documentation</div>
+<ul>
+    <li class="tag" href="./easy.html">easy</li>
+    <li class="tag" href="./fast.html">fast</li>
+    <li class="tag" href="./powerful.html">powerful</li>
+</ul>
+</body>
+'''
+
+html = etree.HTML(HTML)
+
+def test_element_field():
+    ul = ruia.ElementField(css_select="ul")
+    assert len(ul.extract(html_etree=html).xpath('//li')) == 3
+
+```
 
 ## TextField
 
@@ -197,14 +237,14 @@ def test_regex_field():
 ```
 
 ### About Parameter many
- 
+
  Parameter `many=False` indicates if the field will extract one value or multiple values from HTML source code.
- 
+
  For example, one Github Issue has many tags,
  We can use `Item.get_items` to get multiple values of tags,
  but that means an extra class definition.
  Parameter `many` aims to solve this problem.
- 
+
 A field is default by `many=False`,
 that means, for `TextField`, `AttrField` and `HtmlField`,
 `Field.extract(*, **)` will always return a string,

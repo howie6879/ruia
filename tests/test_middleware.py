@@ -1,61 +1,58 @@
 #!/usr/bin/env python
-import pytest
 
 from ruia import Middleware
 
-middleware = Middleware()
+middleware01 = Middleware()
 
-res_type_middleware = Middleware()
-
-
-@middleware.request
-async def print_on_request(request):
-    request.headers = {
-        'User-Agent': 'ruia ua'
-    }
+middleware02 = Middleware()
 
 
-@middleware.response
-async def print_on_response(request, response):
-    assert type(response.html) == dict
+@middleware01.request
+async def print_on_request01(spider_ins, request):
+    request.headers = {"User-Agent": "ruia ua"}
 
 
-@res_type_middleware.request
-async def print_on_request(request):
-    request.res_type = 'json'
+@middleware01.response
+async def print_on_response01(spider_ins, request, response):
+    assert isinstance(response.html, str)
 
 
-@res_type_middleware.response
-async def print_on_response(request, response):
-    assert type(response.html) == dict
+@middleware02.request
+async def print_on_request02(spider_ins, request):
+    pass
 
 
-all_middleware = middleware + res_type_middleware
+@middleware02.response
+async def print_on_response02(spider_ins, request, response):
+    pass
+
+
+all_middleware = middleware01 + middleware02
 
 
 @all_middleware.request
-async def print_on_request(request):
-    request.res_type = 'json'
+async def print_on_request(spider_ins, request):
+    pass
 
 
 @all_middleware.response
-async def print_on_response(request, response):
-    assert type(response.html) == dict
+async def print_on_response(spider_ins, request, response):
+    pass
 
 
 def test_add_middleware():
     assert len(all_middleware.request_middleware) == 3
     assert len(all_middleware.response_middleware) == 3
-    assert all_middleware.request_middleware.pop().__name__ == 'print_on_request'
-    assert all_middleware.response_middleware.pop().__name__ == 'print_on_response'
+    assert all_middleware.request_middleware.pop().__name__ == "print_on_request"
+    assert all_middleware.response_middleware.pop().__name__ == "print_on_response01"
     assert len(all_middleware.request_middleware) == 2
     assert len(all_middleware.response_middleware) == 2
 
 
 def test_request_middleware():
-    assert len(middleware.request_middleware) == 1
-    assert middleware.request_middleware.pop().__name__ == 'print_on_request'
+    assert len(middleware01.request_middleware) == 1
+    assert middleware01.request_middleware.pop().__name__ == "print_on_request01"
 
 
 def test_response_middleware():
-    assert middleware.response_middleware.pop().__name__ == 'print_on_response'
+    assert middleware01.response_middleware.pop().__name__ == "print_on_response01"

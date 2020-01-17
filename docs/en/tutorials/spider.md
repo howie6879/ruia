@@ -24,7 +24,7 @@ and this is the main part of your spider.
 
 Here's a simple parse example, to simply save response fields to a text file.
 We only have to define `start_urls`,
-and implement a `parst` method.
+and implement a `parse` method.
 
 ```python
 import aiofiles
@@ -199,7 +199,7 @@ You may want to use enumerate to get the index of responses like this:
 ```python
 async def parse(self, response):
     urls = [f'https://site.com/{page}' for page in range(10)]
-    async for response in enumerate(self.multiple_request(urls)):
+    async for response in self.multiple_request(urls):
         pass
 
 ```

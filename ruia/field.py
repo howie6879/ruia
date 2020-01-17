@@ -1,7 +1,9 @@
 #!/usr/bin/env python
 
 import re
+
 from typing import Union
+
 from lxml import etree
 
 from ruia.exceptions import NothingMatchedError
@@ -12,7 +14,7 @@ class BaseField(object):
     BaseField class
     """
 
-    def __init__(self, default: str = '', many: bool = False):
+    def __init__(self, default="", many: bool = False):
         """
         Init BaseField class
         url: http://lxml.de/index.html
@@ -23,11 +25,17 @@ class BaseField(object):
         self.many = many
 
     def extract(self, *args, **kwargs):
-        raise NotImplementedError('extract is not implemented.')
+        raise NotImplementedError("Extract is not implemented.")
 
 
 class _LxmlElementField(BaseField):
-    def __init__(self, css_select=None, xpath_select=None, default: str = None, many: bool = False):
+    def __init__(
+        self,
+        css_select: str = None,
+        xpath_select: str = None,
+        default=None,
+        many: bool = False,
+    ):
         """
         :param css_select: css select http://lxml.de/cssselect.html
         :param xpath_select: http://www.w3school.com.cn/xpath/index.asp
@@ -44,7 +52,9 @@ class _LxmlElementField(BaseField):
         elif self.xpath_select:
             elements = html_etree.xpath(self.xpath_select)
         else:
-            raise ValueError('%s field: css_select or xpath_select is expected' % self.__class__.__name__)
+            raise ValueError(
+                f"{self.__class__.__name__} field: css_select or xpath_select is expected."
+            )
         if not self.many:
             elements = elements[:1]
         return elements
@@ -52,7 +62,7 @@ class _LxmlElementField(BaseField):
     def _parse_element(self, element):
         raise NotImplementedError
 
-    def extract(self, *, html_etree: etree._Element, is_source: bool = False):
+    def extract(self, html_etree: etree._Element, is_source: bool = False):
         elements = self._get_elements(html_etree=html_etree)
 
         if is_source:
@@ -61,7 +71,10 @@ class _LxmlElementField(BaseField):
         if elements:
             results = [self._parse_element(element) for element in elements]
         elif self.default is None:
-            raise NothingMatchedError(self.css_select or self.xpath_select)
+            raise NothingMatchedError(
+                f"Extract `{self.css_select or self.xpath_select}` error, "
+                "please check selector or set parameter named `default`"
+            )
         else:
             results = [self.default]
 
@@ -70,16 +83,33 @@ class _LxmlElementField(BaseField):
 
 class AttrField(_LxmlElementField):
     """
-    This field is used to get  attribute.
+    This field is used to get attribute.
     """
 
-    def __init__(self, attr, css_select=None, xpath_select=None, default='', many: bool = False):
+    def __init__(
+        self,
+        attr,
+        css_select: str = None,
+        xpath_select: str = None,
+        default="",
+        many: bool = False,
+    ):
         super(AttrField, self).__init__(
-            css_select=css_select, xpath_select=xpath_select, default=default, many=many)
+            css_select=css_select, xpath_select=xpath_select, default=default, many=many
+        )
         self.attr = attr
 
     def _parse_element(self, element):
         return element.get(self.attr, self.default)
+
+
+class ElementField(_LxmlElementField):
+    """
+    This field is used to get LXML element(s).
+    """
+
+    def _parse_element(self, element):
+        return element
 
 
 class HtmlField(_LxmlElementField):
@@ -88,18 +118,7 @@ class HtmlField(_LxmlElementField):
     """
 
     def _parse_element(self, element):
-        return etree.tostring(element).decode(encoding='utf-8')
-
-
-class TextField(_LxmlElementField):
-    """
-    This field is used to get text.
-    """
-
-    def _parse_element(self, element):
-        strings = [node.strip() for node in element.itertext()]
-        string = ''.join(strings)
-        return string if string else self.default
+        return etree.tostring(element, encoding="utf-8").decode(encoding="utf-8")
 
 
 class RegexField(BaseField):
@@ -108,10 +127,10 @@ class RegexField(BaseField):
     RegexField uses standard library `re` inner, that is to say it has a better performance than _LxmlElementField.
     """
 
-    def __init__(self, re_select: str, default: str = '', many: bool = False):
+    def __init__(self, re_select: str, re_flags=0, default="", many: bool = False):
         super(RegexField, self).__init__(default=default, many=many)
         self._re_select = re_select
-        self._re_object = re.compile(self._re_select)
+        self._re_object = re.compile(self._re_select, flags=re_flags)
 
     def _parse_match(self, match):
         """
@@ -128,7 +147,10 @@ class RegexField(BaseField):
             if self.default:
                 return self.default
             else:
-                raise NothingMatchedError('Nothing matched: ' + self._re_select)
+                raise NothingMatchedError(
+                    f"Extract `{self._re_select}` error, "
+                    f"please check selector or set parameter named `default`"
+                )
         else:
             string = match.group()
             groups = match.groups()
@@ -141,10 +163,26 @@ class RegexField(BaseField):
 
     def extract(self, html: Union[str, etree._Element]):
         if isinstance(html, etree._Element):
-            html = etree.tostring(html).decode(encoding='utf-8')
+            html = etree.tostring(html).decode(encoding="utf-8")
         if self.many:
             matches = self._re_object.finditer(html)
             return [self._parse_match(match) for match in matches]
         else:
             match = self._re_object.search(html)
             return self._parse_match(match)
+
+
+class TextField(_LxmlElementField):
+    """
+    This field is used to get text.
+    """
+
+    def _parse_element(self, element):
+        # Extract text appropriately based on it's type
+        if isinstance(element, etree._ElementUnicodeResult):
+            strings = [node for node in element]
+        else:
+            strings = [node for node in element.itertext()]
+
+        string = "".join(strings)
+        return string if string else self.default

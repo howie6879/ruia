@@ -22,7 +22,7 @@ class PythonDocumentationItem(Item):
 
 Now let's reconstruct this Item.
 
-## HTML document analyzing
+## Analyze HTML document
 
 Supposing that we want to get the current python documentation version
 and its tutorial page link.
@@ -46,7 +46,7 @@ What we want to do:
 ## Navigate to an element
 
 `Ruia` use selectors to navigate to the HTML element.
-As a crawler engineer, 
+As a crawler engineer,
 `ruia` believes that you have a full knowledge of at least one of CSS Selector and XPath Selector.
 
 For `title` element, because of his uniqueness, a simple CSS Selector is enough:
@@ -55,7 +55,7 @@ For `title` element, because of his uniqueness, a simple CSS Selector is enough:
 css_select = 'title'
 ```
 
-For the `Tuturial` element,
+For the `Tutorial` element,
 we have to use a XPath Selector to address it by it's text.
 
 ```python
@@ -136,7 +136,7 @@ async def main():
 
 if __name__ == '__main__':
     # Python 3.7 required
-    asyncio.run(main())  
+    asyncio.run(main())
 
     # For python 3.6
     # loop = asyncio.new_event_loop()
@@ -164,137 +164,6 @@ The first line is the log of `Ruia`,
 and the following two lines are the data we want.
 
 Okay, we have already finished the construction of our first Item.
-
-## Data Cleaning
-
-Now we get the version string: `3.7.2 Documentation`.
-However, the `Documentation` is unnecessary.
-Certainly we can solve this problem in such a way:
-
-```python
-import asyncio
-from ruia import Item, TextField, AttrField
-
-
-class PythonDocumentationItem(Item):
-    title = TextField(css_select='title')
-    tutorial_link = AttrField(xpath_select="//a[text()='Tutorial']", attr='href')
-
-
-async def main():
-    url = 'https://docs.python.org/3/'
-    item = await PythonDocumentationItem.get_item(url=url)
-    title = item.title.split(' ')[0]
-    print(title)
-    print(item.tutorial_link)
-
-
-if __name__ == '__main__':
-    # Python 3.7 required
-    asyncio.run(main())  
-
-    # For python 3.6
-    # loop = asyncio.new_event_loop()
-    # loop.run_until_complete(main())
-
-# Output:
-# [2019:01:21 18:19:02]-Request-INFO  request: <GET: https://docs.python.org/3/>
-# 3.7.2
-# tutorial/index.html
-
-```
-
-It works well, and it's okay if you like it.
-
-Now consider such a way:
-
-```python
-import asyncio
-from ruia import Item, TextField, AttrField
-
-
-class PythonDocumentationItem(Item):
-    title = TextField(css_select='title')
-    tutorial_link = AttrField(xpath_select="//a[text()='Tutorial']", attr='href')
-    
-    async def clean_title(self, value):
-        return value.split(' ')[0]
-
-
-async def main():
-    url = 'https://docs.python.org/3/'
-    item = await PythonDocumentationItem.get_item(url=url)
-    print(item.title)
-    print(item.tutorial_link)
-
-
-if __name__ == '__main__':
-    # Python 3.7 required
-    asyncio.run(main())  
-
-    # For python 3.6
-    # loop = asyncio.new_event_loop()
-    # loop.run_until_complete(main())
-
-# Output:
-# [2019:01:21 18:19:02]-Request-INFO  request: <GET: https://docs.python.org/3/>
-# 3.7.2
-# tutorial/index.html
-
-```
-
-Wow!
-Now we directly get a pure version string from `item.title`.
-
-`ruia` will automatically recognize methods starts with `clean_`.
-If there's a field named `the_field`,
-then its corresponding data cleaning method is `clean_the_field`.
-Just add a prefix `clean_` is okay.
-
-The default clean method of each field is just return the string itself.
-Before data cleaning, fields are all pure python strings (sometimes a list or a dict of pure python strings).
-If you want `item.index` to return a python integer,
-please define `clean_index` method to `return int(value)`.
-
-In `ruia`,
-we tend to separate a crawler into two main parts:
-
-* Data acquisition, for parsing HTML and create structured data;
-* Data processing, for data persistence or some other operations.
-
-Data acquisition is all in `Item` object,
-including data cleaning.
-And data processing will be introduced later,
-in `ruia.Spider.parse` functions.
-At data processing, we hope `item.field` return quite the value you want.
-`ruia.Item` tries to avoid such operations:
-
-```python
-class MySpider(Spider):
-    async def parse(self, response):
-        item = MyItem.get_item(response)
-        title = item.title.split(' ')[0]
-        index = int(item.index)
-        tags = [tag for tag in index.tags if tag not in ('not','wanted','tags')]
-        print(title)
-        print('The square of index: ', index ** 2)
-        print('Tags: ', *tags)
-
-```
-
-We want to write such a clean code:
-
-```python
-class MySpider(Spider):
-    async def parse(self, response):
-        item = MyItem.get_item(response)
-        print(item.title)
-        print('The square of index: ', item.index ** 2)
-        print('Tags: ', *item.tags)
-
-```
-
-It's more beautiful, isn't it?
 
 ## Get Many Items from One Page
 
@@ -385,7 +254,7 @@ Here, we call `Item.get_items(html=HTML)` to get a list of items.
 The data cleaning methods still process a string, it has no difference.
 
 ```text
-Output: 
+Output:
 Title=Movie 1, Star=3
 Title=Movie 2, Star=5
 Title=Movie 3, Star=2
@@ -496,4 +365,12 @@ we seldom meet performance limitation.
 
 There is a `HtmlField` to extract pure HTML source of a HTML element.
 
+Finally there is a `ElementField` to extract raw LXML element(s).
+
 Read [Field API](../apis/field.md) to get more information.
+
+## Further
+
+Read the following essays for further learning.
+
+* [Data Cleaning](../topics/item_data_cleaning.md)

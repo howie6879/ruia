@@ -1,30 +1,31 @@
-# Ruia
+<h1 align=center>
+<img src="https://raw.githubusercontent.com/howie6879/ruia/master/docs/images/logo.png" width='120px' height='120px'>
+</h1>
 
 [![travis](https://travis-ci.org/howie6879/ruia.svg?branch=master)](https://travis-ci.org/howie6879/ruia) 
 [![codecov](https://codecov.io/gh/howie6879/ruia/branch/master/graph/badge.svg)](https://codecov.io/gh/howie6879/ruia)
 [![PyPI - Python Version](https://img.shields.io/pypi/pyversions/ruia.svg)](https://pypi.org/project/ruia/) 
 [![PyPI](https://img.shields.io/pypi/v/ruia.svg)](https://pypi.org/project/ruia/) 
-[![license](https://img.shields.io/github/license/howie6879/ruia.svg)](https://github.com/howie6879/ruia)
+[![gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/howie6879_ruia/community)
 
 ![](https://raw.githubusercontent.com/howie6879/ruia/master/docs/images/ruia_demo.png)
 
 ## Overview
 
-An async web scraping micro-framework, written with `asyncio` and `aiohttp`, 
+Ruia is an async web scraping micro-framework, written with `asyncio` and `aiohttp`, 
 aims to make crawling url as convenient as possible.
 
 Write less, run faster:
 
-- Documentation: [中文文档][doc_cn] |[documentation][doc_en]
-- Awesome: [https://github.com/ruia-plugins/awesome-ruia][Awesome]
-- Organization: [https://github.com/ruia-plugins][Organization]
+-   Documentation: [中文文档][doc_cn] |[documentation][doc_en]
+-   Organization: [python-ruia][Organization]
 
 ## Features
 
-- **Easy**: Declarative programming
-- **Fast**: Powered by asyncio
-- **Extensible**: Middlewares and plugins
-- **Powerful**: JavaScript support
+-   **Easy**: Declarative programming
+-   **Fast**: Powered by asyncio
+-   **Extensible**: Middlewares and plugins
+-   **Powerful**: JavaScript support
 
 ## Installation
 
@@ -39,21 +40,11 @@ pip install -U ruia
 pip install git+https://github.com/howie6879/ruia
 ```
 
-## Tutorials
-
-1. [Overview](https://howie6879.github.io/ruia/en/tutorials/overview.html)
-1. [Installation](https://howie6879.github.io/ruia/en/tutorials/installation.html)
-1. [Define Data Items](https://howie6879.github.io/ruia/en/tutorials/item.html)
-1. [Spider Control](https://howie6879.github.io/ruia/en/tutorials/spider.html)
-1. [Request & Response](https://howie6879.github.io/ruia/en/tutorials/request.html)
-1. [Customize Middleware](https://howie6879.github.io/ruia/en/tutorials/middleware.html)
-1. [Write a Plugins](https://howie6879.github.io/ruia/en/tutorials/plugins.html)
-
 ## Usage
 
-### Item
+### Field & Item
 
-`Item` can be used standalone, for testing, and for tiny crawlers.
+`Item` can be used standalone, for testing, and for tiny crawlers, create a file named `item_demo.py`
 
 ```python
 import asyncio
@@ -74,21 +65,18 @@ if __name__ == '__main__':
      items = asyncio.run(main())
 ```
 
-Run: `python demo.py`
+Run: `python item_demo.py`
 
 ```shell
 Notorious ‘Hijack Factory’ Shunned from Web https://krebsonsecurity.com/2018/07/notorious-hijack-factory-shunned-from-web/
  ......
 ```
 
-### Spider Control
+### Spider control
 
 `Spider` is used for control requests better.
-`Spider` supports concurrency control, which is very important for spiders.
 
 ```python
-import aiofiles
-
 from ruia import AttrField, TextField, Item, Spider
 
 
@@ -104,20 +92,17 @@ class HackerNewsItem(Item):
 
 class HackerNewsSpider(Spider):
     start_urls = [f'https://news.ycombinator.com/news?p={index}' for index in range(1, 3)]
+    concurrency = 10
 
     async def parse(self, response):
         async for item in HackerNewsItem.get_items(html=response.html):
             yield item
 
-    async def process_item(self, item: HackerNewsItem):
-        """Ruia build-in method"""
-        async with aiofiles.open('./hacker_news.txt', 'a') as f:
-            await f.write(str(item.title) + '\n')
-
-
 if __name__ == '__main__':
     HackerNewsSpider.start()
 ```
+
+More details click [here](https://github.com/howie6879/ruia/blob/master/examples/topics_examples/hacker_news_spider.py)
 
 Run `hacker_news_spider.py`:
 
@@ -144,60 +129,54 @@ middleware = Middleware()
 
 
 @middleware.request
-async def print_on_request(request):
+async def print_on_request(spider_ins, request):
     request.metadata = {
-        'index': request.url.split('=')[-1]
+        'url': request.url
     }
     print(f"request: {request.metadata}")
     # Just operate request object, and do not return anything.
 
 
 @middleware.response
-async def print_on_response(request, response):
+async def print_on_response(spider_ins, request, response):
     print(f"response: {response.metadata}")
 
-# Add HackerNewsSpider
-
-if __name__ == '__main__':
-    HackerNewsSpider.start(middleware=middleware)
+# Add your spider here
 ```
 
-### JavaScript Support
+More details click [here](https://github.com/howie6879/ruia/blob/master/examples/topics_examples/middleware_demo.py)
 
-You can load js by using [ruia-pyppeteer](https://github.com/ruia-plugins/ruia-pyppeteer).
+## Tutorials
 
-For example:
+1.  [Overview](https://howie6879.github.io/ruia/en/tutorials/overview.html)
+2.  [Installation](https://howie6879.github.io/ruia/en/tutorials/installation.html)
+3.  [Define Data Items](https://howie6879.github.io/ruia/en/tutorials/item.html)
+4.  [Spider Control](https://howie6879.github.io/ruia/en/tutorials/spider.html)
+5.  [Request & Response](https://howie6879.github.io/ruia/en/tutorials/request.html)
+6.  [Customize Middleware](https://howie6879.github.io/ruia/en/tutorials/middleware.html)
+7.  [Write a Plugins](https://howie6879.github.io/ruia/en/tutorials/plugins.html)
 
-```python
-import asyncio
-
-from ruia_pyppeteer import PyppeteerRequest as Request
-
-request = Request("https://www.jianshu.com/", load_js=True)
-response = asyncio.run(request.fetch()) # Python 3.7
-print(response.html)
-```
 
 ## TODO
 
-- Cache for debug, to decreasing request limitation
-- Distributed crawling/scraping
+-   Cache for debug, to decreasing request limitation
+-   Distributed crawling/scraping
 
 ## Contribution
 
 Ruia is still under developing, feel free to open issues and pull requests:
 
-- Report or fix bugs
-- Require or publish plugins
-- Write or fix documentation
-- Add test cases
+-   Report or fix bugs
+-   Require or publish plugins
+-   Write or fix documentation
+-   Add test cases
 
 ## Thanks
 
-- [sanic](https://github.com/huge-success/sanic)
-- [demiurge](https://github.com/matiasb/demiurge)
+-   [aiohttp](https://github.com/aio-libs/aiohttp/)
+-   [demiurge](https://github.com/matiasb/demiurge)
 
 [doc_cn]: https://github.com/howie6879/ruia/blob/master/docs/cn/README.md
-[doc_en]: https://howie6879.github.io/ruia/
-[Awesome]: https://github.com/ruia-plugins/awesome-ruia
-[Organization]: https://github.com/ruia-plugins
+[doc_en]: https://docs.python-ruia.org/
+[Awesome]: https://github.com/python-ruia/awesome-ruia
+[Organization]: https://github.com/python-ruia

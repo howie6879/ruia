@@ -21,7 +21,7 @@ from ruia import Middleware
 middleware = Middleware()
 
 @middleware.request
-async def print_on_request(request):
+async def print_on_request(spider_ins, request):
     """
     This function will be called before every request.
     request: an object of Request
@@ -29,7 +29,7 @@ async def print_on_request(request):
     print("request: print when a request is received")
     
 @middleware.response
-async def print_on_response(request, response):
+async def print_on_response(spider_ins, request, response):
     """
     This function will be called after every request.
     request: an object of Request

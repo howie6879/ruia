@@ -23,6 +23,6 @@
 
 如果在使用过程中遇到了困难，随时欢迎提[Issue](https://github.com/howie6879/Ruia/issues)
 
-也随时欢迎加我微信拉您进群交流，备注(Ruia)：
+也随时欢迎您联系我一起进群交流，备注(Ruia)：
 
-<img src="https://ws1.sinaimg.cn/large/007i3XCUgy1fw0077yyf5j30dw0dwwen.jpg" width = "400" height = "400" alt="sanic_group" align=center />
+<div align=center><img width="400" height="400" src="https://raw.githubusercontent.com/howie6879/howie6879.github.io/img/pictures/20190529083905.png" /></div>

@@ -1,5 +1,5 @@
 site_name: Ruia
-site_url: https://howie6879.github.io/ruia/
+site_url: https://docs.python-ruia.org/
 site_description: An async web scraping micro-framework based on asyncio.
 site_author: howie.hu
 
@@ -10,6 +10,8 @@ copyright: Copyright &copy; 2018 - 2019 <a href="https://github.com/howie6879/ru
 
 theme:
   name: 'material'
+  logo: './images/logo.png'
+  favicon: './images/favicon.ico'
 
 use_directory_urls: false
 
@@ -33,6 +35,7 @@ nav:
       - Middleware: ./en/apis/middleware.md
   - Topics:
       - Write Spiders like Scrapy: ./en/topics/write_spiders_like_scrapy.md
+      - Item Data Cleaning: ./en/topics/item_data_cleaning.md
   - Examples:
       - Full featured project: ./en/examples/project.md
 

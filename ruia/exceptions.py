@@ -1,13 +1,25 @@
 #!/usr/bin/env python
 
 
-class NothingMatchedError(Exception):
+class IgnoreThisItem(Exception):
     pass
 
 
-class InvalidParseType(Exception):
+class InvalidCallbackResult(Exception):
     pass
 
 
 class InvalidFuncType(Exception):
+    pass
+
+
+class InvalidRequestMethod(Exception):
+    pass
+
+
+class NotImplementedParseError(Exception):
+    pass
+
+
+class NothingMatchedError(Exception):
     pass

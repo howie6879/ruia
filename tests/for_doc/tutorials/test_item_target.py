@@ -8,14 +8,18 @@ import sys
 
 from ruia import Item, TextField
 
-with open(os.path.join(os.path.dirname(__file__), 'target_item.html'), mode='r', encoding='utf-8') as file:
+with open(
+    os.path.join(os.path.dirname(__file__), "target_item.html"),
+    mode="r",
+    encoding="utf-8",
+) as file:
     HTML = file.read()
 
 
 class MyItem(Item):
-    target_item = TextField(css_select='.movie')
-    title = TextField(css_select='.title')
-    star = TextField(css_select='.star')
+    target_item = TextField(css_select=".movie")
+    title = TextField(css_select=".title")
+    star = TextField(css_select=".star")
 
     async def clean_star(self, value):
         return int(value)
@@ -23,7 +27,7 @@ class MyItem(Item):
 
 async def main():
     async for item in MyItem.get_items(html=HTML):
-        print(f'Title={item.title}, Star={item.star}')
+        print(f"Title={item.title}, Star={item.star}")
 
 
 def test_main():

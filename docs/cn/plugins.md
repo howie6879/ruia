@@ -88,7 +88,7 @@ middleware = Middleware()
 
 
 @middleware.request
-async def add_random_ua(request):
+async def add_random_ua(spider_ins, request):
     ua = await get_random_user_agent()
     if request.headers:
         request.headers.update({'User-Agent': ua})
@@ -104,7 +104,7 @@ async def add_random_ua(request):
 
 所有的爬虫程序都可以直接使用`ruia-ua`来实现自动添加`User-Agent`
 
-```python
+```shell
 pip install ruia-ua
 ```
 
