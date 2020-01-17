@@ -114,6 +114,12 @@ def test_attr_field_with_default_and_many():
     assert values == ["nothing"]
 
 
+def test_text_field_with_list_default_and_many():
+    field = TextField(css_select="div.brand b", default=[], many=True)
+    values = field.extract(html_etree=html_etree)
+    assert values == []
+
+
 def test_html_field():
     field_en = HtmlField(css_select="div.brand a")
     field_zh = HtmlField(css_select="div.brand p")
