@@ -76,7 +76,7 @@ class _LxmlElementField(BaseField):
                 "please check selector or set parameter named `default`"
             )
         else:
-            results = [self.default]
+            results = self.default if type(self.default) == list else [self.default]
 
         return results if self.many else results[0]
 
