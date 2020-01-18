@@ -266,7 +266,7 @@ def test_coroutine_callback_error():
     CoroutineErrorSpider.start()
 
 
-def test_nothing_marched_spider():
+def test_nothing_matched_spider():
     class NothingMatchedErrorSpider(Spider):
         start_urls = ["https://httpbin.org/get"]
 
