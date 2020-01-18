@@ -660,13 +660,16 @@ It has the following two methods:</p>
 <li><a href="https://github.com/howie6879/ruia/blob/master/ruia/item.py">get_items</a>: extract many data from HTML source code</li>
 </ul>
 <h2 id="core-arguments">Core arguments</h2>
-<p><code>get_item</code> and <code>get_items</code> receives same arguments:
-- html: optional, HTML source code
-- url: optional, HTML href link
-- html_etree: optional, etree._Element object</p>
+<p><code>get_item</code> and <code>get_items</code> receives same arguments:</p>
+<ul>
+<li>html: optional, HTML source code</li>
+<li>url: optional, HTML href link</li>
+<li>html_etree: optional, etree._Element object</li>
+</ul>
 <h2 id="usage">Usage</h2>
 <p>From the arguments above, we can see that,
 there are three ways to feed <code>Item</code> object: from a web link, from HTML source code, or even from <code>etree._Element</code> object.</p>
+<p>If you are using <code>get_items</code>, the attr named <code>target_item</code> is expected.</p>
 <div class="codehilite"><pre><span></span><span class="kn">import</span> <span class="nn">asyncio</span>
 
 <span class="kn">from</span> <span class="nn">ruia</span> <span class="kn">import</span> <span class="n">AttrField</span><span class="p">,</span> <span class="n">TextField</span><span class="p">,</span> <span class="n">Item</span>

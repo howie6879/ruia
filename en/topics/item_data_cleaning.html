@@ -599,7 +599,9 @@ However, in ruia, we want to separate the two processes:</p>
 <li>Data acquisition, for parsing HTML and create structured data;</li>
 <li>Data processing, for data persistence or some other operations.</li>
 </ul>
-<p>We provide a better way for data cleaning.</p>
+<p>By separating data acquisition and data processing,
+our code can be more readable.
+We provide a better way for data cleaning.</p>
 <div class="codehilite"><pre><span></span><span class="kn">from</span> <span class="nn">ruia</span> <span class="kn">import</span> <span class="n">Item</span><span class="p">,</span> <span class="n">TextField</span>
 
 <span class="k">class</span> <span class="nc">MyItem</span><span class="p">(</span><span class="n">Item</span><span class="p">):</span>
@@ -627,7 +629,61 @@ Just add a prefix <code>clean_</code> is okay.</p>
 Before data cleaning, fields are all pure python strings (sometimes a list or a dict of pure python strings).
 If you want <code>item.index</code> to return a python integer,
 please define <code>clean_index</code> method to <code>return int(value)</code>.</p>
-<p>Separate the two processes makes our code more readable.</p>
+<p>Now let's focus on such a HTML code.
+For some reason, perhaps for css layout,
+there are some empty items.
+We want 5 movies, while ruia get 7.
+Of course you can delete useless items in parse function,
+however, it violated our principle that
+we should separate get items and save items.</p>
+<div class="codehilite"><pre><span></span><span class="cp">&lt;!DOCTYPE html&gt;</span>
+<span class="p">&lt;</span><span class="nt">html</span> <span class="na">lang</span><span class="o">=</span><span class="s">&quot;en&quot;</span><span class="p">&gt;</span>
+<span class="p">&lt;</span><span class="nt">head</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">meta</span> <span class="na">charset</span><span class="o">=</span><span class="s">&quot;UTF-8&quot;</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">title</span><span class="p">&gt;</span>Title<span class="p">&lt;/</span><span class="nt">title</span><span class="p">&gt;</span>
+<span class="p">&lt;/</span><span class="nt">head</span><span class="p">&gt;</span>
+<span class="p">&lt;</span><span class="nt">body</span><span class="p">&gt;</span>
+<span class="p">&lt;</span><span class="nt">div</span> <span class="na">class</span><span class="o">=</span><span class="s">&quot;container&quot;</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">div</span> <span class="na">class</span><span class="o">=</span><span class="s">&quot;movie&quot;</span><span class="p">&gt;&lt;</span><span class="nt">a</span> <span class="na">class</span><span class="o">=</span><span class="s">&quot;title&quot;</span><span class="p">&gt;</span>Movie 1<span class="p">&lt;/</span><span class="nt">a</span><span class="p">&gt;&lt;</span><span class="nt">span</span> <span class="na">class</span><span class="o">=</span><span class="s">&quot;star&quot;</span><span class="p">&gt;</span>3<span class="p">&lt;/</span><span class="nt">span</span><span class="p">&gt;&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">div</span> <span class="na">class</span><span class="o">=</span><span class="s">&quot;movie&quot;</span><span class="p">&gt;&lt;</span><span class="nt">a</span> <span class="na">class</span><span class="o">=</span><span class="s">&quot;title&quot;</span><span class="p">&gt;</span>Movie 2<span class="p">&lt;/</span><span class="nt">a</span><span class="p">&gt;&lt;</span><span class="nt">span</span> <span class="na">class</span><span class="o">=</span><span class="s">&quot;star&quot;</span><span class="p">&gt;</span>5<span class="p">&lt;/</span><span class="nt">span</span><span class="p">&gt;&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">div</span> <span class="na">class</span><span class="o">=</span><span class="s">&quot;movie&quot;</span><span class="p">&gt;&lt;</span><span class="nt">a</span> <span class="na">class</span><span class="o">=</span><span class="s">&quot;title&quot;</span><span class="p">&gt;</span>Movie 3<span class="p">&lt;/</span><span class="nt">a</span><span class="p">&gt;&lt;</span><span class="nt">span</span> <span class="na">class</span><span class="o">=</span><span class="s">&quot;star&quot;</span><span class="p">&gt;</span>2<span class="p">&lt;/</span><span class="nt">span</span><span class="p">&gt;&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">div</span> <span class="na">class</span><span class="o">=</span><span class="s">&quot;movie&quot;</span><span class="p">&gt;&lt;</span><span class="nt">a</span> <span class="na">class</span><span class="o">=</span><span class="s">&quot;title&quot;</span><span class="p">&gt;</span>Movie 4<span class="p">&lt;/</span><span class="nt">a</span><span class="p">&gt;&lt;</span><span class="nt">span</span> <span class="na">class</span><span class="o">=</span><span class="s">&quot;star&quot;</span><span class="p">&gt;</span>1<span class="p">&lt;/</span><span class="nt">span</span><span class="p">&gt;&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">div</span> <span class="na">class</span><span class="o">=</span><span class="s">&quot;movie&quot;</span><span class="p">&gt;&lt;</span><span class="nt">a</span> <span class="na">class</span><span class="o">=</span><span class="s">&quot;title&quot;</span><span class="p">&gt;</span>Movie 5<span class="p">&lt;/</span><span class="nt">a</span><span class="p">&gt;&lt;</span><span class="nt">span</span> <span class="na">class</span><span class="o">=</span><span class="s">&quot;star&quot;</span><span class="p">&gt;</span>5<span class="p">&lt;/</span><span class="nt">span</span><span class="p">&gt;&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">div</span> <span class="na">class</span><span class="o">=</span><span class="s">&quot;movie&quot;</span><span class="p">&gt;&lt;</span><span class="nt">a</span> <span class="na">class</span><span class="o">=</span><span class="s">&quot;title&quot;</span><span class="p">&gt;&lt;/</span><span class="nt">a</span><span class="p">&gt;&lt;</span><span class="nt">span</span> <span class="na">class</span><span class="o">=</span><span class="s">&quot;star&quot;</span><span class="p">&gt;&lt;/</span><span class="nt">span</span><span class="p">&gt;&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">div</span> <span class="na">class</span><span class="o">=</span><span class="s">&quot;movie&quot;</span><span class="p">&gt;&lt;</span><span class="nt">a</span> <span class="na">class</span><span class="o">=</span><span class="s">&quot;title&quot;</span><span class="p">&gt;&lt;/</span><span class="nt">a</span><span class="p">&gt;&lt;</span><span class="nt">span</span> <span class="na">class</span><span class="o">=</span><span class="s">&quot;star&quot;</span><span class="p">&gt;&lt;/</span><span class="nt">span</span><span class="p">&gt;&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+<span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+<span class="p">&lt;/</span><span class="nt">body</span><span class="p">&gt;</span>
+<span class="p">&lt;/</span><span class="nt">html</span><span class="p">&gt;</span>
+</pre></div>
+
+
+<p>Ruia use an <code>Exception</code> to solve this problem.
+In <code>clean_*</code> functions, we can raise a <code>ruia.IgnoreThisItem</code>
+to skip useless items.
+Here's a snippet as a demo.</p>
+<div class="codehilite"><pre><span></span><span class="kn">from</span> <span class="nn">ruia</span> <span class="kn">import</span> <span class="n">Item</span><span class="p">,</span> <span class="n">TextField</span><span class="p">,</span> <span class="n">IgnoreThisItem</span>
+
+<span class="k">class</span> <span class="nc">MyItem</span><span class="p">(</span><span class="n">Item</span><span class="p">):</span>
+    <span class="n">target_item</span> <span class="o">=</span> <span class="n">TextField</span><span class="p">(</span><span class="n">css_select</span><span class="o">=</span><span class="s1">&#39;.movie&#39;</span><span class="p">)</span>
+    <span class="n">title</span> <span class="o">=</span> <span class="n">TextField</span><span class="p">(</span><span class="n">css_select</span><span class="o">=</span><span class="s2">&quot;.title&quot;</span><span class="p">)</span>
+    <span class="n">star</span> <span class="o">=</span> <span class="n">TextField</span><span class="p">(</span><span class="n">css_select</span><span class="o">=</span><span class="s2">&quot;.star&quot;</span><span class="p">)</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="n">async</span> <span class="k">def</span> <span class="nf">clean_title</span><span class="p">(</span><span class="n">value</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">value</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">IgnoreThisItem</span>
+        <span class="k">return</span> <span class="n">value</span>
+
+
+<span class="n">async</span> <span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
+    <span class="n">items</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
+    <span class="n">async</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">MyItem</span><span class="o">.</span><span class="n">get_items</span><span class="p">(</span><span class="n">html</span><span class="o">=</span><span class="n">HTML</span><span class="p">):</span>
+        <span class="n">items</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">items</span><span class="p">)</span> <span class="o">==</span> <span class="mi">5</span>
+</pre></div>
+
+
+<p>Now, the length of items is 5, instead of 7.</p>
                 
                   
                 
