@@ -134,3 +134,12 @@ def test_request_url():
     assert isinstance(items, list)
     assert len(items) > 1
     assert "Item" in str(items[0])
+
+
+def test_fail_on_both_html_url():
+    try:
+        item = asyncio.get_event_loop().run_until_complete(
+            DoubanIgnoreItem.get_item(html=HTML, url="testing")
+        )
+    except Exception as e:
+        assert type(e) == ValueError

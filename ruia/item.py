@@ -39,6 +39,8 @@ class Item(metaclass=ItemMeta):
 
     @classmethod
     async def _get_html(cls, html: str = "", url: str = "", **kwargs):
+        if html and url:
+            raise ValueError("<Item: html *or* url expected, not both.")
         if html or url:
             if url:
                 sem = kwargs.pop("sem", None)
@@ -50,7 +52,7 @@ class Item(metaclass=ItemMeta):
                 html = response.html
             return etree.HTML(html)
         else:
-            ValueError("<Item: html(url or html_etree) is expected.")
+            raise ValueError("<Item: html(url or html_etree) is expected.")
 
     @classmethod
     async def _parse_html(cls, *, html_etree: etree._Element):
