@@ -6,5 +6,6 @@ from .middleware import Middleware
 from .request import Request
 from .response import Response
 from .spider import Spider
+from .exceptions import IgnoreThisItem
 
 __version__ = "0.6.5"

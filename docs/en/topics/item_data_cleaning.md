@@ -34,6 +34,8 @@ However, in ruia, we want to separate the two processes:
 * Data acquisition, for parsing HTML and create structured data;
 * Data processing, for data persistence or some other operations.
 
+By separating data acquisition and data processing,
+our code can be more readable.
 We provide a better way for data cleaning.
 
 ```python
@@ -66,4 +68,60 @@ Before data cleaning, fields are all pure python strings (sometimes a list or a 
 If you want `item.index` to return a python integer,
 please define `clean_index` method to `return int(value)`.
 
-Separate the two processes makes our code more readable.
+Now let's focus on such a HTML code.
+For some reason, perhaps for css layout,
+there are some empty items.
+We want 5 movies, while ruia get 7.
+Of course you can delete useless items in parse function,
+however, it violated our principle that
+we should separate get items and save items.
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div class="container">
+    <div class="movie"><a class="title">Movie 1</a><span class="star">3</span></div>
+    <div class="movie"><a class="title">Movie 2</a><span class="star">5</span></div>
+    <div class="movie"><a class="title">Movie 3</a><span class="star">2</span></div>
+    <div class="movie"><a class="title">Movie 4</a><span class="star">1</span></div>
+    <div class="movie"><a class="title">Movie 5</a><span class="star">5</span></div>
+    <div class="movie"><a class="title"></a><span class="star"></span></div>
+    <div class="movie"><a class="title"></a><span class="star"></span></div>
+</div>
+</body>
+</html>
+```
+
+Ruia use an `Exception` to solve this problem.
+In `clean_*` functions, we can raise a `ruia.IgnoreThisItem`
+to skip useless items.
+Here's a snippet as a demo.
+
+```python
+from ruia import Item, TextField, IgnoreThisItem
+
+class MyItem(Item):
+    target_item = TextField(css_select='.movie')
+    title = TextField(css_select=".title")
+    star = TextField(css_select=".star")
+
+    @staticmethod
+    async def clean_title(value):
+        if not value:
+            raise IgnoreThisItem
+        return value
+
+
+async def main():
+    items = list()
+    async for item in MyItem.get_items(html=HTML):
+        items.append(item)
+    assert len(items) == 5
+```
+
+Now, the length of items is 5, instead of 7.
