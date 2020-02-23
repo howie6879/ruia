@@ -17,11 +17,11 @@ class DoubanItem(Item):
 
 
 class DoubanSpider(Spider):
+    name = "DoubanSpider"
     start_urls = ["https://movie.douban.com/top250"]
     request_config = {"RETRIES": 3, "DELAY": 0, "TIMEOUT": 20}
     concurrency = 10
     # proxy config
-    # kwargs = {"proxy": "http://0.0.0.0:1087"}
     kwargs = {}
 
     async def parse(self, response):

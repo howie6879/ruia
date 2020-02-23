@@ -23,3 +23,7 @@ class NotImplementedParseError(Exception):
 
 class NothingMatchedError(Exception):
     pass
+
+
+class SpiderHookError(Exception):
+    pass

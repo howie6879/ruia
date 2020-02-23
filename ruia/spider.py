@@ -19,6 +19,7 @@ from ruia.exceptions import (
     NothingMatchedError,
 )
 from ruia.item import Item
+from ruia.exceptions import SpiderHookError
 from ruia.middleware import Middleware
 from ruia.request import Request
 from ruia.response import Response
@@ -38,7 +39,6 @@ class SpiderHook:
     """
 
     callback_result_map: dict = None
-    logger = get_logger(name="Spider")
 
     async def _run_spider_hook(self, hook_func):
         """
@@ -52,7 +52,7 @@ class SpiderHook:
                 if isawaitable(aws_hook_func):
                     await aws_hook_func
             except Exception as e:
-                self.logger.error(f"<Hook {hook_func.__name__}: {e}")
+                raise SpiderHookError(f"<Hook {hook_func.__name__}: {e}")
 
     async def process_failed_response(self, request, response):
         """
@@ -104,7 +104,6 @@ class Spider(SpiderHook):
 
     name = "Ruia"
     request_config = None
-    # request_session = None
 
     # Default values passing to each request object. Not implemented yet.
     headers: dict = None
@@ -160,6 +159,9 @@ class Spider(SpiderHook):
 
         self.cancel_tasks = cancel_tasks
         self.is_async_start = is_async_start
+
+        # set logger
+        self.logger = get_logger(name=self.name)
 
         # customize middleware
         if isinstance(middleware, list):
