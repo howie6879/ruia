@@ -4,6 +4,7 @@ import asyncio
 import os
 
 from ruia import Item, Middleware, Response, Request, Spider, TextField
+from ruia.exceptions import SpiderHookError
 
 html_path = os.path.join(
     os.path.dirname(os.path.realpath(__file__)), "data", "for_spider_testing.html"
@@ -161,7 +162,10 @@ def test_spider_hook_error():
         raise TypeError("error")
 
     loop = asyncio.new_event_loop()
-    SpiderDemo.start(loop=loop, before_stop=before_stop_func)
+    try:
+        SpiderDemo.start(loop=loop, before_stop=before_stop_func)
+    except Exception as e:
+        assert isinstance(e, SpiderHookError)
 
 
 def test_invalid_callback_result():
