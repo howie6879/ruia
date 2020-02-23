@@ -384,7 +384,7 @@ class Spider(SpiderHook):
         except NotImplementedParseError as e:
             self.logger.error(e)
         except NothingMatchedError as e:
-            error_info = f"<Field: {str(e).lower()}" + f", error url: {response.url}>"
+            error_info = f"<Field: {str(e).lower()}" + f", error url: {request.url}>"
             self.logger.error(error_info)
         except Exception as e:
             self.logger.error(f"<Callback[{request.callback.__name__}]: {e}")
