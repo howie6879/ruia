@@ -91,8 +91,8 @@
      <changefreq>daily</changefreq>
     </url>
     <url>
-     <loc></loc>
-     
+     <loc>https://docs.python-ruia.org/en/examples/spider_parent_class.html</loc>
+     <lastmod>2020-02-25</lastmod>
      <changefreq>daily</changefreq>
     </url>
 </urlset>
