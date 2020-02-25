@@ -38,6 +38,7 @@ nav:
       - Item Data Cleaning: ./en/topics/item_data_cleaning.md
   - Examples:
       - Full featured project: ./en/examples/project.md
+      - Parent Class For Your Spider: ./en/examples/spider_parent_class.md
 
 plugins:
   - search

@@ -62,7 +62,9 @@ class GithubDeveloperSpiderSingleRequest(Spider):
 
 
 if __name__ == "__main__":
-    GithubDeveloperSpider.start()```
+    GithubDeveloperSpider.start()
+
+```
 
 As you can see, there is quite a bit of common code in all the spiders - for example the `start_urls` and `concurrency` variables as they are standard in this project, and, of particular interest, the `parse_page` function. We'd like to refactor the commonalities into a parent class. To do this is very easy - we define the parent class with the common variables/functions contained:
 
@@ -157,6 +159,7 @@ class GithubDeveloperSpiderSingleRequest(GithubSpiderParent):
 ```
 
 Now you may assume that the parent class for creating a database connection at initialisation would be something like this:
+
 ```
 import dataset
 
