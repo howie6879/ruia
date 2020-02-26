@@ -183,4 +183,4 @@ class GithubSpiderParent(Spider):
         super().start()
 ```
 
-And you should a `developer.db` should be created.
+And `developer.db` should have been created.
