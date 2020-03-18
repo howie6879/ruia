@@ -130,14 +130,14 @@ class Spider(SpiderHook):
         loop=None,
         is_async_start: bool = False,
         cancel_tasks: bool = True,
-        **kwargs,
+        **spider_kwargs,
     ):
         """
         Init spider object.
         :param middleware: a list of or a single Middleware
         :param loop: asyncio event llo
         :param is_async_start: start spider by using async
-        :param kwargs
+        :param spider_kwargs
         """
         if not self.start_urls or not isinstance(self.start_urls, collections.Iterable):
             raise ValueError(
@@ -154,6 +154,7 @@ class Spider(SpiderHook):
         self.headers = self.headers or {}
         self.metadata = self.metadata or {}
         self.kwargs = self.kwargs or {}
+        self.spider_kwargs = spider_kwargs
         self.request_config = self.request_config or {}
         self.request_session = ClientSession()
 
@@ -328,7 +329,7 @@ class Spider(SpiderHook):
         after_start=None,
         before_stop=None,
         close_event_loop=True,
-        **kwargs,
+        **spider_kwargs,
     ):
         """
         Start a spider
@@ -337,11 +338,11 @@ class Spider(SpiderHook):
         :param middleware: customize middleware or a list of middleware
         :param loop: event loop
         :param close_event_loop: bool
-        :param kwargs: Additional keyword args to initialize spider
+        :param spider_kwargs: Additional keyword args to initialize spider
         :return: An instance of :cls:`Spider`
         """
         loop = loop or asyncio.new_event_loop()
-        spider_ins = cls(middleware=middleware, loop=loop, **kwargs)
+        spider_ins = cls(middleware=middleware, loop=loop, **spider_kwargs)
 
         # Actually start crawling
         spider_ins.loop.run_until_complete(
