@@ -38,6 +38,7 @@ class SpiderDemo(Spider):
     start_urls = ["https://httpbin.org/get?p=0"]
     request_config = {"RETRIES": 3, "DELAY": 0, "TIMEOUT": 20}
     headers = {"User-Agent": "Ruia Spider"}
+    aiohttp_kwargs = {}
 
     call_nums = 0
 
@@ -47,7 +48,7 @@ class SpiderDemo(Spider):
             callback=self.parse_item,
             headers=self.headers,
             request_config=self.request_config,
-            **self.kwargs,
+            **self.aiohttp_kwargs,
         )
 
     async def parse_item(self, response):

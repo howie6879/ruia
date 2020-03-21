@@ -111,8 +111,8 @@ class Request(object):
                 resp_data = await resp.read()
 
             response = Response(
-                url=self.url,
-                method=self.method,
+                url=str(resp.url),
+                method=resp.method,
                 encoding=resp.get_encoding(),
                 html=resp_data,
                 metadata=self.metadata,

@@ -14,7 +14,7 @@
 - metadata：跨请求传递的一些数据
 - request_config：请求配置
 - request_session：`aiohttp`的请求session
-- kwargs：请求目标资源可定义的其他参数
+- aiohttp_kwargs：请求目标资源可定义的其他参数
 
 ## Usage
 

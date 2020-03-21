@@ -21,8 +21,8 @@ class DoubanSpider(Spider):
     start_urls = ["https://movie.douban.com/top250"]
     request_config = {"RETRIES": 3, "DELAY": 0, "TIMEOUT": 20}
     concurrency = 10
-    # proxy config
-    kwargs = {}
+    # aiohttp config
+    aiohttp_kwargs = {}
 
     async def parse(self, response):
         etree = response.html_etree

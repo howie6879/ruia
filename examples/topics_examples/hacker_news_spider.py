@@ -23,7 +23,7 @@ class HackerNewsSpider(Spider):
         "https://news.ycombinator.com/news?p=2",
     ]
     concurrency = 10
-    # kwargs = {"proxy": "http://0.0.0.0:8765"}
+    aiohttp_kwargs = {"proxy": "http://0.0.0.0:8765"}
 
     async def parse(self, response):
         async for item in HackerNewsItem.get_items(html=response.html):

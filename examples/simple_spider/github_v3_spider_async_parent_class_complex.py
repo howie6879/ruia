@@ -1,6 +1,8 @@
 # Target: https://developer.github.com/v3/
-from ruia import *
+
 import dataset
+
+from ruia import *
 
 
 class GithubSpiderParent(Spider):
@@ -44,7 +46,7 @@ class GithubDeveloperSpider(GithubSpiderParent):
         print(title, len(item.content))
 
         # Insert the title as a row into the database
-        self.db['developers'].insert(dict(title=title))
+        self.db["developers"].insert(dict(title=title))
 
 
 class GithubDeveloperSpiderSingleRequest(GithubSpiderParent):
@@ -67,7 +69,7 @@ class GithubDeveloperSpiderSingleRequest(GithubSpiderParent):
         print(title, len(item.content))
 
         # Insert the title as a row into the database
-        self.db['developer'].insert(dict(title=title))
+        self.db["developer"].insert(dict(title=title))
 
 
 if __name__ == "__main__":

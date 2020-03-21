@@ -108,7 +108,7 @@ class Spider(SpiderHook):
     # Default values passing to each request object. Not implemented yet.
     headers: dict = None
     metadata: dict = None
-    kwargs: dict = None
+    aiohttp_kwargs: dict = None
 
     # Some fields for statistics
     failed_counts: int = 0
@@ -153,7 +153,7 @@ class Spider(SpiderHook):
         self.request_config = self.request_config or {}
         self.headers = self.headers or {}
         self.metadata = self.metadata or {}
-        self.kwargs = self.kwargs or {}
+        self.aiohttp_kwargs = self.aiohttp_kwargs or {}
         self.spider_kwargs = spider_kwargs
         self.request_config = self.request_config or {}
         self.request_session = ClientSession()
@@ -297,7 +297,7 @@ class Spider(SpiderHook):
         after_start=None,
         before_stop=None,
         cancel_tasks: bool = True,
-        **kwargs,
+        **spider_kwargs,
     ):
         """
         Start an async spider
@@ -306,7 +306,7 @@ class Spider(SpiderHook):
         :param after_start: hook
         :param before_stop: hook
         :param cancel_tasks: cancel async tasks
-        :param kwargs: Additional keyword args to initialize spider
+        :param spider_kwargs: Additional keyword args to initialize spider
         :return: An instance of :cls:`Spider`
         """
         loop = loop or asyncio.get_event_loop()
@@ -315,7 +315,7 @@ class Spider(SpiderHook):
             loop=loop,
             is_async_start=True,
             cancel_tasks=cancel_tasks,
-            **kwargs,
+            **spider_kwargs,
         )
         await spider_ins._start(after_start=after_start, before_stop=before_stop)
 
@@ -437,7 +437,7 @@ class Spider(SpiderHook):
         metadata: dict = None,
         request_config: dict = None,
         request_session=None,
-        **kwargs,
+        **aiohttp_kwargs,
     ):
         """Init a Request class for crawling html"""
         headers = headers or {}
@@ -447,7 +447,7 @@ class Spider(SpiderHook):
 
         headers.update(self.headers.copy())
         request_config.update(self.request_config.copy())
-        kwargs.update(self.kwargs.copy())
+        aiohttp_kwargs.update(self.aiohttp_kwargs.copy())
 
         return Request(
             url=url,
@@ -458,7 +458,7 @@ class Spider(SpiderHook):
             metadata=metadata,
             request_config=request_config,
             request_session=request_session,
-            **kwargs,
+            **aiohttp_kwargs,
         )
 
     async def start_master(self):
