@@ -164,7 +164,6 @@ class Request(object):
                 callback_result = self.callback(response)
         else:
             callback_result = None
-        # response.callback_result = callback_result
         return callback_result, response
 
     async def _close_request(self):

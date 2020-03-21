@@ -41,7 +41,7 @@ def test_response():
     json = asyncio.get_event_loop().run_until_complete(response.json())
     read = asyncio.get_event_loop().run_until_complete(response.read())
 
-    assert url == "https://httpbin.org/get"
+    assert url == "https://httpbin.org/ge?name=ruia"
     assert method == "GET"
     assert encoding == "utf-8"
     assert metadata == {"hello": "ruia"}
@@ -59,10 +59,10 @@ def test_response():
     assert str(response) == "<Response url[GET]: https://httpbin.org/get status:200>"
 
 
-# def test_callback():
-#     assert response.callback_result == "hello ruia"
-#     response.callback_result = "ruia"
-#     assert response.callback_result == "ruia"
+def test_callback():
+    assert response.callback_result is None
+    response.callback_result = "ruia"
+    assert response.callback_result == "ruia"
 
 
 def test_index():
