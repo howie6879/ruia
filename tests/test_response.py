@@ -56,7 +56,10 @@ def test_response():
     assert isinstance(json, dict)
     assert isinstance(read, bytes)
 
-    assert str(response) == "<Response url[GET]: https://httpbin.org/get status:200>"
+    assert (
+        str(response)
+        == "<Response url[GET]: https://httpbin.org/get?name=ruia status:200>"
+    )
 
 
 def test_callback():
