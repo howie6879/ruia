@@ -142,4 +142,4 @@ def test_timeout_request():
         return await request.fetch_callback(sem)
 
     _, response = asyncio.get_event_loop().run_until_complete(timeout_request(sem=sem))
-    assert response.url == "https://httpbin.org/get"
+    assert "https://httpbin.org/get" in response.url
