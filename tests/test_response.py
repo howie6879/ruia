@@ -41,7 +41,7 @@ def test_response():
     json = asyncio.get_event_loop().run_until_complete(response.json())
     read = asyncio.get_event_loop().run_until_complete(response.read())
 
-    assert url == "https://httpbin.org/ge?name=ruia"
+    assert url == "https://httpbin.org/get?name=ruia"
     assert method == "GET"
     assert encoding == "utf-8"
     assert metadata == {"hello": "ruia"}
