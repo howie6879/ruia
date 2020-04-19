@@ -163,7 +163,8 @@ class RegexField(BaseField):
 
     def extract(self, html: Union[str, etree._Element]):
         if isinstance(html, etree._Element):
-            html = etree.tostring(html).decode(encoding="utf-8")
+            # html = etree.tostring(html).decode(encoding="utf-8")
+            html = etree.tostring(html, encoding='utf-8', pretty_print=True, method='html').decode()
         if self.many:
             matches = self._re_object.finditer(html)
             return [self._parse_match(match) for match in matches]
