@@ -176,14 +176,6 @@ class Spider(SpiderHook):
         # semaphore, used for concurrency control
         self.sem = asyncio.Semaphore(self.concurrency)
 
-    async def _cancel_tasks(self):
-        tasks = []
-        for task in asyncio.Task.all_tasks():
-            if task is not asyncio.tasks.Task.current_task():
-                tasks.append(task)
-                task.cancel()
-        await asyncio.gather(*tasks, return_exceptions=True)
-
     async def _process_async_callback(
         self, callback_results: AsyncGeneratorType, response: Response = None
     ):
@@ -321,6 +313,19 @@ class Spider(SpiderHook):
 
         return spider_ins
 
+    @staticmethod
+    async def cancel_all_tasks():
+        """
+        Cancel all tasks
+        :return:
+        """
+        tasks = []
+        for task in asyncio.Task.all_tasks():
+            if task is not asyncio.tasks.Task.current_task():
+                tasks.append(task)
+                task.cancel()
+        await asyncio.gather(*tasks, return_exceptions=True)
+
     @classmethod
     def start(
         cls,
@@ -355,7 +360,9 @@ class Spider(SpiderHook):
         return spider_ins
 
     async def handle_callback(self, aws_callback: typing.Coroutine, response):
-        """Process coroutine callback function"""
+        """
+        Process coroutine callback function
+        """
         callback_result = None
 
         try:
@@ -393,7 +400,9 @@ class Spider(SpiderHook):
         return callback_result, response
 
     async def multiple_request(self, urls, is_gather=False, **kwargs):
-        """For crawling multiple urls"""
+        """
+        For crawling multiple urls
+        """
         if is_gather:
             resp_results = await asyncio.gather(
                 *[self.handle_request(self.request(url=url, **kwargs)) for url in urls],
@@ -439,7 +448,19 @@ class Spider(SpiderHook):
         request_session=None,
         **aiohttp_kwargs,
     ):
-        """Init a Request class for crawling html"""
+        """
+        Init a Request class for crawling html
+        :param url:
+        :param method:
+        :param callback:
+        :param encoding:
+        :param headers:
+        :param metadata:
+        :param request_config:
+        :param request_session:
+        :param aiohttp_kwargs:
+        :return:
+        """
         headers = headers or {}
         metadata = metadata or {}
         request_config = request_config or {}
@@ -462,7 +483,9 @@ class Spider(SpiderHook):
         )
 
     async def start_master(self):
-        """Actually start crawling."""
+        """
+        Actually start crawling
+        """
         async for request_ins in self.process_start_urls():
             self.request_queue.put_nowait(self.handle_request(request_ins))
         workers = [
@@ -477,9 +500,13 @@ class Spider(SpiderHook):
             await self.stop(SIGINT)
         else:
             if self.cancel_tasks:
-                await self._cancel_tasks()
+                await self.cancel_all_tasks()
 
     async def start_worker(self):
+        """
+        Stark spider worker
+        :return:
+        """
         while True:
             request_item = await self.request_queue.get()
             self.worker_tasks.append(request_item)
@@ -504,5 +531,5 @@ class Spider(SpiderHook):
         :return:
         """
         self.logger.info(f"Stopping spider: {self.name}")
-        await self._cancel_tasks()
+        await self.cancel_all_tasks()
         self.loop.stop()
