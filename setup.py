@@ -25,7 +25,9 @@ def read_version():
 
 
 def read(file_name):
-    with open(os.path.join(os.path.dirname(__file__), file_name)) as f:
+    with open(
+        os.path.join(os.path.dirname(__file__), file_name), mode="r", encoding="utf-8"
+    ) as f:
         return f.read()
 
 
