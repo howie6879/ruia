@@ -2,15 +2,16 @@
 
 import asyncio
 import weakref
-
-import aiohttp
-import async_timeout
-
+from asyncio.locks import Semaphore
 from inspect import iscoroutinefunction
 from types import AsyncGeneratorType
 from typing import Coroutine, Optional, Tuple
 
-from asyncio.locks import Semaphore
+import aiohttp
+import async_timeout
+from ruia.exceptions import InvalidRequestMethod
+from ruia.response import Response
+from ruia.utils import get_logger
 
 try:
     import uvloop
@@ -19,12 +20,8 @@ try:
 except ImportError:
     pass
 
-from ruia.exceptions import InvalidRequestMethod
-from ruia.response import Response
-from ruia.utils import get_logger
 
-
-class Request(object):
+class Request:
     """
     Request class for each request
     """
