@@ -4,7 +4,6 @@ import asyncio
 import collections
 import typing
 import weakref
-
 from datetime import datetime
 from functools import reduce
 from inspect import isawaitable
@@ -12,14 +11,9 @@ from signal import SIGINT, SIGTERM
 from types import AsyncGeneratorType
 
 from aiohttp import ClientSession
-
-from ruia.exceptions import (
-    InvalidCallbackResult,
-    NotImplementedParseError,
-    NothingMatchedError,
-)
+from ruia.exceptions import (InvalidCallbackResult, NothingMatchedError,
+                             NotImplementedParseError, SpiderHookError)
 from ruia.item import Item
-from ruia.exceptions import SpiderHookError
 from ruia.middleware import Middleware
 from ruia.request import Request
 from ruia.response import Response
@@ -526,10 +520,10 @@ class Spider(SpiderHook):
 
     async def stop(self, _signal):
         """
-        Finish all running tasks, cancel remaining tasks, then stop loop.
+        Finish all running tasks, cancel remaining tasks.
         :param _signal:
         :return:
         """
         self.logger.info(f"Stopping spider: {self.name}")
         await self.cancel_all_tasks()
-        self.loop.stop()
+        # self.loop.stop()
