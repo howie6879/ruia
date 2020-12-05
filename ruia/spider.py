@@ -194,9 +194,9 @@ class Spider(SpiderHook):
                     await self.process_callback_result(callback_result=callback_result)
         except NothingMatchedError as e:
             error_info = f"<Field: {str(e).lower()}" + f", error url: {response.url}>"
-            self.logger.error(error_info)
+            self.logger.exception(error_info)
         except Exception as e:
-            self.logger.error(e)
+            self.logger.exception(e)
 
     async def _process_response(self, request: Request, response: Response):
         if response:
@@ -222,7 +222,7 @@ class Spider(SpiderHook):
                                 f"<Middleware {middleware.__name__}: must be a coroutine function"
                             )
                     except Exception as e:
-                        self.logger.error(f"<Middleware {middleware.__name__}: {e}")
+                        self.logger.exception(f"<Middleware {middleware.__name__}: {e}")
 
     async def _run_response_middleware(self, request: Request, response: Response):
         if self.middleware.response_middleware:
@@ -237,7 +237,7 @@ class Spider(SpiderHook):
                                 f"<Middleware {middleware.__name__}: must be a coroutine function"
                             )
                     except Exception as e:
-                        self.logger.error(f"<Middleware {middleware.__name__}: {e}")
+                        self.logger.exception(f"<Middleware {middleware.__name__}: {e}")
 
     async def _start(self, after_start=None, before_stop=None):
         self.logger.info("Spider started!")
@@ -362,9 +362,9 @@ class Spider(SpiderHook):
         try:
             callback_result = await aws_callback
         except NothingMatchedError as e:
-            self.logger.error(f"<Item: {str(e).lower()}>")
+            self.logger.exception(f"<Item: {str(e).lower()}>")
         except Exception as e:
-            self.logger.error(f"<Callback[{aws_callback.__name__}]: {e}")
+            self.logger.exception(f"<Callback[{aws_callback.__name__}]: {e}")
 
         return callback_result, response
 
@@ -384,12 +384,12 @@ class Spider(SpiderHook):
             await self._run_response_middleware(request, response)
             await self._process_response(request=request, response=response)
         except NotImplementedParseError as e:
-            self.logger.error(e)
+            self.logger.exception(e)
         except NothingMatchedError as e:
             error_info = f"<Field: {str(e).lower()}" + f", error url: {request.url}>"
-            self.logger.error(error_info)
+            self.logger.exception(error_info)
         except Exception as e:
-            self.logger.error(f"<Callback[{request.callback.__name__}]: {e}")
+            self.logger.exception(f"<Callback[{request.callback.__name__}]: {e}")
 
         return callback_result, response
 
@@ -498,7 +498,7 @@ class Spider(SpiderHook):
 
     async def start_worker(self):
         """
-        Stark spider worker
+        Start spider worker
         :return:
         """
         while True:
