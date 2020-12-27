@@ -1,8 +1,8 @@
 # Target: https://developer.github.com/v3/
 
-import dataset
-
 from ruia import *
+
+import dataset
 
 
 class GithubSpiderParent(Spider):
@@ -32,7 +32,7 @@ class GithubDeveloperSpider(GithubSpiderParent):
 
     async def parse(self, response: Response):
         catalogue = []
-        async for cat in CatalogueItem.get_items(html=response.html):
+        async for cat in CatalogueItem.get_items(html=await response.text()):
             if "#" in cat.link:
                 continue
             catalogue.append(cat)
@@ -42,7 +42,7 @@ class GithubDeveloperSpider(GithubSpiderParent):
             yield self.parse_page(response, title)
 
     async def parse_page(self, response, title):
-        item = await PageItem.get_item(html=response.html)
+        item = await PageItem.get_item(html=await response.text())
         print(title, len(item.content))
 
         # Insert the title as a row into the database
@@ -56,7 +56,7 @@ class GithubDeveloperSpiderSingleRequest(GithubSpiderParent):
 
     async def parse(self, response: Response):
         catalogue = []
-        async for cat in CatalogueItem.get_items(html=response.html):
+        async for cat in CatalogueItem.get_items(html=await response.text()):
             if "#" in cat.link:
                 continue
             catalogue.append(cat)
@@ -65,7 +65,7 @@ class GithubDeveloperSpiderSingleRequest(GithubSpiderParent):
             yield self.parse_page(response, page.title)
 
     async def parse_page(self, response, title):
-        item = await PageItem.get_item(html=response.html)
+        item = await PageItem.get_item(html=await response.text())
         print(title, len(item.content))
 
         # Insert the title as a row into the database

@@ -33,7 +33,7 @@ class HackerNewsSpider(Spider):
     start_urls = ['https://news.ycombinator.com/news?p=1', 'https://news.ycombinator.com/news?p=2']
 
     async def parse(self, response):
-        async for item in HackerNewsItem.get_items(html=response.html):
+        async for item in HackerNewsItem.get_items(html=await response.text()):
             yield item
 
     async def process_item(self, item: HackerNewsItem):

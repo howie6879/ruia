@@ -3,7 +3,7 @@
 import asyncio
 import os
 
-from ruia import Item, Middleware, Response, Request, Spider, TextField
+from ruia import Item, Middleware, Request, Response, Spider, TextField
 from ruia.exceptions import SpiderHookError
 
 html_path = os.path.join(
@@ -26,7 +26,7 @@ async def print_on_request(spider_ins, request):
 
 @middleware.response
 async def print_on_response(spider_ins, request, response):
-    assert isinstance(response.html, str)
+    assert isinstance(await response.text(), str)
     assert request.headers == {"User-Agent": "ruia ua"}
 
 
@@ -253,7 +253,7 @@ def test_coroutine_callback_error():
                 yield self.parse_item(response=resp)
 
         async def parse_item(self, response):
-            await ItemDemo.get_item(html=response.html)
+            await ItemDemo.get_item(html=await response.text())
 
     CoroutineItemErrorSpider.start()
 
@@ -276,7 +276,7 @@ def test_nothing_matched_spider():
         start_urls = ["https://httpbin.org/get"]
 
         async def parse(self, response):
-            await ItemDemo.get_item(html=response.html)
+            await ItemDemo.get_item(html=await response.text())
 
     NothingMatchedErrorSpider.start()
 

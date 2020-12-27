@@ -25,7 +25,8 @@ class DoubanSpider(Spider):
     aiohttp_kwargs = {}
 
     async def parse(self, response):
-        etree = response.html_etree
+        html = await response.text()
+        etree = response.html_etree(html=html)
         pages = ["?start=0&filter="] + [
             i.get("href") for i in etree.cssselect(".paginator>a")
         ]
@@ -36,7 +37,7 @@ class DoubanSpider(Spider):
             )
 
     async def parse_item(self, response):
-        async for item in DoubanItem.get_items(html=response.html):
+        async for item in DoubanItem.get_items(html=await response.text()):
             yield item
 
     async def process_item(self, item: DoubanItem):

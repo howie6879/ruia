@@ -102,16 +102,16 @@ class Request:
         try:
             async with async_timeout.timeout(timeout):
                 resp = await self._make_request()
+
             try:
-                resp_data = await resp.text(encoding=self.encoding)
-            except UnicodeDecodeError:
-                resp_data = await resp.read()
+                resp_encoding = resp.get_encoding()
+            except:
+                resp_encoding = None
 
             response = Response(
                 url=str(resp.url),
                 method=resp.method,
-                encoding=resp.get_encoding(),
-                html=resp_data,
+                encoding=resp_encoding,
                 metadata=self.metadata,
                 cookies=resp.cookies,
                 headers=resp.headers,
@@ -189,7 +189,7 @@ class Request:
                 await asyncio.sleep(self.request_config["RETRY_DELAY"])
 
             retry_times = self.request_config.get("RETRIES", 3) - self.retry_times + 1
-            self.logger.error(
+            self.logger.exception(
                 f"<Retry url: {self.url}>, Retry times: {retry_times}, Retry message: {error_msg}>"
             )
             self.retry_times -= 1

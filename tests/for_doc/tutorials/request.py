@@ -11,8 +11,8 @@ async def request_example():
         url=url, method="GET", res_type="json", params=params, headers=headers
     )
     response = await request.fetch()
-    assert response.html["args"]["name"] == "ruia"
-    assert response.html["headers"]["User-Agent"] == "Python3.6"
+    assert await response.text()["args"]["name"] == "ruia"
+    assert await response.text()["headers"]["User-Agent"] == "Python3.6"
 
 
 def test_request():

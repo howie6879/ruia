@@ -14,7 +14,7 @@ async def print_on_request01(spider_ins, request):
 
 @middleware01.response
 async def print_on_response01(spider_ins, request, response):
-    assert isinstance(response.html, str)
+    assert isinstance(await response.text(), str)
 
 
 @middleware02.request

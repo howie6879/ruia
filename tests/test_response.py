@@ -5,7 +5,6 @@
 import asyncio
 
 from lxml import etree
-
 from ruia import Request
 
 
@@ -29,13 +28,11 @@ def test_response():
     url = response.url
     method = response.method
     encoding = response.encoding
-    html = response.html
     metadata = response.metadata
     cookies = response.cookies
     history = response.history
     headers = response.headers
     status = response.status
-    html_etree = response.html_etree
 
     text = asyncio.get_event_loop().run_until_complete(response.text())
     json = asyncio.get_event_loop().run_until_complete(response.json())
@@ -45,13 +42,12 @@ def test_response():
     assert method == "GET"
     assert encoding == "utf-8"
     assert metadata == {"hello": "ruia"}
-    assert isinstance(html, str)
     assert isinstance(cookies, dict)
     assert history == ()
     assert headers["Content-Type"] == "application/json"
     assert status == 200
     assert response.ok == True
-    assert isinstance(html_etree, etree._Element)
+    assert isinstance(response.html_etree(html=text), etree._Element)
     assert isinstance(text, str)
     assert isinstance(json, dict)
     assert isinstance(read, bytes)

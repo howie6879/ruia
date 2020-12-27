@@ -1,11 +1,17 @@
 #!/usr/bin/env python
-
+import asyncio
 import json
-
-from typing import Any, Callable, Optional
 from http.cookies import SimpleCookie
+from typing import Any, Callable, Optional
 
 from lxml import etree
+
+try:
+    import uvloop
+
+    asyncio.set_event_loop_policy(uvloop.EventLoopPolicy())
+except ImportError:
+    pass
 
 DEFAULT_JSON_DECODER = json.loads
 JSONDecoder = Callable[[str], Any]
@@ -22,7 +28,6 @@ class Response(object):
         method: str,
         *,
         encoding: str = "",
-        html: str = "",
         metadata: dict,
         cookies,
         history,
@@ -37,8 +42,8 @@ class Response(object):
         self._url = url
         self._method = method
         self._metadata = metadata
-        self._html = html
         self._index = None
+        self._html = ""
         self._cookies = cookies
         self._history = history
         self._headers = headers
@@ -90,10 +95,6 @@ class Response(object):
         return self._metadata
 
     @property
-    def html(self):
-        return self._html
-
-    @property
     def cookies(self) -> dict:
         if isinstance(self._cookies, SimpleCookie):
             cur_cookies = {}
@@ -115,11 +116,12 @@ class Response(object):
     def status(self):
         return self._status
 
-    @property
-    def html_etree(self):
-        html_etree = None
-        if self.html:
-            html_etree = etree.HTML(self.html)
+    def html_etree(self, html: str, **kwargs):
+        """
+        Return etree HTML
+        """
+        html = html or self._html
+        html_etree = etree.HTML(text=html, **kwargs)
         return html_etree
 
     async def json(
@@ -130,6 +132,7 @@ class Response(object):
         content_type: Optional[str] = "application/json",
     ) -> Any:
         """Read and decodes JSON response."""
+        encoding = encoding or self._encoding
         return await self._aws_json(
             encoding=encoding, loads=loads, content_type=content_type
         )
@@ -142,7 +145,9 @@ class Response(object):
         self, *, encoding: Optional[str] = None, errors: str = "strict"
     ) -> str:
         """Read response payload and decode."""
-        return await self._aws_text(encoding=encoding, errors=errors)
+        encoding = encoding or self._encoding
+        self._html = await self._aws_text(encoding=encoding, errors=errors)
+        return self._html
 
     def __repr__(self):
         return f"<Response url[{self._method}]: {self._url} status:{self._status}>"

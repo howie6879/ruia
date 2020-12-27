@@ -41,7 +41,7 @@ class HackerNewsSpider(Spider):
     start_urls = [f'https://news.ycombinator.com/news?p={index}' for index in range(3)]
 
     async def parse(self, response):
-        async for item in HackerNewsItem.get_items(html=response.html):
+        async for item in HackerNewsItem.get_items(html=await response.text()):
             yield item
 
     async def process_item(self, item: HackerNewsItem):
@@ -72,7 +72,7 @@ class HackerNewsSpider(Spider):
     start_urls = [f'https://news.ycombinator.com/news?p={index}' for index in range(3)]
 
     async def parse(self, response):
-        async for item in HackerNewsItem.get_items(html=response.html):
+        async for item in HackerNewsItem.get_items(html=await response.text()):
             yield item
 
     async def process_item(self, item: HackerNewsItem):
@@ -115,7 +115,7 @@ class MySpider(Spider):
         yield self.parse_next_page(next_response, metadata='nothing')
         
     async def parse_next_page(self, response, metadata):
-        print(response.html)
+        print(await response.text())
 ```
 
 It works well, except you want to yield many coroutines in a for loop.
@@ -132,7 +132,7 @@ class MySpider(Spider):
             yield self.parse_next(response)
 
     async def parse_next(self, response):
-        print(response.html)
+        print(await response.text())
 
 ```
 
@@ -164,7 +164,7 @@ class GithubDeveloperSpider(Spider):
 
     async def parse(self, response: Response):
         catalogue = []
-        async for cat in CatalogueItem.get_items(html=response.html):
+        async for cat in CatalogueItem.get_items(html=await response.text()):
             if '#' in cat.link:
                 continue
             catalogue.append(cat)
@@ -174,7 +174,7 @@ class GithubDeveloperSpider(Spider):
             yield self.parse_page(response, title)
 
     async def parse_page(self, response, title):
-        item = await PageItem.get_item(html=response.html)
+        item = await PageItem.get_item(html=await response.text())
         print(title, len(item.content))
 
 
@@ -249,7 +249,7 @@ class GithubDeveloperSpider(Spider):
 
     async def parse(self, response: Response):
         catalogue = []
-        async for cat in CatalogueItem.get_items(html=response.html):
+        async for cat in CatalogueItem.get_items(html=await response.text()):
             catalogue.append(cat)
         for page in catalogue[:20]:
             if '#' in page.link:
@@ -257,7 +257,7 @@ class GithubDeveloperSpider(Spider):
             yield Request(url=page.link, metadata={'title': page.title}, callback=self.parse_page)
 
     async def parse_page(self, response: Response):
-        item = await PageItem.get_item(html=response.html)
+        item = await PageItem.get_item(html=await response.text())
         title = response.metadata['title']
         print(title, len(item.content))
 
@@ -448,7 +448,7 @@ from ruia_pyppeteer import PyppeteerRequest as Request
 
 request = Request("https://www.jianshu.com/", load_js=True)
 response = asyncio.get_event_loop().run_until_complete(request.fetch())
-print(response.html)
+print(await response.text())
 ```
 
 Here is an example to use it in your spider:
@@ -476,7 +476,7 @@ class JianshuSpider(Spider):
     load_js = True
 
     async def parse(self, response):
-        async for item in JianshuItem.get_items(html=response.html):
+        async for item in JianshuItem.get_items(html=await response.text()):
             # Loading js by using PyppeteerRequest
             yield Request(url=item.author_url, load_js=self.load_js, callback=self.parse_item)
 

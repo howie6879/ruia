@@ -22,7 +22,7 @@ class MyItem(Item):
     title = TextField(css_select='title')
 
 async def parse(self, response):
-    title = MyItem.get_item(response.html).title
+    title = MyItem.get_item(await response.text()).title
     title = title.split(' | ')[0]
     with open('data.txt', mode='a') as file:
         file.writelines([title])
@@ -49,7 +49,7 @@ class MyItem(Item):
         return value
 
 async def parse(self, response):
-    title = MyItem.get_item(response.html).title
+    title = MyItem.get_item(await response.text()).title
     with open('data.txt', mode='a') as file:
         file.writelines([title])
 ```

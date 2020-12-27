@@ -4,7 +4,6 @@ from inspect import isawaitable
 from typing import Any
 
 from lxml import etree
-
 from ruia.exceptions import IgnoreThisItem, InvalidFuncType
 from ruia.field import BaseField
 from ruia.request import Request
@@ -49,7 +48,7 @@ class Item(metaclass=ItemMeta):
                     _, response = await request.fetch_callback(sem=sem)
                 else:
                     response = await request.fetch()
-                html = response.html
+                html = await response.text()
             return etree.HTML(html)
         else:
             raise ValueError("<Item: html(url or html_etree) is expected.")

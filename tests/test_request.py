@@ -80,7 +80,7 @@ def test_method_error_request():
     try:
         request = Request("https://httpbin.org/", method="PUT")
         response = asyncio.get_event_loop().run_until_complete(request.fetch())
-        assert response.html == ""
+        assert await response.text() == ""
     except Exception as e:
         assert isinstance(e, InvalidRequestMethod)
 

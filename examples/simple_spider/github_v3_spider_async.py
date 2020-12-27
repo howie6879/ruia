@@ -21,7 +21,7 @@ class GithubDeveloperSpider(Spider):
 
     async def parse(self, response: Response):
         catalogue = []
-        async for cat in CatalogueItem.get_items(html=response.html):
+        async for cat in CatalogueItem.get_items(html=await response.text()):
             if "#" in cat.link:
                 continue
             catalogue.append(cat)
@@ -31,7 +31,7 @@ class GithubDeveloperSpider(Spider):
             yield self.parse_page(response, title)
 
     async def parse_page(self, response, title):
-        item = await PageItem.get_item(html=response.html)
+        item = await PageItem.get_item(html=await response.text())
         print(title, len(item.content))
 
 
@@ -41,7 +41,7 @@ class GithubDeveloperSpiderSingleRequest(Spider):
 
     async def parse(self, response: Response):
         catalogue = []
-        async for cat in CatalogueItem.get_items(html=response.html):
+        async for cat in CatalogueItem.get_items(html=await response.text()):
             if "#" in cat.link:
                 continue
             catalogue.append(cat)
@@ -50,7 +50,7 @@ class GithubDeveloperSpiderSingleRequest(Spider):
             yield self.parse_page(response, page.title)
 
     async def parse_page(self, response, title):
-        item = await PageItem.get_item(html=response.html)
+        item = await PageItem.get_item(html=await response.text())
         print(title, len(item.content))
 
 

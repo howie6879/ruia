@@ -3,7 +3,8 @@
 pip install -U ruia_pyppeteer
 """
 
-from ruia import AttrField, TextField, Item
+from ruia import AttrField, Item, TextField
+
 from ruia_pyppeteer import PyppeteerSpider as Spider
 
 
@@ -21,7 +22,7 @@ class JianshuSpider(Spider):
     concurrency = 10
 
     async def parse(self, response):
-        async for item in JianshuItem.get_items(html=response.html):
+        async for item in JianshuItem.get_items(html=await response.text()):
             # Loading js by using PyppeteerRequest
             print(item)
 

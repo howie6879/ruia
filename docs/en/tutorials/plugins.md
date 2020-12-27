@@ -144,7 +144,7 @@ class HackerNewsSpider(Spider):
     concurrency = 10
 
     async def parse(self, response):
-        async for item in HackerNewsItem.get_items(html=response.html):
+        async for item in HackerNewsItem.get_items(html=await response.text()):
             print(item.title)
 
 

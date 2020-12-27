@@ -34,7 +34,7 @@ class GithubDeveloperSpider(Spider):
 
     async def parse(self, response: Response):
         catalogue = []
-        async for cat in CatalogueItem.get_items(html=response.html):
+        async for cat in CatalogueItem.get_items(html=await response.text()):
             catalogue.append(cat)
         for page in catalogue[:6]:
             if '#' in page.link:
@@ -42,7 +42,7 @@ class GithubDeveloperSpider(Spider):
             yield Request(url=page.link, metadata={'title': page.title}, callback=self.parse_page)
 
     async def parse_page(self, response: Response):
-        item = await PageItem.get_item(html=response.html)
+        item = await PageItem.get_item(html=await response.text())
         title = response.metadata['title']
         print(title, len(item.content))
 ```
