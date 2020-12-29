@@ -2,7 +2,7 @@
 </p>
 <h1 align="center">Ruia</h1>
 <p align="center">🕸️ Async Python 3.6+ web scraping micro-framework based on asyncio.</p>
-<p align="center">⚡ Write less, run faster.</p>
+<p align="center"><strong>⚡ Write less, run faster.</strong></p>
 
 <p align="center">
 <a href="https://travis-ci.org/howie6879/ruia"><img src="https://travis-ci.org/howie6879/ruia.svg?branch=master" alt="travis"></a>
