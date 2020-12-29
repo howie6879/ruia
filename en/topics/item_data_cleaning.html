@@ -598,7 +598,7 @@ We can write a statement in <code>parse</code> method, like:</p>
     <span class="n">title</span> <span class="o">=</span> <span class="n">TextField</span><span class="p">(</span><span class="n">css_select</span><span class="o">=</span><span class="s1">&#39;title&#39;</span><span class="p">)</span>
 
 <span class="n">async</span> <span class="k">def</span> <span class="nf">parse</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">response</span><span class="p">):</span>
-    <span class="n">title</span> <span class="o">=</span> <span class="n">MyItem</span><span class="o">.</span><span class="n">get_item</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">html</span><span class="p">)</span><span class="o">.</span><span class="n">title</span>
+    <span class="n">title</span> <span class="o">=</span> <span class="n">MyItem</span><span class="o">.</span><span class="n">get_item</span><span class="p">(</span><span class="n">await</span> <span class="n">response</span><span class="o">.</span><span class="n">text</span><span class="p">())</span><span class="o">.</span><span class="n">title</span>
     <span class="n">title</span> <span class="o">=</span> <span class="n">title</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39; | &#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
     <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;data.txt&#39;</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;a&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="nb">file</span><span class="p">:</span>
         <span class="nb">file</span><span class="o">.</span><span class="n">writelines</span><span class="p">([</span><span class="n">title</span><span class="p">])</span>
@@ -624,7 +624,7 @@ We provide a better way for data cleaning.</p>
         <span class="k">return</span> <span class="n">value</span>
 
 <span class="n">async</span> <span class="k">def</span> <span class="nf">parse</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">response</span><span class="p">):</span>
-    <span class="n">title</span> <span class="o">=</span> <span class="n">MyItem</span><span class="o">.</span><span class="n">get_item</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">html</span><span class="p">)</span><span class="o">.</span><span class="n">title</span>
+    <span class="n">title</span> <span class="o">=</span> <span class="n">MyItem</span><span class="o">.</span><span class="n">get_item</span><span class="p">(</span><span class="n">await</span> <span class="n">response</span><span class="o">.</span><span class="n">text</span><span class="p">())</span><span class="o">.</span><span class="n">title</span>
     <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;data.txt&#39;</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;a&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="nb">file</span><span class="p">:</span>
         <span class="nb">file</span><span class="o">.</span><span class="n">writelines</span><span class="p">([</span><span class="n">title</span><span class="p">])</span>
 </pre></div>

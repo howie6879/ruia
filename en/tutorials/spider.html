@@ -717,7 +717,7 @@ and implement a <code>parse</code> method.</p>
     <span class="n">start_urls</span> <span class="o">=</span> <span class="p">[</span><span class="n">f</span><span class="s1">&#39;https://news.ycombinator.com/news?p={index}&#39;</span> <span class="k">for</span> <span class="n">index</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">)]</span>
 
     <span class="n">async</span> <span class="k">def</span> <span class="nf">parse</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">response</span><span class="p">):</span>
-        <span class="n">async</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">HackerNewsItem</span><span class="o">.</span><span class="n">get_items</span><span class="p">(</span><span class="n">html</span><span class="o">=</span><span class="n">response</span><span class="o">.</span><span class="n">html</span><span class="p">):</span>
+        <span class="n">async</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">HackerNewsItem</span><span class="o">.</span><span class="n">get_items</span><span class="p">(</span><span class="n">html</span><span class="o">=</span><span class="n">await</span> <span class="n">response</span><span class="o">.</span><span class="n">text</span><span class="p">()):</span>
             <span class="k">yield</span> <span class="n">item</span>
 
     <span class="n">async</span> <span class="k">def</span> <span class="nf">process_item</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">item</span><span class="p">:</span> <span class="n">HackerNewsItem</span><span class="p">):</span>
@@ -745,7 +745,7 @@ and time to start crawling.</p>
     <span class="n">start_urls</span> <span class="o">=</span> <span class="p">[</span><span class="n">f</span><span class="s1">&#39;https://news.ycombinator.com/news?p={index}&#39;</span> <span class="k">for</span> <span class="n">index</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">)]</span>
 
     <span class="n">async</span> <span class="k">def</span> <span class="nf">parse</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">response</span><span class="p">):</span>
-        <span class="n">async</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">HackerNewsItem</span><span class="o">.</span><span class="n">get_items</span><span class="p">(</span><span class="n">html</span><span class="o">=</span><span class="n">response</span><span class="o">.</span><span class="n">html</span><span class="p">):</span>
+        <span class="n">async</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">HackerNewsItem</span><span class="o">.</span><span class="n">get_items</span><span class="p">(</span><span class="n">html</span><span class="o">=</span><span class="n">await</span> <span class="n">response</span><span class="o">.</span><span class="n">text</span><span class="p">()):</span>
             <span class="k">yield</span> <span class="n">item</span>
 
     <span class="n">async</span> <span class="k">def</span> <span class="nf">process_item</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">item</span><span class="p">:</span> <span class="n">HackerNewsItem</span><span class="p">):</span>
@@ -781,7 +781,7 @@ In any parse method, just <code>yield</code> a coroutine, and the coroutine will
         <span class="k">yield</span> <span class="bp">self</span><span class="o">.</span><span class="n">parse_next_page</span><span class="p">(</span><span class="n">next_response</span><span class="p">,</span> <span class="n">metadata</span><span class="o">=</span><span class="s1">&#39;nothing&#39;</span><span class="p">)</span>
 
     <span class="n">async</span> <span class="k">def</span> <span class="nf">parse_next_page</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">response</span><span class="p">,</span> <span class="n">metadata</span><span class="p">):</span>
-        <span class="k">print</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">html</span><span class="p">)</span>
+        <span class="k">print</span><span class="p">(</span><span class="n">await</span> <span class="n">response</span><span class="o">.</span><span class="n">text</span><span class="p">())</span>
 </pre></div>
 
 
@@ -797,7 +797,7 @@ Look at the following pseudo-code:</p>
             <span class="k">yield</span> <span class="bp">self</span><span class="o">.</span><span class="n">parse_next</span><span class="p">(</span><span class="n">response</span><span class="p">)</span>
 
     <span class="n">async</span> <span class="k">def</span> <span class="nf">parse_next</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">response</span><span class="p">):</span>
-        <span class="k">print</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">html</span><span class="p">)</span>
+        <span class="k">print</span><span class="p">(</span><span class="n">await</span> <span class="n">response</span><span class="o">.</span><span class="n">text</span><span class="p">())</span>
 </pre></div>
 
 
@@ -827,7 +827,7 @@ Here is an example for Github Developer Documentation.</p>
 
     <span class="n">async</span> <span class="k">def</span> <span class="nf">parse</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">response</span><span class="p">:</span> <span class="n">Response</span><span class="p">):</span>
         <span class="n">catalogue</span> <span class="o">=</span> <span class="p">[]</span>
-        <span class="n">async</span> <span class="k">for</span> <span class="n">cat</span> <span class="ow">in</span> <span class="n">CatalogueItem</span><span class="o">.</span><span class="n">get_items</span><span class="p">(</span><span class="n">html</span><span class="o">=</span><span class="n">response</span><span class="o">.</span><span class="n">html</span><span class="p">):</span>
+        <span class="n">async</span> <span class="k">for</span> <span class="n">cat</span> <span class="ow">in</span> <span class="n">CatalogueItem</span><span class="o">.</span><span class="n">get_items</span><span class="p">(</span><span class="n">html</span><span class="o">=</span><span class="n">await</span> <span class="n">response</span><span class="o">.</span><span class="n">text</span><span class="p">()):</span>
             <span class="k">if</span> <span class="s1">&#39;#&#39;</span> <span class="ow">in</span> <span class="n">cat</span><span class="o">.</span><span class="n">link</span><span class="p">:</span>
                 <span class="k">continue</span>
             <span class="n">catalogue</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">cat</span><span class="p">)</span>
@@ -837,7 +837,7 @@ Here is an example for Github Developer Documentation.</p>
             <span class="k">yield</span> <span class="bp">self</span><span class="o">.</span><span class="n">parse_page</span><span class="p">(</span><span class="n">response</span><span class="p">,</span> <span class="n">title</span><span class="p">)</span>
 
     <span class="n">async</span> <span class="k">def</span> <span class="nf">parse_page</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">response</span><span class="p">,</span> <span class="n">title</span><span class="p">):</span>
-        <span class="n">item</span> <span class="o">=</span> <span class="n">await</span> <span class="n">PageItem</span><span class="o">.</span><span class="n">get_item</span><span class="p">(</span><span class="n">html</span><span class="o">=</span><span class="n">response</span><span class="o">.</span><span class="n">html</span><span class="p">)</span>
+        <span class="n">item</span> <span class="o">=</span> <span class="n">await</span> <span class="n">PageItem</span><span class="o">.</span><span class="n">get_item</span><span class="p">(</span><span class="n">html</span><span class="o">=</span><span class="n">await</span> <span class="n">response</span><span class="o">.</span><span class="n">text</span><span class="p">())</span>
         <span class="k">print</span><span class="p">(</span><span class="n">title</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">item</span><span class="o">.</span><span class="n">content</span><span class="p">))</span>
 
 
@@ -902,7 +902,7 @@ It may take too long before parsing.</p>
 
     <span class="n">async</span> <span class="k">def</span> <span class="nf">parse</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">response</span><span class="p">:</span> <span class="n">Response</span><span class="p">):</span>
         <span class="n">catalogue</span> <span class="o">=</span> <span class="p">[]</span>
-        <span class="n">async</span> <span class="k">for</span> <span class="n">cat</span> <span class="ow">in</span> <span class="n">CatalogueItem</span><span class="o">.</span><span class="n">get_items</span><span class="p">(</span><span class="n">html</span><span class="o">=</span><span class="n">response</span><span class="o">.</span><span class="n">html</span><span class="p">):</span>
+        <span class="n">async</span> <span class="k">for</span> <span class="n">cat</span> <span class="ow">in</span> <span class="n">CatalogueItem</span><span class="o">.</span><span class="n">get_items</span><span class="p">(</span><span class="n">html</span><span class="o">=</span><span class="n">await</span> <span class="n">response</span><span class="o">.</span><span class="n">text</span><span class="p">()):</span>
             <span class="n">catalogue</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">cat</span><span class="p">)</span>
         <span class="k">for</span> <span class="n">page</span> <span class="ow">in</span> <span class="n">catalogue</span><span class="p">[:</span><span class="mi">20</span><span class="p">]:</span>
             <span class="k">if</span> <span class="s1">&#39;#&#39;</span> <span class="ow">in</span> <span class="n">page</span><span class="o">.</span><span class="n">link</span><span class="p">:</span>
@@ -910,7 +910,7 @@ It may take too long before parsing.</p>
             <span class="k">yield</span> <span class="n">Request</span><span class="p">(</span><span class="n">url</span><span class="o">=</span><span class="n">page</span><span class="o">.</span><span class="n">link</span><span class="p">,</span> <span class="n">metadata</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;title&#39;</span><span class="p">:</span> <span class="n">page</span><span class="o">.</span><span class="n">title</span><span class="p">},</span> <span class="n">callback</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">parse_page</span><span class="p">)</span>
 
     <span class="n">async</span> <span class="k">def</span> <span class="nf">parse_page</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">response</span><span class="p">:</span> <span class="n">Response</span><span class="p">):</span>
-        <span class="n">item</span> <span class="o">=</span> <span class="n">await</span> <span class="n">PageItem</span><span class="o">.</span><span class="n">get_item</span><span class="p">(</span><span class="n">html</span><span class="o">=</span><span class="n">response</span><span class="o">.</span><span class="n">html</span><span class="p">)</span>
+        <span class="n">item</span> <span class="o">=</span> <span class="n">await</span> <span class="n">PageItem</span><span class="o">.</span><span class="n">get_item</span><span class="p">(</span><span class="n">html</span><span class="o">=</span><span class="n">await</span> <span class="n">response</span><span class="o">.</span><span class="n">text</span><span class="p">())</span>
         <span class="n">title</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">metadata</span><span class="p">[</span><span class="s1">&#39;title&#39;</span><span class="p">]</span>
         <span class="k">print</span><span class="p">(</span><span class="n">title</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">item</span><span class="o">.</span><span class="n">content</span><span class="p">))</span>
 
@@ -1078,7 +1078,7 @@ pip install git+https://github.com/ruia-plugins/ruia-pyppeteer
 
 <span class="n">request</span> <span class="o">=</span> <span class="n">Request</span><span class="p">(</span><span class="s2">&quot;https://www.jianshu.com/&quot;</span><span class="p">,</span> <span class="n">load_js</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
 <span class="n">response</span> <span class="o">=</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">get_event_loop</span><span class="p">()</span><span class="o">.</span><span class="n">run_until_complete</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">fetch</span><span class="p">())</span>
-<span class="k">print</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">html</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">await</span> <span class="n">response</span><span class="o">.</span><span class="n">text</span><span class="p">())</span>
 </pre></div>
 
 
@@ -1105,7 +1105,7 @@ pip install git+https://github.com/ruia-plugins/ruia-pyppeteer
     <span class="n">load_js</span> <span class="o">=</span> <span class="bp">True</span>
 
     <span class="n">async</span> <span class="k">def</span> <span class="nf">parse</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">response</span><span class="p">):</span>
-        <span class="n">async</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">JianshuItem</span><span class="o">.</span><span class="n">get_items</span><span class="p">(</span><span class="n">html</span><span class="o">=</span><span class="n">response</span><span class="o">.</span><span class="n">html</span><span class="p">):</span>
+        <span class="n">async</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">JianshuItem</span><span class="o">.</span><span class="n">get_items</span><span class="p">(</span><span class="n">html</span><span class="o">=</span><span class="n">await</span> <span class="n">response</span><span class="o">.</span><span class="n">text</span><span class="p">()):</span>
             <span class="c1"># Loading js by using PyppeteerRequest</span>
             <span class="k">yield</span> <span class="n">Request</span><span class="p">(</span><span class="n">url</span><span class="o">=</span><span class="n">item</span><span class="o">.</span><span class="n">author_url</span><span class="p">,</span> <span class="n">load_js</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">load_js</span><span class="p">,</span> <span class="n">callback</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">parse_item</span><span class="p">)</span>
 

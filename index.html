@@ -264,40 +264,6 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#usage" class="md-nav__link">
-    Usage
-  </a>
-  
-    <nav class="md-nav">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#field-item" class="md-nav__link">
-    Field &amp; Item
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#spider-control" class="md-nav__link">
-    Spider control
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#custom-middleware" class="md-nav__link">
-    Custom middleware
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
   <a href="#tutorials" class="md-nav__link">
     Tutorials
   </a>
@@ -688,40 +654,6 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#usage" class="md-nav__link">
-    Usage
-  </a>
-  
-    <nav class="md-nav">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#field-item" class="md-nav__link">
-    Field &amp; Item
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#spider-control" class="md-nav__link">
-    Spider control
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#custom-middleware" class="md-nav__link">
-    Custom middleware
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
   <a href="#tutorials" class="md-nav__link">
     Tutorials
   </a>
@@ -768,20 +700,29 @@
                   <a href="https://github.com/howie6879/ruia/edit/master/docs/index.md" title="Edit this page" class="md-icon md-content__icon">&#xE3C9;</a>
                 
                 
-                <h1 align=center>
-<img src="https://raw.githubusercontent.com/howie6879/ruia/master/docs/images/logo.png" width='120px' height='120px'>
-</h1>
+                <p align="center"><img src="https://raw.githubusercontent.com/howie6879/ruia/master/docs/images/logo.png" width='120px' height='120px' alt="Ruia logo" >
+</p>
 
-<p><a href="https://travis-ci.org/howie6879/ruia"><img alt="travis" src="https://travis-ci.org/howie6879/ruia.svg?branch=master" /></a> 
-<a href="https://codecov.io/gh/howie6879/ruia"><img alt="codecov" src="https://codecov.io/gh/howie6879/ruia/branch/master/graph/badge.svg" /></a>
-<a href="https://pypi.org/project/ruia/"><img alt="PyPI - Python Version" src="https://img.shields.io/pypi/pyversions/ruia.svg" /></a> 
-<a href="https://pypi.org/project/ruia/"><img alt="PyPI" src="https://img.shields.io/pypi/v/ruia.svg" /></a> 
-<a href="https://gitter.im/howie6879_ruia/community"><img alt="gitter" src="https://badges.gitter.im/Join%20Chat.svg" /></a></p>
+<h1 align="center">Ruia</h1>
+
+<p align="center">🕸️ Async Python 3.6+ web scraping micro-framework based on asyncio.</p>
+
+<p align="center"><strong>⚡ Write less, run faster.</strong></p>
+
+<p align="center">
+<a href="https://travis-ci.org/howie6879/ruia"><img src="https://travis-ci.org/howie6879/ruia.svg?branch=master" alt="travis"></a>
+<a href="https://travis-ci.org/howie6879/ruia"><img src="https://codecov.io/gh/howie6879/ruia/branch/master/graph/badge.svg" alt="codecov"></a>
+<a href="https://pypi.org/project/ruia"><img src="https://img.shields.io/pypi/pyversions/ruia.svg" alt="PyPI - Python Version"></a>
+<a href="https://pypi.org/project/ruia/"><img src="https://img.shields.io/pypi/v/ruia.svg" alt="PyPI"></a>
+<a href="https://pepy.tech/project/ruia"><img src="https://pepy.tech/badge/ruia/month" alt="Downloads"></a>
+<a href="https://gitter.im/howie6879_ruia/communit"><img src="https://badges.gitter.im/Join%20Chat.svg" alt="gitter"></a>
+</p>
+
 <p><img alt="" src="https://raw.githubusercontent.com/howie6879/ruia/master/docs/images/ruia_demo.png" /></p>
 <h2 id="overview">Overview</h2>
 <p>Ruia is an async web scraping micro-framework, written with <code>asyncio</code> and <code>aiohttp</code>, 
 aims to make crawling url as convenient as possible.</p>
-<p>Write less, run faster:</p>
+<p><strong>Write less, run faster</strong>:</p>
 <ul>
 <li>Documentation: <a href="https://github.com/howie6879/ruia/blob/master/docs/cn/README.md">中文文档</a> |<a href="https://docs.python-ruia.org/">documentation</a></li>
 <li>Organization: <a href="https://github.com/python-ruia">python-ruia</a></li>
@@ -805,109 +746,15 @@ pip install git+https://github.com/howie6879/ruia
 </pre></div>
 
 
-<h2 id="usage">Usage</h2>
-<h3 id="field-item">Field &amp; Item</h3>
-<p><code>Item</code> can be used standalone, for testing, and for tiny crawlers, create a file named <code>item_demo.py</code></p>
-<div class="codehilite"><pre><span></span><span class="kn">import</span> <span class="nn">asyncio</span>
-
-<span class="kn">from</span> <span class="nn">ruia</span> <span class="kn">import</span> <span class="n">AttrField</span><span class="p">,</span> <span class="n">TextField</span><span class="p">,</span> <span class="n">Item</span>
-
-
-<span class="k">class</span> <span class="nc">HackerNewsItem</span><span class="p">(</span><span class="n">Item</span><span class="p">):</span>
-    <span class="n">target_item</span> <span class="o">=</span> <span class="n">TextField</span><span class="p">(</span><span class="n">css_select</span><span class="o">=</span><span class="s1">&#39;tr.athing&#39;</span><span class="p">)</span>
-    <span class="n">title</span> <span class="o">=</span> <span class="n">TextField</span><span class="p">(</span><span class="n">css_select</span><span class="o">=</span><span class="s1">&#39;a.storylink&#39;</span><span class="p">)</span>
-    <span class="n">url</span> <span class="o">=</span> <span class="n">AttrField</span><span class="p">(</span><span class="n">css_select</span><span class="o">=</span><span class="s1">&#39;a.storylink&#39;</span><span class="p">,</span> <span class="n">attr</span><span class="o">=</span><span class="s1">&#39;href&#39;</span><span class="p">)</span>
-
-<span class="n">async</span> <span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
-    <span class="n">async</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">HackerNewsItem</span><span class="o">.</span><span class="n">get_items</span><span class="p">(</span><span class="n">url</span><span class="o">=</span><span class="s2">&quot;https://news.ycombinator.com/&quot;</span><span class="p">):</span>
-        <span class="k">print</span><span class="p">(</span><span class="n">item</span><span class="o">.</span><span class="n">title</span><span class="p">,</span> <span class="n">item</span><span class="o">.</span><span class="n">url</span><span class="p">)</span>
-
-<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
-     <span class="n">items</span> <span class="o">=</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">main</span><span class="p">())</span>
-</pre></div>
-
-
-<p>Run: <code>python item_demo.py</code></p>
-<div class="codehilite"><pre><span></span>Notorious ‘Hijack Factory’ Shunned from Web https://krebsonsecurity.com/2018/07/notorious-hijack-factory-shunned-from-web/
- ......
-</pre></div>
-
-
-<h3 id="spider-control">Spider control</h3>
-<p><code>Spider</code> is used for control requests better.</p>
-<div class="codehilite"><pre><span></span><span class="kn">from</span> <span class="nn">ruia</span> <span class="kn">import</span> <span class="n">AttrField</span><span class="p">,</span> <span class="n">TextField</span><span class="p">,</span> <span class="n">Item</span><span class="p">,</span> <span class="n">Spider</span>
-
-
-<span class="k">class</span> <span class="nc">HackerNewsItem</span><span class="p">(</span><span class="n">Item</span><span class="p">):</span>
-    <span class="n">target_item</span> <span class="o">=</span> <span class="n">TextField</span><span class="p">(</span><span class="n">css_select</span><span class="o">=</span><span class="s1">&#39;tr.athing&#39;</span><span class="p">)</span>
-    <span class="n">title</span> <span class="o">=</span> <span class="n">TextField</span><span class="p">(</span><span class="n">css_select</span><span class="o">=</span><span class="s1">&#39;a.storylink&#39;</span><span class="p">)</span>
-    <span class="n">url</span> <span class="o">=</span> <span class="n">AttrField</span><span class="p">(</span><span class="n">css_select</span><span class="o">=</span><span class="s1">&#39;a.storylink&#39;</span><span class="p">,</span> <span class="n">attr</span><span class="o">=</span><span class="s1">&#39;href&#39;</span><span class="p">)</span>
-
-    <span class="n">async</span> <span class="k">def</span> <span class="nf">clean_title</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Define clean_* functions for data cleaning&quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="n">value</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
-
-
-<span class="k">class</span> <span class="nc">HackerNewsSpider</span><span class="p">(</span><span class="n">Spider</span><span class="p">):</span>
-    <span class="n">start_urls</span> <span class="o">=</span> <span class="p">[</span><span class="n">f</span><span class="s1">&#39;https://news.ycombinator.com/news?p={index}&#39;</span> <span class="k">for</span> <span class="n">index</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">)]</span>
-    <span class="n">concurrency</span> <span class="o">=</span> <span class="mi">10</span>
-
-    <span class="n">async</span> <span class="k">def</span> <span class="nf">parse</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">response</span><span class="p">):</span>
-        <span class="n">async</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">HackerNewsItem</span><span class="o">.</span><span class="n">get_items</span><span class="p">(</span><span class="n">html</span><span class="o">=</span><span class="n">response</span><span class="o">.</span><span class="n">html</span><span class="p">):</span>
-            <span class="k">yield</span> <span class="n">item</span>
-
-<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
-    <span class="n">HackerNewsSpider</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
-</pre></div>
-
-
-<p>More details click <a href="https://github.com/howie6879/ruia/blob/master/examples/topics_examples/hacker_news_spider.py">here</a></p>
-<p>Run <code>hacker_news_spider.py</code>:</p>
-<div class="codehilite"><pre><span></span><span class="o">[</span><span class="m">2018</span>-09-21 <span class="m">17</span>:27:14,497<span class="o">]</span>-ruia-INFO  spider::l54: Spider started!
-<span class="o">[</span><span class="m">2018</span>-09-21 <span class="m">17</span>:27:14,502<span class="o">]</span>-Request-INFO  request::l77: &lt;GET: https://news.ycombinator.com/news?p<span class="o">=</span><span class="m">2</span>&gt;
-<span class="o">[</span><span class="m">2018</span>-09-21 <span class="m">17</span>:27:14,527<span class="o">]</span>-Request-INFO  request::l77: &lt;GET: https://news.ycombinator.com/news?p<span class="o">=</span><span class="m">1</span>&gt;
-<span class="o">[</span><span class="m">2018</span>-09-21 <span class="m">17</span>:27:16,388<span class="o">]</span>-ruia-INFO  spider::l122: Stopping spider: ruia
-<span class="o">[</span><span class="m">2018</span>-09-21 <span class="m">17</span>:27:16,389<span class="o">]</span>-ruia-INFO  spider::l68: Total requests: <span class="m">2</span>
-<span class="o">[</span><span class="m">2018</span>-09-21 <span class="m">17</span>:27:16,389<span class="o">]</span>-ruia-INFO  spider::l71: Time usage: <span class="m">0</span>:00:01.891688
-<span class="o">[</span><span class="m">2018</span>-09-21 <span class="m">17</span>:27:16,389<span class="o">]</span>-ruia-INFO  spider::l72: Spider finished!
-</pre></div>
-
-
-<h3 id="custom-middleware">Custom middleware</h3>
-<p><code>ruia</code> provides an easy way to customize requests.</p>
-<p>The following middleware is based on the above example:</p>
-<div class="codehilite"><pre><span></span><span class="kn">from</span> <span class="nn">ruia</span> <span class="kn">import</span> <span class="n">Middleware</span>
-
-<span class="n">middleware</span> <span class="o">=</span> <span class="n">Middleware</span><span class="p">()</span>
-
-
-<span class="nd">@middleware.request</span>
-<span class="n">async</span> <span class="k">def</span> <span class="nf">print_on_request</span><span class="p">(</span><span class="n">spider_ins</span><span class="p">,</span> <span class="n">request</span><span class="p">):</span>
-    <span class="n">request</span><span class="o">.</span><span class="n">metadata</span> <span class="o">=</span> <span class="p">{</span>
-        <span class="s1">&#39;url&#39;</span><span class="p">:</span> <span class="n">request</span><span class="o">.</span><span class="n">url</span>
-    <span class="p">}</span>
-    <span class="k">print</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;request: {request.metadata}&quot;</span><span class="p">)</span>
-    <span class="c1"># Just operate request object, and do not return anything.</span>
-
-
-<span class="nd">@middleware.response</span>
-<span class="n">async</span> <span class="k">def</span> <span class="nf">print_on_response</span><span class="p">(</span><span class="n">spider_ins</span><span class="p">,</span> <span class="n">request</span><span class="p">,</span> <span class="n">response</span><span class="p">):</span>
-    <span class="k">print</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;response: {response.metadata}&quot;</span><span class="p">)</span>
-
-<span class="c1"># Add your spider here</span>
-</pre></div>
-
-
-<p>More details click <a href="https://github.com/howie6879/ruia/blob/master/examples/topics_examples/middleware_demo.py">here</a></p>
 <h2 id="tutorials">Tutorials</h2>
 <ol>
-<li><a href="https://howie6879.github.io/ruia/en/tutorials/overview.html">Overview</a></li>
-<li><a href="https://howie6879.github.io/ruia/en/tutorials/installation.html">Installation</a></li>
-<li><a href="https://howie6879.github.io/ruia/en/tutorials/item.html">Define Data Items</a></li>
-<li><a href="https://howie6879.github.io/ruia/en/tutorials/spider.html">Spider Control</a></li>
-<li><a href="https://howie6879.github.io/ruia/en/tutorials/request.html">Request &amp; Response</a></li>
-<li><a href="https://howie6879.github.io/ruia/en/tutorials/middleware.html">Customize Middleware</a></li>
-<li><a href="https://howie6879.github.io/ruia/en/tutorials/plugins.html">Write a Plugins</a></li>
+<li><a href="https://docs.python-ruia.org/en/tutorials/overview.html">Overview</a></li>
+<li><a href="https://docs.python-ruia.org/en/tutorials/installation.html">Installation</a></li>
+<li><a href="https://docs.python-ruia.org/en/tutorials/item.html">Define Data Items</a></li>
+<li><a href="https://docs.python-ruia.org/en/tutorials/spider.html">Spider Control</a></li>
+<li><a href="https://docs.python-ruia.org/en/tutorials/request.html">Request &amp; Response</a></li>
+<li><a href="https://docs.python-ruia.org/en/tutorials/middleware.html">Customize Middleware</a></li>
+<li><a href="https://docs.python-ruia.org/en/tutorials/plugins.html">Write a Plugins</a></li>
 </ol>
 <h2 id="todo">TODO</h2>
 <ul>
@@ -922,6 +769,7 @@ pip install git+https://github.com/howie6879/ruia
 <li>Write or fix documentation</li>
 <li>Add test cases</li>
 </ul>
+<p>!!!Notice: We use <a href="https://github.com/psf/black">black</a> to format the code</p>
 <h2 id="thanks">Thanks</h2>
 <ul>
 <li><a href="https://github.com/aio-libs/aiohttp/">aiohttp</a></li>

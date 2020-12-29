@@ -664,7 +664,7 @@
 
     <span class="n">async</span> <span class="k">def</span> <span class="nf">parse</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">response</span><span class="p">:</span> <span class="n">Response</span><span class="p">):</span>
         <span class="n">catalogue</span> <span class="o">=</span> <span class="p">[]</span>
-        <span class="n">async</span> <span class="k">for</span> <span class="n">cat</span> <span class="ow">in</span> <span class="n">CatalogueItem</span><span class="o">.</span><span class="n">get_items</span><span class="p">(</span><span class="n">html</span><span class="o">=</span><span class="n">response</span><span class="o">.</span><span class="n">html</span><span class="p">):</span>
+        <span class="n">async</span> <span class="k">for</span> <span class="n">cat</span> <span class="ow">in</span> <span class="n">CatalogueItem</span><span class="o">.</span><span class="n">get_items</span><span class="p">(</span><span class="n">html</span><span class="o">=</span><span class="n">await</span> <span class="n">response</span><span class="o">.</span><span class="n">text</span><span class="p">()):</span>
             <span class="k">if</span> <span class="s2">&quot;#&quot;</span> <span class="ow">in</span> <span class="n">cat</span><span class="o">.</span><span class="n">link</span><span class="p">:</span>
                 <span class="k">continue</span>
             <span class="n">catalogue</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">cat</span><span class="p">)</span>
@@ -674,7 +674,7 @@
             <span class="k">yield</span> <span class="bp">self</span><span class="o">.</span><span class="n">parse_page</span><span class="p">(</span><span class="n">response</span><span class="p">,</span> <span class="n">title</span><span class="p">)</span>
 
     <span class="n">async</span> <span class="k">def</span> <span class="nf">parse_page</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">response</span><span class="p">,</span> <span class="n">title</span><span class="p">):</span>
-        <span class="n">item</span> <span class="o">=</span> <span class="n">await</span> <span class="n">PageItem</span><span class="o">.</span><span class="n">get_item</span><span class="p">(</span><span class="n">html</span><span class="o">=</span><span class="n">response</span><span class="o">.</span><span class="n">html</span><span class="p">)</span>
+        <span class="n">item</span> <span class="o">=</span> <span class="n">await</span> <span class="n">PageItem</span><span class="o">.</span><span class="n">get_item</span><span class="p">(</span><span class="n">html</span><span class="o">=</span><span class="n">await</span> <span class="n">response</span><span class="o">.</span><span class="n">text</span><span class="p">())</span>
         <span class="k">print</span><span class="p">(</span><span class="n">title</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">item</span><span class="o">.</span><span class="n">content</span><span class="p">))</span>
 
 
@@ -684,7 +684,7 @@
 
     <span class="n">async</span> <span class="k">def</span> <span class="nf">parse</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">response</span><span class="p">:</span> <span class="n">Response</span><span class="p">):</span>
         <span class="n">catalogue</span> <span class="o">=</span> <span class="p">[]</span>
-        <span class="n">async</span> <span class="k">for</span> <span class="n">cat</span> <span class="ow">in</span> <span class="n">CatalogueItem</span><span class="o">.</span><span class="n">get_items</span><span class="p">(</span><span class="n">html</span><span class="o">=</span><span class="n">response</span><span class="o">.</span><span class="n">html</span><span class="p">):</span>
+        <span class="n">async</span> <span class="k">for</span> <span class="n">cat</span> <span class="ow">in</span> <span class="n">CatalogueItem</span><span class="o">.</span><span class="n">get_items</span><span class="p">(</span><span class="n">html</span><span class="o">=</span><span class="n">await</span> <span class="n">response</span><span class="o">.</span><span class="n">text</span><span class="p">()):</span>
             <span class="k">if</span> <span class="s2">&quot;#&quot;</span> <span class="ow">in</span> <span class="n">cat</span><span class="o">.</span><span class="n">link</span><span class="p">:</span>
                 <span class="k">continue</span>
             <span class="n">catalogue</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">cat</span><span class="p">)</span>
@@ -693,7 +693,7 @@
             <span class="k">yield</span> <span class="bp">self</span><span class="o">.</span><span class="n">parse_page</span><span class="p">(</span><span class="n">response</span><span class="p">,</span> <span class="n">page</span><span class="o">.</span><span class="n">title</span><span class="p">)</span>
 
     <span class="n">async</span> <span class="k">def</span> <span class="nf">parse_page</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">response</span><span class="p">,</span> <span class="n">title</span><span class="p">):</span>
-        <span class="n">item</span> <span class="o">=</span> <span class="n">await</span> <span class="n">PageItem</span><span class="o">.</span><span class="n">get_item</span><span class="p">(</span><span class="n">html</span><span class="o">=</span><span class="n">response</span><span class="o">.</span><span class="n">html</span><span class="p">)</span>
+        <span class="n">item</span> <span class="o">=</span> <span class="n">await</span> <span class="n">PageItem</span><span class="o">.</span><span class="n">get_item</span><span class="p">(</span><span class="n">html</span><span class="o">=</span><span class="n">await</span> <span class="n">response</span><span class="o">.</span><span class="n">text</span><span class="p">())</span>
         <span class="k">print</span><span class="p">(</span><span class="n">title</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">item</span><span class="o">.</span><span class="n">content</span><span class="p">))</span>
 
 
@@ -708,7 +708,7 @@
     <span class="n">concurrency</span> <span class="o">=</span> <span class="mi">5</span>
 
     <span class="n">async</span> <span class="k">def</span> <span class="nf">parse_page</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">response</span><span class="p">,</span> <span class="n">title</span><span class="p">):</span>
-        <span class="n">item</span> <span class="o">=</span> <span class="n">await</span> <span class="n">PageItem</span><span class="o">.</span><span class="n">get_item</span><span class="p">(</span><span class="n">html</span><span class="o">=</span><span class="n">response</span><span class="o">.</span><span class="n">html</span><span class="p">)</span>
+        <span class="n">item</span> <span class="o">=</span> <span class="n">await</span> <span class="n">PageItem</span><span class="o">.</span><span class="n">get_item</span><span class="p">(</span><span class="n">html</span><span class="o">=</span><span class="n">await</span> <span class="n">response</span><span class="o">.</span><span class="n">text</span><span class="p">())</span>
         <span class="k">print</span><span class="p">(</span><span class="n">title</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">item</span><span class="o">.</span><span class="n">content</span><span class="p">))</span>
 </pre></div>
 
@@ -717,7 +717,7 @@
 <div class="codehilite"><pre><span></span><span class="k">class</span> <span class="nc">GithubDeveloperSpider</span><span class="p">(</span><span class="n">Spider</span><span class="p">):</span>
     <span class="n">async</span> <span class="k">def</span> <span class="nf">parse</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">response</span><span class="p">:</span> <span class="n">Response</span><span class="p">):</span>
         <span class="n">catalogue</span> <span class="o">=</span> <span class="p">[]</span>
-        <span class="n">async</span> <span class="k">for</span> <span class="n">cat</span> <span class="ow">in</span> <span class="n">CatalogueItem</span><span class="o">.</span><span class="n">get_items</span><span class="p">(</span><span class="n">html</span><span class="o">=</span><span class="n">response</span><span class="o">.</span><span class="n">html</span><span class="p">):</span>
+        <span class="n">async</span> <span class="k">for</span> <span class="n">cat</span> <span class="ow">in</span> <span class="n">CatalogueItem</span><span class="o">.</span><span class="n">get_items</span><span class="p">(</span><span class="n">html</span><span class="o">=</span><span class="n">await</span> <span class="n">response</span><span class="o">.</span><span class="n">text</span><span class="p">()):</span>
             <span class="k">if</span> <span class="s2">&quot;#&quot;</span> <span class="ow">in</span> <span class="n">cat</span><span class="o">.</span><span class="n">link</span><span class="p">:</span>
                 <span class="k">continue</span>
             <span class="n">catalogue</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">cat</span><span class="p">)</span>
@@ -730,7 +730,7 @@
 <span class="k">class</span> <span class="nc">GithubDeveloperSpiderSingleRequest</span><span class="p">(</span><span class="n">Spider</span><span class="p">):</span>
     <span class="n">async</span> <span class="k">def</span> <span class="nf">parse</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">response</span><span class="p">:</span> <span class="n">Response</span><span class="p">):</span>
         <span class="n">catalogue</span> <span class="o">=</span> <span class="p">[]</span>
-        <span class="n">async</span> <span class="k">for</span> <span class="n">cat</span> <span class="ow">in</span> <span class="n">CatalogueItem</span><span class="o">.</span><span class="n">get_items</span><span class="p">(</span><span class="n">html</span><span class="o">=</span><span class="n">response</span><span class="o">.</span><span class="n">html</span><span class="p">):</span>
+        <span class="n">async</span> <span class="k">for</span> <span class="n">cat</span> <span class="ow">in</span> <span class="n">CatalogueItem</span><span class="o">.</span><span class="n">get_items</span><span class="p">(</span><span class="n">html</span><span class="o">=</span><span class="n">await</span> <span class="n">response</span><span class="o">.</span><span class="n">text</span><span class="p">()):</span>
             <span class="k">if</span> <span class="s2">&quot;#&quot;</span> <span class="ow">in</span> <span class="n">cat</span><span class="o">.</span><span class="n">link</span><span class="p">:</span>
                 <span class="k">continue</span>
             <span class="n">catalogue</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">cat</span><span class="p">)</span>
@@ -749,7 +749,7 @@
 
     <span class="n">async</span> <span class="k">def</span> <span class="nf">parse</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">response</span><span class="p">:</span> <span class="n">Response</span><span class="p">):</span>
         <span class="n">catalogue</span> <span class="o">=</span> <span class="p">[]</span>
-        <span class="n">async</span> <span class="k">for</span> <span class="n">cat</span> <span class="ow">in</span> <span class="n">CatalogueItem</span><span class="o">.</span><span class="n">get_items</span><span class="p">(</span><span class="n">html</span><span class="o">=</span><span class="n">response</span><span class="o">.</span><span class="n">html</span><span class="p">):</span>
+        <span class="n">async</span> <span class="k">for</span> <span class="n">cat</span> <span class="ow">in</span> <span class="n">CatalogueItem</span><span class="o">.</span><span class="n">get_items</span><span class="p">(</span><span class="n">html</span><span class="o">=</span><span class="n">await</span> <span class="n">response</span><span class="o">.</span><span class="n">text</span><span class="p">()):</span>
             <span class="k">if</span> <span class="s2">&quot;#&quot;</span> <span class="ow">in</span> <span class="n">cat</span><span class="o">.</span><span class="n">link</span><span class="p">:</span>
                 <span class="k">continue</span>
             <span class="n">catalogue</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">cat</span><span class="p">)</span>
@@ -759,7 +759,7 @@
             <span class="k">yield</span> <span class="bp">self</span><span class="o">.</span><span class="n">parse_page</span><span class="p">(</span><span class="n">response</span><span class="p">,</span> <span class="n">title</span><span class="p">)</span>
 
     <span class="n">async</span> <span class="k">def</span> <span class="nf">parse_page</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">response</span><span class="p">,</span> <span class="n">title</span><span class="p">):</span>
-        <span class="n">item</span> <span class="o">=</span> <span class="n">await</span> <span class="n">PageItem</span><span class="o">.</span><span class="n">get_item</span><span class="p">(</span><span class="n">html</span><span class="o">=</span><span class="n">response</span><span class="o">.</span><span class="n">html</span><span class="p">)</span>
+        <span class="n">item</span> <span class="o">=</span> <span class="n">await</span> <span class="n">PageItem</span><span class="o">.</span><span class="n">get_item</span><span class="p">(</span><span class="n">html</span><span class="o">=</span><span class="n">await</span> <span class="n">response</span><span class="o">.</span><span class="n">text</span><span class="p">())</span>
         <span class="k">print</span><span class="p">(</span><span class="n">title</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">item</span><span class="o">.</span><span class="n">content</span><span class="p">))</span>
 
         <span class="c1"># Insert the title as a row into the database</span>
@@ -773,7 +773,7 @@
 
     <span class="n">async</span> <span class="k">def</span> <span class="nf">parse</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">response</span><span class="p">:</span> <span class="n">Response</span><span class="p">):</span>
         <span class="n">catalogue</span> <span class="o">=</span> <span class="p">[]</span>
-        <span class="n">async</span> <span class="k">for</span> <span class="n">cat</span> <span class="ow">in</span> <span class="n">CatalogueItem</span><span class="o">.</span><span class="n">get_items</span><span class="p">(</span><span class="n">html</span><span class="o">=</span><span class="n">response</span><span class="o">.</span><span class="n">html</span><span class="p">):</span>
+        <span class="n">async</span> <span class="k">for</span> <span class="n">cat</span> <span class="ow">in</span> <span class="n">CatalogueItem</span><span class="o">.</span><span class="n">get_items</span><span class="p">(</span><span class="n">html</span><span class="o">=</span><span class="n">await</span> <span class="n">response</span><span class="o">.</span><span class="n">text</span><span class="p">()):</span>
             <span class="k">if</span> <span class="s2">&quot;#&quot;</span> <span class="ow">in</span> <span class="n">cat</span><span class="o">.</span><span class="n">link</span><span class="p">:</span>
                 <span class="k">continue</span>
             <span class="n">catalogue</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">cat</span><span class="p">)</span>
@@ -782,7 +782,7 @@
             <span class="k">yield</span> <span class="bp">self</span><span class="o">.</span><span class="n">parse_page</span><span class="p">(</span><span class="n">response</span><span class="p">,</span> <span class="n">page</span><span class="o">.</span><span class="n">title</span><span class="p">)</span>
 
     <span class="n">async</span> <span class="k">def</span> <span class="nf">parse_page</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">response</span><span class="p">,</span> <span class="n">title</span><span class="p">):</span>
-        <span class="n">item</span> <span class="o">=</span> <span class="n">await</span> <span class="n">PageItem</span><span class="o">.</span><span class="n">get_item</span><span class="p">(</span><span class="n">html</span><span class="o">=</span><span class="n">response</span><span class="o">.</span><span class="n">html</span><span class="p">)</span>
+        <span class="n">item</span> <span class="o">=</span> <span class="n">await</span> <span class="n">PageItem</span><span class="o">.</span><span class="n">get_item</span><span class="p">(</span><span class="n">html</span><span class="o">=</span><span class="n">await</span> <span class="n">response</span><span class="o">.</span><span class="n">text</span><span class="p">())</span>
         <span class="k">print</span><span class="p">(</span><span class="n">title</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">item</span><span class="o">.</span><span class="n">content</span><span class="p">))</span>
 
         <span class="c1"># Insert the title as a row into the database</span>
