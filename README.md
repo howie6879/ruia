@@ -1,13 +1,17 @@
-<h1 align=center>
-<img src="https://raw.githubusercontent.com/howie6879/ruia/master/docs/images/logo.png" width='120px' height='120px'>
-</h1>
+<p align="center"><img src="https://raw.githubusercontent.com/howie6879/ruia/master/docs/images/logo.png" width='120px' height='120px' alt="Ruia logo" >
+</p>
+<h1 align="center">Ruia</h1>
+<p align="center">🕸️ Async Python 3.6+ web scraping micro-framework based on asyncio.</p>
+<p align="center">⚡ Write less, run faster.</p>
 
-[![travis](https://travis-ci.org/howie6879/ruia.svg?branch=master)](https://travis-ci.org/howie6879/ruia) 
-[![codecov](https://codecov.io/gh/howie6879/ruia/branch/master/graph/badge.svg)](https://codecov.io/gh/howie6879/ruia)
-[![PyPI - Python Version](https://img.shields.io/pypi/pyversions/ruia.svg)](https://pypi.org/project/ruia/) 
-[![PyPI](https://img.shields.io/pypi/v/ruia.svg)](https://pypi.org/project/ruia/) 
-[![Downloads](https://pepy.tech/badge/ruia/month)](https://pepy.tech/project/ruia)
-[![gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/howie6879_ruia/community)
+<p align="center">
+<a href="https://travis-ci.org/howie6879/ruia"><img src="https://travis-ci.org/howie6879/ruia.svg?branch=master" alt="travis"></a>
+<a href="https://travis-ci.org/howie6879/ruia"><img src="https://codecov.io/gh/howie6879/ruia/branch/master/graph/badge.svg" alt="codecov"></a>
+<a href="https://pypi.org/project/ruia"><img src="https://img.shields.io/pypi/pyversions/ruia.svg" alt="PyPI - Python Version"></a>
+<a href="https://pypi.org/project/ruia/"><img src="https://img.shields.io/pypi/v/ruia.svg" alt="PyPI"></a>
+<a href="https://pepy.tech/project/ruia"><img src="https://pepy.tech/badge/ruia/month" alt="Downloads"></a>
+<a href="https://gitter.im/howie6879_ruia/communit"><img src="https://badges.gitter.im/Join%20Chat.svg" alt="gitter"></a>
+</p>
 
 ![](https://raw.githubusercontent.com/howie6879/ruia/master/docs/images/ruia_demo.png)
 
