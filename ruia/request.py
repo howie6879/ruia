@@ -147,12 +147,8 @@ class Request:
         :param sem: Semaphore
         :return: Tuple[AsyncGeneratorType, Response]
         """
-        try:
-            async with sem:
-                response = await self.fetch()
-        except Exception as e:
-            response = None
-            self.logger.error(f"<Error: {self.url} {e}>")
+        async with sem:
+            response = await self.fetch()
 
         if self.callback is not None:
             if iscoroutinefunction(self.callback):

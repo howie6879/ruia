@@ -24,6 +24,7 @@ aims to make crawling url as convenient as possible.
 
 -   Documentation: [中文文档][doc_cn] |[documentation][doc_en]
 -   Organization: [python-ruia][Organization]
+-   Plugin: [awesome-ruia](https://github.com/python-ruia/awesome-ruia)(Any contributions you make are **greatly appreciated**!)
 
 ## Features
 
@@ -58,8 +59,8 @@ pip install git+https://github.com/howie6879/ruia
 
 ## TODO
 
--   Cache for debug, to decreasing request limitation
--   Distributed crawling/scraping
+- [x] Cache for debug, to decreasing request limitation, [ruia-cache](https://github.com/python-ruia/ruia-cache)
+- [ ] Distributed crawling/scraping
 
 ## Contribution
 
