@@ -60,6 +60,7 @@ pip install git+https://github.com/howie6879/ruia
 ## TODO
 
 - [x] Cache for debug, to decreasing request limitation, [ruia-cache](https://github.com/python-ruia/ruia-cache)
+- [x] Provide an easy way to debug the script, [ruia-shell](https://github.com/python-ruia/ruia-shell)
 - [ ] Distributed crawling/scraping
 
 ## Contribution
