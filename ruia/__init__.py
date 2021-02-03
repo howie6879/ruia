@@ -4,8 +4,7 @@ Init Ruia
 """
 
 from .exceptions import IgnoreThisItem
-from .field import (AttrField, BaseField, ElementField, HtmlField, RegexField,
-                    TextField)
+from .field import AttrField, BaseField, ElementField, HtmlField, RegexField, TextField
 from .item import Item
 from .middleware import Middleware
 from .request import Request

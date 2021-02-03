@@ -1,6 +1,8 @@
 #!/usr/bin/env python
+
 import asyncio
 import json
+
 from http.cookies import SimpleCookie
 from typing import Any, Callable, Optional
 

@@ -4,6 +4,7 @@ import asyncio
 import collections
 import typing
 import weakref
+
 from datetime import datetime
 from functools import reduce
 from inspect import isawaitable
@@ -11,8 +12,13 @@ from signal import SIGINT, SIGTERM
 from types import AsyncGeneratorType
 
 from aiohttp import ClientSession
-from ruia.exceptions import (InvalidCallbackResult, NothingMatchedError,
-                             NotImplementedParseError, SpiderHookError)
+
+from ruia.exceptions import (
+    InvalidCallbackResult,
+    NothingMatchedError,
+    NotImplementedParseError,
+    SpiderHookError,
+)
 from ruia.item import Item
 from ruia.middleware import Middleware
 from ruia.request import Request
