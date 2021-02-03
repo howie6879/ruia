@@ -10,8 +10,9 @@
 <a href="https://pypi.org/project/ruia"><img src="https://img.shields.io/pypi/pyversions/ruia.svg" alt="PyPI - Python Version"></a>
 <a href="https://pypi.org/project/ruia/"><img src="https://img.shields.io/pypi/v/ruia.svg" alt="PyPI"></a>
 <a href="https://pepy.tech/project/ruia"><img src="https://pepy.tech/badge/ruia/month" alt="Downloads"></a>
-<a href="https://gitter.im/howie6879_ruia/communit"><img src="https://badges.gitter.im/Join%20Chat.svg" alt="gitter"></a>
+<a href="https://gitter.im/howie6879_ruia/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge"><img src="https://badges.gitter.im/howie6879_ruia/community.svg" alt="gitter"></a>
 </p>
+
 
 ![](https://raw.githubusercontent.com/howie6879/ruia/master/docs/images/ruia_demo.png)
 
