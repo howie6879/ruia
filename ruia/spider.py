@@ -2,6 +2,7 @@
 
 import asyncio
 import collections
+import sys
 import typing
 import weakref
 
@@ -13,18 +14,19 @@ from types import AsyncGeneratorType
 
 from aiohttp import ClientSession
 
-from ruia.exceptions import (
-    InvalidCallbackResult,
-    NothingMatchedError,
-    NotImplementedParseError,
-    SpiderHookError,
-)
+from ruia.exceptions import InvalidCallbackResult, NothingMatchedError, NotImplementedParseError, SpiderHookError
 from ruia.item import Item
 from ruia.middleware import Middleware
 from ruia.request import Request
 from ruia.response import Response
 from ruia.utils import get_logger
 
+if sys.version_info >= (3, 9):
+    async_all_tasks = asyncio.all_tasks
+    async_current_task = asyncio.current_task
+else:
+    async_all_tasks = asyncio.Task.all_tasks
+    async_current_task = asyncio.tasks.Task.current_task
 try:
     import uvloop
 
@@ -320,8 +322,8 @@ class Spider(SpiderHook):
         :return:
         """
         tasks = []
-        for task in asyncio.Task.all_tasks():
-            if task is not asyncio.tasks.Task.current_task():
+        for task in async_all_tasks():
+            if task is not async_current_task():
                 tasks.append(task)
                 task.cancel()
         await asyncio.gather(*tasks, return_exceptions=True)

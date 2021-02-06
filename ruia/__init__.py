@@ -11,4 +11,4 @@ from .request import Request
 from .response import Response
 from .spider import Spider
 
-__version__ = "0.8.1"
+__version__ = "0.8.2"
