@@ -2,6 +2,7 @@
 
 import asyncio
 import weakref
+
 from asyncio.locks import Semaphore
 from inspect import iscoroutinefunction
 from types import AsyncGeneratorType
@@ -9,6 +10,7 @@ from typing import Coroutine, Optional, Tuple
 
 import aiohttp
 import async_timeout
+
 from ruia.exceptions import InvalidRequestMethod
 from ruia.response import Response
 from ruia.utils import get_logger
@@ -106,7 +108,7 @@ class Request:
             try:
                 resp_encoding = resp.get_encoding()
             except:
-                resp_encoding = None
+                resp_encoding = self.encoding
 
             response = Response(
                 url=str(resp.url),
