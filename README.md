@@ -75,7 +75,7 @@ Ruia is still under developing, feel free to open issues and pull requests:
 
 <!-- To get src for img: https://api.github.com/users/username -->
 <a href="https://github.com/howie6879"><img src="https://avatars.githubusercontent.com/u/17047388?s=60&v=4" title="howie6879" width="50" height="50"></a>
-<a href="https://github.com/panhaoyut"><img src="https://avatars.githubusercontent.com/u/23495987?s=60&v=4" title="panhaoyut" width="50" height="50"></a>
+<a href="https://github.com/panhaoyu"><img src="https://avatars.githubusercontent.com/u/23495987?s=60&v=4" title="panhaoyut" width="50" height="50"></a>
 <a href="https://github.com/mirzazulfan"><img src="https://avatars.githubusercontent.com/u/36124339?s=64&v=4" title="mirzazulfan" width="50" height="50"></a>
 <a href="https://github.com/abmyii"><img src="https://avatars.githubusercontent.com/u/52673001?s=60&v=4" title="abmyii" width="50" height="50"></a>
 <a href="https://github.com/maxzheng"><img src="https://avatars.githubusercontent.com/u/9684260?s=60&v=4" title="maxzheng" width="50" height="50"></a>

@@ -1,6 +1,6 @@
 <p align="center"><img src="https://raw.githubusercontent.com/howie6879/ruia/master/docs/images/logo.png" width='120px' height='120px' alt="Ruia logo" >
 </p>
-<h1 align="center">Ruia</h1>
+<h1 align="center"><a href="https://github.com/howie6879/ruia" target="_blank">Ruia</a></h1>
 <p align="center">🕸️ Async Python 3.6+ web scraping micro-framework based on asyncio.</p>
 <p align="center"><strong>⚡ Write less, run faster.</strong></p>
 
@@ -17,7 +17,7 @@
 
 ## 概述
 
-**Ruia**是一个基于`asyncio`和`aiohttp`的异步爬虫框架，目标在于让开发者编写爬虫尽可能地方便快速。
+[**Ruia**](https://github.com/howie6879/ruia)是一个基于`asyncio`和`aiohttp`的异步爬虫框架，目标在于让开发者编写爬虫尽可能地方便快速。
 
 **写更少的代码，获取更快的运行速度**：
 
@@ -62,7 +62,7 @@ pip install git+https://github.com/howie6879/ruia
 
 <!-- To get src for img: https://api.github.com/users/username -->
 <a href="https://github.com/howie6879"><img src="https://avatars.githubusercontent.com/u/17047388?s=60&v=4" title="howie6879" width="50" height="50"></a>
-<a href="https://github.com/panhaoyut"><img src="https://avatars.githubusercontent.com/u/23495987?s=60&v=4" title="panhaoyut" width="50" height="50"></a>
+<a href="https://github.com/panhaoyu"><img src="https://avatars.githubusercontent.com/u/23495987?s=60&v=4" title="panhaoyut" width="50" height="50"></a>
 <a href="https://github.com/mirzazulfan"><img src="https://avatars.githubusercontent.com/u/36124339?s=64&v=4" title="mirzazulfan" width="50" height="50"></a>
 <a href="https://github.com/abmyii"><img src="https://avatars.githubusercontent.com/u/52673001?s=60&v=4" title="abmyii" width="50" height="50"></a>
 <a href="https://github.com/maxzheng"><img src="https://avatars.githubusercontent.com/u/9684260?s=60&v=4" title="maxzheng" width="50" height="50"></a>
@@ -78,7 +78,11 @@ pip install git+https://github.com/howie6879/ruia
 - [aiohttp](https://github.com/aio-libs/aiohttp/)
 - [demiurge](https://github.com/matiasb/demiurge)
 
+## 交流
 
+有任何问题，欢迎留言或者加我一起交流：
+
+<img src="https://gitee.com/howie6879/oss/raw/master/uPic/wechat_howie.png" style="zoom:67%;" />
 
 [doc_cn]: https://www.howie6879.cn/ruia/
 [doc_en]: https://docs.python-ruia.org/

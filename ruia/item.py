@@ -4,6 +4,7 @@ from inspect import isawaitable
 from typing import Any
 
 from lxml import etree
+
 from ruia.exceptions import IgnoreThisItem, InvalidFuncType
 from ruia.field import BaseField
 from ruia.request import Request
