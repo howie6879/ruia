@@ -11,7 +11,7 @@ Methods:
 ## Core arguments
 
 - url: the resource link
-- method: request method, shoud be `GET` or `POST
+- method: request method, shoud be `GET` or `POST`
 - callback: callback function
 - encoding: html encode
 - headers: request headers

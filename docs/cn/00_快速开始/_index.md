@@ -1,8 +1,14 @@
-# Tutorials
+---
+weight: 1
+bookFlatSection: false
+title: "快速开始"
+---
+
+# 快速开始
 
 目标：通过对[Hacker News](https://news.ycombinator.com/news)的爬取来展示如何使用**ruia**，下图红框中的数据就是我们需要爬取的：
 
-![tutorials_01](../images/tutorials_01.png)
+![5tjtPq](https://gitee.com/howie6879/oss/raw/master/uPic/5tjtPq.jpg)
 
 假设我们将此项目命名为`hacker_news_spider`，项目结构如下：
 
@@ -24,7 +30,7 @@ Notice: 后续爬虫例子都默认使用CSS Selector的规则来提取目标数
 
 这里我们使用`CSS Selector`来提取目标数据，用浏览器打开[Hacker News](https://news.ycombinator.com/news)，右键审查元素：
 
-![tutorials_02](../images/tutorials_02.png)
+![ykAo8i](https://gitee.com/howie6879/oss/raw/master/uPic/ykAo8i.jpg)
 
 显而易见，每页包含`30`条资讯，那么目标数据的规则可以总结为：
 
@@ -170,8 +176,7 @@ if __name__ == '__main__':
 
 数据库中可以看到：
 
-![tutorials_03](../images/tutorials_03.jpg)
+![ipuxKH](https://gitee.com/howie6879/oss/raw/master/uPic/ipuxKH.jpg)
 
-通过这个例子，你已经基本掌握了**ruia**的`Item`、`Middleware`、`Request`等模块的用法，结合自身需求，你可以编写任何爬虫，例子代码见[hacker_news_spider](https://github.com/howie6879/ruia/tree/master/examples/hacker_news_spider)
+通过这个例子，你已经基本掌握了**ruia**的`Item`、`Middleware`、`Request`等模块的用法，结合自身需求，你可以编写任何爬虫，例子代码见[hacker_news_spider](https://github.com/howie6879/ruia/tree/master/examples/hacker_news_spider)。
 
-接下来，我们将结合实例，编写一个**ruia**的第三方扩展，详见：[Plugins](./plugins.md)

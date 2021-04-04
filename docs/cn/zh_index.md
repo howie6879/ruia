@@ -10,31 +10,30 @@
 <a href="https://pypi.org/project/ruia"><img src="https://img.shields.io/pypi/pyversions/ruia.svg" alt="PyPI - Python Version"></a>
 <a href="https://pypi.org/project/ruia/"><img src="https://img.shields.io/pypi/v/ruia.svg" alt="PyPI"></a>
 <a href="https://pepy.tech/project/ruia"><img src="https://pepy.tech/badge/ruia/month" alt="Downloads"></a>
-<a href="https://gitter.im/howie6879_ruia/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge"><img src="https://badges.gitter.im/howie6879_ruia/community.svg" alt="gitter"></a>
+<a href="https://gitter.im/howie6879_ruia/communit"><img src="https://badges.gitter.im/Join%20Chat.svg" alt="gitter"></a>
 </p>
-
 
 ![](https://raw.githubusercontent.com/howie6879/ruia/master/docs/images/ruia_demo.png)
 
-## Overview
+## 概述
 
-Ruia is an async web scraping micro-framework, written with `asyncio` and `aiohttp`, 
-aims to make crawling url as convenient as possible.
+**Ruia**是一个基于`asyncio`和`aiohttp`的异步爬虫框架，目标在于让开发者编写爬虫尽可能地方便快速。
 
-**Write less, run faster**:
+**写更少的代码，获取更快的运行速度**：
 
--   Documentation: [中文文档][doc_cn] |[documentation][doc_en]
--   Organization: [python-ruia][Organization]
--   Plugin: [awesome-ruia](https://github.com/python-ruia/awesome-ruia)(Any contributions you make are **greatly appreciated**!)
+- 教程：[中文文档][doc_cn] |[documentation][doc_en]
+- Github 组织： [python-ruia][Organization]
+- 插件：[awesome-ruia][Awesome](你贡献的任何插件都是值得赞赏且可贵的！)
 
-## Features
+## 特性
 
--   **Easy**: Declarative programming
--   **Fast**: Powered by asyncio
--   **Extensible**: Middlewares and plugins
--   **Powerful**: JavaScript support
+- **简单**：简明的语法
+- **速度**：
+  - 开发：常用功能插件化，如[加载`js`][ruia-pyppeteer]、[自动切换`UA`][ruia-ua]、[数据持久化][ruia-motor]等插件
+  - 运行：**asyncio**驱动
+- **插件**：自由地扩展个性化功能
 
-## Installation
+## 安装
 
 ``` shell
 # For Linux & Mac
@@ -47,7 +46,7 @@ pip install -U ruia
 pip install git+https://github.com/howie6879/ruia
 ```
 
-## Tutorials
+## 入门
 
 1.  [Overview](https://docs.python-ruia.org/en/tutorials/overview.html)
 2.  [Installation](https://docs.python-ruia.org/en/tutorials/installation.html)
@@ -57,21 +56,9 @@ pip install git+https://github.com/howie6879/ruia
 6.  [Customize Middleware](https://docs.python-ruia.org/en/tutorials/middleware.html)
 7.  [Write a Plugins](https://docs.python-ruia.org/en/tutorials/plugins.html)
 
+## 致谢
 
-## TODO
-
-- [x] Cache for debug, to decreasing request limitation, [ruia-cache](https://github.com/python-ruia/ruia-cache)
-- [x] Provide an easy way to debug the script, [ruia-shell](https://github.com/python-ruia/ruia-shell)
-- [ ] Distributed crawling/scraping
-
-## Contribution
-
-Ruia is still under developing, feel free to open issues and pull requests:
-
--   Report or fix bugs
--   Require or publish plugins
--   Write or fix documentation
--   Add test cases
+`Ruia`还处于开发阶段，任何`Issue`和`PR(Plugin)`都非常欢迎，感谢以下开发者对`Ruia`的贡献（排名不分先后）：
 
 <!-- To get src for img: https://api.github.com/users/username -->
 <a href="https://github.com/howie6879"><img src="https://avatars.githubusercontent.com/u/17047388?s=60&v=4" title="howie6879" width="50" height="50"></a>
@@ -86,14 +73,17 @@ Ruia is still under developing, feel free to open issues and pull requests:
 <a href="https://github.com/scott-stoltzman-consulting"><img src="https://avatars.githubusercontent.com/u/66376167?s=60&v=4" title="consulting" width="50" height="50"></a>
 <a href="https://github.com/Leezj9671"><img src="https://avatars.githubusercontent.com/u/11917826?s=60&v=4" title="Leezj9671" width="50" height="50"></a>
 
-!!!Notice: We use [black](https://github.com/psf/black) to format the code.
+感谢以下框架：
 
-## Thanks
+- [aiohttp](https://github.com/aio-libs/aiohttp/)
+- [demiurge](https://github.com/matiasb/demiurge)
 
--   [aiohttp](https://github.com/aio-libs/aiohttp/)
--   [demiurge](https://github.com/matiasb/demiurge)
 
-[doc_cn]: https://github.com/howie6879/ruia/blob/master/docs/cn/README.md
+
+[doc_cn]: https://www.howie6879.cn/ruia/
 [doc_en]: https://docs.python-ruia.org/
 [Awesome]: https://github.com/python-ruia/awesome-ruia
 [Organization]: https://github.com/python-ruia
+[ruia-pyppeteer]: https://github.com/python-ruia/ruia-pyppeteer
+[ruia-motor]: https://github.com/python-ruia/ruia-motor
+[ruia-ua]: https://github.com/python-ruia/ruia-ua

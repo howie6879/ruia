@@ -73,14 +73,27 @@ Ruia is still under developing, feel free to open issues and pull requests:
 -   Write or fix documentation
 -   Add test cases
 
-!!!Notice: We use [black](https://github.com/psf/black) to format the code
+<!-- To get src for img: https://api.github.com/users/username -->
+<a href="https://github.com/howie6879"><img src="https://avatars.githubusercontent.com/u/17047388?s=60&v=4" title="howie6879" width="50" height="50"></a>
+<a href="https://github.com/panhaoyut"><img src="https://avatars.githubusercontent.com/u/23495987?s=60&v=4" title="panhaoyut" width="50" height="50"></a>
+<a href="https://github.com/mirzazulfan"><img src="https://avatars.githubusercontent.com/u/36124339?s=64&v=4" title="mirzazulfan" width="50" height="50"></a>
+<a href="https://github.com/abmyii"><img src="https://avatars.githubusercontent.com/u/52673001?s=60&v=4" title="abmyii" width="50" height="50"></a>
+<a href="https://github.com/maxzheng"><img src="https://avatars.githubusercontent.com/u/9684260?s=60&v=4" title="maxzheng" width="50" height="50"></a>
+<a href="https://github.com/ruter"><img src="https://avatars.githubusercontent.com/u/8568876?s=60&v=4" title="ruter" width="50" height="50"></a>
+<a href="https://github.com/duolaAOA"><img src="https://avatars.githubusercontent.com/u/26339233?s=60&v=4" title="duolaAOA" width="50" height="50"></a>
+<a href="https://github.com/fengdongfa1995"><img src="https://avatars.githubusercontent.com/u/20141092?s=60&v=4" title="fengdongfa1995" width="50" height="50"></a>
+<a href="https://github.com/daijiangtian"><img src="https://avatars.githubusercontent.com/u/18069191?s=60&v=4" title="daijiangtian" width="50" height="50"></a>
+<a href="https://github.com/scott-stoltzman-consulting"><img src="https://avatars.githubusercontent.com/u/66376167?s=60&v=4" title="consulting" width="50" height="50"></a>
+<a href="https://github.com/Leezj9671"><img src="https://avatars.githubusercontent.com/u/11917826?s=60&v=4" title="Leezj9671" width="50" height="50"></a>
+
+!!!Notice: We use [black](https://github.com/psf/black) to format the code.
 
 ## Thanks
 
 -   [aiohttp](https://github.com/aio-libs/aiohttp/)
 -   [demiurge](https://github.com/matiasb/demiurge)
 
-[doc_cn]: https://github.com/howie6879/ruia/blob/master/docs/cn/README.md
+[doc_cn]: https://www.howie6879.cn/ruia/
 [doc_en]: https://docs.python-ruia.org/
 [Awesome]: https://github.com/python-ruia/awesome-ruia
 [Organization]: https://github.com/python-ruia
