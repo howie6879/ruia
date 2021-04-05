@@ -147,7 +147,7 @@ Out[4]: 'https://www.thelondoneconomic.com/news/the-eu-have-archived-all-of-the-
 
 ![hHjQsh](https://gitee.com/howie6879/oss/raw/master/uPic/hHjQsh.png)
 
-### 第三步：编写 Spider
+## 第三步：编写 Spider
 
 `Ruia.Spider`是`Ruia`框架里面的核心控制类，它作用在于：
 
@@ -198,7 +198,7 @@ class HackerNewsSpider(Spider):
 - parse：此方法是`Spider`的入口，每一个`start_urls`的响应必然会被`parse`方法捕捉并执行；
 - process_item：此方法作用是抽离出对`Item`提取结果的处理过程，比如这里会接受自定义`Item`类作为输入，然后进行处理持久化到文件。
 
-## 第四步：Start
+## 第四步：运行 Start
 
 >  希望[Ruia](https://github.com/howie6879/ruia/)可以为你带来编写爬虫的乐趣 ：)
 
@@ -358,3 +358,6 @@ if __name__ == "__main__":
 ![ipuxKH](https://gitee.com/howie6879/oss/raw/master/uPic/ipuxKH.jpg)
 
 是不是更简单了呢？
+
+<div align=center><img width="60%" src="https://gitee.com/howie6879/oss/raw/master/uPic/wechat_howie.png" /></div>
+
