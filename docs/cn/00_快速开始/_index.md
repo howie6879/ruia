@@ -106,7 +106,7 @@ Laser: Learning a Latent Action Space for Efficient Reinforcement Learning: http
 StyleCLIP: Text-Driven Manipulation of StyleGAN Imagery: https://github.com/orpatashnik/StyleCLIP
 ```
 
-### 终端调试
+### 命令行调试
 
 为了使[**Ruia**](https://github.com/howie6879/ruia/)的脚本调试过程更加方便优雅，开发者还可以直接使用[ruia-shell](https://github.com/python-ruia/ruia-shell)插件进行调试，首先进行安装：
 

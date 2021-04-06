@@ -17,7 +17,7 @@
 
 ## 概述
 
-[**Ruia**](https://github.com/howie6879/ruia)是一个基于`asyncio`和`aiohttp`的异步爬虫框架，目标在于让开发者编写爬虫尽可能地方便快速。
+[**Ruia**](https://github.com/howie6879/ruia)是一个基于[asyncio](https://docs.python.org/3/library/asyncio.html)和[aiohttp](https://docs.aiohttp.org/en/stable/)的异步爬虫框架，目标在于让开发者编写爬虫尽可能地方便快速。
 
 **写更少的代码，获取更快的运行速度**：
 

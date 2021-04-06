@@ -104,7 +104,6 @@ class Request:
         try:
             async with async_timeout.timeout(timeout):
                 resp = await self._make_request()
-
             try:
                 resp_encoding = resp.get_encoding()
             except:
@@ -139,7 +138,8 @@ class Request:
             return await self._retry(error_msg=e)
         finally:
             # Close client session
-            await self._close_request()
+            if self.close_request_session:
+                await self._close_request()
 
     async def fetch_callback(
         self, sem: Semaphore
@@ -166,8 +166,11 @@ class Request:
         return callback_result, response
 
     async def _close_request(self):
-        if self.close_request_session:
-            await self.request_session.close()
+        """
+        Close the aiohttp session
+        :return:
+        """
+        await self.request_session.close()
 
     async def _make_request(self):
         """Make a request by using aiohttp"""
