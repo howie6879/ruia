@@ -1,7 +1,8 @@
 #!/usr/bin/env python
-
 from inspect import isawaitable
 from typing import Any
+
+import aiohttp
 
 from lxml import etree
 
@@ -43,13 +44,14 @@ class Item(metaclass=ItemMeta):
             raise ValueError("<Item: html *or* url expected, not both.")
         if html or url:
             if url:
-                sem = kwargs.pop("sem", None)
-                request = Request(url, **kwargs)
-                if sem:
-                    _, response = await request.fetch_callback(sem=sem)
-                else:
-                    response = await request.fetch()
-                html = await response.text()
+                async with aiohttp.ClientSession() as session:
+                    sem = kwargs.pop("sem", None)
+                    request = Request(url, request_session=session, **kwargs)
+                    if sem:
+                        _, response = await request.fetch_callback(sem=sem)
+                    else:
+                        response = await request.fetch()
+                    html = await response.text()
             return etree.HTML(html)
         else:
             raise ValueError("<Item: html(url or html_etree) is expected.")
