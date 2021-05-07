@@ -14,23 +14,14 @@ from types import AsyncGeneratorType
 
 from aiohttp import ClientSession
 
-from ruia.exceptions import (
-    InvalidCallbackResult,
-    NothingMatchedError,
-    NotImplementedParseError,
-    SpiderHookError,
-)
+from ruia.exceptions import InvalidCallbackResult, NothingMatchedError, NotImplementedParseError, SpiderHookError
 from ruia.item import Item
 from ruia.middleware import Middleware
 from ruia.request import Request
 from ruia.response import Response
 from ruia.utils import get_logger
 
-if (
-    sys.version_info[0] == 3
-    and sys.version_info[1] >= 8
-    and sys.platform.startswith("win")
-):
+if sys.version_info >= (3, 8) and sys.platform.startswith("win"):
     asyncio.set_event_loop_policy(asyncio.WindowsSelectorEventLoopPolicy())
 
 if sys.version_info >= (3, 9):
