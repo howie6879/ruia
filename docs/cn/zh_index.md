@@ -82,7 +82,7 @@ pip install git+https://github.com/howie6879/ruia
 
 有任何问题，欢迎留言或者加我一起交流：
 
-<img src="https://gitee.com/howie6879/oss/raw/master/uPic/wechat_howie.png" style="zoom:67%;" />
+<div align=center><img width="300px" src="https://gitee.com/howie6879/oss/raw/master/uPic/qrcode_for_gh_3f02ace79dfb_258.jpg" /></div>
 
 [doc_cn]: https://www.howie6879.cn/ruia/
 [doc_en]: https://docs.python-ruia.org/

@@ -200,8 +200,6 @@ class HackerNewsSpider(Spider):
 
 ## 第四步：运行 Start
 
->  希望[Ruia](https://github.com/howie6879/ruia/)可以为你带来编写爬虫的乐趣 ：)
-
 一切准备就绪，启动你的爬虫脚本吧！
 
 ```python
@@ -359,5 +357,10 @@ if __name__ == "__main__":
 
 是不是更简单了呢？
 
-<div align=center><img width="60%" src="https://gitee.com/howie6879/oss/raw/master/uPic/wechat_howie.png" /></div>
+## 第六步：深入了解Ruia
 
+>  希望[Ruia](https://github.com/howie6879/ruia/)可以为你带来编写爬虫的乐趣 ：)
+
+本章简单介绍了下`Ruia`的快速实践，如果想要深入了解`Ruia`欢迎继续往下阅读，如果有想加入交流群，请关注公众号加我微信：
+
+<div align=center><img width="300px" src="https://gitee.com/howie6879/oss/raw/master/uPic/qrcode_for_gh_3f02ace79dfb_258.jpg" /></div>
