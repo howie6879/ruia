@@ -258,7 +258,7 @@ class Spider(SpiderHook):
         for signal in (SIGINT, SIGTERM):
             try:
                 self.loop.add_signal_handler(
-                    signal, lambda: asyncio.ensure_future(self.stop(signal))
+                    signal, lambda: asyncio.ensure_future(self.stop())
                 )
             except NotImplementedError:
                 self.logger.warning(
@@ -502,7 +502,7 @@ class Spider(SpiderHook):
         await self.request_queue.join()
 
         if not self.is_async_start:
-            await self.stop(SIGINT)
+            await self.stop()
         else:
             if self.cancel_tasks:
                 await self.cancel_all_tasks()
@@ -529,10 +529,9 @@ class Spider(SpiderHook):
                 self.worker_tasks = []
             self.request_queue.task_done()
 
-    async def stop(self, _signal):
+    async def stop(self):
         """
         Finish all running tasks, cancel remaining tasks.
-        :param _signal:
         :return:
         """
         self.logger.info(f"Stopping spider: {self.name}")
