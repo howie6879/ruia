@@ -63,7 +63,7 @@ class Item(metaclass=ItemMeta):
         item_ins = cls()
         fields_dict = getattr(item_ins, "__fields", {})
         for field_name, field_value in fields_dict.items():
-            if not field_name.startswith("target_"):
+            if field_name != "target_item":
                 clean_method = getattr(item_ins, f"clean_{field_name}", None)
                 value = field_value.extract(html_etree)
                 if clean_method is not None and callable(clean_method):
