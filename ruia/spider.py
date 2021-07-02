@@ -133,7 +133,6 @@ class Spider(SpiderHook):
         self,
         middleware: typing.Union[typing.Iterable, Middleware] = None,
         loop=None,
-        is_async_start: bool = False,
         cancel_tasks: bool = True,
         **spider_kwargs,
     ):
@@ -141,7 +140,6 @@ class Spider(SpiderHook):
         Init spider object.
         :param middleware: a list of or a single Middleware
         :param loop: asyncio event llo
-        :param is_async_start: start spider by using async
         :param spider_kwargs
         """
         if not self.start_urls or not isinstance(self.start_urls, collections.Iterable):
@@ -164,7 +162,6 @@ class Spider(SpiderHook):
         self.request_session = ClientSession()
 
         self.cancel_tasks = cancel_tasks
-        self.is_async_start = is_async_start
 
         # set logger
         self.logger = get_logger(name=self.name)
@@ -310,7 +307,6 @@ class Spider(SpiderHook):
         spider_ins = cls(
             middleware=middleware,
             loop=loop,
-            is_async_start=True,
             cancel_tasks=cancel_tasks,
             **spider_kwargs,
         )
@@ -501,11 +497,8 @@ class Spider(SpiderHook):
             self.logger.info(f"Worker started: {id(worker)}")
         await self.request_queue.join()
 
-        if not self.is_async_start:
+        if self.cancel_tasks:
             await self.stop(SIGINT)
-        else:
-            if self.cancel_tasks:
-                await self.cancel_all_tasks()
 
     async def start_worker(self):
         """
