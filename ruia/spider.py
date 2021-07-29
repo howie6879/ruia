@@ -59,7 +59,7 @@ class SpiderHook:
             except Exception as e:
                 raise SpiderHookError(f"<Hook {hook_func.__name__}: {e}")
 
-    async def process_failed_response(self, request, response):
+    async def process_failed_response(self, request: Request, response: Response):
         """
         Corresponding processing for the failed response
         :param request: Request
@@ -68,7 +68,7 @@ class SpiderHook:
         """
         pass
 
-    async def process_succeed_response(self, request, response):
+    async def process_succeed_response(self, request: Request, response: Response):
         """
         Corresponding processing for the succeed response
         :param request: Request
@@ -77,7 +77,7 @@ class SpiderHook:
         """
         pass
 
-    async def process_item(self, item):
+    async def process_item(self, item: Item):
         """
         Corresponding processing for the Item type
         :param item: Item
@@ -424,7 +424,7 @@ class Spider(SpiderHook):
                 response.index = index
                 yield response
 
-    async def parse(self, response):
+    async def parse(self, response: Response):
         """
         Used for subclasses, directly parse the responses corresponding with start_urls
         :param response: Response
