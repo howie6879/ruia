@@ -93,7 +93,7 @@ Ruia is still under developing, feel free to open issues and pull requests:
 -   [aiohttp](https://github.com/aio-libs/aiohttp/)
 -   [demiurge](https://github.com/matiasb/demiurge)
 
-[doc_cn]: https://github.com/howie6879/ruia/blob/master/docs/cn/README.md
+[doc_cn]: https://www.howie6879.cn/ruia/
 [doc_en]: https://docs.python-ruia.org/
 [Awesome]: https://github.com/python-ruia/awesome-ruia
 [Organization]: https://github.com/python-ruia
