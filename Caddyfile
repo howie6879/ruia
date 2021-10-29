@@ -1,11 +1,28 @@
-python-ruia.org {
-    proxy / https://howie6879.github.io/ruia/
+(common_headers) {
+  encode gzip
+  tls howie6879@gmail.com
 }
 
 docs.python-ruia.org {
-    proxy / https://howie6879.github.io/ruia/
+    import common_headers
+    root * ../ruia
+     file_server {
+        hide .git
+    }
+}
+
+python-ruia.org {
+    import common_headers
+    root * ../ruia
+     file_server {
+        hide .git
+    }
 }
 
 www.python-ruia.org {
-    redir http://python-ruia.org
+    import common_headers
+    root * ../ruia
+     file_server {
+        hide .git
+    }
 }
