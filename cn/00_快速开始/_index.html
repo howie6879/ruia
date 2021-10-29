@@ -1,0 +1,1121 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="An async web scraping micro-framework based on asyncio.">
+      
+      
+      
+        <meta name="author" content="howie.hu">
+      
+      
+        <link rel="canonical" href="https://docs.python-ruia.org/cn/00_%E5%BF%AB%E9%80%9F%E5%BC%80%E5%A7%8B/_index.html">
+      
+      <link rel="icon" href="../../images/favicon.ico">
+      <meta name="generator" content="mkdocs-1.2.3, mkdocs-material-7.3.5">
+    
+    
+      
+        <title>快速开始 - Ruia</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.cdeb8541.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.3f5d1f46.min.css">
+        
+      
+    
+    
+    
+      
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700%7CRoboto+Mono&display=fallback">
+        <style>:root{--md-text-font-family:"Roboto";--md-code-font-family:"Roboto Mono"}</style>
+      
+    
+    
+    
+    
+      
+
+
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="" data-md-color-primary="none" data-md-color-accent="none">
+  
+    
+    <script>function __prefix(e){return new URL("../..",location).pathname+"."+e}function __get(e,t=localStorage){return JSON.parse(t.getItem(__prefix(e)))}</script>
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#_1" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../index.html" title="Ruia" class="md-header__button md-logo" aria-label="Ruia" data-md-component="logo">
+      
+  <img src="../../images/logo.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Ruia
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              快速开始
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+      </label>
+      
+<div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" aria-label="Clear" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        
+<a href="https://github.com/howie6879/ruia/" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    howie6879/ruia
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../index.html" title="Ruia" class="md-nav__button md-logo" aria-label="Ruia" data-md-component="logo">
+      
+  <img src="../../images/logo.png" alt="logo">
+
+    </a>
+    Ruia
+  </label>
+  
+    <div class="md-nav__source">
+      
+<a href="https://github.com/howie6879/ruia/" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    howie6879/ruia
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../index.html" class="md-nav__link">
+        Introduction
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../en/quickstart.html" class="md-nav__link">
+        Quick Start
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_3" type="checkbox" id="__nav_3" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_3">
+          Tutorials
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Tutorials" data-md-level="1">
+        <label class="md-nav__title" for="__nav_3">
+          <span class="md-nav__icon md-icon"></span>
+          Tutorials
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../en/tutorials/overview.html" class="md-nav__link">
+        1. Overview
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../en/tutorials/installation.html" class="md-nav__link">
+        2. Installation
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../en/tutorials/item.html" class="md-nav__link">
+        3. Define Data Items
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../en/tutorials/spider.html" class="md-nav__link">
+        4. Spider Control
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../en/tutorials/request.html" class="md-nav__link">
+        5. Request & Response
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../en/tutorials/middleware.html" class="md-nav__link">
+        6. Customize Middleware
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../en/tutorials/plugins.html" class="md-nav__link">
+        7. Write a Plugins
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_4" type="checkbox" id="__nav_4" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_4">
+          API Guide
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="API Guide" data-md-level="1">
+        <label class="md-nav__title" for="__nav_4">
+          <span class="md-nav__icon md-icon"></span>
+          API Guide
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../en/apis/field.html" class="md-nav__link">
+        Field
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../en/apis/item.html" class="md-nav__link">
+        Item
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../en/apis/spider.html" class="md-nav__link">
+        Spider
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../en/apis/request.html" class="md-nav__link">
+        Request
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../en/apis/response.html" class="md-nav__link">
+        Response
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../en/apis/middleware.html" class="md-nav__link">
+        Middleware
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_5" type="checkbox" id="__nav_5" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_5">
+          Topics
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Topics" data-md-level="1">
+        <label class="md-nav__title" for="__nav_5">
+          <span class="md-nav__icon md-icon"></span>
+          Topics
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../en/topics/write_spiders_like_scrapy.html" class="md-nav__link">
+        Write Spiders like Scrapy
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../en/topics/item_data_cleaning.html" class="md-nav__link">
+        Item Data Cleaning
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_6" type="checkbox" id="__nav_6" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_6">
+          Examples
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Examples" data-md-level="1">
+        <label class="md-nav__title" for="__nav_6">
+          <span class="md-nav__icon md-icon"></span>
+          Examples
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../en/examples/project.html" class="md-nav__link">
+        Full featured project
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../en/examples/spider_parent_class.html" class="md-nav__link">
+        Parent Class For Your Spider
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#item" class="md-nav__link">
+    第一步：定义 Item
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#item_1" class="md-nav__link">
+    第二步：测试 Item
+  </a>
+  
+    <nav class="md-nav" aria-label="第二步：测试 Item">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    脚本调试
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    命令行调试
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#spider" class="md-nav__link">
+    第三步：编写 Spider
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#start" class="md-nav__link">
+    第四步：运行 Start
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    第五步：扩展
+  </a>
+  
+    <nav class="md-nav" aria-label="第五步：扩展">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#middleware" class="md-nav__link">
+    Middleware
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#mongodb" class="md-nav__link">
+    MongoDB
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ruia" class="md-nav__link">
+    第六步：深入了解Ruia
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          <div class="md-content" data-md-component="content">
+            <article class="md-content__inner md-typeset">
+              
+                
+                  <a href="https://github.com/howie6879/ruia/edit/master/docs/cn/00_快速开始/_index.md" title="Edit this page" class="md-content__button md-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84 1.83 3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75L3 17.25z"/></svg>
+                  </a>
+                
+                
+                <h1 id="_1">快速开始</h1>
+<blockquote>
+<p>基于<a href="https://github.com/howie6879/ruia/">Ruia</a>快速实现一个以<a href="https://news.ycombinator.com/news">Hacker News</a>为目标的爬虫</p>
+</blockquote>
+<p>本文主要通过对<a href="https://news.ycombinator.com/news">Hacker News</a>的爬取示例来展示如何使用<a href="https://github.com/howie6879/ruia/"><strong>Ruia</strong></a>，下图红框中的数据就是爬虫脚本需要爬取的目标：</p>
+<p><img alt="5tjtPq" src="https://gitee.com/howie6879/oss/raw/master/uPic/5tjtPq.jpg" /></p>
+<p>开始前的准备工作：</p>
+<ul>
+<li>[x] 确定已经安装<a href="https://github.com/howie6879/ruia/"><strong>Ruia</strong></a>：<code>pip install ruia -U</code></li>
+<li>[x] 确定可以访问<a href="https://news.ycombinator.com/news">Hacker News</a></li>
+</ul>
+<h2 id="item">第一步：定义 Item</h2>
+<p><code>Item</code>的目的是定义目标网站中你需要爬取的数据，此时，爬虫的目标数据就是页面中的<code>Title</code>和<code>Url</code>，怎么提取数据，<a href="https://github.com/howie6879/ruia/"><strong>Ruia</strong></a>的<a href="https://github.com/howie6879/ruia/blob/master/ruia/field.py">Field</a>类提供了以下三种方式提取目标数据：</p>
+<ul>
+<li><a href="https://www.w3schools.com/xml/xpath_intro.asp">XPath</a></li>
+<li><a href="https://www.w3schools.com/python/python_regex.asp">Re</a></li>
+<li><a href="https://www.w3schools.com/cssref/css_selectors.asp">CSS Selector</a></li>
+</ul>
+<p>这里我们使用<code>CSS Selector</code>来提取目标数据，用浏览器打开<a href="https://news.ycombinator.com/news">Hacker News</a>，右键审查元素：</p>
+<p><img alt="ykAo8i" src="https://gitee.com/howie6879/oss/raw/master/uPic/ykAo8i.jpg" /></p>
+<blockquote>
+<p>Notice: 本教程爬虫例子都默认使用CSS Selector的规则来提取目标数据</p>
+</blockquote>
+<p>显而易见，每页包含<code>30</code>条资讯，那么目标数据的规则可以总结为：</p>
+<table>
+<thead>
+<tr>
+<th align="left">Param</th>
+<th>Rule</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">target_item</td>
+<td>tr.athing</td>
+<td>表示每条资讯</td>
+</tr>
+<tr>
+<td align="left">title</td>
+<td>a.storylink</td>
+<td>表示每条资讯里的标题</td>
+</tr>
+<tr>
+<td align="left">url</td>
+<td>a.storylink-&gt;href</td>
+<td>表示每条资讯里标题的链接</td>
+</tr>
+</tbody>
+</table>
+<p>规则明确之后，就可以用<code>Item</code>来实现一个针对于目标数据的ORM，创建文件<code>items.py</code>，复制下面代码：</p>
+<div class="codehilite"><pre><span></span><code><span class="kn">from</span> <span class="nn">ruia</span> <span class="kn">import</span> <span class="n">AttrField</span><span class="p">,</span> <span class="n">TextField</span><span class="p">,</span> <span class="n">Item</span>
+
+
+<span class="k">class</span> <span class="nc">HackerNewsItem</span><span class="p">(</span><span class="n">Item</span><span class="p">):</span>
+    <span class="n">target_item</span> <span class="o">=</span> <span class="n">TextField</span><span class="p">(</span><span class="n">css_select</span><span class="o">=</span><span class="s1">&#39;tr.athing&#39;</span><span class="p">)</span>
+    <span class="n">title</span> <span class="o">=</span> <span class="n">TextField</span><span class="p">(</span><span class="n">css_select</span><span class="o">=</span><span class="s1">&#39;a.storylink&#39;</span><span class="p">)</span>
+    <span class="n">url</span> <span class="o">=</span> <span class="n">AttrField</span><span class="p">(</span><span class="n">css_select</span><span class="o">=</span><span class="s1">&#39;a.storylink&#39;</span><span class="p">,</span> <span class="n">attr</span><span class="o">=</span><span class="s1">&#39;href&#39;</span><span class="p">)</span>
+</code></pre></div>
+
+<p>这段代码含义是：针对我们提取的目标<code>HTML</code>，我们定义了一个<code>HackerNewsItem</code>类，其包含了两个<code>field</code>：</p>
+<ul>
+<li><code>title</code>：直接从文本提取</li>
+<li><code>url</code>：从属性提取</li>
+</ul>
+<p>等等！<code>target_item</code>是什么？对于一个<code>Item</code>类来说，当其定义好网页目标数据后，<code>Ruia</code>提供两种方式进行获取<code>Item</code>：</p>
+<ul>
+<li>get_item：获取网页的单目标，比如目标网页的标题，此时无需定义<code>target_item</code>；</li>
+<li>get_items：获取网页的多目标，比如当前目标网页<a href="https://news.ycombinator.com/news">Hacker News</a>中的<code>title</code>和<code>url</code>一共有<code>30</code>个，这时就必须定义<code>target_item</code>来寻找多个目标块；<code>target_item</code>的作用就是针对这样的工作而诞生的，开发者只要定义好这个属性（此时Ruia会自动获取网页中<code>30</code>个<code>target_item</code>），然后每个<code>target_item</code>里面包含的<code>title</code>和<code>url</code>就会被提取出来。</li>
+</ul>
+<h2 id="item_1">第二步：测试 Item</h2>
+<p><a href="https://github.com/howie6879/ruia/"><strong>Ruia</strong></a>为了方便扩展以及自由地组合使用，本身各个模块之间耦合度是极低的，每个模块都可以在你的项目中单独使用；你甚至只使用<code>ruia.Item</code>、<code>Ruia.TextField</code>和<code>ruia.AttrField</code>来编写一个简单的爬虫。</p>
+<h3 id="_2">脚本调试</h3>
+<p>基于这个特性，我们可以直接在脚本里面测试<code>HackerNewsItem</code>：</p>
+<div class="codehilite"><pre><span></span><code><span class="kn">import</span> <span class="nn">asyncio</span>
+
+<span class="kn">from</span> <span class="nn">ruia</span> <span class="kn">import</span> <span class="n">Item</span><span class="p">,</span> <span class="n">TextField</span><span class="p">,</span> <span class="n">AttrField</span>
+
+
+<span class="k">class</span> <span class="nc">HackerNewsItem</span><span class="p">(</span><span class="n">Item</span><span class="p">):</span>
+    <span class="n">target_item</span> <span class="o">=</span> <span class="n">TextField</span><span class="p">(</span><span class="n">css_select</span><span class="o">=</span><span class="s1">&#39;tr.athing&#39;</span><span class="p">)</span>
+    <span class="n">title</span> <span class="o">=</span> <span class="n">TextField</span><span class="p">(</span><span class="n">css_select</span><span class="o">=</span><span class="s1">&#39;a.storylink&#39;</span><span class="p">)</span>
+    <span class="n">url</span> <span class="o">=</span> <span class="n">AttrField</span><span class="p">(</span><span class="n">css_select</span><span class="o">=</span><span class="s1">&#39;a.storylink&#39;</span><span class="p">,</span> <span class="n">attr</span><span class="o">=</span><span class="s1">&#39;href&#39;</span><span class="p">)</span>
+
+
+<span class="k">async</span> <span class="k">def</span> <span class="nf">test_item</span><span class="p">():</span>
+    <span class="n">url</span> <span class="o">=</span> <span class="s1">&#39;https://news.ycombinator.com/news?p=1&#39;</span>
+    <span class="k">async</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">HackerNewsItem</span><span class="o">.</span><span class="n">get_items</span><span class="p">(</span><span class="n">url</span><span class="o">=</span><span class="n">url</span><span class="p">):</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{}</span><span class="s1">: </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">item</span><span class="o">.</span><span class="n">title</span><span class="p">,</span> <span class="n">item</span><span class="o">.</span><span class="n">url</span><span class="p">))</span>
+
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+    <span class="c1"># Python 3.7 Required.</span>
+    <span class="n">asyncio</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">test_item</span><span class="p">())</span> 
+
+    <span class="c1"># For Python 3.6</span>
+    <span class="c1"># loop = asyncio.get_event_loop()</span>
+    <span class="c1"># loop.run_until_complete(test_item())</span>
+</code></pre></div>
+
+<p>接下来，终端会输出以下日志：</p>
+<div class="codehilite"><pre><span></span><code><span class="o">[</span><span class="m">2021</span>:04:04 <span class="m">21</span>:37:23<span class="o">]</span> INFO  Request &lt;GET: https://news.ycombinator.com/news?p<span class="o">=</span><span class="m">1</span>&gt;
+How to bypass Cloudflare bot protection: https://jychp.medium.com/how-to-bypass-cloudflare-bot-protection-1f2c6c0c36fb
+The EU has archived all of the “Euromyths” printed <span class="k">in</span> UK media: https://www.thelondoneconomic.com/news/the-eu-have-archived-all-of-the-euromyths-printed-in-uk-media-and-it-makes-for-some-disturbing-reading-108942/
+Laser: Learning a Latent Action Space <span class="k">for</span> Efficient Reinforcement Learning: https://arxiv.org/abs/2103.15793
+StyleCLIP: Text-Driven Manipulation of StyleGAN Imagery: https://github.com/orpatashnik/StyleCLIP
+</code></pre></div>
+
+<h3 id="_3">命令行调试</h3>
+<p>为了使<a href="https://github.com/howie6879/ruia/"><strong>Ruia</strong></a>的脚本调试过程更加方便优雅，开发者还可以直接使用<a href="https://github.com/python-ruia/ruia-shell">ruia-shell</a>插件进行调试，首先进行安装：</p>
+<div class="codehilite"><pre><span></span><code>pip install -U ruia-shell
+pip install ipython
+</code></pre></div>
+
+<p>具体使用如下：</p>
+<div class="codehilite"><pre><span></span><code>➜  ~  ruia_shell https://news.ycombinator.com/news<span class="se">\?</span>p<span class="se">\=</span><span class="m">1</span>
+            ✨ Write less, run faster<span class="o">(</span><span class="m">0</span>.8.2<span class="o">)</span>.
+__________      .__                .__           .__  .__
+<span class="se">\_</span>_____   <span class="se">\_</span>_ __<span class="p">|</span>__<span class="p">|</span>____      _____<span class="p">|</span>  <span class="p">|</span>__   ____ <span class="p">|</span>  <span class="p">|</span> <span class="p">|</span>  <span class="p">|</span>
+ <span class="p">|</span>       _/  <span class="p">|</span>  <span class="se">\ </span> <span class="se">\_</span>_  <span class="se">\ </span>   /  ___/  <span class="p">|</span>  <span class="se">\_</span>/ __ <span class="se">\|</span>  <span class="p">|</span> <span class="p">|</span>  <span class="p">|</span>
+ <span class="p">|</span>    <span class="p">|</span>   <span class="se">\ </span> <span class="p">|</span>  /  <span class="p">|</span>/ __ <span class="se">\_</span>  <span class="se">\_</span>__ <span class="se">\|</span>   Y  <span class="se">\ </span> ___/<span class="p">|</span>  <span class="p">|</span>_<span class="p">|</span>  <span class="p">|</span>__
+ <span class="p">|</span>____<span class="p">|</span>_  /____/<span class="p">|</span>__<span class="o">(</span>____  / /____  &gt;___<span class="p">|</span>  /<span class="se">\_</span>__  &gt;____/____/
+        <span class="se">\/</span>              <span class="se">\/</span>       <span class="se">\/</span>     <span class="se">\/</span>     <span class="se">\/</span>
+Available Objects   :
+    response            :   ruia.Response
+    request             :   ruia.Request
+Available Functions :
+    attr_field          :   Extract attribute elements by using css selector or xpath
+    text_field          :   Extract text elements by using css selector or xpath
+    fetch               :   Fetch a URL or ruia.Request
+In <span class="o">[</span><span class="m">1</span><span class="o">]</span>: request
+Out<span class="o">[</span><span class="m">1</span><span class="o">]</span>: &lt;GET https://news.ycombinator.com/news?p<span class="o">=</span><span class="m">1</span>&gt;
+In <span class="o">[</span><span class="m">2</span><span class="o">]</span>: response
+Out<span class="o">[</span><span class="m">2</span><span class="o">]</span>: &lt;Response url<span class="o">[</span>GET<span class="o">]</span>: https://news.ycombinator.com/news?p<span class="o">=</span><span class="m">1</span> status:200&gt;
+In <span class="o">[</span><span class="m">3</span><span class="o">]</span>: text_field<span class="o">(</span><span class="nv">css_select</span><span class="o">=</span><span class="s2">&quot;a.storylink&quot;</span><span class="o">)</span>
+Out<span class="o">[</span><span class="m">3</span><span class="o">]</span>: <span class="s1">&#39;The EU has archived all of the “Euromyths” printed in UK media&#39;</span>
+In <span class="o">[</span><span class="m">4</span><span class="o">]</span>: attr_field<span class="o">(</span><span class="nv">css_select</span><span class="o">=</span><span class="s2">&quot;a.storylink&quot;</span>, <span class="nv">attr</span><span class="o">=</span><span class="s2">&quot;href&quot;</span><span class="o">)</span>
+Out<span class="o">[</span><span class="m">4</span><span class="o">]</span>: <span class="s1">&#39;https://www.thelondoneconomic.com/news/the-eu-have-archived-all-of-the-euromyths-printed-in-uk-media-and-it-makes-for-some-disturbing-reading-108942/&#39;</span>
+</code></pre></div>
+
+<p>如果文字不清楚，可看下图：</p>
+<p><img alt="hHjQsh" src="https://gitee.com/howie6879/oss/raw/master/uPic/hHjQsh.png" /></p>
+<h2 id="spider">第三步：编写 Spider</h2>
+<p><code>Ruia.Spider</code>是<code>Ruia</code>框架里面的核心控制类，它作用在于：</p>
+<ul>
+<li>控制目标网页的请求<code>Ruia.Request</code>和响应<code>Ruia.Response</code></li>
+<li>可加载自定义钩子、插件、以及相关配置等，让开发效率更高</li>
+</ul>
+<p>接下来会基于前面的<code>Item</code>脚本继续开发，具体代码如下：</p>
+<div class="codehilite"><pre><span></span><code><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd"> Target: https://news.ycombinator.com/</span>
+<span class="sd"> pip install aiofiles</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">import</span> <span class="nn">aiofiles</span>
+
+<span class="kn">from</span> <span class="nn">ruia</span> <span class="kn">import</span> <span class="n">Item</span><span class="p">,</span> <span class="n">TextField</span><span class="p">,</span> <span class="n">AttrField</span><span class="p">,</span> <span class="n">Spider</span>
+
+
+<span class="k">class</span> <span class="nc">HackerNewsItem</span><span class="p">(</span><span class="n">Item</span><span class="p">):</span>
+    <span class="n">target_item</span> <span class="o">=</span> <span class="n">TextField</span><span class="p">(</span><span class="n">css_select</span><span class="o">=</span><span class="s1">&#39;tr.athing&#39;</span><span class="p">)</span>
+    <span class="n">title</span> <span class="o">=</span> <span class="n">TextField</span><span class="p">(</span><span class="n">css_select</span><span class="o">=</span><span class="s1">&#39;a.storylink&#39;</span><span class="p">)</span>
+    <span class="n">url</span> <span class="o">=</span> <span class="n">AttrField</span><span class="p">(</span><span class="n">css_select</span><span class="o">=</span><span class="s1">&#39;a.storylink&#39;</span><span class="p">,</span> <span class="n">attr</span><span class="o">=</span><span class="s1">&#39;href&#39;</span><span class="p">)</span>
+
+
+<span class="k">class</span> <span class="nc">HackerNewsSpider</span><span class="p">(</span><span class="n">Spider</span><span class="p">):</span>
+
+    <span class="n">start_urls</span> <span class="o">=</span> <span class="p">[</span><span class="sa">f</span><span class="s1">&#39;https://news.ycombinator.com/news?p=</span><span class="si">{</span><span class="n">index</span><span class="si">}</span><span class="s1">&#39;</span> <span class="k">for</span> <span class="n">index</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">)]</span>
+    <span class="n">concurrency</span> <span class="o">=</span> <span class="mi">3</span>
+    <span class="c1"># 设置代理</span>
+    <span class="c1"># aiohttp_kwargs = {&quot;proxy&quot;: &quot;http://0.0.0.0:8765&quot;}</span>
+
+    <span class="k">async</span> <span class="k">def</span> <span class="nf">parse</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">response</span><span class="p">):</span>
+        <span class="k">async</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">HackerNewsItem</span><span class="o">.</span><span class="n">get_items</span><span class="p">(</span><span class="n">html</span><span class="o">=</span><span class="k">await</span> <span class="n">response</span><span class="o">.</span><span class="n">text</span><span class="p">()):</span>
+            <span class="k">yield</span> <span class="n">item</span>
+
+    <span class="k">async</span> <span class="k">def</span> <span class="nf">process_item</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">item</span><span class="p">:</span> <span class="n">HackerNewsItem</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Ruia build-in method&quot;&quot;&quot;</span>
+        <span class="k">async</span> <span class="k">with</span> <span class="n">aiofiles</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s1">&#39;./hacker_news.txt&#39;</span><span class="p">,</span> <span class="s1">&#39;a&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+            <span class="k">await</span> <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">item</span><span class="o">.</span><span class="n">title</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+</code></pre></div>
+
+<p>本段代码的作用是：</p>
+<blockquote>
+<p>爬取<a href="https://news.ycombinator.com/news">Hacker News</a>的前三页内容，设置并发数为<code>3</code>，然后全部持久化到文件<code>hacker_news.txt</code></p>
+</blockquote>
+<p>开发者实现<code>HackerNewsSpider</code>必须是<code>Spider</code>的子类，代码中出现的两个方法都是<code>Spider</code>内置的：</p>
+<ul>
+<li>parse：此方法是<code>Spider</code>的入口，每一个<code>start_urls</code>的响应必然会被<code>parse</code>方法捕捉并执行；</li>
+<li>process_item：此方法作用是抽离出对<code>Item</code>提取结果的处理过程，比如这里会接受自定义<code>Item</code>类作为输入，然后进行处理持久化到文件。</li>
+</ul>
+<h2 id="start">第四步：运行 Start</h2>
+<p>一切准备就绪，启动你的爬虫脚本吧！</p>
+<div class="codehilite"><pre><span></span><code><span class="kn">import</span> <span class="nn">aiofiles</span>
+
+<span class="kn">from</span> <span class="nn">ruia</span> <span class="kn">import</span> <span class="n">AttrField</span><span class="p">,</span> <span class="n">Item</span><span class="p">,</span> <span class="n">Spider</span><span class="p">,</span> <span class="n">TextField</span>
+
+
+<span class="k">class</span> <span class="nc">HackerNewsItem</span><span class="p">(</span><span class="n">Item</span><span class="p">):</span>
+    <span class="n">target_item</span> <span class="o">=</span> <span class="n">TextField</span><span class="p">(</span><span class="n">css_select</span><span class="o">=</span><span class="s2">&quot;tr.athing&quot;</span><span class="p">)</span>
+    <span class="n">title</span> <span class="o">=</span> <span class="n">TextField</span><span class="p">(</span><span class="n">css_select</span><span class="o">=</span><span class="s2">&quot;a.storylink&quot;</span><span class="p">)</span>
+    <span class="n">url</span> <span class="o">=</span> <span class="n">AttrField</span><span class="p">(</span><span class="n">css_select</span><span class="o">=</span><span class="s2">&quot;a.storylink&quot;</span><span class="p">,</span> <span class="n">attr</span><span class="o">=</span><span class="s2">&quot;href&quot;</span><span class="p">)</span>
+
+
+<span class="k">class</span> <span class="nc">HackerNewsSpider</span><span class="p">(</span><span class="n">Spider</span><span class="p">):</span>
+
+    <span class="n">start_urls</span> <span class="o">=</span> <span class="p">[</span><span class="sa">f</span><span class="s2">&quot;https://news.ycombinator.com/news?p=</span><span class="si">{</span><span class="n">index</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">for</span> <span class="n">index</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">)]</span>
+    <span class="n">concurrency</span> <span class="o">=</span> <span class="mi">3</span>
+
+    <span class="k">async</span> <span class="k">def</span> <span class="nf">parse</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">response</span><span class="p">):</span>
+        <span class="k">async</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">HackerNewsItem</span><span class="o">.</span><span class="n">get_items</span><span class="p">(</span><span class="n">html</span><span class="o">=</span><span class="k">await</span> <span class="n">response</span><span class="o">.</span><span class="n">text</span><span class="p">()):</span>
+            <span class="k">yield</span> <span class="n">item</span>
+
+    <span class="k">async</span> <span class="k">def</span> <span class="nf">process_item</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">item</span><span class="p">:</span> <span class="n">HackerNewsItem</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Ruia build-in method&quot;&quot;&quot;</span>
+        <span class="k">async</span> <span class="k">with</span> <span class="n">aiofiles</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s2">&quot;./hacker_news.txt&quot;</span><span class="p">,</span> <span class="s2">&quot;a&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+            <span class="k">await</span> <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">item</span><span class="o">.</span><span class="n">title</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="n">HackerNewsSpider</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+</code></pre></div>
+
+<blockquote>
+<p>Tips：如果你想在异步函数里面调用，执行<code>await HackerNewsSpider.start()</code>即可</p>
+</blockquote>
+<p>不到<code>30</code>行代码，你就实现了对<a href="https://news.ycombinator.com/news">Hacker News</a>的爬虫脚本，并且脚本带有自动重试、并发控制、语法简单等特性。</p>
+<p>通过这个例子，你已经基本掌握了<a href="https://github.com/howie6879/ruia/">Ruia</a>中<code>Item</code>、<code>Middleware</code>、<code>Request</code>等模块的用法，结合自身需求，你可以编写任何爬虫，例子代码见<a href="https://github.com/howie6879/ruia/blob/master/examples/topics_examples/hacker_news_spider.py">hacker_news_spider</a>。</p>
+<h2 id="_4">第五步：扩展</h2>
+<h3 id="middleware">Middleware</h3>
+<p><code>Middleware</code>的目的是对每次请求前后进行一番处理，分下面两种情况：</p>
+<ul>
+<li>在每次请求之前做一些事</li>
+<li>在每次请求后做一些事</li>
+</ul>
+<p>比如此时爬取<a href="https://news.ycombinator.com/news">Hacker News</a>，若希望在每次请求时候自动添加<code>Headers</code>的<code>User-Agent</code>，可以添加以下代码引入中间件：</p>
+<div class="codehilite"><pre><span></span><code><span class="kn">from</span> <span class="nn">ruia</span> <span class="kn">import</span> <span class="n">AttrField</span><span class="p">,</span> <span class="n">Item</span><span class="p">,</span> <span class="n">Middleware</span><span class="p">,</span> <span class="n">Spider</span><span class="p">,</span> <span class="n">TextField</span>
+
+<span class="n">middleware</span> <span class="o">=</span> <span class="n">Middleware</span><span class="p">()</span>
+
+
+<span class="nd">@middleware</span><span class="o">.</span><span class="n">request</span>
+<span class="k">async</span> <span class="k">def</span> <span class="nf">print_on_request</span><span class="p">(</span><span class="n">spider_ins</span><span class="p">,</span> <span class="n">request</span><span class="p">):</span>
+    <span class="n">ua</span> <span class="o">=</span> <span class="s2">&quot;ruia user-agent&quot;</span>
+    <span class="n">request</span><span class="o">.</span><span class="n">headers</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s2">&quot;User-Agent&quot;</span><span class="p">:</span> <span class="n">ua</span><span class="p">})</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">headers</span><span class="p">)</span>
+
+
+<span class="k">class</span> <span class="nc">HackerNewsItem</span><span class="p">(</span><span class="n">Item</span><span class="p">):</span>
+    <span class="n">target_item</span> <span class="o">=</span> <span class="n">TextField</span><span class="p">(</span><span class="n">css_select</span><span class="o">=</span><span class="s2">&quot;tr.athing&quot;</span><span class="p">)</span>
+    <span class="n">title</span> <span class="o">=</span> <span class="n">TextField</span><span class="p">(</span><span class="n">css_select</span><span class="o">=</span><span class="s2">&quot;a.storylink&quot;</span><span class="p">)</span>
+    <span class="n">url</span> <span class="o">=</span> <span class="n">AttrField</span><span class="p">(</span><span class="n">css_select</span><span class="o">=</span><span class="s2">&quot;a.storylink&quot;</span><span class="p">,</span> <span class="n">attr</span><span class="o">=</span><span class="s2">&quot;href&quot;</span><span class="p">)</span>
+
+
+<span class="k">class</span> <span class="nc">HackerNewsSpider</span><span class="p">(</span><span class="n">Spider</span><span class="p">):</span>
+
+    <span class="n">start_urls</span> <span class="o">=</span> <span class="p">[</span><span class="sa">f</span><span class="s2">&quot;https://news.ycombinator.com/news?p=</span><span class="si">{</span><span class="n">index</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">for</span> <span class="n">index</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">)]</span>
+    <span class="n">concurrency</span> <span class="o">=</span> <span class="mi">3</span>
+
+    <span class="k">async</span> <span class="k">def</span> <span class="nf">parse</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">response</span><span class="p">):</span>
+        <span class="k">async</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">HackerNewsItem</span><span class="o">.</span><span class="n">get_items</span><span class="p">(</span><span class="n">html</span><span class="o">=</span><span class="k">await</span> <span class="n">response</span><span class="o">.</span><span class="n">text</span><span class="p">()):</span>
+            <span class="k">yield</span> <span class="n">item</span>
+
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="n">HackerNewsSpider</span><span class="o">.</span><span class="n">start</span><span class="p">(</span><span class="n">middleware</span><span class="o">=</span><span class="n">middleware</span><span class="p">)</span>
+</code></pre></div>
+
+<p>这样，程序会在爬虫请求网页资源之前自动加上<code>User-Agent</code>，针对自动<code>UA</code>的功能点，<a href="https://github.com/howie6879/ruia/">Ruia</a>已经专门编写了一个名为<a href="https://github.com/python-ruia/ruia-ua">ruia-ua</a>的插件来为开发者提升效率，使用非常简单，代码示例如下：</p>
+<div class="codehilite"><pre><span></span><code><span class="kn">from</span> <span class="nn">ruia</span> <span class="kn">import</span> <span class="n">AttrField</span><span class="p">,</span> <span class="n">TextField</span><span class="p">,</span> <span class="n">Item</span><span class="p">,</span> <span class="n">Spider</span>
+<span class="kn">from</span> <span class="nn">ruia_ua</span> <span class="kn">import</span> <span class="n">middleware</span>
+
+
+<span class="k">class</span> <span class="nc">HackerNewsItem</span><span class="p">(</span><span class="n">Item</span><span class="p">):</span>
+    <span class="n">target_item</span> <span class="o">=</span> <span class="n">TextField</span><span class="p">(</span><span class="n">css_select</span><span class="o">=</span><span class="s1">&#39;tr.athing&#39;</span><span class="p">)</span>
+    <span class="n">title</span> <span class="o">=</span> <span class="n">TextField</span><span class="p">(</span><span class="n">css_select</span><span class="o">=</span><span class="s1">&#39;a.storylink&#39;</span><span class="p">)</span>
+    <span class="n">url</span> <span class="o">=</span> <span class="n">AttrField</span><span class="p">(</span><span class="n">css_select</span><span class="o">=</span><span class="s1">&#39;a.storylink&#39;</span><span class="p">,</span> <span class="n">attr</span><span class="o">=</span><span class="s1">&#39;href&#39;</span><span class="p">)</span>
+
+
+<span class="k">class</span> <span class="nc">HackerNewsSpider</span><span class="p">(</span><span class="n">Spider</span><span class="p">):</span>
+    <span class="n">start_urls</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;https://news.ycombinator.com/news?p=1&#39;</span><span class="p">,</span> <span class="s1">&#39;https://news.ycombinator.com/news?p=2&#39;</span><span class="p">]</span>
+
+    <span class="k">async</span> <span class="k">def</span> <span class="nf">parse</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">response</span><span class="p">):</span>
+        <span class="c1"># Do something...</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">url</span><span class="p">)</span>
+
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+    <span class="n">HackerNewsSpider</span><span class="o">.</span><span class="n">start</span><span class="p">(</span><span class="n">middleware</span><span class="o">=</span><span class="n">middleware</span><span class="p">)</span>
+</code></pre></div>
+
+<h3 id="mongodb">MongoDB</h3>
+<p>对于数据持久化，你可以按照自己喜欢的方式去做，前面实例中介绍了如何将目标<code>Item</code>持久化到文件中。</p>
+<p>如果想将数据持久化到数据库（MongoDB）中，该怎么做？此时就到了凸显<a href="https://github.com/howie6879/ruia/">Ruia</a>插件优势的时候了，你只需要安装<a href="https://github.com/python-ruia/ruia-motor">ruia-motor</a>：</p>
+<div class="codehilite"><pre><span></span><code>pip install -U ruia-motor
+</code></pre></div>
+
+<p>然后再代码中引入<code>ruia-motor</code>：</p>
+<div class="codehilite"><pre><span></span><code><span class="kn">from</span> <span class="nn">ruia_motor</span> <span class="kn">import</span> <span class="n">RuiaMotorInsert</span><span class="p">,</span> <span class="n">init_spider</span>
+
+<span class="kn">from</span> <span class="nn">ruia</span> <span class="kn">import</span> <span class="n">AttrField</span><span class="p">,</span> <span class="n">Item</span><span class="p">,</span> <span class="n">Spider</span><span class="p">,</span> <span class="n">TextField</span>
+
+
+<span class="k">class</span> <span class="nc">HackerNewsItem</span><span class="p">(</span><span class="n">Item</span><span class="p">):</span>
+    <span class="n">target_item</span> <span class="o">=</span> <span class="n">TextField</span><span class="p">(</span><span class="n">css_select</span><span class="o">=</span><span class="s2">&quot;tr.athing&quot;</span><span class="p">)</span>
+    <span class="n">title</span> <span class="o">=</span> <span class="n">TextField</span><span class="p">(</span><span class="n">css_select</span><span class="o">=</span><span class="s2">&quot;a.storylink&quot;</span><span class="p">)</span>
+    <span class="n">url</span> <span class="o">=</span> <span class="n">AttrField</span><span class="p">(</span><span class="n">css_select</span><span class="o">=</span><span class="s2">&quot;a.storylink&quot;</span><span class="p">,</span> <span class="n">attr</span><span class="o">=</span><span class="s2">&quot;href&quot;</span><span class="p">)</span>
+
+
+<span class="k">class</span> <span class="nc">HackerNewsSpider</span><span class="p">(</span><span class="n">Spider</span><span class="p">):</span>
+    <span class="n">start_urls</span> <span class="o">=</span> <span class="p">[</span><span class="sa">f</span><span class="s2">&quot;https://news.ycombinator.com/news?p=</span><span class="si">{</span><span class="n">index</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">for</span> <span class="n">index</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">)]</span>
+    <span class="n">concurrency</span> <span class="o">=</span> <span class="mi">3</span>
+    <span class="c1"># aiohttp_kwargs = {&quot;proxy&quot;: &quot;http://0.0.0.0:1087&quot;}</span>
+
+    <span class="k">async</span> <span class="k">def</span> <span class="nf">parse</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">response</span><span class="p">):</span>
+        <span class="k">async</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">HackerNewsItem</span><span class="o">.</span><span class="n">get_items</span><span class="p">(</span><span class="n">html</span><span class="o">=</span><span class="k">await</span> <span class="n">response</span><span class="o">.</span><span class="n">text</span><span class="p">()):</span>
+            <span class="k">yield</span> <span class="n">RuiaMotorInsert</span><span class="p">(</span><span class="n">collection</span><span class="o">=</span><span class="s2">&quot;news&quot;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">item</span><span class="o">.</span><span class="n">results</span><span class="p">)</span>
+
+
+<span class="k">async</span> <span class="k">def</span> <span class="nf">init_plugins_after_start</span><span class="p">(</span><span class="n">spider_ins</span><span class="p">):</span>
+    <span class="n">spider_ins</span><span class="o">.</span><span class="n">mongodb_config</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;host&quot;</span><span class="p">:</span> <span class="s2">&quot;127.0.0.1&quot;</span><span class="p">,</span> <span class="s2">&quot;port&quot;</span><span class="p">:</span> <span class="mi">27017</span><span class="p">,</span> <span class="s2">&quot;db&quot;</span><span class="p">:</span> <span class="s2">&quot;ruia_motor&quot;</span><span class="p">}</span>
+    <span class="n">init_spider</span><span class="p">(</span><span class="n">spider_ins</span><span class="o">=</span><span class="n">spider_ins</span><span class="p">)</span>
+
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="n">HackerNewsSpider</span><span class="o">.</span><span class="n">start</span><span class="p">(</span><span class="n">after_start</span><span class="o">=</span><span class="n">init_plugins_after_start</span><span class="p">)</span>
+</code></pre></div>
+
+<p>数据库中可以看到目标字段：</p>
+<p><img alt="ipuxKH" src="https://gitee.com/howie6879/oss/raw/master/uPic/ipuxKH.jpg" /></p>
+<p>是不是更简单了呢？</p>
+<h2 id="ruia">第六步：深入了解Ruia</h2>
+<blockquote>
+<p>希望<a href="https://github.com/howie6879/ruia/">Ruia</a>可以为你带来编写爬虫的乐趣 ：)</p>
+</blockquote>
+<p>本章简单介绍了下<code>Ruia</code>的快速实践，如果想要深入了解<code>Ruia</code>欢迎继续往下阅读，如果有想加入交流群，请关注公众号加我微信：</p>
+<div align=center><img width="300px" src="https://gitee.com/howie6879/oss/raw/master/uPic/qrcode_for_gh_3f02ace79dfb_258.jpg" /></div>
+                
+                  
+                
+              
+              
+                
+
+
+              
+            </article>
+          </div>
+        </div>
+        
+      </main>
+      
+        
+<footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-footer-copyright">
+        
+          <div class="md-footer-copyright__highlight">
+            Copyright &copy; 2018 - 2021 <a href="https://github.com/howie6879/ruia">howie.hu</a>.
+          </div>
+        
+        
+          Made with
+          <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+            Material for MkDocs
+          </a>
+        
+        
+      </div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    <script id="__config" type="application/json">{"base": "../..", "features": [], "translations": {"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing", "select.version.title": "Select version"}, "search": "../../assets/javascripts/workers/search.8397ff9e.min.js", "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.1e84347e.min.js"></script>
+      
+    
+  </body>
+</html>
