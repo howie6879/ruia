@@ -6,6 +6,11 @@ import sys
 import typing
 import weakref
 
+try:
+    import collections.abc as collectionsAbc  # python 3.6+
+except ImportError:
+    import collections as collectionsAbc
+
 from datetime import datetime
 from functools import reduce
 from inspect import isawaitable
@@ -14,7 +19,12 @@ from types import AsyncGeneratorType
 
 from aiohttp import ClientSession
 
-from ruia.exceptions import InvalidCallbackResult, NothingMatchedError, NotImplementedParseError, SpiderHookError
+from ruia.exceptions import (
+    InvalidCallbackResult,
+    NothingMatchedError,
+    NotImplementedParseError,
+    SpiderHookError,
+)
 from ruia.item import Item
 from ruia.middleware import Middleware
 from ruia.request import Request
@@ -144,7 +154,9 @@ class Spider(SpiderHook):
         :param is_async_start: start spider by using async
         :param spider_kwargs
         """
-        if not self.start_urls or not isinstance(self.start_urls, collections.Iterable):
+        if not self.start_urls or not isinstance(
+            self.start_urls, collectionsAbc.Iterable
+        ):
             raise ValueError(
                 "Ruia spider must have a param named start_urls, eg: start_urls = ['https://www.github.com']"
             )

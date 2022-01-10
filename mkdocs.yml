@@ -6,12 +6,27 @@ site_author: howie.hu
 repo_url: https://github.com/howie6879/ruia
 repo_name: 'howie6879/ruia'
 
-copyright: Copyright &copy; 2018 - 2021 <a href="https://github.com/howie6879/ruia">howie.hu</a>.
+copyright: Copyright &copy; 2018 - 2022 <a href="https://github.com/howie6879/ruia">howie.hu</a>.
 
 theme:
   name: 'material'
   logo: './images/logo.png'
   favicon: './images/favicon.ico'
+  features:
+  - content.code.annotate
+  - navigation.expand
+  - navigation.indexes
+  - navigation.sections
+  - navigation.tabs
+  - navigation.tabs.sticky
+  - navigation.top
+  - navigation.tracking
+  - search.highlight
+  - search.share
+  - search.suggest
+  font:
+    code: Roboto Mono
+    text: Roboto
 
 use_directory_urls: false
 
