@@ -1,8 +1,0 @@
-.idea/
-.DS_Store
-site/
-tests/
-ruia/
-*.pyc
-.coverage
-dist/
