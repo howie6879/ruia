@@ -144,7 +144,7 @@ class RegexField(BaseField):
         :return:
         """
         if not match:
-            if self.default:
+            if self.default is not None:
                 return self.default
             else:
                 raise NothingMatchedError(
