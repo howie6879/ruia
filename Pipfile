@@ -10,11 +10,12 @@ mkdocs-material = "*"
 codecov = "*"
 pylint = "*"
 yapf = "*"
+black = "*"
 
 [packages]
 aiohttp = ">=3.5.4"
 cssselect = "*"
 lxml = "*"
 
-[requires]
-python_version = "3.9"
+[pipenv]
+allow_prereleases = true

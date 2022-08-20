@@ -53,6 +53,7 @@ class Request:
         metadata: dict = None,
         request_config: dict = None,
         request_session=None,
+        close_request_session=False,
         **aiohttp_kwargs,
     ):
         """
@@ -65,6 +66,7 @@ class Request:
         :param metadata: Send the data to callback func
         :param request_config: Manage the target request
         :param request_session: aiohttp.ClientSession
+        :param close_request_session: whether to close the aiohttp.ClientSession
         :param aiohttp_kwargs:
         """
         self.url = url
@@ -84,7 +86,7 @@ class Request:
         self.ssl = aiohttp_kwargs.pop("ssl", False)
         self.aiohttp_kwargs = aiohttp_kwargs
 
-        self.close_request_session = False
+        self.close_request_session = close_request_session
         self.logger = get_logger(name=self.name)
         self.retry_times = self.request_config.get("RETRIES", 3)
 
@@ -194,7 +196,7 @@ class Request:
                 await asyncio.sleep(self.request_config["RETRY_DELAY"])
 
             retry_times = self.request_config.get("RETRIES", 3) - self.retry_times + 1
-            self.logger.exception(
+            self.logger.info(
                 f"<Retry url: {self.url}>, Retry times: {retry_times}, Retry message: {error_msg}>"
             )
             self.retry_times -= 1

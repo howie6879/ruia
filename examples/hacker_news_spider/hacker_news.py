@@ -33,7 +33,7 @@ class HackerNewsSpider(Spider):
                 upsert=True,
             )
         except Exception as e:
-            self.logger.exception(e)
+            self.logger.error(e)
 
 
 if __name__ == "__main__":

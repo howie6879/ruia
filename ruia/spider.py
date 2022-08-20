@@ -1,13 +1,13 @@
 #!/usr/bin/env python
 
 import asyncio
-import collections
 import sys
 import typing
 import weakref
 
 try:
-    import collections.abc as collectionsAbc  # python 3.6+
+    # python 3.6+
+    import collections.abc as collectionsAbc
 except ImportError:
     import collections as collectionsAbc
 
@@ -217,9 +217,9 @@ class Spider(SpiderHook):
                     await self.process_callback_result(callback_result=callback_result)
         except NothingMatchedError as e:
             error_info = f"<Field: {str(e).lower()}" + f", error url: {response.url}>"
-            self.logger.exception(error_info)
+            self.logger.error(error_info)
         except Exception as e:
-            self.logger.exception(e)
+            self.logger.error(e)
 
     async def _process_response(self, request: Request, response: Response):
         if response:
@@ -245,7 +245,7 @@ class Spider(SpiderHook):
                                 f"<Middleware {middleware.__name__}: must be a coroutine function"
                             )
                     except Exception as e:
-                        self.logger.exception(f"<Middleware {middleware.__name__}: {e}")
+                        self.logger.error(f"<Middleware {middleware.__name__}: {e}")
 
     async def _run_response_middleware(self, request: Request, response: Response):
         if self.middleware.response_middleware:
@@ -260,7 +260,7 @@ class Spider(SpiderHook):
                                 f"<Middleware {middleware.__name__}: must be a coroutine function"
                             )
                     except Exception as e:
-                        self.logger.exception(f"<Middleware {middleware.__name__}: {e}")
+                        self.logger.error(f"<Middleware {middleware.__name__}: {e}")
 
     async def _start(self, after_start=None, before_stop=None):
         self.logger.info("Spider started!")
@@ -286,7 +286,8 @@ class Spider(SpiderHook):
         finally:
             # Run hook after spider finished crawling
             await self._run_spider_hook(before_stop)
-            await self.request_session.close()
+            if self.request_session is not None:
+                await self.request_session.close()
             # Display logs about this crawl task
             end_time = datetime.now()
             self.logger.info(
@@ -385,9 +386,9 @@ class Spider(SpiderHook):
         try:
             callback_result = await aws_callback
         except NothingMatchedError as e:
-            self.logger.exception(f"<Item: {str(e).lower()}>")
+            self.logger.error(f"<Item: {str(e).lower()}>")
         except Exception as e:
-            self.logger.exception(f"<Callback[{aws_callback.__name__}]: {e}")
+            self.logger.error(f"<Callback[{aws_callback.__name__}]: {e}")
 
         return callback_result, response
 
@@ -407,12 +408,12 @@ class Spider(SpiderHook):
             await self._run_response_middleware(request, response)
             await self._process_response(request=request, response=response)
         except NotImplementedParseError as e:
-            self.logger.exception(e)
+            self.logger.error(e)
         except NothingMatchedError as e:
             error_info = f"<Field: {str(e).lower()}" + f", error url: {request.url}>"
-            self.logger.exception(error_info)
+            self.logger.error(error_info)
         except Exception as e:
-            self.logger.exception(f"<Callback[{request.callback.__name__}]: {e}")
+            self.logger.error(f"<Callback[{request.callback.__name__}]: {e}")
 
         return callback_result, response
 
