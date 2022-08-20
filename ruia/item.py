@@ -1,4 +1,9 @@
-#!/usr/bin/env python
+"""
+    Created by howie.hu at 2022-08-21.
+    Description: Target field process class
+    Changelog: all notable changes to this file will be documented
+"""
+
 from inspect import isawaitable
 from typing import Any
 
@@ -58,6 +63,11 @@ class Item(metaclass=ItemMeta):
 
     @classmethod
     async def _parse_html(cls, *, html_etree: etree._Element):
+        """Parse html to Item
+
+        Args:
+            html_etree (etree._Element): etree._Element
+        """
         if html_etree is None:
             raise ValueError("<Item: html_etree is expected>")
         item_ins = cls()
@@ -73,7 +83,7 @@ class Item(metaclass=ItemMeta):
                             value = await aws_clean_func
                         else:
                             raise InvalidFuncType(
-                                f"<Item: clean_method must be a coroutine function>"
+                                "<Item: clean_method must be a coroutine function>"
                             )
                     except IgnoreThisItem:
                         item_ins.ignore_item = True
@@ -91,6 +101,16 @@ class Item(metaclass=ItemMeta):
         html_etree: etree._Element = None,
         **kwargs,
     ) -> Any:
+        """
+        Get item
+        Args:
+            html (str, optional): target html. Defaults to "".
+            url (str, optional): target url. Defaults to "".
+            html_etree (etree._Element, optional): target etree._Element. Defaults to None.
+
+        Returns:
+            Any: _description_
+        """
         if html_etree is None:
             html_etree = await cls._get_html(html, url, **kwargs)
 
@@ -105,6 +125,13 @@ class Item(metaclass=ItemMeta):
         html_etree: etree._Element = None,
         **kwargs,
     ):
+        """
+        Get items
+        Args:
+            html (str, optional): target html. Defaults to "".
+            url (str, optional): target url. Defaults to "".
+            html_etree (etree._Element, optional): target etree._Element. Defaults to None.
+        """
         if html_etree is None:
             html_etree = await cls._get_html(html, url, **kwargs)
         items_field = getattr(cls, "__fields", {}).get("target_item", None)
@@ -127,7 +154,7 @@ class Item(metaclass=ItemMeta):
                 raise ValueError(value_error_info)
         else:
             raise ValueError(
-                f"<Item: target_item is expected, more info: https://docs.python-ruia.org/en/apis/item.html>"
+                "<Item: target_item is expected, more info: https://docs.python-ruia.org/en/apis/item.html>"
             )
 
     def __repr__(self):

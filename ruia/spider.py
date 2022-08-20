@@ -1,9 +1,12 @@
-#!/usr/bin/env python
+"""
+    Created by howie.hu at 2018.
+    Description:  Crawler startup class
+    Changelog: all notable changes to this file will be documented
+"""
 
 import asyncio
 import sys
 import typing
-import weakref
 
 try:
     # python 3.6+
@@ -19,16 +22,12 @@ from types import AsyncGeneratorType
 
 from aiohttp import ClientSession
 
-from ruia.exceptions import (
-    InvalidCallbackResult,
-    NothingMatchedError,
-    NotImplementedParseError,
-    SpiderHookError,
-)
+from ruia.exceptions import NothingMatchedError, NotImplementedParseError
 from ruia.item import Item
 from ruia.middleware import Middleware
 from ruia.request import Request
 from ruia.response import Response
+from ruia.spider_hook import SpiderHook
 from ruia.utils import get_logger
 
 if sys.version_info >= (3, 8) and sys.platform.startswith("win"):
@@ -46,70 +45,6 @@ try:
     asyncio.set_event_loop_policy(uvloop.EventLoopPolicy())
 except ImportError:
     pass
-
-
-class SpiderHook:
-    """
-    SpiderHook is used for extend spider
-    """
-
-    callback_result_map: dict = None
-
-    async def _run_spider_hook(self, hook_func):
-        """
-        Run hook before/after spider start crawling
-        :param hook_func: aws function
-        :return:
-        """
-        if callable(hook_func):
-            try:
-                aws_hook_func = hook_func(weakref.proxy(self))
-                if isawaitable(aws_hook_func):
-                    await aws_hook_func
-            except Exception as e:
-                raise SpiderHookError(f"<Hook {hook_func.__name__}: {e}")
-
-    async def process_failed_response(self, request: Request, response: Response):
-        """
-        Corresponding processing for the failed response
-        :param request: Request
-        :param response: Response
-        :return:
-        """
-        pass
-
-    async def process_succeed_response(self, request: Request, response: Response):
-        """
-        Corresponding processing for the succeed response
-        :param request: Request
-        :param response: Response
-        :return:
-        """
-        pass
-
-    async def process_item(self, item: Item):
-        """
-        Corresponding processing for the Item type
-        :param item: Item
-        :return:
-        """
-        pass
-
-    async def process_callback_result(self, callback_result):
-        """
-        Corresponding processing for the invalid callback result
-        :param callback_result: Custom instance
-        :return:
-        """
-        callback_result_name = type(callback_result).__name__
-        process_func_name = self.callback_result_map.get(callback_result_name, "")
-        process_func = getattr(self, process_func_name, None)
-        if process_func is not None:
-            await process_func(callback_result)
-        else:
-            raise InvalidCallbackResult(
-                f"<Parse invalid callback result type: {callback_result_name}>"
-            )
 
 
 class Spider(SpiderHook):
@@ -166,14 +101,16 @@ class Spider(SpiderHook):
 
         # Init object-level properties
         self.callback_result_map = self.callback_result_map or {}
-
         self.request_config = self.request_config or {}
         self.headers = self.headers or {}
         self.metadata = self.metadata or {}
         self.aiohttp_kwargs = self.aiohttp_kwargs or {}
         self.spider_kwargs = spider_kwargs
         self.request_config = self.request_config or {}
-        self.request_session = ClientSession()
+        try:
+            self.request_session = getattr(self, "request_session")
+        except Exception as _:
+            self.request_session = ClientSession()
 
         self.cancel_tasks = cancel_tasks
         self.is_async_start = is_async_start
@@ -194,27 +131,27 @@ class Spider(SpiderHook):
         self.sem = asyncio.Semaphore(self.concurrency)
 
     async def _process_async_callback(
-        self, callback_results: AsyncGeneratorType, response: Response = None
+        self, callback_result: AsyncGeneratorType, response: Response = None
     ):
         try:
-            async for callback_result in callback_results:
-                if isinstance(callback_result, AsyncGeneratorType):
-                    await self._process_async_callback(callback_result)
-                elif isinstance(callback_result, Request):
+            async for each_callback in callback_result:
+                if isinstance(each_callback, AsyncGeneratorType):
+                    await self._process_async_callback(each_callback)
+                elif isinstance(each_callback, Request):
                     self.request_queue.put_nowait(
-                        self.handle_request(request=callback_result)
+                        self.handle_request(request=each_callback)
                     )
-                elif isinstance(callback_result, typing.Coroutine):
+                elif isinstance(each_callback, typing.Coroutine):
                     self.request_queue.put_nowait(
                         self.handle_callback(
-                            aws_callback=callback_result, response=response
+                            aws_callback=each_callback, response=response
                         )
                     )
-                elif isinstance(callback_result, Item):
+                elif isinstance(each_callback, Item):
                     # Process target item
-                    await self.process_item(callback_result)
+                    await self.process_item(each_callback)
                 else:
-                    await self.process_callback_result(callback_result=callback_result)
+                    await self.process_callback_result(each_callback)
         except NothingMatchedError as e:
             error_info = f"<Field: {str(e).lower()}" + f", error url: {response.url}>"
             self.logger.error(error_info)
@@ -222,6 +159,10 @@ class Spider(SpiderHook):
             self.logger.error(e)
 
     async def _process_response(self, request: Request, response: Response):
+        """
+        Process Ruia's Response:
+            count whether each request was successful or not, and call the handler function finally.
+        """
         if response:
             if response.ok:
                 # Process succeed response
@@ -241,11 +182,11 @@ class Spider(SpiderHook):
                         if isawaitable(aws_middleware_func):
                             await aws_middleware_func
                         else:
-                            self.logger.error(
-                                f"<Middleware {middleware.__name__}: must be a coroutine function"
-                            )
+                            msg = f"<Middleware {middleware.__name__}: must be a coroutine function"
+                            self.logger.error(msg)
                     except Exception as e:
-                        self.logger.error(f"<Middleware {middleware.__name__}: {e}")
+                        msg = f"<Middleware {middleware.__name__}: {e}"
+                        self.logger.error(msg)
 
     async def _run_response_middleware(self, request: Request, response: Response):
         if self.middleware.response_middleware:
@@ -256,13 +197,19 @@ class Spider(SpiderHook):
                         if isawaitable(aws_middleware_func):
                             await aws_middleware_func
                         else:
-                            self.logger.error(
-                                f"<Middleware {middleware.__name__}: must be a coroutine function"
-                            )
+                            msg = f"<Middleware {middleware.__name__}: must be a coroutine function"
+                            self.logger.error(msg)
                     except Exception as e:
-                        self.logger.error(f"<Middleware {middleware.__name__}: {e}")
+                        msg = f"<Middleware {middleware.__name__}: {e}"
+                        self.logger.error(msg)
 
     async def _start(self, after_start=None, before_stop=None):
+        """
+        Crawler startup entry
+        Args:
+            after_start (_type_, optional): Hook function: executed before the crawler starts. Defaults to None.
+            before_stop (_type_, optional): Hook function: executed before the crawler closes. Defaults to None.
+        """
         self.logger.info("Spider started!")
         start_time = datetime.now()
 
@@ -335,7 +282,6 @@ class Spider(SpiderHook):
     async def cancel_all_tasks():
         """
         Cancel all tasks
-        :return:
         """
         tasks = []
         for task in async_all_tasks():
@@ -394,11 +340,14 @@ class Spider(SpiderHook):
 
     async def handle_request(
         self, request: Request
-    ) -> typing.Tuple[AsyncGeneratorType, Response]:
+    ) -> typing.Tuple[AsyncGeneratorType, Request, Response]:
         """
-        Wrap request with middleware.
-        :param request:
-        :return:
+        Wrap request with middleware
+        Args:
+            request (Request): Ruia's Request
+
+        Returns:
+            typing.Tuple[AsyncGeneratorType, Request, Response]: Returns a result tuple after each request
         """
         callback_result, response = None, None
 
@@ -415,7 +364,7 @@ class Spider(SpiderHook):
         except Exception as e:
             self.logger.error(f"<Callback[{request.callback.__name__}]: {e}")
 
-        return callback_result, response
+        return callback_result, request, response
 
     async def multiple_request(self, urls, is_gather=False, **kwargs):
         """
@@ -428,12 +377,14 @@ class Spider(SpiderHook):
             )
             for index, task_result in enumerate(resp_results):
                 if not isinstance(task_result, RuntimeError) and task_result:
-                    _, response = task_result
+                    _, _, response = task_result
                     response.index = index
                     yield response
         else:
             for index, url in enumerate(urls):
-                _, response = await self.handle_request(self.request(url=url, **kwargs))
+                _, _, response = await self.handle_request(
+                    self.request(url=url, **kwargs)
+                )
                 response.index = index
                 yield response
 
@@ -468,16 +419,18 @@ class Spider(SpiderHook):
     ):
         """
         Init a Request class for crawling html
-        :param url:
-        :param method:
-        :param callback:
-        :param encoding:
-        :param headers:
-        :param metadata:
-        :param request_config:
-        :param request_session:
-        :param aiohttp_kwargs:
-        :return:
+        Args:
+            url (str):  Target url
+            method (str, optional): HTTP method. Defaults to "GET".
+            callback (_type_, optional): Callback func. Defaults to None.
+            encoding (typing.Optional[str], optional): Html encoding. Defaults to None.
+            headers (dict, optional): _description_. Request headers to None.
+            metadata (dict, optional): _description_. Send the data to callback func to None.
+            request_config (dict, optional): Manage the target request. Defaults to None.
+            request_session (_type_, optional):  aiohttp.ClientSession. Defaults to None.
+
+        Returns:
+            _type_: Request
         """
         headers = headers or {}
         metadata = metadata or {}
@@ -534,11 +487,15 @@ class Spider(SpiderHook):
                 )
                 for task_result in results:
                     if not isinstance(task_result, RuntimeError) and task_result:
-                        callback_results, response = task_result
-                        if isinstance(callback_results, AsyncGeneratorType):
+                        callback_result = task_result[0]
+                        request: Request = task_result[1]
+                        if isinstance(callback_result, AsyncGeneratorType):
                             await self._process_async_callback(
-                                callback_results, response
+                                callback_result, task_result[2]
                             )
+                        # Process Request's session
+                        await request.close_request()
+
                 self.worker_tasks = []
             self.request_queue.task_done()
 

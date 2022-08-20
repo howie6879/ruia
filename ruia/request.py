@@ -1,4 +1,9 @@
-#!/usr/bin/env python
+"""
+    Created by howie.hu at 2018.
+    Description: Request handler class
+    Changelog: all notable changes to this file will be documented
+"""
+
 
 import asyncio
 import weakref
@@ -53,21 +58,19 @@ class Request:
         metadata: dict = None,
         request_config: dict = None,
         request_session=None,
-        close_request_session=False,
         **aiohttp_kwargs,
     ):
         """
         Initialization parameters
-        :param url: Target url
-        :param method: HTTP method
-        :param callback: Callback func
-        :param encoding: Html encoding
-        :param headers: Request headers
-        :param metadata: Send the data to callback func
-        :param request_config: Manage the target request
-        :param request_session: aiohttp.ClientSession
-        :param close_request_session: whether to close the aiohttp.ClientSession
-        :param aiohttp_kwargs:
+        Args:
+            url (str):  Target url
+            method (str, optional): HTTP method. Defaults to "GET".
+            callback (_type_, optional): Callback func. Defaults to None.
+            encoding (typing.Optional[str], optional): Html encoding. Defaults to None.
+            headers (dict, optional): _description_. Request headers to None.
+            metadata (dict, optional): _description_. Send the data to callback func to None.
+            request_config (dict, optional): Manage the target request. Defaults to None.
+            request_session (_type_, optional):  aiohttp.ClientSession. Defaults to None.
         """
         self.url = url
         self.method = method.upper()
@@ -86,12 +89,13 @@ class Request:
         self.ssl = aiohttp_kwargs.pop("ssl", False)
         self.aiohttp_kwargs = aiohttp_kwargs
 
-        self.close_request_session = close_request_session
+        self.close_request_session = False
         self.logger = get_logger(name=self.name)
         self.retry_times = self.request_config.get("RETRIES", 3)
 
     @property
     def current_request_session(self):
+        """Get current aiohttp session"""
         if self.request_session is None:
             self.request_session = aiohttp.ClientSession()
             self.close_request_session = True
@@ -108,7 +112,7 @@ class Request:
                 resp = await self._make_request()
             try:
                 resp_encoding = resp.get_encoding()
-            except:
+            except Exception as _:
                 resp_encoding = self.encoding
 
             response = Response(
@@ -138,10 +142,6 @@ class Request:
             return await self._retry(error_msg="timeout")
         except Exception as e:
             return await self._retry(error_msg=e)
-        finally:
-            # Close client session
-            if self.close_request_session:
-                await self._close_request()
 
     async def fetch_callback(
         self, sem: Semaphore
@@ -167,12 +167,13 @@ class Request:
             callback_result = None
         return callback_result, response
 
-    async def _close_request(self):
+    async def close_request(self):
         """
-        Close the aiohttp session
+        Close the request session
         :return:
         """
-        await self.request_session.close()
+        if self.close_request_session:
+            await self.request_session.close()
 
     async def _make_request(self):
         """Make a request by using aiohttp"""

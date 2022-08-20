@@ -1,43 +1,33 @@
-#!/usr/bin/env python
+"""
+    Created by howie.hu at 2018.
+    Description: Custom Exception for Ruia
+    Changelog: all notable changes to this file will be documented
+"""
 
 
 class IgnoreThisItem(Exception):
     """Ignore Ruia's Item"""
 
-    pass
-
 
 class InvalidCallbackResult(Exception):
     """Get an invalid callback result"""
-
-    pass
 
 
 class InvalidFuncType(Exception):
     """Get an invalid function type"""
 
-    pass
-
 
 class InvalidRequestMethod(Exception):
     """Get an invalid request method"""
-
-    pass
 
 
 class NotImplementedParseError(Exception):
     """Get an invalid callback result"""
 
-    pass
-
 
 class NothingMatchedError(Exception):
     """Target match error"""
 
-    pass
-
 
 class SpiderHookError(Exception):
     """Spider hook function execution error"""
-
-    pass

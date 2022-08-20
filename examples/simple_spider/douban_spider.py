@@ -1,15 +1,24 @@
-#!/usr/bin/env python
+"""
+    Created by howie.hu at 2022-08-21.
+    Description: Example of Douban spider based on Ruia
+    Changelog: all notable changes to this file will be documented
+"""
+
+import asyncio
 
 from ruia import AttrField, Item, Spider, TextField
 
 
 class DoubanItem(Item):
+    """Define an Item for douban.com"""
+
     target_item = TextField(css_select="div.item")
     title = TextField(css_select="span.title")
     cover = AttrField(css_select="div.pic>a>img", attr="src")
     abstract = TextField(css_select="span.inq", default="")
 
     async def clean_title(self, title):
+        """Clean title attr"""
         if isinstance(title, str):
             return title
         else:
@@ -17,6 +26,8 @@ class DoubanItem(Item):
 
 
 class DoubanSpider(Spider):
+    """Define a Spider for douban.com"""
+
     name = "DoubanSpider"
     start_urls = ["https://movie.douban.com/top250"]
     request_config = {"RETRIES": 3, "DELAY": 0, "TIMEOUT": 20}
@@ -37,6 +48,7 @@ class DoubanSpider(Spider):
             )
 
     async def parse_item(self, response):
+        """Parse Item"""
         async for item in DoubanItem.get_items(html=await response.text()):
             yield item
 
@@ -45,7 +57,7 @@ class DoubanSpider(Spider):
 
 
 def multi_spider_start():
-    import asyncio
+    """Start multiple crawler instances"""
 
     async def start():
         await asyncio.gather(

@@ -1,4 +1,9 @@
-#!/usr/bin/env python
+"""
+    Created by howie.hu at 2018.
+    Description: Middleware for Ruia
+    Changelog: all notable changes to this file will be documented
+"""
+
 
 from collections import deque
 from functools import wraps

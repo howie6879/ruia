@@ -1,4 +1,8 @@
-#!/usr/bin/env python
+"""
+    Created by howie.hu at 2022-08-21.
+    Description: Return a friendly response
+    Changelog: all notable changes to this file will be documented
+"""
 
 import asyncio
 import json
@@ -58,6 +62,7 @@ class Response(object):
 
     @property
     def callback_result(self):
+        """Return callback_result"""
         return self._callback_result
 
     @callback_result.setter
@@ -66,6 +71,7 @@ class Response(object):
 
     @property
     def index(self):
+        """Return index"""
         return self._index
 
     @index.setter
@@ -74,6 +80,7 @@ class Response(object):
 
     @property
     def ok(self) -> bool:
+        """Return ok status"""
         return self._ok
 
     @ok.setter
@@ -82,22 +89,27 @@ class Response(object):
 
     @property
     def encoding(self):
+        """Return encoding"""
         return self._encoding
 
     @property
     def url(self):
+        """Return url"""
         return self._url
 
     @property
     def method(self):
+        """Return method"""
         return self._method
 
     @property
     def metadata(self):
+        """Return metadata"""
         return self._metadata
 
     @property
     def cookies(self) -> dict:
+        """Return cookies"""
         if isinstance(self._cookies, SimpleCookie):
             cur_cookies = {}
             for key, value in self._cookies.items():
@@ -108,14 +120,17 @@ class Response(object):
 
     @property
     def history(self):
+        """Return history"""
         return self._history
 
     @property
     def headers(self):
+        """Return headers"""
         return self._headers
 
     @property
     def status(self):
+        """Return status"""
         return self._status
 
     def html_etree(self, html: str, **kwargs):
