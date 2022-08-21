@@ -1,5 +1,5 @@
 """
-    Created by howie.hu at 2022-08-21.
+    Created by howie.hu at 2018.
     Description: Spider hook
     Changelog: all notable changes to this file will be documented
 """
@@ -32,7 +32,7 @@ class SpiderHook:
                 if isawaitable(aws_hook_func):
                     await aws_hook_func
             except Exception as e:
-                raise SpiderHookError(f"<Hook {hook_func.__name__}: {e}")
+                raise SpiderHookError(f"<Hook {hook_func.__name__}: {e}") from e
 
     async def process_failed_response(self, request: Request, response: Response):
         """

@@ -58,6 +58,7 @@ class Request:
         metadata: dict = None,
         request_config: dict = None,
         request_session=None,
+        close_request_session=False,
         **aiohttp_kwargs,
     ):
         """
@@ -70,7 +71,8 @@ class Request:
             headers (dict, optional): _description_. Request headers to None.
             metadata (dict, optional): _description_. Send the data to callback func to None.
             request_config (dict, optional): Manage the target request. Defaults to None.
-            request_session (_type_, optional):  aiohttp.ClientSession. Defaults to None.
+            request_session (_type_, optional): aiohttp.ClientSession. Defaults to None.
+            close_request_session (_type_, optional): whether to close the aiohttp.ClientSession. Defaults to None.
         """
         self.url = url
         self.method = method.upper()
@@ -89,7 +91,7 @@ class Request:
         self.ssl = aiohttp_kwargs.pop("ssl", False)
         self.aiohttp_kwargs = aiohttp_kwargs
 
-        self.close_request_session = False
+        self.close_request_session = close_request_session
         self.logger = get_logger(name=self.name)
         self.retry_times = self.request_config.get("RETRIES", 3)
 
@@ -100,6 +102,14 @@ class Request:
             self.request_session = aiohttp.ClientSession()
             self.close_request_session = True
         return self.request_session
+
+    async def close_request(self):
+        """
+        Close the request session
+        :return:
+        """
+        if self.close_request_session:
+            await self.request_session.close()
 
     async def fetch(self, delay=True) -> Response:
         """Fetch all the information by using aiohttp"""
@@ -166,14 +176,6 @@ class Request:
         else:
             callback_result = None
         return callback_result, response
-
-    async def close_request(self):
-        """
-        Close the request session
-        :return:
-        """
-        if self.close_request_session:
-            await self.request_session.close()
 
     async def _make_request(self):
         """Make a request by using aiohttp"""

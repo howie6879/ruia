@@ -69,7 +69,7 @@ class Spider(SpiderHook):
     concurrency: int = 3
 
     # Spider entry
-    start_urls: list = None
+    start_urls: list = []
 
     # A queue to save coroutines
     worker_tasks: list = []
@@ -435,7 +435,12 @@ class Spider(SpiderHook):
         headers = headers or {}
         metadata = metadata or {}
         request_config = request_config or {}
-        request_session = request_session or self.request_session
+
+        if request_session is None:
+            request_session = self.request_session
+            close_request_session = False
+        else:
+            close_request_session = True
 
         headers.update(self.headers.copy())
         request_config.update(self.request_config.copy())
@@ -450,6 +455,7 @@ class Spider(SpiderHook):
             metadata=metadata,
             request_config=request_config,
             request_session=request_session,
+            close_request_session=close_request_session,
             **aiohttp_kwargs,
         )
 

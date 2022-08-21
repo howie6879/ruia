@@ -1,5 +1,5 @@
 """
-    Created by howie.hu at 2022-08-21.
+    Created by howie.hu at 2018.
     Description: Example of Douban spider based on Ruia
     Changelog: all notable changes to this file will be documented
 """
@@ -30,7 +30,7 @@ class DoubanSpider(Spider):
 
     name = "DoubanSpider"
     start_urls = ["https://movie.douban.com/top250"]
-    request_config = {"RETRIES": 3, "DELAY": 0, "TIMEOUT": 20}
+    request_config = {"RETRIES": 3, "DELAY": 0, "TIMEOUT": 10}
     concurrency = 10
     # aiohttp config
     aiohttp_kwargs = {}
