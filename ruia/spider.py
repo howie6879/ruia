@@ -463,21 +463,26 @@ class Spider(SpiderHook):
         """
         Actually start crawling
         """
-        async for request_ins in self.process_start_urls():
-            self.request_queue.put_nowait(self.handle_request(request_ins))
+        process_urls_task = asyncio.create_task(self.enqueue_start_urls())
+
         workers = [
             asyncio.ensure_future(self.start_worker())
             for i in range(self.worker_numbers)
         ]
         for worker in workers:
             self.logger.info(f"Worker started: {id(worker)}")
-        await self.request_queue.join()
+
+        await asyncio.gather(process_urls_task, self.request_queue.join())
 
         if not self.is_async_start:
             await self.stop(SIGINT)
         else:
             if self.cancel_tasks:
                 await self.cancel_all_tasks()
+
+    async def enqueue_start_urls(self):
+        async for request_ins in self.process_start_urls():
+            await self.request_queue.put(self.handle_request(request_ins))
 
     async def start_worker(self):
         """
