@@ -21,7 +21,6 @@ from signal import SIGINT, SIGTERM
 from types import AsyncGeneratorType
 
 from aiohttp import ClientSession
-
 from ruia.exceptions import NothingMatchedError, NotImplementedParseError
 from ruia.item import Item
 from ruia.middleware import Middleware
@@ -67,6 +66,7 @@ class Spider(SpiderHook):
     # Concurrency control
     worker_numbers: int = 2
     concurrency: int = 3
+    max_batch_size: int = 30
 
     # Spider entry
     start_urls: list = []
@@ -82,6 +82,7 @@ class Spider(SpiderHook):
         cancel_tasks: bool = True,
         **spider_kwargs,
     ):
+        print("use hf ruia")
         """
         Init spider object.
         :param middleware: a list of or a single Middleware
@@ -166,12 +167,13 @@ class Spider(SpiderHook):
         if response:
             if response.ok:
                 # Process succeed response
-                self.success_counts += 1
                 await self.process_succeed_response(request, response)
+                return True
             else:
                 # Process failed response
-                self.failed_counts += 1
                 await self.process_failed_response(request, response)
+                return False
+        return False
 
     async def _run_request_middleware(self, request: Request):
         if self.middleware.request_middleware:
@@ -350,12 +352,15 @@ class Spider(SpiderHook):
             typing.Tuple[AsyncGeneratorType, Request, Response]: Returns a result tuple after each request
         """
         callback_result, response = None, None
+        if_success = False
 
         try:
             await self._run_request_middleware(request)
             callback_result, response = await request.fetch_callback(self.sem)
             await self._run_response_middleware(request, response)
-            await self._process_response(request=request, response=response)
+            if_success = await self._process_response(
+                request=request, response=response
+            )
         except NotImplementedParseError as e:
             self.logger.error(e)
         except NothingMatchedError as e:
@@ -363,6 +368,11 @@ class Spider(SpiderHook):
             self.logger.error(error_info)
         except Exception as e:
             self.logger.error(f"<Callback[{request.callback.__name__}]: {e}")
+
+        if if_success:
+            self.success_counts += 1
+        else:
+            self.failed_counts += 1
 
         return callback_result, request, response
 
@@ -466,7 +476,7 @@ class Spider(SpiderHook):
         process_urls_task = asyncio.create_task(self.enqueue_start_urls())
 
         workers = [
-            asyncio.ensure_future(self.start_worker())
+            asyncio.ensure_future(self.start_worker(i))
             for i in range(self.worker_numbers)
         ]
         for worker in workers:
@@ -484,7 +494,7 @@ class Spider(SpiderHook):
         async for request_ins in self.process_start_urls():
             await self.request_queue.put(self.handle_request(request_ins))
 
-    async def start_worker(self):
+    async def start_worker(self, i: int):
         """
         Start spider worker
         :return:
@@ -492,7 +502,12 @@ class Spider(SpiderHook):
         while True:
             request_item = await self.request_queue.get()
             self.worker_tasks.append(request_item)
-            if self.request_queue.empty():
+            # TODO: 这样写不是很好，它把所有的 queue 都拿过来了，再去请求？
+            # 假设有无限的 urls 呢
+            if (
+                self.request_queue.empty()
+                or len(self.worker_tasks) > self.max_batch_size
+            ):
                 results = await asyncio.gather(
                     *self.worker_tasks, return_exceptions=True
                 )
@@ -510,6 +525,9 @@ class Spider(SpiderHook):
                 self.worker_tasks = []
             self.request_queue.task_done()
 
+    async def cancel_callback(self):
+        self.logger.info("Spider Cancaled")
+
     async def stop(self, _signal):
         """
         Finish all running tasks, cancel remaining tasks.
@@ -517,5 +535,6 @@ class Spider(SpiderHook):
         :return:
         """
         self.logger.info(f"Stopping spider: {self.name}")
+        await self.cancel_callback()
         await self.cancel_all_tasks()
         # self.loop.stop()
