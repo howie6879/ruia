@@ -6,7 +6,6 @@
 
 import asyncio
 import json
-
 from http.cookies import SimpleCookie
 from typing import Any, Callable, Optional
 
@@ -163,6 +162,8 @@ class Response(object):
     ) -> str:
         """Read response payload and decode."""
         encoding = encoding or self._encoding
+        if self._aws_text is None:
+            return ''
         self._html = await self._aws_text(encoding=encoding, errors=errors)
         return self._html
 
